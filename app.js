@@ -16,10 +16,13 @@ import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js';
       rightImg: 'assets/leaf_right.png',
       leafSize: 'contain',
       holdMs: 1200,
-      extraBase: 175,
-      extraTight: 300,
+      // valeurs px d’origine (converties en vw automatiquement)
+      extraBase: 150,
+      extraTight: 250,
       minClamp: 6,
       maxScroll: 800
+      // Optionnel: tu peux fournir directement des VW :
+      // extraBaseVW: 7, extraTightVW: 12, minClampVW: 0.6
     }
   };
 
@@ -73,9 +76,31 @@ import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js';
   };
   let lang = safeGet(LANG_KEY) || detectLang();
 
-  const I={ /* ... i18n inchangé, raccourci pour lisibilité ... */ 
-    fr:{nav_projects:"Projets",nav_cases:"Études de cas",nav_about:"À propos",nav_contact:"Contact",cv_fr:"CV FR",cv_en:"CV EN",hero_kicker:"Portfolio",hero_desc:"Production QA, coordination multi-équipes, outils et process. Expérience multi-plateformes et multilingue.",projects_title:"Projets phares",cases_title:"Études de cas",about_role_title:"Rôle & forces",about_skills_title:"Compétences",contact_title:"Me contacter",legal_title:"Mentions légales",dl_cv_fr:"Télécharger CV (FR)",dl_cv_en:"Télécharger CV (EN)",chip_overview:"Présentation",chip_trailer:"Trailer",chip_images:"Images",chip_anecdotes:"Anecdotes",btn_open_gallery:"Ouvrir la galerie",btn_open_case:"Voir l’étude de cas",btn_open_case2:"Ouvrir l'étude",footer:"Tous droits réservés",open_cv:"Ouvrir le CV",contact_name:"Nom",contact_email:"Email",contact_subject:"Objet",contact_message:"Message",contact_sign_google:"Se connecter avec Google",contact_send:"Envoyer",contact_or:"ou",contact_placeholder_msg:"Écris ton message ici… (mise en forme autorisée)"},
-    en:{nav_projects:"Projects",nav_cases:"Case Studies",nav_about:"About",nav_contact:"Contact",cv_fr:"CV FR",cv_en:"CV EN",hero_kicker:"Portfolio",hero_desc:"QA production, cross-team coordination, tools and processes. Multiplatform and multilingual experience.",projects_title:"Highlighted projects",cases_title:"Case studies",about_role_title:"Role & strengths",about_skills_title:"Skills",contact_title:"Contact me",legal_title:"Legal notice",dl_cv_fr:"Download CV (FR)",dl_cv_en:"Download CV (EN)",chip_overview:"Overview",chip_trailer:"Trailer",chip_images:"Images",chip_anecdotes:"Anecdotes",btn_open_gallery:"Open gallery",btn_open_case:"Open study",btn_open_case2:"Open study",footer:"All rights reserved",open_cv:"Open CV",contact_name:"Name",contact_email:"Email",contact_subject:"Subject",contact_message:"Message",contact_sign_google:"Sign in with Google",contact_send:"Send",contact_or:"or",contact_placeholder_msg:"Write your message here… (rich text allowed)"}
+  const I={
+    fr:{nav_projects:"Projets",nav_cases:"Études de cas",nav_about:"À propos",nav_contact:"Contact",
+      cv_fr:"CV FR",cv_en:"CV EN",hero_kicker:"Portfolio",
+      hero_desc:"Production QA, coordination multi-équipes, outils et process. Expérience multi-plateformes et multilingue.",
+      projects_title:"Projets phares",cases_title:"Études de cas",about_role_title:"Rôle & forces",
+      about_skills_title:"Compétences",contact_title:"Me contacter",legal_title:"Mentions légales",
+      dl_cv_fr:"Télécharger CV (FR)",dl_cv_en:"Télécharger CV (EN)",
+      chip_overview:"Présentation",chip_trailer:"Trailer",chip_images:"Images",chip_anecdotes:"Anecdotes",
+      btn_open_gallery:"Ouvrir la galerie",btn_open_case:"Voir l’étude de cas",btn_open_case2:"Ouvrir l'étude",
+      footer:"Tous droits réservés",open_cv:"Ouvrir le CV",
+      contact_name:"Nom",contact_email:"Email",contact_subject:"Objet",contact_message:"Message",
+      contact_sign_google:"Se connecter avec Google",contact_send:"Envoyer",contact_or:"ou",
+      contact_placeholder_msg:"Écris ton message ici… (mise en forme autorisée)"},
+    en:{nav_projects:"Projects",nav_cases:"Case Studies",nav_about:"About",nav_contact:"Contact",
+      cv_fr:"CV FR",cv_en:"CV EN",hero_kicker:"Portfolio",
+      hero_desc:"QA production, cross-team coordination, tools and processes. Multiplatform and multilingual experience.",
+      projects_title:"Highlighted projects",cases_title:"Case studies",about_role_title:"Role & strengths",
+      about_skills_title:"Skills",contact_title:"Contact me",legal_title:"Legal notice",
+      dl_cv_fr:"Download CV (FR)",dl_cv_en:"Download CV (EN)",
+      chip_overview:"Overview",chip_trailer:"Trailer",chip_images:"Images",chip_anecdotes:"Anecdotes",
+      btn_open_gallery:"Open gallery",btn_open_case:"Open study",btn_open_case2:"Open study",
+      footer:"All rights reserved",open_cv:"Open CV",
+      contact_name:"Name",contact_email:"Email",contact_subject:"Subject",contact_message:"Message",
+      contact_sign_google:"Sign in with Google",contact_send:"Send",contact_or:"or",
+      contact_placeholder_msg:"Write your message here… (rich text allowed)"}
   };
   const T=k=>I[lang][k]||k;
 
@@ -190,7 +215,7 @@ import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js';
     startCurtain();
   })();
 
-  // ===== Rideau =====
+  // ===== Rideau (en VW, proportionnel au viewport) =====
   function startCurtain(){
     const wrap = byId('curtain');
     if(!wrap) return;
@@ -204,42 +229,54 @@ import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js';
       right.style.setProperty('--leaf-size', CONFIG.CURTAIN.leafSize);
     }
 
-    function gutterPx(){
-      const cm = parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--container-max')) || 1280;
+    // Taille container max (pour estimer le gutter)
+    const containerMaxPx = parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--container-max')) || 1280;
+    const toVW = (px)=> (px / window.innerWidth) * 100;
+
+    // Prend les VW si fournis, sinon convertit depuis px
+    const minClampVW   = (CONFIG.CURTAIN.minClampVW ?? toVW(CONFIG.CURTAIN.minClamp ?? 6));
+    const extraBaseVW  = (CONFIG.CURTAIN.extraBaseVW ?? toVW(CONFIG.CURTAIN.extraBase ?? 150));
+    const extraTightVW = (CONFIG.CURTAIN.extraTightVW ?? toVW(CONFIG.CURTAIN.extraTight ?? 250));
+    const maxScroll    = CONFIG.CURTAIN.maxScroll ?? 400;
+
+    function gutterVW(){
       const vw = window.innerWidth;
-      return Math.max(0, (vw - Math.min(cm, vw)) / 2);
+      const cm = Math.min(containerMaxPx, vw);
+      const gutterPx = Math.max(0, (vw - cm) / 2);
+      return (gutterPx / vw) * 100; // en vw
     }
 
-    const minClamp = CONFIG.CURTAIN.minClamp ?? 6;
-    const maxScroll = CONFIG.CURTAIN.maxScroll ?? 240;
-    let extraBase  = CONFIG.CURTAIN.extraBase ?? 28;
-    let extraTight = CONFIG.CURTAIN.extraTight ?? 64;
+    let baseVW  = Math.max(minClampVW, gutterVW() - extraBaseVW);
+    let tightVW = Math.max(minClampVW, gutterVW() - extraTightVW);
 
-    let base = Math.max(minClamp, gutterPx() - extraBase);
-    let tight = Math.max(minClamp, gutterPx() - extraTight);
-
-    const setWidths = (w)=>{
-      const v = Math.max(minClamp, Math.round(w));
-      wrap.style.setProperty('--leftW', v + 'px');
-      wrap.style.setProperty('--rightW', v + 'px');
+    const setWidthsVW = (vwVal)=>{
+      const v = Math.max(minClampVW, vwVal);
+      wrap.style.setProperty('--leftW',  v + 'vw');
+      wrap.style.setProperty('--rightW', v + 'vw');
     };
 
-    setWidths(window.innerWidth/2);
+    // Fermé au départ (50vw de chaque côté)
+    setWidthsVW(50);
 
     setTimeout(()=>{
-      setWidths(base);
+      // Recalcule si la fenêtre a bougé
+      baseVW  = Math.max(minClampVW, gutterVW() - extraBaseVW);
+      tightVW = Math.max(minClampVW, gutterVW() - extraTightVW);
+
+      setWidthsVW(baseVW);
 
       const onScroll = ()=>{
         const y = Math.max(0, window.scrollY);
         const t = Math.min(1, y / maxScroll);
-        const current = base + (tight - base) * t;
-        setWidths(current);
+        const current = baseVW + (tightVW - baseVW) * t;
+        setWidthsVW(current);
       };
       const onResize = ()=>{
-        base  = Math.max(minClamp, gutterPx() - extraBase);
-        tight = Math.max(minClamp, gutterPx() - extraTight);
+        baseVW  = Math.max(minClampVW, gutterVW() - extraBaseVW);
+        tightVW = Math.max(minClampVW, gutterVW() - extraTightVW);
         onScroll();
       };
+
       window.addEventListener('scroll', onScroll, {passive:true});
       window.addEventListener('resize', onResize, {passive:true});
       onScroll();
@@ -505,7 +542,6 @@ import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js';
   else{
     renderer=new THREE.WebGLRenderer({canvas,antialias:true,alpha:true});
     renderer.setPixelRatio(Math.min(window.devicePixelRatio||1, 1.8));
-    // Taille initiale sur la taille réelle du conteneur
     const sizeFromContainer=()=>{
       const rect = canvas.getBoundingClientRect();
       const w = Math.max(1, Math.floor(rect.width));
@@ -554,10 +590,8 @@ import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js';
       }
       renderOnce();
     }
-    // pointermove = plus cohérent (souris, stylet)
     document.addEventListener('pointermove', onMoveGlobal, {passive:true});
 
-    // Resize robuste
     const ro = new ResizeObserver(()=>{ sizeFromContainer(); renderOnce(); });
     ro.observe(canvas);
     window.addEventListener('orientationchange', ()=>{ sizeFromContainer(); renderOnce(); }, {passive:true});
