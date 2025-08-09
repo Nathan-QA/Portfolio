@@ -24,11 +24,11 @@ import { GLTFLoader } from 'https://esm.sh/three@0.164.1/examples/jsm/loaders/GL
       rightImg: 'assets/leaf_right.png',
       leafSize: 'contain',
       holdMs: 1000,      // ouverture auto après 1s
-      maxScrollVh: 40,   // distance de scroll (en % de la hauteur)
+      maxScrollVh: 80,   // distance de scroll (en % de la hauteur)
 
       // Gap central en vw. Ne va jamais au bord car < 100.
       baseGapVW: 18,     // gap après auto-open
-      tightGapVW: 110,    // gap max en bas de scroll
+      tightGapVW: 190,    // gap max en bas de scroll
 
       // Effets visuels sur l’image pendant la translation
       scaleDelta: 0.1,  // réduction max 8%
