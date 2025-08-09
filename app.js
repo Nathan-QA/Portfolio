@@ -1,12 +1,19 @@
-import * as THREE from 'three';
-import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js';
+// Garde-fou pour éviter double init si le script est chargé 2x
+if (window.__APP_INIT__) {
+  console.warn('app.js déjà initialisé');
+} else {
+  window.__APP_INIT__ = true;
+}
+
+import * as THREE from 'https://cdn.jsdelivr.net/npm/three@0.164.1/build/three.module.js';
+import { GLTFLoader } from 'https://cdn.jsdelivr.net/npm/three@0.164.1/examples/jsm/loaders/GLTFLoader.js';
 
 (()=>{
   // ===== Configs =====
   const CONFIG = {
     MODEL_URL: null,
     CV_FR_URL: 'assets/Nathan_Tandille_CV_2025.pdf',
-    CV_EN_URL: 'assets/Nathan_Tandille_CV_EN_2025.pdf',
+    CV_EN_URL: 'assets/Nathan_Tandille_CV_EN_2025.pdf', // <- corrigé
     SOCIAL: {
       linkedin: 'https://www.linkedin.com/in/nathan-tandille/',
       mobygames: ''
@@ -16,18 +23,13 @@ import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js';
       rightImg: 'assets/leaf_right.png',
       leafSize: 'contain',
       holdMs: 1200,
-
-      // === OUVERTURE EN % (identique sur tous les écrans desktop) ===
-      baseVW: 16,       // largeur de chaque feuille après ouverture initiale (en % du viewport)
-      tightVW: 10,      // largeur quand on a scrollé (en % du viewport)
-      maxScrollVh: 40, // distance de scroll pour aller de base -> tight, en % de la hauteur d’écran
-      minClampVW: 0.8  // largeur minimale par feuille (en %), évite “trop fin” sur ultra-wide
-
-      // Si tu préfères un calcul basé sur le gutter du container, supprime baseVW/tightVW
-      // et dé-commente les lignes ci-dessous (option “auto”):
-      // extraBaseVW: 7,
-      // extraTightVW: 12,
-      // minClampVW: 0.8
+      // largeur des bords en vw (fermé -> ouvert)
+      baseVW: 17,
+      tightVW: 10,
+      // distance de scroll qui anime l’ouverture (en % de la hauteur viewport)
+      maxScrollVh: 40,
+      // largeur minimale de sécurité
+      minClampVW: 0.8
     }
   };
 
@@ -40,7 +42,7 @@ import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js';
     GOOGLE_CLIENT_ID: ''
   };
 
-  // ===== Profil (extrait CV) =====
+  // ===== Profil =====
   const PROFILE = {
     tagline: {
       fr: "QA Producer facilitant la compréhension entre équipes pour fluidifier la production et garantir la qualité. Expériences en Game & Level Design.",
@@ -73,7 +75,7 @@ import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js';
 
   // ===== Langue & Thème (persistants) =====
   const LANG_KEY='pref-lang';
-  const THEME_KEY='pref-theme'; // 'light' | 'dark' | (absent => auto)
+  const THEME_KEY='pref-theme';
 
   const detectLang = ()=>{
     const l = (navigator.language || 'en').toLowerCase();
@@ -109,7 +111,7 @@ import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js';
   };
   const T=k=>I[lang][k]||k;
 
-  // Thème : auto (OS) ou override utilisateur
+  // Thème : auto (OS) ou override
   let themeLock = !!safeGet(THEME_KEY);
   const applyTheme = (mode)=>{
     document.documentElement.dataset.theme = mode;
@@ -130,13 +132,13 @@ import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js';
   const storedTheme = safeGet(THEME_KEY);
   if (storedTheme) applyTheme(storedTheme);
 
-  // ====== État & refs DOM ======
+  // ===== État & refs DOM =====
   const $PL=byId('projectList'), $CL=byId('caseList'), $MR=byId('modalRoot'), $LB=byId('lightboxRoot');
   let projects=[], cases=[];
   const modalStack=[];
   const prefersReduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-  // ===== Static text & i18n init =====
+  // ===== i18n init =====
   function updateLangButton(){ const b=byId('langBtn'); if(b) b.textContent = lang==='fr' ? 'FR 🇫🇷' : 'EN 🇬🇧'; }
   function setLang(l){
     lang=l; safeSet(LANG_KEY, l);
@@ -151,7 +153,7 @@ import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js';
   setLang(lang);
   byId('langBtn')?.addEventListener('click',()=>setLang(lang==='fr'?'en':'fr'));
 
-  // Thème bouton : clic = toggle / clic droit = auto (OS)
+  // Thème bouton
   byId('themeBtn')?.addEventListener('click',()=>{
     const cur = document.documentElement.dataset.theme;
     const next = (cur==='dark'?'light':'dark');
@@ -219,7 +221,7 @@ import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js';
     startCurtain();
   })();
 
-  // ===== Rideau (100% ratios : vw / vh) =====
+  // ===== Rideau (VW/VH + scroll throttlé) =====
   function startCurtain(){
     const wrap = byId('curtain');
     if(!wrap) return;
@@ -233,37 +235,11 @@ import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js';
       right.style.setProperty('--leaf-size', CONFIG.CURTAIN.leafSize);
     }
 
-    // --- Paramètres en ratios ---
-    const hasFixed = Number.isFinite(CONFIG.CURTAIN.baseVW) && Number.isFinite(CONFIG.CURTAIN.tightVW);
     const minClampVW = Number.isFinite(CONFIG.CURTAIN.minClampVW) ? CONFIG.CURTAIN.minClampVW : 0.8;
-    const baseVW_fixed  = hasFixed ? +CONFIG.CURTAIN.baseVW  : 6;
-    const tightVW_fixed = hasFixed ? +CONFIG.CURTAIN.tightVW : 3;
-    const maxScrollVh   = Number.isFinite(CONFIG.CURTAIN.maxScrollVh) ? CONFIG.CURTAIN.maxScrollVh : 40;
+    const baseVW  = Math.max(minClampVW, +CONFIG.CURTAIN.baseVW || 6);
+    const tightVW = Math.max(minClampVW, +CONFIG.CURTAIN.tightVW || 3);
+    const maxScrollVh = Number.isFinite(CONFIG.CURTAIN.maxScrollVh) ? CONFIG.CURTAIN.maxScrollVh : 40;
     let maxScrollPx = window.innerHeight * (maxScrollVh / 100);
-
-    // Option “auto via gutter” (si tu supprimes baseVW/tightVW)
-    const containerMaxPx = parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--container-max')) || 1280;
-    function gutterVW(){
-      const vw = window.innerWidth;
-      const cm = Math.min(containerMaxPx, vw);
-      const gutterPx = Math.max(0, (vw - cm) / 2);
-      return (gutterPx / vw) * 100;
-    }
-    const extraBaseVW  = Number.isFinite(CONFIG.CURTAIN.extraBaseVW)  ? CONFIG.CURTAIN.extraBaseVW  : 7;
-    const extraTightVW = Number.isFinite(CONFIG.CURTAIN.extraTightVW) ? CONFIG.CURTAIN.extraTightVW : 12;
-
-    let baseVW, tightVW;
-    function recompute(){
-      if (hasFixed){
-        baseVW  = Math.max(minClampVW, baseVW_fixed);
-        tightVW = Math.max(minClampVW, tightVW_fixed);
-      } else {
-        const g = gutterVW();
-        baseVW  = Math.max(minClampVW, g - extraBaseVW);
-        tightVW = Math.max(minClampVW, g - extraTightVW);
-      }
-      maxScrollPx = window.innerHeight * (maxScrollVh / 100);
-    }
 
     const setWidthsVW = (vwVal)=>{
       const v = Math.max(minClampVW, vwVal);
@@ -273,20 +249,23 @@ import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js';
 
     // Fermé au départ
     setWidthsVW(50);
-    recompute();
 
     setTimeout(()=>{
-      recompute();
       setWidthsVW(baseVW);
 
+      let curtainRaf = 0;
       const onScroll = ()=>{
-        const y = Math.max(0, window.scrollY);
-        const t = Math.min(1, y / Math.max(1, maxScrollPx));
-        const current = baseVW + (tightVW - baseVW) * t;
-        setWidthsVW(current);
+        if (curtainRaf) return;
+        curtainRaf = requestAnimationFrame(()=>{
+          curtainRaf = 0;
+          const y = Math.max(0, window.scrollY);
+          const t = Math.min(1, y / Math.max(1, maxScrollPx));
+          const current = baseVW + (tightVW - baseVW) * t;
+          setWidthsVW(current);
+        });
       };
       const onResize = ()=>{
-        recompute();
+        maxScrollPx = window.innerHeight * (maxScrollVh / 100);
         onScroll();
       };
 
@@ -321,7 +300,7 @@ import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js';
   }
   function closeGallery(){ $LB.innerHTML=''; document.body.classList.remove('no-scroll') }
 
-  // ===== Modal (FLIP + fade + scroll lock) =====
+  // ===== Modal =====
   function ghostFrom(el, r, extra={}){const g=el.cloneNode(true); g.classList.add('ghost'); Object.assign(g.style,{position:'fixed',left:r.left+'px',top:r.top+'px',width:r.width+'px',height:r.height+'px',transformOrigin:'top left',margin:0,zIndex:1000,pointerEvents:'none',...extra}); document.body.appendChild(g); return g}
 
   function openModal(title, bodyHTML, {originEl=null, showBack=false, onBack=null, onReady}={}){
@@ -547,35 +526,48 @@ import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js';
     }});
   }
 
-  // ===== Three.js (suivi accentué) =====
-  const canvas=byId('r3f');
-  let renderer,scene,camera,head,eyeL,eyeR,loadedModel=null;
-  const hasGL=(()=>{try{const c=document.createElement('canvas');return !!(c.getContext('webgl')||c.getContext('experimental-webgl'))}catch{return false}})();
-  if(!hasGL){ const fb=byId('webglFallback'); fb?.classList.remove('sr-only'); if(fb) fb.textContent=lang==='fr'?'Votre navigateur ne supporte pas WebGL.':'Your browser does not support WebGL.' }
-  else{
-    renderer=new THREE.WebGLRenderer({canvas,antialias:true,alpha:true});
-    renderer.setPixelRatio(Math.min(window.devicePixelRatio||1, 1.8));
-    const sizeFromContainer=()=>{
-      const rect = canvas.getBoundingClientRect();
-      const w = Math.max(1, Math.floor(rect.width));
-      const h = Math.max(1, Math.floor(rect.height));
-      renderer.setSize(w, h, false);
-      camera.aspect = w / h;
-      camera.updateProjectionMatrix();
-    };
+  // ===== Three.js (stable, sans boucle) =====
+  const canvas = document.getElementById('r3f');
+  let renderer, scene, camera, head, eyeL, eyeR, loadedModel = null;
+  const clamp = (v, min, max) => Math.max(min, Math.min(max, v));
 
-    scene=new THREE.Scene();
-    camera=new THREE.PerspectiveCamera(55, 1, .1, 100);
+  const hasGL = (()=>{ try{
+    const c = document.createElement('canvas');
+    return !!(c.getContext('webgl') || c.getContext('experimental-webgl'));
+  }catch{ return false } })();
+
+  if(!hasGL){
+    const fb = document.getElementById('webglFallback');
+    fb?.classList.remove('sr-only');
+    if (fb) fb.textContent = lang==='fr' ? 'Votre navigateur ne supporte pas WebGL.' : 'Your browser does not support WebGL.';
+  } else {
+    renderer = new THREE.WebGLRenderer({ canvas, antialias: true, alpha: true });
+
+    function sizeFromContainer(){
+      const parent = canvas.parentElement || document.body;
+      const rect = parent.getBoundingClientRect();
+
+      const wCSS = Math.max(1, Math.floor(rect.width));
+      const hCSS = Math.max(1, Math.floor(rect.height));
+
+      let pr = clamp(window.devicePixelRatio || 1, 1, 2);
+      const estPixels = wCSS * hCSS * pr * pr;
+      const MAX_PIXELS = 10_000_000; // ~10MP
+      if (estPixels > MAX_PIXELS) {
+        pr = Math.sqrt(MAX_PIXELS / (wCSS * hCSS));
+      }
+      renderer.setPixelRatio(pr);
+      renderer.setSize(wCSS, hCSS, true); // updateStyle = true
+
+      camera.aspect = wCSS / hCSS;
+      camera.updateProjectionMatrix();
+    }
+
+    scene = new THREE.Scene();
+    camera = new THREE.PerspectiveCamera(55, 1, .1, 100);
     camera.position.set(0,0,2.9);
     const dl=new THREE.DirectionalLight(0xffffff,1.1); dl.position.set(1,2,3); scene.add(dl);
     scene.add(new THREE.AmbientLight(0xffffff,.45));
-
-    if(CONFIG.MODEL_URL){
-      const loader=new GLTFLoader();
-      loader.load(CONFIG.MODEL_URL,(gltf)=>{
-        loadedModel=gltf.scene; loadedModel.scale.set(1,1,1); scene.add(loadedModel); renderOnce();
-      },undefined,(e)=>{console.warn('GLTF load error',e); fallbackHead(); renderOnce();});
-    } else { fallbackHead(); renderOnce(); }
 
     function fallbackHead(){
       head=new THREE.Mesh(new THREE.SphereGeometry(1,42,42),new THREE.MeshStandardMaterial({roughness:.35,metalness:.05}));
@@ -584,29 +576,44 @@ import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js';
       eyeL=new THREE.Mesh(eyeG,eyeM); eyeR=new THREE.Mesh(eyeG,eyeM); eyeL.position.set(-.28,.15,.93); eyeR.position.set(.28,.15,.93); scene.add(eyeL,eyeR);
     }
 
+    if(CONFIG.MODEL_URL){
+      const loader=new GLTFLoader();
+      loader.load(CONFIG.MODEL_URL,
+        (gltf)=>{ loadedModel=gltf.scene; scene.add(loadedModel); renderOnce(); },
+        undefined,
+        (e)=>{ console.warn('GLTF load error',e); fallbackHead(); renderOnce(); }
+      );
+    } else {
+      fallbackHead(); renderOnce();
+    }
+
+    let moveRAF = 0;
     function onMoveGlobal(e){
-      const vw=window.innerWidth, vh=window.innerHeight;
-      const x=(e.clientX/vw)*2-1; 
-      const y=-((e.clientY/vh)*2-1);
-      if(loadedModel){
-        loadedModel.rotation.y = x * 0.8;
-        loadedModel.rotation.x = y * 0.55;
-      } else if(head){
-        head.rotation.y = x * 0.45;
-        head.rotation.x = y * 0.35;
-        if(eyeL&&eyeR){
-          eyeL.position.x = -0.28 + x*0.12;
-          eyeR.position.x =  0.28 + x*0.12;
-          eyeL.position.y =  0.15 + y*0.08;
-          eyeR.position.y =  0.15 + y*0.08;
+      if (moveRAF) return;
+      moveRAF = requestAnimationFrame(()=>{
+        moveRAF = 0;
+        const vw=window.innerWidth, vh=window.innerHeight;
+        const x=(e.clientX/vw)*2-1; 
+        const y=-((e.clientY/vh)*2-1);
+        if(loadedModel){
+          loadedModel.rotation.y = x * 0.8;
+          loadedModel.rotation.x = y * 0.55;
+        } else if(head){
+          head.rotation.y = x * 0.45;
+          head.rotation.x = y * 0.35;
+          if(eyeL&&eyeR){
+            eyeL.position.x = -0.28 + x*0.12;
+            eyeR.position.x =  0.28 + x*0.12;
+            eyeL.position.y =  0.15 + y*0.08;
+            eyeR.position.y =  0.15 + y*0.08;
+          }
         }
-      }
-      renderOnce();
+        renderOnce();
+      });
     }
     document.addEventListener('pointermove', onMoveGlobal, {passive:true});
 
-    const ro = new ResizeObserver(()=>{ sizeFromContainer(); renderOnce(); });
-    ro.observe(canvas);
+    window.addEventListener('resize', ()=>{ sizeFromContainer(); renderOnce(); }, {passive:true});
     window.addEventListener('orientationchange', ()=>{ sizeFromContainer(); renderOnce(); }, {passive:true});
     sizeFromContainer();
 
