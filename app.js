@@ -19,7 +19,7 @@ import { GLTFLoader } from 'https://cdn.jsdelivr.net/npm/three@0.164.1/examples/
       extraBase: 150,
       extraTight: 250,
       minClamp: 6,
-      maxScroll: 350
+      maxScroll: 400
     }
   };
 
