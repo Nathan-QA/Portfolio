@@ -16,13 +16,18 @@ import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js';
       rightImg: 'assets/leaf_right.png',
       leafSize: 'contain',
       holdMs: 1200,
-      // valeurs px d’origine (converties en vw automatiquement)
-      extraBase: 150,
-      extraTight: 250,
-      minClamp: 6,
-      maxScroll: 800
-      // Optionnel: tu peux fournir directement des VW :
-      // extraBaseVW: 7, extraTightVW: 12, minClampVW: 0.6
+
+      // === OUVERTURE EN % (identique sur tous les écrans desktop) ===
+      baseVW: 16,       // largeur de chaque feuille après ouverture initiale (en % du viewport)
+      tightVW: 10,      // largeur quand on a scrollé (en % du viewport)
+      maxScrollVh: 40, // distance de scroll pour aller de base -> tight, en % de la hauteur d’écran
+      minClampVW: 0.8  // largeur minimale par feuille (en %), évite “trop fin” sur ultra-wide
+
+      // Si tu préfères un calcul basé sur le gutter du container, supprime baseVW/tightVW
+      // et dé-commente les lignes ci-dessous (option “auto”):
+      // extraBaseVW: 7,
+      // extraTightVW: 12,
+      // minClampVW: 0.8
     }
   };
 
@@ -122,11 +127,10 @@ import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js';
     if (mql.addEventListener) mql.addEventListener('change', applyThemeFromOS);
     else if (mql.addListener) mql.addListener(applyThemeFromOS);
   }
-  // Appliquer un override stocké
   const storedTheme = safeGet(THEME_KEY);
   if (storedTheme) applyTheme(storedTheme);
 
-  // ====== État & refs DOM (PLACÉS AVANT tout rendu !) ======
+  // ====== État & refs DOM ======
   const $PL=byId('projectList'), $CL=byId('caseList'), $MR=byId('modalRoot'), $LB=byId('lightboxRoot');
   let projects=[], cases=[];
   const modalStack=[];
@@ -187,7 +191,7 @@ import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js';
   function openCVForLang(){ openCVModal(lang==='fr' ? CONFIG.CV_FR_URL : CONFIG.CV_EN_URL); }
   ;['cvBtn','cvCTA','cvFab'].forEach(id=>{ const n=byId(id); if(n) n.addEventListener('click', openCVForLang); });
 
-  // ===== JSON load (manifest à la racine OK) =====
+  // ===== JSON load =====
   const tryPaths=['content/content_manifest.json','content/manifest.json','content_manifest.json'];
   async function j(u){try{const r=await fetch(u,{cache:'no-store'});if(!r.ok)throw 0;return await r.json()}catch{return null}}
   const isHttp=u=>/^https?:\/\//i.test(u);
@@ -215,7 +219,7 @@ import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js';
     startCurtain();
   })();
 
-  // ===== Rideau (en VW, proportionnel au viewport) =====
+  // ===== Rideau (100% ratios : vw / vh) =====
   function startCurtain(){
     const wrap = byId('curtain');
     if(!wrap) return;
@@ -229,25 +233,37 @@ import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js';
       right.style.setProperty('--leaf-size', CONFIG.CURTAIN.leafSize);
     }
 
-    // Taille container max (pour estimer le gutter)
+    // --- Paramètres en ratios ---
+    const hasFixed = Number.isFinite(CONFIG.CURTAIN.baseVW) && Number.isFinite(CONFIG.CURTAIN.tightVW);
+    const minClampVW = Number.isFinite(CONFIG.CURTAIN.minClampVW) ? CONFIG.CURTAIN.minClampVW : 0.8;
+    const baseVW_fixed  = hasFixed ? +CONFIG.CURTAIN.baseVW  : 6;
+    const tightVW_fixed = hasFixed ? +CONFIG.CURTAIN.tightVW : 3;
+    const maxScrollVh   = Number.isFinite(CONFIG.CURTAIN.maxScrollVh) ? CONFIG.CURTAIN.maxScrollVh : 40;
+    let maxScrollPx = window.innerHeight * (maxScrollVh / 100);
+
+    // Option “auto via gutter” (si tu supprimes baseVW/tightVW)
     const containerMaxPx = parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--container-max')) || 1280;
-    const toVW = (px)=> (px / window.innerWidth) * 100;
-
-    // Prend les VW si fournis, sinon convertit depuis px
-    const minClampVW   = (CONFIG.CURTAIN.minClampVW ?? toVW(CONFIG.CURTAIN.minClamp ?? 6));
-    const extraBaseVW  = (CONFIG.CURTAIN.extraBaseVW ?? toVW(CONFIG.CURTAIN.extraBase ?? 150));
-    const extraTightVW = (CONFIG.CURTAIN.extraTightVW ?? toVW(CONFIG.CURTAIN.extraTight ?? 250));
-    const maxScroll    = CONFIG.CURTAIN.maxScroll ?? 400;
-
     function gutterVW(){
       const vw = window.innerWidth;
       const cm = Math.min(containerMaxPx, vw);
       const gutterPx = Math.max(0, (vw - cm) / 2);
-      return (gutterPx / vw) * 100; // en vw
+      return (gutterPx / vw) * 100;
     }
+    const extraBaseVW  = Number.isFinite(CONFIG.CURTAIN.extraBaseVW)  ? CONFIG.CURTAIN.extraBaseVW  : 7;
+    const extraTightVW = Number.isFinite(CONFIG.CURTAIN.extraTightVW) ? CONFIG.CURTAIN.extraTightVW : 12;
 
-    let baseVW  = Math.max(minClampVW, gutterVW() - extraBaseVW);
-    let tightVW = Math.max(minClampVW, gutterVW() - extraTightVW);
+    let baseVW, tightVW;
+    function recompute(){
+      if (hasFixed){
+        baseVW  = Math.max(minClampVW, baseVW_fixed);
+        tightVW = Math.max(minClampVW, tightVW_fixed);
+      } else {
+        const g = gutterVW();
+        baseVW  = Math.max(minClampVW, g - extraBaseVW);
+        tightVW = Math.max(minClampVW, g - extraTightVW);
+      }
+      maxScrollPx = window.innerHeight * (maxScrollVh / 100);
+    }
 
     const setWidthsVW = (vwVal)=>{
       const v = Math.max(minClampVW, vwVal);
@@ -255,25 +271,22 @@ import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js';
       wrap.style.setProperty('--rightW', v + 'vw');
     };
 
-    // Fermé au départ (50vw de chaque côté)
+    // Fermé au départ
     setWidthsVW(50);
+    recompute();
 
     setTimeout(()=>{
-      // Recalcule si la fenêtre a bougé
-      baseVW  = Math.max(minClampVW, gutterVW() - extraBaseVW);
-      tightVW = Math.max(minClampVW, gutterVW() - extraTightVW);
-
+      recompute();
       setWidthsVW(baseVW);
 
       const onScroll = ()=>{
         const y = Math.max(0, window.scrollY);
-        const t = Math.min(1, y / maxScroll);
+        const t = Math.min(1, y / Math.max(1, maxScrollPx));
         const current = baseVW + (tightVW - baseVW) * t;
         setWidthsVW(current);
       };
       const onResize = ()=>{
-        baseVW  = Math.max(minClampVW, gutterVW() - extraBaseVW);
-        tightVW = Math.max(minClampVW, gutterVW() - extraTightVW);
+        recompute();
         onScroll();
       };
 
