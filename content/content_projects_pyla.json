@@ -1,0 +1,17 @@
+{
+  "id": "pyla",
+  "title": { "fr": "PYLA", "en": "PYLA" },
+  "role": { "fr": "Level Designer (Side project)", "en": "Level Designer (Side project)" },
+  "summary": {
+    "fr": "Unreal Engine 5 : prototypage et itérations de layouts, systèmes via Blueprints.",
+    "en": "Unreal Engine 5: prototyped and refined layouts, blueprint-driven systems."
+  },
+  "images": {
+    "cover": "https://picsum.photos/seed/pyla-cover/1280/720",
+    "gallery": [
+      "https://picsum.photos/seed/pyla-1/1280/720",
+      "https://picsum.photos/seed/pyla-2/1280/720"
+    ]
+  },
+  "links": []
+}

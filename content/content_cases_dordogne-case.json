@@ -1,0 +1,31 @@
+{
+  "id": "dordogne-case",
+  "projects": ["dordogne"],
+  "title": { "fr": "Étude de cas — Dordogne", "en": "Case Study — Dordogne" },
+  "role": { "fr": "QA Producer", "en": "QA Producer" },
+  "timeframe": "2022–2025",
+  "abstract": {
+    "fr": "Coordination de la production et supervision QA (interne & Huwiz). Outils QA en C# (automatisation & analyses). Soumissions TRC avec Focus. Projet multiplateforme et multilingue (14 langues).",
+    "en": "Production coordination and QA supervision (internal & Huwiz). C# QA tooling (automation & analysis). TRC submissions with Focus. Multiplatform, multilingual project (14 languages)."
+  },
+  "objectives": {
+    "fr": ["Coordonner la production et la QA multi-équipes.", "Automatiser et fiabiliser les vérifications QA.", "Assurer la conformité TRC et la qualité sur 14 langues."],
+    "en": ["Coordinate production and QA across teams.", "Automate and harden QA checks.", "Ensure TRC compliance and quality across 14 languages."]
+  },
+  "responsibilities": {
+    "fr": ["Gestion des builds & planification des campagnes.", "Pilotage Huwiz, reporting détaillé.", "Développement d’outils C# (automatisation/analyses).", "Coordination des soumissions TRC avec Focus."],
+    "en": ["Build management & campaign planning.", "Huwiz vendor oversight, detailed reporting.", "C# tooling (automation/analysis).", "TRC submission coordination with Focus."]
+  },
+  "impact": {
+    "fr": ["Boucles de test raccourcies.", "Gains de temps côté développeurs.", "Soumissions plus fluides.", "Qualité multiplateforme homogène."],
+    "en": ["Shorter testing loops.", "Time savings for developers.", "Smoother submissions.", "Consistent cross-platform quality."]
+  },
+  "media": {
+    "trailer": "u0L_mCJJU98",
+    "images": [
+      "https://img.youtube.com/vi/u0L_mCJJU98/hqdefault.jpg",
+      "https://picsum.photos/seed/dordogne-case-1/1280/720"
+    ]
+  },
+  "links": []
+}

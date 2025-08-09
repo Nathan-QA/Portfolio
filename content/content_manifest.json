@@ -1,0 +1,12 @@
+{
+  "projects": [
+    "content_projects_dordogne.json",
+    "content_projects_long_time_a_girl.json",
+    "content_projects_pyla.json",
+    "content_projects_distant_shore_bretagne.json",
+    "content_projects_saila.json"
+  ],
+  "cases": [
+    "content_cases_dordogne-case.json"
+  ]
+}

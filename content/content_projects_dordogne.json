@@ -1,0 +1,33 @@
+{
+  "id": "dordogne",
+  "title": { "fr": "Dordogne", "en": "Dordogne" },
+  "role": { "fr": "QA Producer", "en": "QA Producer" },
+  "summary": {
+    "fr": "Coordination prod, supervision QA interne/externe (Huwiz), outillage C# (automatisation & analyses), soumissions TRC avec Focus. QA multiplateforme (PC/PS/Xbox/Switch/iOS) et multilingue (14 langues).",
+    "en": "Production coordination, internal/external QA supervision (Huwiz), C# tooling (automation & analysis), TRC submissions with Focus. Multiplatform QA (PC/PS/Xbox/Switch/iOS) and multilingual (14 languages)."
+  },
+  "trailer": "u0L_mCJJU98",
+  "images": {
+    "cover": "https://img.youtube.com/vi/u0L_mCJJU98/hqdefault.jpg",
+    "gallery": [
+      "https://img.youtube.com/vi/u0L_mCJJU98/maxresdefault.jpg",
+      "https://picsum.photos/seed/dordogne-1/1280/720",
+      "https://picsum.photos/seed/dordogne-2/1280/720"
+    ]
+  },
+  "anecdotes": {
+    "fr": [
+      "Pilotage du prestataire Huwiz et reporting détaillé.",
+      "Outils C# pour automatiser tests et pré-analyses.",
+      "Soumissions TRC en lien avec Focus Entertainment."
+    ],
+    "en": [
+      "Vendor oversight (Huwiz) with detailed reporting.",
+      "C# tools to automate tests and pre-analyses.",
+      "TRC submissions with Focus Entertainment."
+    ]
+  },
+  "links": [
+    { "label": { "fr": "Trailer", "en": "Trailer" }, "url": "https://youtu.be/u0L_mCJJU98" }
+  ]
+}

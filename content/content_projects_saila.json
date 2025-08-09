@@ -1,0 +1,17 @@
+{
+  "id": "saila",
+  "title": { "fr": "Saila: Venture Through the Clouds", "en": "Saila: Venture Through the Clouds" },
+  "role": { "fr": "Solo Dev — GD/LD/Prog/DA", "en": "Solo Dev — GD/LD/Code/Art" },
+  "summary": {
+    "fr": "Unity 6 URP — DA, programmation, GD/LD, outillage interne. Objectif : vertical slice (2025–2027).",
+    "en": "Unity 6 URP — art direction, programming, GD/LD, internal tooling. Goal: vertical slice (2025–2027)."
+  },
+  "images": {
+    "cover": "https://picsum.photos/seed/saila-cover/1280/720",
+    "gallery": [
+      "https://picsum.photos/seed/saila-1/1280/720",
+      "https://picsum.photos/seed/saila-2/1280/720"
+    ]
+  },
+  "links": []
+}

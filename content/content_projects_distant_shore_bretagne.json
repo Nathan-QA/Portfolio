@@ -1,0 +1,21 @@
+{
+  "id": "distant-shore-bretagne",
+  "title": { "fr": "Distant Shore : Bretagne", "en": "Distant Shore: Brittany" },
+  "role": { "fr": "Level Designer (Side project)", "en": "Level Designer (Side project)" },
+  "summary": {
+    "fr": "Unity 6 URP : conception de niveaux, documentation, prototypage et tests.",
+    "en": "Unity 6 URP: level design, documentation, prototyping and testing."
+  },
+  "images": {
+    "cover": "https://picsum.photos/seed/distant-cover/1280/720",
+    "gallery": [
+      "https://picsum.photos/seed/distant-1/1280/720",
+      "https://picsum.photos/seed/distant-2/1280/720"
+    ]
+  },
+  "anecdotes": {
+    "fr": ["Processus block-out → greybox → art pass.", "Critères de test définis en amont."],
+    "en": ["Block-out → greybox → art pass pipeline.", "Defined clear test criteria upfront."]
+  },
+  "links": []
+}
