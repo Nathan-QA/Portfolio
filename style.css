@@ -1,17 +1,23 @@
-:root{
-  --cream-0:#fffaf3;--cream-50:#fff4e5;--cream-100:#ffe9cc;
+/* ==== Reset minimal pour cohérence inter-navigateurs ==== */
+*,*::before,*::after{box-sizing:border-box}
+img,video{max-width:100%;height:auto;display:block}
+button,input,select,textarea{font:inherit}
+:root{--cream-0:#fffaf3;--cream-50:#fff4e5;--cream-100:#ffe9cc;
   --ink-900:#1c1b19;--ink-700:#3e3b36;--ink-600:#544f47;--ink-300:#b6b1a7;--ink-200:#d0cbc2;--ink-100:#eae7e2;
   --accent-300:#c7d2fe;--accent-500:#a5b4fc;
   --warm-900:#161311;--warm-800:#1e1a17;
   --radius:22px; --easing:cubic-bezier(.2,.8,.2,1);
-  --container-max:1280px;
-}
+  --container-max:1280px;}
 [data-theme=dark]{--bg:var(--warm-900);--fg:var(--ink-100);--panel:var(--warm-800);--ring:#2a241f;color-scheme:dark}
 [data-theme=light]{--bg:var(--cream-50);--fg:var(--ink-900);--panel:var(--cream-0);--ring:#e6dfd4;color-scheme:light}
 
 html,body{height:100%}
 body{
-  margin:0;background:
+  margin:0;
+  /* Fallback simple si color-mix n’est pas supporté */
+  background: var(--bg);
+  /* Déco si supporté */
+  background:
     radial-gradient(80rem 60rem at -10% -15%,rgba(0,0,0,.04),transparent 60%),
     radial-gradient(60rem 50rem at 110% 5%,rgba(0,0,0,.05),transparent 55%),
     var(--bg);
@@ -25,20 +31,27 @@ body.no-scroll{overflow:hidden}
 a{color:inherit}
 .container{max-width:var(--container-max);margin:0 auto;padding:0 20px}
 
-.header{position:sticky;top:0;z-index:40;backdrop-filter:saturate(1.2) blur(8px);background:color-mix(in oklab,var(--panel)80%,transparent);border-bottom:1px solid var(--ring)}
+/* Header : fallback si backdrop-filter a un rendu différent */
+.header{
+  position:sticky;top:0;z-index:40;
+  background: var(--panel); /* fallback */
+  backdrop-filter:saturate(1.2) blur(8px);
+  background: color-mix(in oklab,var(--panel) 80%, transparent);
+  border-bottom:1px solid var(--ring)
+}
 .h-row{display:flex;align-items:center;justify-content:space-between;padding:12px 16px}
 .brand{display:flex;gap:12px;align-items:center}
 .brand-links{display:flex;gap:6px;margin-top:2px}
 .brand-icon{display:inline-flex;align-items:center;justify-content:center;width:28px;height:28px;border-radius:8px;border:1px solid var(--ring);color:var(--ink-700);text-decoration:none}
-.brand-icon:hover{background:color-mix(in oklab,var(--panel)90%,var(--bg))}
+.brand-icon:hover{background:var(--panel);background:color-mix(in oklab,var(--panel) 90%, var(--bg))}
 .avatar-btn{padding:0;border:0;background:transparent;border-radius:999px;cursor:pointer;line-height:0}
-#avatarImg{width:36px;height:36px;border-radius:999px;display:block;object-fit:cover;border:1px solid var(--ring);box-shadow:0 1px 2px rgba(0,0,0,.06)}
+#avatarImg{width:36px;height:36px;border-radius:999px;object-fit:cover;border:1px solid var(--ring);box-shadow:0 1px 2px rgba(0,0,0,.06)}
 [data-theme=dark] #avatarImg{box-shadow:0 1px 2px rgba(0,0,0,.25)}
 
 nav a{margin:0 12px;text-decoration:none}
 nav a:hover{opacity:.85}
 .btn{border:1px solid var(--ring);padding:6px 10px;border-radius:12px;background:transparent;cursor:pointer;transition:background .2s ease}
-.btn:hover{background:color-mix(in oklab,var(--panel)90%,var(--bg))}
+.btn:hover{background:var(--panel);background:color-mix(in oklab,var(--panel) 90%, var(--bg))}
 .hero{padding:32px 0}
 .hero-grid{display:grid;grid-template-columns:1fr;gap:24px}
 @media(min-width:900px){.hero-grid{grid-template-columns:1.2fr .8fr}}
@@ -48,6 +61,9 @@ nav a:hover{opacity:.85}
 .pill{display:inline-flex;align-items:center;border:1px solid var(--ring);padding:8px 14px;border-radius:14px;margin-right:8px;text-decoration:none}
 .section{padding:48px 0}
 .section h2{font-size:28px;margin:0 0 12px}
+
+/* Canvas 3D : toujours full-size */
+.hero3d > canvas#r3f{width:100%;height:100%;display:block}
 
 /* GRID (aligne les tuiles) */
 .masonry{
@@ -70,9 +86,14 @@ nav a:hover{opacity:.85}
 }
 .tile:hover{box-shadow:0 10px 30px rgba(0,0,0,.08)}
 .tile:active{transform:translateY(1px)}
-.tile.organic:before{content:"";position:absolute;inset:-12%;background:
-radial-gradient(140px 100px at 18% 12%,color-mix(in oklab,var(--accent-300) 35%,transparent),transparent 65%),
-radial-gradient(120px 90px at 85% 88%,color-mix(in oklab,var(--accent-500) 16%,transparent),transparent 65%);filter:blur(28px);opacity:.55;pointer-events:none}
+.tile.organic:before{
+  content:"";position:absolute;inset:-12%;
+  background: var(--panel); /* fallback */
+  background:
+    radial-gradient(140px 100px at 18% 12%,color-mix(in oklab,var(--accent-300) 35%,transparent),transparent 65%),
+    radial-gradient(120px 90px at 85% 88%,color-mix(in oklab,var(--accent-500) 16%,transparent),transparent 65%);
+  filter:blur(28px);opacity:.55;pointer-events:none
+}
 .thumb{position:relative;aspect-ratio:16/9;overflow:hidden;border-radius:20px}
 .thumb img,.thumb iframe{width:100%;height:100%;object-fit:cover;display:block;border:0}
 
@@ -117,7 +138,7 @@ radial-gradient(120px 90px at 85% 88%,color-mix(in oklab,var(--accent-500) 16%,t
 #testsBadge{position:fixed;right:10px;bottom:10px;font-size:12px;opacity:.7}
 
 /* Media inside modal */
-.media-shell{position:relative;aspect-ratio:16/9;border:1px solid var(--ring);border-radius:16px;overflow:hidden;background:color-mix(in oklab,var(--panel) 92%,var(--bg))}
+.media-shell{position:relative;aspect-ratio:16/9;border:1px solid var(--ring);border-radius:16px;overflow:hidden;background:var(--panel)}
 .media-shell > *{position:absolute;inset:0;width:100%;height:100%;border:0}
 .media-strip{display:flex;gap:8px;margin-top:10px;overflow:auto;padding-bottom:4px}
 .media-strip img{height:70px;aspect-ratio:16/9;object-fit:cover;border-radius:8px;border:1px solid var(--ring);cursor:pointer}
@@ -141,9 +162,14 @@ radial-gradient(120px 90px at 85% 88%,color-mix(in oklab,var(--accent-500) 16%,t
 .cv-zoom{transform-origin:top left}
 .btn-cta{
   padding:10px 16px;border-radius:14px;border:1px solid var(--ring);
-  background:color-mix(in oklab,var(--accent-500) 18%, var(--panel)); font-weight:600
+  background:var(--panel); /* fallback */
+  background:color-mix(in oklab,var(--accent-500) 18%, var(--panel));
+  font-weight:600
 }
-.btn-cta:hover{background:color-mix(in oklab,var(--accent-500) 26%, var(--panel))}
+.btn-cta:hover{
+  background:var(--panel); /* fallback */
+  background:color-mix(in oklab,var(--accent-500) 26%, var(--panel))
+}
 .hero-cta{margin-top:12px}
 .cv-fab{
   position:fixed;right:16px;bottom:16px;z-index:80;border-radius:999px;
@@ -171,28 +197,27 @@ radial-gradient(120px 90px at 85% 88%,color-mix(in oklab,var(--accent-500) 16%,t
 .role-badge{
   display:inline-flex;align-items:center;gap:6px;
   padding:6px 10px;border-radius:999px;border:1px solid var(--ring);
+  background:var(--panel); /* fallback */
   background:color-mix(in oklab,var(--accent-300) 22%, var(--panel));
   font-weight:600;font-size:12px
 }
 .role-badge .dot{width:6px;height:6px;border-radius:50%;background:var(--ink-700)}
 
-/* Rideau d’intro avec images perso (géré par JS via variables CSS) */
+/* Rideau d’intro */
 .curtain{
   position:fixed;inset:0;z-index:100;pointer-events:none;
-  --leftW: 50vw;   /* état initial */
-  --rightW: 50vw;  /* état initial */
+  --leftW: 50vw; --rightW: 50vw;
 }
 .curtain .panel{
   position:absolute;top:0;bottom:0;opacity:.95;
   transition: width .9s var(--easing);
-  /* Dégradé/fallback de base */
+  background: var(--panel); /* fallback */
   background:
     linear-gradient(180deg, rgba(0,0,0,.04), transparent 40%),
     repeating-linear-gradient(45deg, rgba(0,0,0,.05), rgba(0,0,0,.05) 10px, transparent 10px, transparent 20px),
     color-mix(in oklab, var(--accent-300) 25%, var(--panel));
   border:1px solid var(--ring);
 }
-/* Calque image piloté par CSS vars (défini par JS) */
 .curtain .panel::after{
   content:""; position:absolute; inset:0; pointer-events:none;
   background-image: var(--leaf-img);

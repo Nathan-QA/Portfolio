@@ -1,5 +1,5 @@
-import * as THREE from 'https://cdn.jsdelivr.net/npm/three@0.164.1/build/three.module.js';
-import { GLTFLoader } from 'https://cdn.jsdelivr.net/npm/three@0.164.1/examples/jsm/loaders/GLTFLoader.js';
+import * as THREE from 'three';
+import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js';
 
 (()=>{
   // ===== Configs =====
@@ -9,17 +9,17 @@ import { GLTFLoader } from 'https://cdn.jsdelivr.net/npm/three@0.164.1/examples/
     CV_EN_URL: 'assets/Nathan_Tandille_CV_EN_2025.pdf',
     SOCIAL: {
       linkedin: 'https://www.linkedin.com/in/nathan-tandille/',
-      mobygames: '' // <- mets ici ton URL MobyGames exacte
+      mobygames: ''
     },
     CURTAIN: {
       leftImg: 'assets/leaf_left.png',
       rightImg: 'assets/leaf_right.png',
       leafSize: 'contain',
       holdMs: 1200,
-      extraBase: 150,
-      extraTight: 250,
+      extraBase: 175,
+      extraTight: 300,
       minClamp: 6,
-      maxScroll: 400
+      maxScroll: 800
     }
   };
 
@@ -55,79 +55,62 @@ import { GLTFLoader } from 'https://cdn.jsdelivr.net/npm/three@0.164.1/examples/
     links: { email: "tandille.nathan@gmail.com", location: "Bordeaux, France" }
   };
 
-  // ===== Utils DOM =====
+  // ===== Utils DOM & storage =====
   const $=s=>document.querySelector(s), byId=id=>document.getElementById(id);
   const el=h=>{const t=document.createElement('template');t.innerHTML=h.trim();return t.content.firstChild};
   const txt=(n,v)=>n&&(n.textContent=v);
   const addThemeAnim=()=>{document.body.classList.add('theme-anim');setTimeout(()=>document.body.classList.remove('theme-anim'),400)};
+  const safeGet=(k)=>{try{return localStorage.getItem(k)}catch{return null}};
+  const safeSet=(k,v)=>{try{v==null?localStorage.removeItem(k):localStorage.setItem(k,v)}catch{}};
 
-  // ===== Langue & Thème : auto depuis navigateur / OS (pas de persistance) =====
+  // ===== Langue & Thème (persistants) =====
+  const LANG_KEY='pref-lang';
+  const THEME_KEY='pref-theme'; // 'light' | 'dark' | (absent => auto)
+
   const detectLang = ()=>{
     const l = (navigator.language || 'en').toLowerCase();
     return l.startsWith('fr') ? 'fr' : 'en';
   };
-  let lang = detectLang();
+  let lang = safeGet(LANG_KEY) || detectLang();
 
-  // Texte i18n
-  const I={
-    fr:{
-      nav_projects:"Projets",nav_cases:"Études de cas",nav_about:"À propos",nav_contact:"Contact",
-      cv_fr:"CV FR",cv_en:"CV EN",hero_kicker:"Portfolio",
-      hero_desc:"Production QA, coordination multi-équipes, outils et process. Expérience multi-plateformes et multilingue.",
-      projects_title:"Projets phares",cases_title:"Études de cas",about_role_title:"Rôle & forces",
-      about_skills_title:"Compétences",contact_title:"Me contacter",legal_title:"Mentions légales",
-      dl_cv_fr:"Télécharger CV (FR)",dl_cv_en:"Télécharger CV (EN)",
-      chip_overview:"Présentation",chip_trailer:"Trailer",chip_images:"Images",chip_anecdotes:"Anecdotes",
-      btn_open_gallery:"Ouvrir la galerie",btn_open_case:"Voir l’étude de cas",btn_open_case2:"Ouvrir l'étude",
-      footer:"Tous droits réservés",open_cv:"Ouvrir le CV",
-      contact_name:"Nom",contact_email:"Email",contact_subject:"Objet",contact_message:"Message",
-      contact_sign_google:"Se connecter avec Google",contact_send:"Envoyer",contact_or:"ou",
-      contact_placeholder_msg:"Écris ton message ici… (mise en forme autorisée)"
-    },
-    en:{
-      nav_projects:"Projects",nav_cases:"Case Studies",nav_about:"About",nav_contact:"Contact",
-      cv_fr:"CV FR",cv_en:"CV EN",hero_kicker:"Portfolio",
-      hero_desc:"QA production, cross-team coordination, tools and processes. Multiplatform and multilingual experience.",
-      projects_title:"Highlighted projects",cases_title:"Case studies",about_role_title:"Role & strengths",
-      about_skills_title:"Skills",contact_title:"Contact me",legal_title:"Legal notice",
-      dl_cv_fr:"Download CV (FR)",dl_cv_en:"Download CV (EN)",
-      chip_overview:"Overview",chip_trailer:"Trailer",chip_images:"Images",chip_anecdotes:"Anecdotes",
-      btn_open_gallery:"Open gallery",btn_open_case:"Open study",btn_open_case2:"Open study",
-      footer:"All rights reserved",open_cv:"Open CV",
-      contact_name:"Name",contact_email:"Email",contact_subject:"Subject",contact_message:"Message",
-      contact_sign_google:"Sign in with Google",contact_send:"Send",contact_or:"or",
-      contact_placeholder_msg:"Write your message here… (rich text allowed)"
-    }
+  const I={ /* ... i18n inchangé, raccourci pour lisibilité ... */ 
+    fr:{nav_projects:"Projets",nav_cases:"Études de cas",nav_about:"À propos",nav_contact:"Contact",cv_fr:"CV FR",cv_en:"CV EN",hero_kicker:"Portfolio",hero_desc:"Production QA, coordination multi-équipes, outils et process. Expérience multi-plateformes et multilingue.",projects_title:"Projets phares",cases_title:"Études de cas",about_role_title:"Rôle & forces",about_skills_title:"Compétences",contact_title:"Me contacter",legal_title:"Mentions légales",dl_cv_fr:"Télécharger CV (FR)",dl_cv_en:"Télécharger CV (EN)",chip_overview:"Présentation",chip_trailer:"Trailer",chip_images:"Images",chip_anecdotes:"Anecdotes",btn_open_gallery:"Ouvrir la galerie",btn_open_case:"Voir l’étude de cas",btn_open_case2:"Ouvrir l'étude",footer:"Tous droits réservés",open_cv:"Ouvrir le CV",contact_name:"Nom",contact_email:"Email",contact_subject:"Objet",contact_message:"Message",contact_sign_google:"Se connecter avec Google",contact_send:"Envoyer",contact_or:"ou",contact_placeholder_msg:"Écris ton message ici… (mise en forme autorisée)"},
+    en:{nav_projects:"Projects",nav_cases:"Case Studies",nav_about:"About",nav_contact:"Contact",cv_fr:"CV FR",cv_en:"CV EN",hero_kicker:"Portfolio",hero_desc:"QA production, cross-team coordination, tools and processes. Multiplatform and multilingual experience.",projects_title:"Highlighted projects",cases_title:"Case studies",about_role_title:"Role & strengths",about_skills_title:"Skills",contact_title:"Contact me",legal_title:"Legal notice",dl_cv_fr:"Download CV (FR)",dl_cv_en:"Download CV (EN)",chip_overview:"Overview",chip_trailer:"Trailer",chip_images:"Images",chip_anecdotes:"Anecdotes",btn_open_gallery:"Open gallery",btn_open_case:"Open study",btn_open_case2:"Open study",footer:"All rights reserved",open_cv:"Open CV",contact_name:"Name",contact_email:"Email",contact_subject:"Subject",contact_message:"Message",contact_sign_google:"Sign in with Google",contact_send:"Send",contact_or:"or",contact_placeholder_msg:"Write your message here… (rich text allowed)"}
   };
   const T=k=>I[lang][k]||k;
 
-  // Thème auto depuis système + écoute des changements
+  // Thème : auto (OS) ou override utilisateur
+  let themeLock = !!safeGet(THEME_KEY);
+  const applyTheme = (mode)=>{
+    document.documentElement.dataset.theme = mode;
+    const tb = byId('themeBtn'); if (tb) tb.textContent = mode==='dark'?'☾':'☀';
+  };
   const applyThemeFromOS = ()=>{
-    const isDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
-    document.documentElement.dataset.theme = isDark ? 'dark' : 'light';
-    const tb = byId('themeBtn'); if (tb) tb.textContent = isDark ? '☾' : '☀';
+    if (themeLock) return;
+    const m=window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)');
+    const isDark = !!(m && m.matches);
+    applyTheme(isDark?'dark':'light');
   };
   applyThemeFromOS();
-  const mql = window.matchMedia('(prefers-color-scheme: dark)');
-  if (mql?.addEventListener) mql.addEventListener('change', applyThemeFromOS);
-
-  // Bouton thème (toggle non persistant)
-  byId('themeBtn')?.addEventListener('click',()=>{
-    const cur = document.documentElement.dataset.theme;
-    document.documentElement.dataset.theme = (cur==='dark'?'light':'dark');
-    addThemeAnim();
-    byId('themeBtn').textContent = document.documentElement.dataset.theme==='dark'?'☾':'☀';
-  });
+  const mql = window.matchMedia ? window.matchMedia('(prefers-color-scheme: dark)') : null;
+  if (mql){
+    if (mql.addEventListener) mql.addEventListener('change', applyThemeFromOS);
+    else if (mql.addListener) mql.addListener(applyThemeFromOS);
+  }
+  // Appliquer un override stocké
+  const storedTheme = safeGet(THEME_KEY);
+  if (storedTheme) applyTheme(storedTheme);
 
   // ====== État & refs DOM (PLACÉS AVANT tout rendu !) ======
   const $PL=byId('projectList'), $CL=byId('caseList'), $MR=byId('modalRoot'), $LB=byId('lightboxRoot');
   let projects=[], cases=[];
   const modalStack=[];
+  const prefersReduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-  // ===== Static text & i18n init (après refs DOM !) =====
+  // ===== Static text & i18n init =====
   function updateLangButton(){ const b=byId('langBtn'); if(b) b.textContent = lang==='fr' ? 'FR 🇫🇷' : 'EN 🇬🇧'; }
   function setLang(l){
-    lang=l;
+    lang=l; safeSet(LANG_KEY, l);
     updateLangButton();
     txt(byId('heroDesc'), I[lang].hero_desc);
     ['nav_projects','nav_cases','nav_about','nav_contact','cv_fr','cv_en','hero_kicker','dl_cv_fr','dl_cv_en','projects_title','cases_title','about_role_title','about_skills_title','contact_title','legal_title','open_cv'].forEach(k=>{
@@ -138,6 +121,19 @@ import { GLTFLoader } from 'https://cdn.jsdelivr.net/npm/three@0.164.1/examples/
   }
   setLang(lang);
   byId('langBtn')?.addEventListener('click',()=>setLang(lang==='fr'?'en':'fr'));
+
+  // Thème bouton : clic = toggle / clic droit = auto (OS)
+  byId('themeBtn')?.addEventListener('click',()=>{
+    const cur = document.documentElement.dataset.theme;
+    const next = (cur==='dark'?'light':'dark');
+    themeLock = true; safeSet(THEME_KEY, next);
+    applyTheme(next); addThemeAnim();
+  });
+  byId('themeBtn')?.addEventListener('contextmenu',(e)=>{
+    e.preventDefault();
+    themeLock = false; safeSet(THEME_KEY, null);
+    applyThemeFromOS(); addThemeAnim();
+  });
 
   // Avatar + liens
   const avatar = byId('avatarImg');
@@ -166,7 +162,7 @@ import { GLTFLoader } from 'https://cdn.jsdelivr.net/npm/three@0.164.1/examples/
   function openCVForLang(){ openCVModal(lang==='fr' ? CONFIG.CV_FR_URL : CONFIG.CV_EN_URL); }
   ;['cvBtn','cvCTA','cvFab'].forEach(id=>{ const n=byId(id); if(n) n.addEventListener('click', openCVForLang); });
 
-  // ===== JSON load =====
+  // ===== JSON load (manifest à la racine OK) =====
   const tryPaths=['content/content_manifest.json','content/manifest.json','content_manifest.json'];
   async function j(u){try{const r=await fetch(u,{cache:'no-store'});if(!r.ok)throw 0;return await r.json()}catch{return null}}
   const isHttp=u=>/^https?:\/\//i.test(u);
@@ -245,7 +241,7 @@ import { GLTFLoader } from 'https://cdn.jsdelivr.net/npm/three@0.164.1/examples/
         onScroll();
       };
       window.addEventListener('scroll', onScroll, {passive:true});
-      window.addEventListener('resize', onResize);
+      window.addEventListener('resize', onResize, {passive:true});
       onScroll();
     }, CONFIG.CURTAIN.holdMs ?? 900);
   }
@@ -276,7 +272,6 @@ import { GLTFLoader } from 'https://cdn.jsdelivr.net/npm/three@0.164.1/examples/
   function closeGallery(){ $LB.innerHTML=''; document.body.classList.remove('no-scroll') }
 
   // ===== Modal (FLIP + fade + scroll lock) =====
-  const prefersReduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
   function ghostFrom(el, r, extra={}){const g=el.cloneNode(true); g.classList.add('ghost'); Object.assign(g.style,{position:'fixed',left:r.left+'px',top:r.top+'px',width:r.width+'px',height:r.height+'px',transformOrigin:'top left',margin:0,zIndex:1000,pointerEvents:'none',...extra}); document.body.appendChild(g); return g}
 
   function openModal(title, bodyHTML, {originEl=null, showBack=false, onBack=null, onReady}={}){
@@ -289,7 +284,7 @@ import { GLTFLoader } from 'https://cdn.jsdelivr.net/npm/three@0.164.1/examples/
       backdrop.classList.add('backdrop-show');
       requestAnimationFrame(()=>modal.classList.add('show'));
       document.body.classList.add('no-scroll');
-      backdrop.addEventListener('click',e=>{ if(e.target===backdrop) closeModal({originEl}) });
+      backdrop.addEventListener('click',e=>{ if(e.target===backdrop) closeModal({originEl}) }, {passive:true});
       modal.querySelector('.x').addEventListener('click',()=>closeModal({originEl}));
       if(showBack && onBack){ modal.querySelector('.back').addEventListener('click',()=>onBack()); }
       onReady&&onReady(modal);
@@ -509,9 +504,20 @@ import { GLTFLoader } from 'https://cdn.jsdelivr.net/npm/three@0.164.1/examples/
   if(!hasGL){ const fb=byId('webglFallback'); fb?.classList.remove('sr-only'); if(fb) fb.textContent=lang==='fr'?'Votre navigateur ne supporte pas WebGL.':'Your browser does not support WebGL.' }
   else{
     renderer=new THREE.WebGLRenderer({canvas,antialias:true,alpha:true});
-    renderer.setPixelRatio(Math.min(devicePixelRatio,2)); renderer.setSize(canvas.clientWidth, canvas.clientHeight, false);
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio||1, 1.8));
+    // Taille initiale sur la taille réelle du conteneur
+    const sizeFromContainer=()=>{
+      const rect = canvas.getBoundingClientRect();
+      const w = Math.max(1, Math.floor(rect.width));
+      const h = Math.max(1, Math.floor(rect.height));
+      renderer.setSize(w, h, false);
+      camera.aspect = w / h;
+      camera.updateProjectionMatrix();
+    };
+
     scene=new THREE.Scene();
-    camera=new THREE.PerspectiveCamera(55, canvas.clientWidth/canvas.clientHeight, .1, 100); camera.position.set(0,0,2.9);
+    camera=new THREE.PerspectiveCamera(55, 1, .1, 100);
+    camera.position.set(0,0,2.9);
     const dl=new THREE.DirectionalLight(0xffffff,1.1); dl.position.set(1,2,3); scene.add(dl);
     scene.add(new THREE.AmbientLight(0xffffff,.45));
 
@@ -548,8 +554,15 @@ import { GLTFLoader } from 'https://cdn.jsdelivr.net/npm/three@0.164.1/examples/
       }
       renderOnce();
     }
-    document.addEventListener('mousemove', onMoveGlobal);
-    window.addEventListener('resize',()=>{renderer.setSize(canvas.clientWidth, canvas.clientHeight, false); camera.aspect=canvas.clientWidth/canvas.clientHeight; camera.updateProjectionMatrix(); renderOnce()});
+    // pointermove = plus cohérent (souris, stylet)
+    document.addEventListener('pointermove', onMoveGlobal, {passive:true});
+
+    // Resize robuste
+    const ro = new ResizeObserver(()=>{ sizeFromContainer(); renderOnce(); });
+    ro.observe(canvas);
+    window.addEventListener('orientationchange', ()=>{ sizeFromContainer(); renderOnce(); }, {passive:true});
+    sizeFromContainer();
+
     function renderOnce(){ renderer.render(scene,camera) }
   }
 
@@ -609,11 +622,11 @@ import { GLTFLoader } from 'https://cdn.jsdelivr.net/npm/three@0.164.1/examples/
 
     const ed = byId('cEditor');
     mount.querySelectorAll('[data-cmd]').forEach(b=>{
-      b.addEventListener('click', ()=> document.execCommand(b.dataset.cmd,false,null));
+      b.addEventListener('click', ()=> { try{ document.execCommand(b.dataset.cmd,false,null);}catch{} });
     });
     mount.querySelector('[data-link]').addEventListener('click', ()=>{
       const url = prompt('URL:'); if(!url) return;
-      document.execCommand('createLink', false, url);
+      try{ document.execCommand('createLink', false, url); }catch{}
     });
 
     if (MAILCFG.GOOGLE_CLIENT_ID && window.google?.accounts?.id){
@@ -695,5 +708,5 @@ import { GLTFLoader } from 'https://cdn.jsdelivr.net/npm/three@0.164.1/examples/
     if(project){ const p=projects.find(x=>x.id===project); if(p) openProject(p,{originEl:null}); }
     if(kase){ const c=cases.find(x=>x.id===kase); if(c) openCase(c,{originEl:null}); }
   }
-  window.addEventListener('hashchange',()=>{ if(!byId('modalRoot').firstChild) syncFromHash() });
+  window.addEventListener('hashchange',()=>{ if(!byId('modalRoot').firstChild) syncFromHash() }, {passive:true});
 })();
