@@ -226,9 +226,3 @@ radial-gradient(120px 90px at 85% 88%,color-mix(in oklab,var(--accent-500) 16%,t
 .curtain .right { right:0; width:50vw; transform: translateX(var(--slidePct)); }
 .curtain .left::after  { --leaf-pos: left center; }
 .curtain .right::after { --leaf-pos: right center; }
-
-html, body {
-  overflow-x: hidden;
-  width: 100%;
-}
-
