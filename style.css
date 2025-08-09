@@ -2,12 +2,18 @@
 *,*::before,*::after{box-sizing:border-box}
 img,video{max-width:100%;height:auto;display:block}
 button,input,select,textarea{font:inherit}
-:root{--cream-0:#fffaf3;--cream-50:#fff4e5;--cream-100:#ffe9cc;
+
+/* === Design tokens === */
+:root{
+  --cream-0:#fffaf3;--cream-50:#fff4e5;--cream-100:#ffe9cc;
   --ink-900:#1c1b19;--ink-700:#3e3b36;--ink-600:#544f47;--ink-300:#b6b1a7;--ink-200:#d0cbc2;--ink-100:#eae7e2;
   --accent-300:#c7d2fe;--accent-500:#a5b4fc;
   --warm-900:#161311;--warm-800:#1e1a17;
   --radius:22px; --easing:cubic-bezier(.2,.8,.2,1);
-  --container-max:1280px;}
+
+  /* Verrouillage du layout PC : on raisonne sur une largeur fixe */
+  --container-max:1200px; /* <- réduis/augmente si tu veux 3 colonnes plus larges/serrées */
+}
 [data-theme=dark]{--bg:var(--warm-900);--fg:var(--ink-100);--panel:var(--warm-800);--ring:#2a241f;color-scheme:dark}
 [data-theme=light]{--bg:var(--cream-50);--fg:var(--ink-900);--panel:var(--cream-0);--ring:#e6dfd4;color-scheme:light}
 
@@ -23,6 +29,7 @@ body{
     var(--bg);
   color:var(--fg);
   font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, "Helvetica Neue", Arial, "Noto Sans", "Apple Color Emoji", "Segoe UI Emoji";
+  line-height:1.4;
 }
 body.theme-anim, body.theme-anim *{
   transition: background-color .35s var(--easing), color .35s var(--easing), border-color .35s var(--easing), box-shadow .35s var(--easing);
@@ -55,25 +62,38 @@ nav a:hover{opacity:.85}
 .hero{padding:32px 0}
 .hero-grid{display:grid;grid-template-columns:1fr;gap:24px}
 @media(min-width:900px){.hero-grid{grid-template-columns:1.2fr .8fr}}
+
+/* === 3D hero === */
+/* Mobile/tablette : fluide */
 .hero3d{height:52vh;min-height:340px;border-radius:28px;overflow:hidden;position:relative;background:linear-gradient(135deg,var(--cream-50),var(--cream-100))}
 [data-theme=dark] .hero3d{background:linear-gradient(135deg,var(--warm-900),var(--warm-800))}
+/* Desktop lock : hauteur figée en px pour une échelle identique */
+@media(min-width:1200px){
+  .hero3d{height:520px;min-height:520px}
+}
+/* Canvas 3D : toujours full-size */
+.hero3d > canvas#r3f{width:100%;height:100%;display:block}
+
 .hero h1{font-weight:800;line-height:1.1;margin:8px 0; font-size:clamp(2rem,4vw,3rem)}
+/* Desktop lock : titres figés (pas de clamp) */
+@media(min-width:1200px){
+  .hero h1{font-size:48px}
+}
 .pill{display:inline-flex;align-items:center;border:1px solid var(--ring);padding:8px 14px;border-radius:14px;margin-right:8px;text-decoration:none}
 .section{padding:48px 0}
 .section h2{font-size:28px;margin:0 0 12px}
 
-/* Canvas 3D : toujours full-size */
-.hero3d > canvas#r3f{width:100%;height:100%;display:block}
-
-/* GRID (aligne les tuiles) */
+/* === GRID projets === */
+/* Mobile/tablette : auto-fill fluide */
 .masonry{
   display:grid;
   gap:18px;
   grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
 }
-@media(min-width:700px){.masonry{grid-template-columns: repeat(auto-fill, minmax(320px, 1fr))}}
-@media(min-width:1024px){.masonry{grid-template-columns: repeat(auto-fill, minmax(340px, 1fr))}}
-@media(min-width:1400px){.masonry{grid-template-columns: repeat(4, minmax(0, 1fr))}}
+/* Desktop lock : 3 colonnes fixes = même mise en page quel que soit l’écran PC */
+@media(min-width:1200px){
+  .masonry{ grid-template-columns: repeat(3, 1fr); }
+}
 
 .tile{
   position:relative;display:flex;flex-direction:column;
@@ -82,7 +102,7 @@ nav a:hover{opacity:.85}
   border-radius:28px 20px 32px 18px/24px 28px 20px 30px;
   box-shadow:0 1px 2px rgba(0,0,0,.03);
   transition:box-shadow .2s ease,transform .2s ease;
-  min-height: 320px;
+  min-height: 320px; /* garde une présence identique */
 }
 .tile:hover{box-shadow:0 10px 30px rgba(0,0,0,.08)}
 .tile:active{transform:translateY(1px)}
