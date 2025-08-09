@@ -16,10 +16,10 @@ import { GLTFLoader } from 'https://cdn.jsdelivr.net/npm/three@0.164.1/examples/
       rightImg: 'assets/leaf_right.png',
       leafSize: 'contain',
       holdMs: 1200,
-      extraBase: 56,
-      extraTight: 128,
+      extraBase: 150,
+      extraTight: 250,
       minClamp: 6,
-      maxScroll: 240
+      maxScroll: 350
     }
   };
 
