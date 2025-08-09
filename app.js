@@ -1,4 +1,4 @@
-import * as THREE from 'three';
+import * as THREE from 'https://cdn.jsdelivr.net/npm/three@0.164.1/build/three.module.js';
 import { GLTFLoader } from 'https://cdn.jsdelivr.net/npm/three@0.164.1/examples/jsm/loaders/GLTFLoader.js';
 
 (()=>{
@@ -105,22 +105,27 @@ import { GLTFLoader } from 'https://cdn.jsdelivr.net/npm/three@0.164.1/examples/
   const applyThemeFromOS = ()=>{
     const isDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
     document.documentElement.dataset.theme = isDark ? 'dark' : 'light';
-    byId('themeBtn').textContent = isDark ? '☾' : '☀';
+    const tb = byId('themeBtn'); if (tb) tb.textContent = isDark ? '☾' : '☀';
   };
   applyThemeFromOS();
   const mql = window.matchMedia('(prefers-color-scheme: dark)');
   if (mql?.addEventListener) mql.addEventListener('change', applyThemeFromOS);
 
   // Bouton thème (toggle non persistant)
-  byId('themeBtn').addEventListener('click',()=>{
+  byId('themeBtn')?.addEventListener('click',()=>{
     const cur = document.documentElement.dataset.theme;
     document.documentElement.dataset.theme = (cur==='dark'?'light':'dark');
     addThemeAnim();
     byId('themeBtn').textContent = document.documentElement.dataset.theme==='dark'?'☾':'☀';
   });
 
-  // i18n init + bouton langue (toggle non persistant)
-  function updateLangButton(){ byId('langBtn').textContent = lang==='fr' ? 'FR 🇫🇷' : 'EN 🇬🇧'; }
+  // ====== État & refs DOM (PLACÉS AVANT tout rendu !) ======
+  const $PL=byId('projectList'), $CL=byId('caseList'), $MR=byId('modalRoot'), $LB=byId('lightboxRoot');
+  let projects=[], cases=[];
+  const modalStack=[];
+
+  // ===== Static text & i18n init (après refs DOM !) =====
+  function updateLangButton(){ const b=byId('langBtn'); if(b) b.textContent = lang==='fr' ? 'FR 🇫🇷' : 'EN 🇬🇧'; }
   function setLang(l){
     lang=l;
     updateLangButton();
@@ -128,32 +133,25 @@ import { GLTFLoader } from 'https://cdn.jsdelivr.net/npm/three@0.164.1/examples/
     ['nav_projects','nav_cases','nav_about','nav_contact','cv_fr','cv_en','hero_kicker','dl_cv_fr','dl_cv_en','projects_title','cases_title','about_role_title','about_skills_title','contact_title','legal_title','open_cv'].forEach(k=>{
       document.querySelectorAll(`[data-i18n="${k}"]`).forEach(n=>n.textContent=I[lang][k]);
     });
+    txt(byId('footText'), `© ${new Date().getFullYear()} Nathan Tandille — ${T('footer')}`);
     renderProjects(); renderCases(); renderSkills(); renderContact();
   }
   setLang(lang);
-  byId('langBtn').addEventListener('click',()=>setLang(lang==='fr'?'en':'fr'));
-
-  // Texte statique
-  txt(byId('footText'), `© ${new Date().getFullYear()} Nathan Tandille — ${T('footer')}`);
+  byId('langBtn')?.addEventListener('click',()=>setLang(lang==='fr'?'en':'fr'));
 
   // Avatar + liens
   const avatar = byId('avatarImg');
   const lkdLink = byId('lkdLink'); if(lkdLink) lkdLink.href = CONFIG.SOCIAL.linkedin || '#';
   const mobyLink = byId('mobyLink'); if(mobyLink) mobyLink.href = CONFIG.SOCIAL.mobygames || '#';
-  byId('avatarBtn').addEventListener('click',()=>{
-    const src = avatar.src;
+  byId('avatarBtn')?.addEventListener('click',()=>{
+    const src = avatar?.src || '';
     openModal('Photo', `<div class="media-shell"><img src="${src}" alt="Photo"/></div>`, {originEl: byId('avatarBtn')});
   });
 
-  // ===== Empêcher la restauration de scroll / modales au rechargement =====
-  // 1) désactive la restauration automatique du scroll
+  // ===== Empêcher restauration scroll / modales =====
   if ('scrollRestoration' in history) history.scrollRestoration = 'manual';
-
-  // 2) détecte si on recharge la page (vs arrivée depuis un lien externe)
   const navEntries = performance.getEntriesByType?.('navigation') || [];
   const isReload = navEntries[0]?.type === 'reload' || performance.navigation?.type === 1;
-
-  // 3) si reload ou si on revient depuis la même origine et qu’il y a un hash, on l’efface
   function clearHashIfReload(){
     const hasDeep = location.hash.includes('project=') || location.hash.includes('case=');
     const sameOriginRef = document.referrer && new URL(document.referrer).origin === location.origin;
@@ -161,21 +159,12 @@ import { GLTFLoader } from 'https://cdn.jsdelivr.net/npm/three@0.164.1/examples/
       history.replaceState(null,'',location.pathname+location.search);
     }
   }
-  window.addEventListener('pageshow', (e)=>{
-    // remet en haut (même si restauration bfcache)
-    window.scrollTo(0,0);
-  });
-  // exécute au plus tôt
+  window.addEventListener('pageshow', ()=>{ window.scrollTo(0,0); });
   clearHashIfReload();
 
   // ===== Boutons CV =====
   function openCVForLang(){ openCVModal(lang==='fr' ? CONFIG.CV_FR_URL : CONFIG.CV_EN_URL); }
   ;['cvBtn','cvCTA','cvFab'].forEach(id=>{ const n=byId(id); if(n) n.addEventListener('click', openCVForLang); });
-
-  // ===== State =====
-  const $PL=byId('projectList'), $CL=byId('caseList'), $MR=byId('modalRoot'), $LB=byId('lightboxRoot');
-  let projects=[], cases=[];
-  const modalStack=[];
 
   // ===== JSON load =====
   const tryPaths=['content/content_manifest.json','content/manifest.json','content_manifest.json'];
@@ -187,14 +176,9 @@ import { GLTFLoader } from 'https://cdn.jsdelivr.net/npm/three@0.164.1/examples/
   (async()=>{
     let mf=null,url=null; for(const p of tryPaths){const m=await j(p); if(m){mf=m; url=p; break}}
 
-    // rendu de base (même si pas de manifest)
     renderProjects(); renderCases(); renderSkills(); renderContact();
 
-    // si pas de manifest, on reste propre et on lance le rideau
-    if(!mf){
-      startCurtain();
-      return;
-    }
+    if(!mf){ startCurtain(); return; }
 
     const base=dir(url);
     const pfiles=(mf.projects||[]).map(f=>join(base,f));
@@ -203,15 +187,9 @@ import { GLTFLoader } from 'https://cdn.jsdelivr.net/npm/three@0.164.1/examples/
     cases=(await Promise.all(cfiles.map(j))).filter(Boolean);
     renderProjects(); renderCases(); renderSkills(); renderContact();
 
-    // Ne pas ouvrir automatiquement depuis un ancien hash : il a été nettoyé si reload.
-    // Si on arrive depuis un lien EXTERNE avec hash, on l’applique.
     const hasDeepLink = location.hash && ( !isReload && !(document.referrer && new URL(document.referrer).origin===location.origin) );
     if (hasDeepLink) syncFromHash();
-    else {
-      // s’assurer qu’on est en haut
-      window.scrollTo(0,0);
-      if (location.hash) history.replaceState(null,'',location.pathname+location.search);
-    }
+    else { window.scrollTo(0,0); if (location.hash) history.replaceState(null,'',location.pathname+location.search); }
 
     startCurtain();
   })();
@@ -349,6 +327,7 @@ import { GLTFLoader } from 'https://cdn.jsdelivr.net/npm/three@0.164.1/examples/
 
   // ===== Projects =====
   function renderProjects(){
+    if(!$PL) return;
     $PL.innerHTML='';
     projects.forEach(p=>{
       const gallery=imgsArr(p.images);
@@ -436,6 +415,7 @@ import { GLTFLoader } from 'https://cdn.jsdelivr.net/npm/three@0.164.1/examples/
 
   // ===== Cases =====
   function renderCases(){
+    if(!$CL) return;
     $CL.innerHTML='';
     cases.forEach(c=>{
       const imgs=Array.isArray(c.media?.images)?c.media.images:(c.media?.images?[c.media.images]:[]);
