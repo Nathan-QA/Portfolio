@@ -8,23 +8,23 @@
 }
 [data-theme=dark]{--bg:var(--warm-900);--fg:var(--ink-100);--panel:var(--warm-800);--ring:#2a241f;color-scheme:dark}
 [data-theme=light]{--bg:var(--cream-50);--fg:var(--ink-900);--panel:var(--cream-0);--ring:#e6dfd4;color-scheme:light}
-/* ===== HERO BANNER ===== */
-#hero-banner{
-  width:100%;
-  height:80vh;             /* ajuste la hauteur si besoin */
-  background: center/cover no-repeat;
-  background-image: var(--banner-url, none);
-  border:0;                /* évite toute ligne parasite */
+#hero-banner {
+  width: 100%;
+  height: auto; /* hauteur dynamique */
+  aspect-ratio: 16 / 9; /* ratio de ton image, ajuste si besoin */
+  background: center no-repeat;
+  background-size: contain; /* on voit toute l'image, pas de crop */
 }
 
-/* Jour/Nuit via <html data-theme="..."> */
-html[data-theme="light"] #hero-banner { --banner-url: url("assets/bannerD.png"); }
-html[data-theme="dark"]  #hero-banner { --banner-url: url("assets/bannerN.png"); }
-
-/* (Facultatif) Fallback si data-theme absent mais OS en dark */
-@media (prefers-color-scheme: dark) {
-  html:not([data-theme]) #hero-banner { --banner-url: url("assets/bannerN.png"); }
+/* Jour/Nuit via data-theme */
+html[data-theme="light"] #hero-banner {
+  background-image: url("assets/bannerD.png");
 }
+
+html[data-theme="dark"] #hero-banner {
+  background-image: url("assets/bannerN.png");
+}
+
 
 
 html,body{height:100%}
@@ -226,3 +226,9 @@ radial-gradient(120px 90px at 85% 88%,color-mix(in oklab,var(--accent-500) 16%,t
 .curtain .right { right:0; width:50vw; transform: translateX(var(--slidePct)); }
 .curtain .left::after  { --leaf-pos: left center; }
 .curtain .right::after { --leaf-pos: right center; }
+
+html, body {
+  overflow-x: hidden;
+  width: 100%;
+}
+
