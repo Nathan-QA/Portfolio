@@ -10,6 +10,16 @@ import { GLTFLoader } from 'https://cdn.jsdelivr.net/npm/three@0.164.1/examples/
     SOCIAL: {
       linkedin: 'https://www.linkedin.com/in/nathan-tandille/',
       mobygames: '' // <- mets ici ton URL MobyGames exacte
+    },
+    CURTAIN: {
+      leftImg: 'assets/leaf_left.png',
+      rightImg: 'assets/leaf_right.png',
+      leafSize: 'contain',
+      holdMs: 1200,
+      extraBase: 56,
+      extraTight: 128,
+      minClamp: 6,
+      maxScroll: 240
     }
   };
 
@@ -51,8 +61,14 @@ import { GLTFLoader } from 'https://cdn.jsdelivr.net/npm/three@0.164.1/examples/
   const txt=(n,v)=>n&&(n.textContent=v);
   const addThemeAnim=()=>{document.body.classList.add('theme-anim');setTimeout(()=>document.body.classList.remove('theme-anim'),400)};
 
-  // ===== i18n =====
-  let lang = (localStorage.getItem('nt_lang') || (navigator.language||'fr').startsWith('fr') ? 'fr' : 'en');
+  // ===== Langue & Thème : auto depuis navigateur / OS (pas de persistance) =====
+  const detectLang = ()=>{
+    const l = (navigator.language || 'en').toLowerCase();
+    return l.startsWith('fr') ? 'fr' : 'en';
+  };
+  let lang = detectLang();
+
+  // Texte i18n
   const I={
     fr:{
       nav_projects:"Projets",nav_cases:"Études de cas",nav_about:"À propos",nav_contact:"Contact",
@@ -85,11 +101,40 @@ import { GLTFLoader } from 'https://cdn.jsdelivr.net/npm/three@0.164.1/examples/
   };
   const T=k=>I[lang][k]||k;
 
-  // ===== Static text + Theme / Lang + Avatar/links =====
+  // Thème auto depuis système + écoute des changements
+  const applyThemeFromOS = ()=>{
+    const isDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+    document.documentElement.dataset.theme = isDark ? 'dark' : 'light';
+    byId('themeBtn').textContent = isDark ? '☾' : '☀';
+  };
+  applyThemeFromOS();
+  const mql = window.matchMedia('(prefers-color-scheme: dark)');
+  if (mql?.addEventListener) mql.addEventListener('change', applyThemeFromOS);
+
+  // Bouton thème (toggle non persistant)
+  byId('themeBtn').addEventListener('click',()=>{
+    const cur = document.documentElement.dataset.theme;
+    document.documentElement.dataset.theme = (cur==='dark'?'light':'dark');
+    addThemeAnim();
+    byId('themeBtn').textContent = document.documentElement.dataset.theme==='dark'?'☾':'☀';
+  });
+
+  // i18n init + bouton langue (toggle non persistant)
   function updateLangButton(){ byId('langBtn').textContent = lang==='fr' ? 'FR 🇫🇷' : 'EN 🇬🇧'; }
-  txt(byId('heroDesc'), I[lang].hero_desc);
+  function setLang(l){
+    lang=l;
+    updateLangButton();
+    txt(byId('heroDesc'), I[lang].hero_desc);
+    ['nav_projects','nav_cases','nav_about','nav_contact','cv_fr','cv_en','hero_kicker','dl_cv_fr','dl_cv_en','projects_title','cases_title','about_role_title','about_skills_title','contact_title','legal_title','open_cv'].forEach(k=>{
+      document.querySelectorAll(`[data-i18n="${k}"]`).forEach(n=>n.textContent=I[lang][k]);
+    });
+    renderProjects(); renderCases(); renderSkills(); renderContact();
+  }
+  setLang(lang);
+  byId('langBtn').addEventListener('click',()=>setLang(lang==='fr'?'en':'fr'));
+
+  // Texte statique
   txt(byId('footText'), `© ${new Date().getFullYear()} Nathan Tandille — ${T('footer')}`);
-  updateLangButton();
 
   // Avatar + liens
   const avatar = byId('avatarImg');
@@ -100,28 +145,28 @@ import { GLTFLoader } from 'https://cdn.jsdelivr.net/npm/three@0.164.1/examples/
     openModal('Photo', `<div class="media-shell"><img src="${src}" alt="Photo"/></div>`, {originEl: byId('avatarBtn')});
   });
 
-  // Thème
-  let theme=localStorage.getItem('nt_theme')||(matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light');
-  document.documentElement.dataset.theme=theme;
-  byId('themeBtn').textContent=theme==='dark'?'☾':'☀';
-  byId('themeBtn').addEventListener('click',()=>{
-    theme=theme==='dark'?'light':'dark';
-    addThemeAnim();
-    document.documentElement.dataset.theme=theme;
-    localStorage.setItem('nt_theme',theme);
-    byId('themeBtn').textContent=theme==='dark'?'☾':'☀';
-  });
+  // ===== Empêcher la restauration de scroll / modales au rechargement =====
+  // 1) désactive la restauration automatique du scroll
+  if ('scrollRestoration' in history) history.scrollRestoration = 'manual';
 
-  function setLang(l){
-    lang=l; localStorage.setItem('nt_lang',l);
-    updateLangButton();
-    txt(byId('heroDesc'), I[lang].hero_desc);
-    ['nav_projects','nav_cases','nav_about','nav_contact','cv_fr','cv_en','hero_kicker','dl_cv_fr','dl_cv_en','projects_title','cases_title','about_role_title','about_skills_title','contact_title','legal_title','open_cv'].forEach(k=>{
-      document.querySelectorAll(`[data-i18n="${k}"]`).forEach(n=>n.textContent=I[lang][k]);
-    });
-    renderProjects(); renderCases(); renderSkills(); renderContact();
+  // 2) détecte si on recharge la page (vs arrivée depuis un lien externe)
+  const navEntries = performance.getEntriesByType?.('navigation') || [];
+  const isReload = navEntries[0]?.type === 'reload' || performance.navigation?.type === 1;
+
+  // 3) si reload ou si on revient depuis la même origine et qu’il y a un hash, on l’efface
+  function clearHashIfReload(){
+    const hasDeep = location.hash.includes('project=') || location.hash.includes('case=');
+    const sameOriginRef = document.referrer && new URL(document.referrer).origin === location.origin;
+    if (hasDeep && (isReload || sameOriginRef)) {
+      history.replaceState(null,'',location.pathname+location.search);
+    }
   }
-  byId('langBtn').addEventListener('click',()=>setLang(lang==='fr'?'en':'fr'));
+  window.addEventListener('pageshow', (e)=>{
+    // remet en haut (même si restauration bfcache)
+    window.scrollTo(0,0);
+  });
+  // exécute au plus tôt
+  clearHashIfReload();
 
   // ===== Boutons CV =====
   function openCVForLang(){ openCVModal(lang==='fr' ? CONFIG.CV_FR_URL : CONFIG.CV_EN_URL); }
@@ -141,19 +186,12 @@ import { GLTFLoader } from 'https://cdn.jsdelivr.net/npm/three@0.164.1/examples/
 
   (async()=>{
     let mf=null,url=null; for(const p of tryPaths){const m=await j(p); if(m){mf=m; url=p; break}}
+
+    // rendu de base (même si pas de manifest)
     renderProjects(); renderCases(); renderSkills(); renderContact();
 
-    const qs = new URLSearchParams(location.hash.slice(1));
-    const hasDeepLink = qs.has('project') || qs.has('case');
-
+    // si pas de manifest, on reste propre et on lance le rideau
     if(!mf){
-      console.warn('Manifest introuvable.');
-      if (!hasDeepLink) {
-        if (location.hash) history.replaceState(null,'',location.pathname+location.search);
-        window.scrollTo(0,0);
-      } else {
-        syncFromHash();
-      }
       startCurtain();
       return;
     }
@@ -165,71 +203,76 @@ import { GLTFLoader } from 'https://cdn.jsdelivr.net/npm/three@0.164.1/examples/
     cases=(await Promise.all(cfiles.map(j))).filter(Boolean);
     renderProjects(); renderCases(); renderSkills(); renderContact();
 
-    if (hasDeepLink) {
-      syncFromHash();
-    } else {
-      if (location.hash) history.replaceState(null, '', location.pathname + location.search);
+    // Ne pas ouvrir automatiquement depuis un ancien hash : il a été nettoyé si reload.
+    // Si on arrive depuis un lien EXTERNE avec hash, on l’applique.
+    const hasDeepLink = location.hash && ( !isReload && !(document.referrer && new URL(document.referrer).origin===location.origin) );
+    if (hasDeepLink) syncFromHash();
+    else {
+      // s’assurer qu’on est en haut
       window.scrollTo(0,0);
+      if (location.hash) history.replaceState(null,'',location.pathname+location.search);
     }
 
     startCurtain();
   })();
 
-  // ===== Rideau : hold long -> ouvre au-delà du container -> scroll pousse encore (limite) -> remonte referme =====
+  // ===== Rideau =====
   function startCurtain(){
-    const c = byId('curtain');
-    if(!c) return;
+    const wrap = byId('curtain');
+    if(!wrap) return;
+    const left = wrap.querySelector('.left');
+    const right = wrap.querySelector('.right');
 
-    // Espace gouttière: distance entre le bord du viewport et le bord du container
+    if (CONFIG.CURTAIN.leftImg)  left.style.setProperty('--leaf-img', `url("${CONFIG.CURTAIN.leftImg}")`);
+    if (CONFIG.CURTAIN.rightImg) right.style.setProperty('--leaf-img', `url("${CONFIG.CURTAIN.rightImg}")`);
+    if (CONFIG.CURTAIN.leafSize) { 
+      left.style.setProperty('--leaf-size', CONFIG.CURTAIN.leafSize);
+      right.style.setProperty('--leaf-size', CONFIG.CURTAIN.leafSize);
+    }
+
     function gutterPx(){
       const cm = parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--container-max')) || 1280;
       const vw = window.innerWidth;
       return Math.max(0, (vw - Math.min(cm, vw)) / 2);
     }
 
-    // On veut que les panneaux se rangent "plus loin" que l'arête du container.
-    // On prend donc gutter - EXTRA (et on borne à minClamp pour ne jamais sortir complètement).
-    const EXTRA_BASE = 175;  // ouverture initiale au-delà du container
-    const EXTRA_TIGHT = 250; // au scroll, encore plus loin (limite)
-    const minClamp = 6;     // largeur mini absolue (px) pour garder une présence sur le bord
-    const maxScroll = 1500;  // distance de scroll (px) pour atteindre la position la plus “serrée”
+    const minClamp = CONFIG.CURTAIN.minClamp ?? 6;
+    const maxScroll = CONFIG.CURTAIN.maxScroll ?? 240;
+    let extraBase  = CONFIG.CURTAIN.extraBase ?? 28;
+    let extraTight = CONFIG.CURTAIN.extraTight ?? 64;
 
-    let base = Math.max(minClamp, gutterPx() - EXTRA_BASE);
-    let tight = Math.max(minClamp, gutterPx() - EXTRA_TIGHT);
+    let base = Math.max(minClamp, gutterPx() - extraBase);
+    let tight = Math.max(minClamp, gutterPx() - extraTight);
 
     const setWidths = (w)=>{
       const v = Math.max(minClamp, Math.round(w));
-      c.style.setProperty('--leftW', v + 'px');
-      c.style.setProperty('--rightW', v + 'px');
+      wrap.style.setProperty('--leftW', v + 'px');
+      wrap.style.setProperty('--rightW', v + 'px');
     };
 
-    // État initial: rideau plein (50vw/50vw)
     setWidths(window.innerWidth/2);
 
-    // Hold plus long avant de commencer l'ouverture
     setTimeout(()=>{
-      // Étape 1: ouverture vers la position "base" (au-delà du container)
       setWidths(base);
 
-      // Étape 2: parallax sur les premiers scrolls (base -> tight)
       const onScroll = ()=>{
         const y = Math.max(0, window.scrollY);
-        const t = Math.min(1, y / maxScroll); // 0..1
+        const t = Math.min(1, y / maxScroll);
         const current = base + (tight - base) * t;
         setWidths(current);
       };
       const onResize = ()=>{
-        base  = Math.max(minClamp, gutterPx() - EXTRA_BASE);
-        tight = Math.max(minClamp, gutterPx() - EXTRA_TIGHT);
-        onScroll(); // re-applique à la nouvelle géo
+        base  = Math.max(minClamp, gutterPx() - extraBase);
+        tight = Math.max(minClamp, gutterPx() - extraTight);
+        onScroll();
       };
       window.addEventListener('scroll', onScroll, {passive:true});
       window.addEventListener('resize', onResize);
       onScroll();
-    }, 900); // temps d'attente avant le mouvement (hold)
+    }, CONFIG.CURTAIN.holdMs ?? 900);
   }
 
-  // ===== Images helpers =====
+  // ===== Helpers images =====
   function imgsArr(imgs){ if(!imgs) return []; if(Array.isArray(imgs)) return imgs; if(typeof imgs==='string') return [imgs]; if(typeof imgs==='object'){const out=[]; for(const k in imgs){const v=imgs[k]; if(Array.isArray(v)) out.push(...v); else if(typeof v==='string') out.push(v)} return [...new Set(out)]} return [] }
   function cover(imgs){ if(!imgs) return ''; if(Array.isArray(imgs)) return imgs[0]||''; if(typeof imgs==='object') return imgs.cover||imgs.hero||(Array.isArray(imgs.gallery)?imgs.gallery[0]:imgs.gallery)||imgsArr(imgs)[0]||''; if(typeof imgs==='string') return imgs; return '' }
 
