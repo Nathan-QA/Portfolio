@@ -6,27 +6,40 @@
   --radius:22px; --easing:cubic-bezier(.2,.8,.2,1);
   --container-max:1280px;
 }
-[data-theme=dark]{--bg:var(--warm-900);--fg:var(--ink-100);--panel:var(--warm-800);--ring:#2a241f;color-scheme:dark}
-[data-theme=light]{--bg:var(--cream-50);--fg:var(--ink-900);--panel:var(--cream-0);--ring:#e6dfd4;color-scheme:light}
+
+/* THEME TOKENS */
+[data-theme=dark]{
+  --bg:var(--warm-900);
+  --fg:var(--ink-100);
+  --panel:var(--warm-800);
+  --ring:#2a241f;
+  /* slab = légèrement plus clair que le fond pour créer un contraste interne net */
+  --slab: color-mix(in oklab, var(--warm-800) 92%, #000 8%);
+  color-scheme:dark
+}
+[data-theme=light]{
+  --bg:var(--cream-50);
+  --fg:var(--ink-900);
+  --panel:var(--cream-0);
+  --ring:#e6dfd4;
+  /* slab = plus crème que le fond extérieur */
+  --slab: color-mix(in oklab, var(--cream-0) 88%, var(--cream-100) 12%);
+  color-scheme:light
+}
+
+/* HERO BANNER */
 #hero-banner {
   width: 100%;
-  height: auto; /* hauteur dynamique */
-  aspect-ratio: 16 / 9; /* ratio de ton image, ajuste si besoin */
+  height: auto;
+  aspect-ratio: 16 / 9;
   background: center no-repeat;
-  background-size: contain; /* on voit toute l'image, pas de crop */
+  background-size: contain;
 }
-
 /* Jour/Nuit via data-theme */
-html[data-theme="light"] #hero-banner {
-  background-image: url("assets/bannerD.png");
-}
+html[data-theme="light"] #hero-banner { background-image: url("assets/bannerD.png"); }
+html[data-theme="dark"]  #hero-banner { background-image: url("assets/bannerN.png"); }
 
-html[data-theme="dark"] #hero-banner {
-  background-image: url("assets/bannerN.png");
-}
-
-
-
+/* BASE */
 html,body{height:100%}
 body{
   margin:0;background:
@@ -43,7 +56,19 @@ body.no-scroll{overflow:hidden}
 a{color:inherit}
 .container{max-width:var(--container-max);margin:0 auto;padding:0 20px}
 
-.header{position:sticky;top:0;z-index:40;backdrop-filter:saturate(1.2) blur(8px);background:color-mix(in oklab,var(--panel)80%,transparent);border-bottom:1px solid var(--ring)}
+/* ====== HEADER (zone du haut à rendre plus contrastée) ====== */
+.header{
+  position:sticky;top:0;z-index:40;
+  backdrop-filter:saturate(1.2) blur(10px);
+  /* plus opaque et un peu plus “dense” */
+  background: color-mix(in oklab, var(--panel) 94%, var(--bg) 6%);
+  border-bottom:1px solid var(--ring);
+  box-shadow: 0 6px 18px rgba(0,0,0,.08);
+}
+[data-theme=dark] .header{
+  background: color-mix(in oklab, var(--panel) 88%, #000 12%);
+  box-shadow: 0 8px 22px rgba(0,0,0,.45);
+}
 .h-row{display:flex;align-items:center;justify-content:space-between;padding:12px 16px}
 .brand{display:flex;gap:12px;align-items:center}
 .brand-links{display:flex;gap:6px;margin-top:2px}
@@ -52,11 +77,38 @@ a{color:inherit}
 .avatar-btn{padding:0;border:0;background:transparent;border-radius:999px;cursor:pointer;line-height:0}
 #avatarImg{width:36px;height:36px;border-radius:999px;display:block;object-fit:cover;border:1px solid var(--ring);box-shadow:0 1px 2px rgba(0,0,0,.06)}
 [data-theme=dark] #avatarImg{box-shadow:0 1px 2px rgba(0,0,0,.25)}
-
 nav a{margin:0 12px;text-decoration:none}
 nav a:hover{opacity:.85}
 .btn{border:1px solid var(--ring);padding:6px 10px;border-radius:12px;background:transparent;cursor:pointer;transition:background .2s ease}
 .btn:hover{background:color-mix(in oklab,var(--panel)90%,var(--bg))}
+
+/* ====== SLAB CENTRAL (grande zone intérieure plus contrastée) ====== */
+.page-slab{
+  /* fond plus net que l’extérieur + relief doux */
+  background:
+    radial-gradient(1200px 600px at 10% 0%, rgba(0,0,0,.035), transparent 60%),
+    radial-gradient(1000px 500px at 95% 10%, rgba(0,0,0,.03), transparent 55%),
+    var(--slab);
+  border-top: 1px solid color-mix(in oklab, var(--ring) 85%, transparent);
+  border-bottom: 1px solid color-mix(in oklab, var(--ring) 85%, transparent);
+  /* séparateur subtil du décor extérieur */
+  box-shadow:
+    0 -1px 0 color-mix(in oklab, var(--ring) 70%, transparent) inset,
+    0 1px 0 color-mix(in oklab, var(--ring) 70%, transparent) inset,
+    0 18px 40px rgba(0,0,0,.06);
+}
+[data-theme=dark] .page-slab{
+  background:
+    radial-gradient(1200px 600px at 10% 0%, rgba(255,255,255,.04), transparent 60%),
+    radial-gradient(1000px 500px at 95% 10%, rgba(255,255,255,.035), transparent 55%),
+    var(--slab);
+  box-shadow:
+    0 -1px 0 color-mix(in oklab, var(--ring) 60%, transparent) inset,
+    0 1px 0 color-mix(in oklab, var(--ring) 60%, transparent) inset,
+    0 24px 60px rgba(0,0,0,.55);
+}
+
+/* CONTENT */
 .hero{padding:32px 0}
 .hero-grid{display:grid;grid-template-columns:1fr;gap:24px}
 @media(min-width:900px){.hero-grid{grid-template-columns:1.2fr .8fr}}
@@ -67,8 +119,26 @@ nav a:hover{opacity:.85}
 .section{padding:48px 0}
 .section h2{font-size:28px;margin:0 0 12px}
 
-/* Canvas : occupe 100% du conteneur, pas plus */
+/* Canvas 3D */
 #r3f{width:100%;height:100%;display:block}
+
+.main-contrast {
+  background: var(--slab); /* déjà défini pour contraste light/dark */
+  max-width: 1600px;       /* largeur contrôlée */
+  margin: 0 auto;
+  padding: 0 0;            /* pas de padding latéral */
+  box-shadow: 0 0 50px rgba(0,0,0,0.08) inset, 0 0 60px rgba(0,0,0,0.15);
+}
+
+/* plus contrasté en mode clair */
+[data-theme=light] .main-contrast {
+  background: color-mix(in oklab, var(--cream-0) 80%, var(--cream-100) 20%);
+}
+
+/* plus contrasté en mode sombre */
+[data-theme=dark] .main-contrast {
+  background: color-mix(in oklab, var(--warm-800) 85%, #000 15%);
+}
 
 /* GRID */
 .masonry{
@@ -113,6 +183,8 @@ radial-gradient(120px 90px at 85% 88%,color-mix(in oklab,var(--accent-500) 16%,t
 .grid{display:grid;gap:16px}
 @media(min-width:720px){.grid2{grid-template-columns:1fr 1fr}}
 @media(min-width:900px){.grid3{grid-template-columns:repeat(3,1fr)}}
+
+/* Footer reste “extérieur”, donc on garde l’aspect actuel */
 .footer{background:var(--cream-100);padding:24px;text-align:center;border-top:1px solid var(--ring)}
 [data-theme=dark] .footer{background:var(--warm-800)}
 
@@ -196,14 +268,13 @@ radial-gradient(120px 90px at 85% 88%,color-mix(in oklab,var(--accent-500) 16%,t
 }
 .role-badge .dot{width:6px;height:6px;border-radius:50%;background:var(--ink-700)}
 
-/* Curtains — aucune bordure, aucun placeholder, images only */
+/* Curtains: images only */
 .curtain{
   position:fixed; inset:0; z-index:100; pointer-events:none;
   --slidePct: 0%;
 }
 .curtain .panel{
   position:absolute; top:0; bottom:0;
-  /* plus de bordure ni de fond */
   border: none;
   background: transparent;
   will-change: transform, filter;
@@ -213,16 +284,103 @@ radial-gradient(120px 90px at 85% 88%,color-mix(in oklab,var(--accent-500) 16%,t
   content:""; position:absolute; inset:0; pointer-events:none;
   background-image: var(--leaf-img);
   background-repeat: no-repeat;
-  background-size: var(--leaf-size, contain);     /* image la + grande possible */
+  background-size: var(--leaf-size, contain);
   background-position: var(--leaf-pos, center);
   transform: scale(var(--leafScale, 1));
   filter: brightness(var(--leafBright, 1)) drop-shadow(0 6px 18px rgba(0,0,0,.25));
 }
-
-/* Positionnement + slide (déplacement latéral, pas de rescale du panneau) */
-.curtain .left::after {
-  background-image: none !important;
-}
+/* Positionnement + slide */
+.curtain .left::after { background-image: none !important; }
 .curtain .right { right:0; width:50vw; transform: translateX(var(--slidePct)); }
 .curtain .left::after  { --leaf-pos: left center; }
 .curtain .right::after { --leaf-pos: right center; }
+
+/* === HERO BANNER avec fade jour/nuit === */
+#hero-banner {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  overflow: hidden;
+}
+
+#hero-banner::before,
+#hero-banner::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-size: contain;
+  background-position: center;
+  background-repeat: no-repeat;
+  transition: opacity 0.3s ease-in-out;
+}
+
+#hero-banner::before {
+  background-image: url("assets/bannerD.png"); /* Jour */
+  opacity: 1;
+  z-index: 1;
+}
+
+#hero-banner::after {
+  background-image: url("assets/bannerN.png"); /* Nuit */
+  opacity: 0;
+  z-index: 2;
+}
+
+[data-theme="dark"] #hero-banner::before {
+  opacity: 0;
+}
+
+[data-theme="dark"] #hero-banner::after {
+  opacity: 1;
+}
+
+/* === GRAIN FIXE SUR BACKGROUNDS === */
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  background-repeat: repeat;
+  background-size: 200px 200px;
+  background-attachment: fixed;
+  opacity: 1;
+}
+
+/* Mode sombre */
+[data-theme="dark"] body::before {
+  background-image: url("data:image/svg+xml;utf8,\
+<svg xmlns='http://www.w3.org/2000/svg' width='200' height='200'>\
+<filter id='n'>\
+<feTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3'/>\
+<feColorMatrix type='saturate' values='0.4'/>\
+</filter>\
+<rect width='100%' height='100%' filter='url(%23n)' opacity='1'/>\
+</svg>");
+  mix-blend-mode: soft-light;
+}
+
+/* Mode clair */
+[data-theme="light"] body::before {
+  background-image: url("data:image/svg+xml;utf8,\
+<svg xmlns='http://www.w3.org/2000/svg' width='200' height='200'>\
+<filter id='n'>\
+<feTurbulence type='fractalNoise' baseFrequency='0.55' numOctaves='3'/>\
+<feColorMatrix type='saturate' values='0.5'/>\
+</filter>\
+<rect width='100%' height='100%' filter='url(%23n)' opacity='0.4'/>\
+</svg>");
+  mix-blend-mode: soft-light;
+}
+
+/* Zones exclues du grain */
+#hero-banner,
+.tile,
+.card {
+  position: relative;
+  z-index: 2;
+  background-color: inherit;
+}
+
+
+
