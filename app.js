@@ -5,15 +5,16 @@ if (window.__APP_INIT__) {
   window.__APP_INIT__ = true;
 }
 
-import * as THREE from 'https://cdn.jsdelivr.net/npm/three@0.164.1/build/three.module.js';
-import { GLTFLoader } from 'https://cdn.jsdelivr.net/npm/three@0.164.1/examples/jsm/loaders/GLTFLoader.js';
+// IMPORTANT : pas de "bare specifier" — imports via URL CDN
+import * as THREE from 'https://esm.sh/three@0.164.1';
+import { GLTFLoader } from 'https://esm.sh/three@0.164.1/examples/jsm/loaders/GLTFLoader.js';
 
 (()=>{
   // ===== Configs =====
   const CONFIG = {
     MODEL_URL: null,
     CV_FR_URL: 'assets/Nathan_Tandille_CV_2025.pdf',
-    CV_EN_URL: 'assets/Nathan_Tandille_CV_EN_2025.pdf', // <- corrigé
+    CV_EN_URL: 'assets/Nathan_Tandille_CV_EN_2025.pdf',
     SOCIAL: {
       linkedin: 'https://www.linkedin.com/in/nathan-tandille/',
       mobygames: ''
@@ -22,14 +23,16 @@ import { GLTFLoader } from 'https://cdn.jsdelivr.net/npm/three@0.164.1/examples/
       leftImg: 'assets/leaf_left.png',
       rightImg: 'assets/leaf_right.png',
       leafSize: 'contain',
-      holdMs: 1200,
-      // largeur des bords en vw (fermé -> ouvert)
-      baseVW: 17,
-      tightVW: 10,
-      // distance de scroll qui anime l’ouverture (en % de la hauteur viewport)
-      maxScrollVh: 40,
-      // largeur minimale de sécurité
-      minClampVW: 0.8
+      holdMs: 1000,      // ouverture auto après 1s
+      maxScrollVh: 40,   // distance de scroll (en % de la hauteur)
+
+      // Gap central en vw. Ne va jamais au bord car < 100.
+      baseGapVW: 18,     // gap après auto-open
+      tightGapVW: 110,    // gap max en bas de scroll
+
+      // Effets visuels sur l’image pendant la translation
+      scaleDelta: 0.1,  // réduction max 8%
+      darkDelta: 0.30    // assombrissement max 15%
     }
   };
 
@@ -132,13 +135,13 @@ import { GLTFLoader } from 'https://cdn.jsdelivr.net/npm/three@0.164.1/examples/
   const storedTheme = safeGet(THEME_KEY);
   if (storedTheme) applyTheme(storedTheme);
 
-  // ===== État & refs DOM =====
+  // ====== État & refs DOM ======
   const $PL=byId('projectList'), $CL=byId('caseList'), $MR=byId('modalRoot'), $LB=byId('lightboxRoot');
   let projects=[], cases=[];
   const modalStack=[];
   const prefersReduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-  // ===== i18n init =====
+  // ===== Static text & i18n init =====
   function updateLangButton(){ const b=byId('langBtn'); if(b) b.textContent = lang==='fr' ? 'FR 🇫🇷' : 'EN 🇬🇧'; }
   function setLang(l){
     lang=l; safeSet(LANG_KEY, l);
@@ -221,59 +224,84 @@ import { GLTFLoader } from 'https://cdn.jsdelivr.net/npm/three@0.164.1/examples/
     startCurtain();
   })();
 
-  // ===== Rideau (VW/VH + scroll throttlé) =====
-  function startCurtain(){
-    const wrap = byId('curtain');
-    if(!wrap) return;
-    const left = wrap.querySelector('.left');
-    const right = wrap.querySelector('.right');
+ function startCurtain(){
+  const wrap  = document.getElementById('curtain');
+  if(!wrap) return;
+  const left  = wrap.querySelector('.left');
+  const right = wrap.querySelector('.right');
 
-    if (CONFIG.CURTAIN.leftImg)  left.style.setProperty('--leaf-img', `url("${CONFIG.CURTAIN.leftImg}")`);
-    if (CONFIG.CURTAIN.rightImg) right.style.setProperty('--leaf-img', `url("${CONFIG.CURTAIN.rightImg}")`);
-    if (CONFIG.CURTAIN.leafSize) { 
-      left.style.setProperty('--leaf-size', CONFIG.CURTAIN.leafSize);
-      right.style.setProperty('--leaf-size', CONFIG.CURTAIN.leafSize);
-    }
+  const holdMs      = CONFIG.CURTAIN.holdMs ?? 1000; // délai avant ouverture auto
+  const maxScrollVh = Number.isFinite(CONFIG.CURTAIN.maxScrollVh) ? CONFIG.CURTAIN.maxScrollVh : 40;
+  const baseGapVW   = Math.max(0, CONFIG.CURTAIN.baseGapVW ?? 16);
+  const tightGapVW  = Math.max(baseGapVW, CONFIG.CURTAIN.tightGapVW ?? 42);
+  const scaleDelta  = CONFIG.CURTAIN.scaleDelta ?? 0.08;
+  const darkDelta   = CONFIG.CURTAIN.darkDelta  ?? 0.15;
 
-    const minClampVW = Number.isFinite(CONFIG.CURTAIN.minClampVW) ? CONFIG.CURTAIN.minClampVW : 0.8;
-    const baseVW  = Math.max(minClampVW, +CONFIG.CURTAIN.baseVW || 6);
-    const tightVW = Math.max(minClampVW, +CONFIG.CURTAIN.tightVW || 3);
-    const maxScrollVh = Number.isFinite(CONFIG.CURTAIN.maxScrollVh) ? CONFIG.CURTAIN.maxScrollVh : 40;
-    let maxScrollPx = window.innerHeight * (maxScrollVh / 100);
-
-    const setWidthsVW = (vwVal)=>{
-      const v = Math.max(minClampVW, vwVal);
-      wrap.style.setProperty('--leftW',  v + 'vw');
-      wrap.style.setProperty('--rightW', v + 'vw');
-    };
-
-    // Fermé au départ
-    setWidthsVW(50);
-
-    setTimeout(()=>{
-      setWidthsVW(baseVW);
-
-      let curtainRaf = 0;
-      const onScroll = ()=>{
-        if (curtainRaf) return;
-        curtainRaf = requestAnimationFrame(()=>{
-          curtainRaf = 0;
-          const y = Math.max(0, window.scrollY);
-          const t = Math.min(1, y / Math.max(1, maxScrollPx));
-          const current = baseVW + (tightVW - baseVW) * t;
-          setWidthsVW(current);
-        });
-      };
-      const onResize = ()=>{
-        maxScrollPx = window.innerHeight * (maxScrollVh / 100);
-        onScroll();
-      };
-
-      window.addEventListener('scroll', onScroll, {passive:true});
-      window.addEventListener('resize', onResize, {passive:true});
-      onScroll();
-    }, CONFIG.CURTAIN.holdMs ?? 900);
+  // 1) Pose les images immédiatement
+  if (CONFIG.CURTAIN.leftImg)  left .style.setProperty('--leaf-img', `url("${CONFIG.CURTAIN.leftImg}")`);
+  if (CONFIG.CURTAIN.rightImg) right.style.setProperty('--leaf-img', `url("${CONFIG.CURTAIN.rightImg}")`);
+  if (CONFIG.CURTAIN.leafSize) {
+    left .style.setProperty('--leaf-size',  CONFIG.CURTAIN.leafSize);
+    right.style.setProperty('--leaf-size', CONFIG.CURTAIN.leafSize);
   }
+
+  // Précharge pour éviter un affichage tardif
+  [CONFIG.CURTAIN.leftImg, CONFIG.CURTAIN.rightImg].forEach(src=>{
+    if(!src) return;
+    const im = new Image();
+    im.decoding = 'async';
+    im.loading = 'eager';
+    im.src = src;
+  });
+
+  // 2) État initial fermé (mais images déjà visibles)
+  wrap.style.setProperty('--slidePct', '0%');
+  left.style.setProperty('--leafScale',  '1');
+  right.style.setProperty('--leafScale', '1');
+  left.style.setProperty('--leafBright', '1');
+  right.style.setProperty('--leafBright','1');
+
+  const clamp01 = v => Math.max(0, Math.min(1, v));
+  let maxScrollPx = window.innerHeight * (maxScrollVh / 100);
+
+  // Fonction qui applique le décalage t
+  const applyT = (t)=>{
+    const gap = baseGapVW + (tightGapVW - baseGapVW) * t; // en vw
+    const slidePct = (gap / 2);                           // chaque panneau glisse de gap/2
+    const leafScale  = 1 - t * scaleDelta;                // réduit légèrement
+    const leafBright = 1 - t * darkDelta;                 // assombrit légèrement
+    wrap .style.setProperty('--slidePct',  slidePct.toFixed(3) + '%');
+    left .style.setProperty('--leafScale',  leafScale.toFixed(4));
+    right.style.setProperty('--leafScale',  leafScale.toFixed(4));
+    left .style.setProperty('--leafBright', leafBright.toFixed(4));
+    right.style.setProperty('--leafBright', leafBright.toFixed(4));
+  };
+
+  // 3) Auto-ouverture après holdMs (1 s par défaut)
+  requestAnimationFrame(()=>{
+    requestAnimationFrame(()=>{
+      setTimeout(()=> { applyT(0); }, holdMs);
+    });
+  });
+
+  // 4) Scroll = ouverture progressive
+  let raf = 0;
+  const computeT = ()=> clamp01( Math.max(0, window.scrollY) / Math.max(1, maxScrollPx) );
+  const onScroll = ()=>{
+    if (raf) return;
+    raf = requestAnimationFrame(()=>{ raf = 0; applyT(computeT()); });
+  };
+  const onResize = ()=>{
+    maxScrollPx = window.innerHeight * (maxScrollVh / 100);
+    onScroll();
+  };
+  window.addEventListener('scroll', onScroll, {passive:true});
+  window.addEventListener('resize', onResize, {passive:true});
+
+  // Applique l'état courant immédiatement (au cas où on arrive déjà scrollé)
+  applyT(computeT());
+}
+
 
   // ===== Helpers images =====
   function imgsArr(imgs){ if(!imgs) return []; if(Array.isArray(imgs)) return imgs; if(typeof imgs==='string') return [imgs]; if(typeof imgs==='object'){const out=[]; for(const k in imgs){const v=imgs[k]; if(Array.isArray(v)) out.push(...v); else if(typeof v==='string') out.push(v)} return [...new Set(out)]} return [] }
@@ -300,7 +328,7 @@ import { GLTFLoader } from 'https://cdn.jsdelivr.net/npm/three@0.164.1/examples/
   }
   function closeGallery(){ $LB.innerHTML=''; document.body.classList.remove('no-scroll') }
 
-  // ===== Modal =====
+  // ===== Modal (FLIP + fade + scroll lock) =====
   function ghostFrom(el, r, extra={}){const g=el.cloneNode(true); g.classList.add('ghost'); Object.assign(g.style,{position:'fixed',left:r.left+'px',top:r.top+'px',width:r.width+'px',height:r.height+'px',transformOrigin:'top left',margin:0,zIndex:1000,pointerEvents:'none',...extra}); document.body.appendChild(g); return g}
 
   function openModal(title, bodyHTML, {originEl=null, showBack=false, onBack=null, onReady}={}){
@@ -526,7 +554,7 @@ import { GLTFLoader } from 'https://cdn.jsdelivr.net/npm/three@0.164.1/examples/
     }});
   }
 
-  // ===== Three.js (stable, sans boucle) =====
+  // ===== Three.js (stable, rendu "on‑demand") =====
   const canvas = document.getElementById('r3f');
   let renderer, scene, camera, head, eyeL, eyeR, loadedModel = null;
   const clamp = (v, min, max) => Math.max(min, Math.min(max, v));

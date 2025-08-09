@@ -9,8 +9,13 @@
   <link rel="icon" href="data:," />
 
   <link rel="stylesheet" href="style.css" />
+  <link rel="preload" as="image" href="assets/bannerD.png" fetchpriority="high">
+<link rel="preload" as="image" href="assets/bannerN.png" fetchpriority="high">
 </head>
 <body>
+<!-- Bannière plein écran en haut -->
+<section id="hero-banner" aria-label="Bannière"></section>
+
   <!-- Rideau d’intro (images posées par app.js via CSS vars) -->
   <div id="curtain" class="curtain" aria-hidden="true">
     <div class="panel left"></div>
@@ -119,18 +124,7 @@
   <script src="https://accounts.google.com/gsi/client" async defer></script>
   <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js" async defer></script>
 
-  <!-- Import map pour résoudre 'three' et 'three/addons/*' -->
-<script type="importmap">
-{
-  "imports": {
-    "three": "https://cdn.jsdelivr.net/npm/three@0.164.1/build/three.module.js",
-    "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.164.1/examples/jsm/"
-  }
-}
-</script>
-
-
-  <!-- App (imports Three depuis CDN dans app.js — aucune importmap ici) -->
+  <!-- App (imports Three depuis CDN dans app.js) -->
   <script type="module" src="app.js"></script>
 </body>
 </html>
