@@ -295,6 +295,45 @@ radial-gradient(120px 90px at 85% 88%,color-mix(in oklab,var(--accent-500) 16%,t
 .curtain .left::after  { --leaf-pos: left center; }
 .curtain .right::after { --leaf-pos: right center; }
 
+:root {
+  --leaf-img-day: url("assets/leaf_right.png");
+  --leaf-img-night: url("assets/leaf_rightN.png");
+}
+
+/* Par défaut (jour) */
+.curtain .right::after {
+  background-image: var(--leaf-img-day);
+  background-repeat: no-repeat;
+  background-size: var(--leaf-size, contain);
+  background-position: right center;
+}
+
+/* Mode nuit → on remplace la texture */
+html[data-theme="dark"] .curtain .right::after {
+  background-image: var(--leaf-img-night);
+}
+
+/* Couche globale, indépendante du scroll */
+.leaf-layer{
+  position: fixed;
+  top:0; left:0; right:0; bottom:0;
+  pointer-events: none;
+  overflow: visible;
+  z-index: 90;           /* curtain = 100 → les feuilles passent derrière l’arbre */
+  contain: paint;        /* évite des effets de propagation */
+}
+
+.leaf{
+  position:absolute; will-change: transform, opacity;
+  width: var(--w,28px); height: var(--h,28px);
+  background-image: url("assets/leaf_cliff_particles_grid_export.png");
+  background-repeat: no-repeat;
+  background-size: 300% 300%;
+  background-position: var(--bx,0%) var(--by,0%);
+  filter: drop-shadow(0 2px 2px rgba(0,0,0,.25));
+  opacity: 0; transition: opacity .35s;
+}
+
 /* === HERO BANNER avec fade jour/nuit === */
 #hero-banner {
   position: relative;

@@ -32,7 +32,7 @@ import { GLTFLoader } from 'https://esm.sh/three@0.164.1/examples/jsm/loaders/GL
 
       // Effets visuels sur l’image pendant la translation
       scaleDelta: 0.1,  // réduction max 8%
-      darkDelta: 0.30    // assombrissement max 15%
+      darkDelta: 0.50    // assombrissement max 50%
     }
   };
 
@@ -169,6 +169,197 @@ import { GLTFLoader } from 'https://esm.sh/three@0.164.1/examples/jsm/loaders/GL
     applyThemeFromOS(); addThemeAnim();
   });
 
+  (function leafParticles(){
+  const banner = document.getElementById('hero-banner');
+  const rightPanel = document.querySelector('#curtain .right');
+  if (!banner || !rightPanel) return;
+
+  // ---- Couche globale fixe pour les feuilles
+  const layer = document.getElementById('leafLayer') || (() => {
+    const n = document.createElement('div');
+    n.id = 'leafLayer';
+    n.className = 'leaf-layer';
+    document.documentElement.appendChild(n);
+    return n;
+  })();
+
+  // --- spritesheets
+  const SPRITE_COLS = 3, SPRITE_ROWS = 3;
+  const SPRITE_DAY   = 'assets/leaf_cliff_particles_grid_export.png';
+  const SPRITE_NIGHT = 'assets/leafN_cliff_particles_grid_export.png';
+  const isDark = () => document.documentElement.dataset.theme === 'dark';
+
+  const spritePos = (i)=>({ 
+    bx:`${(i%SPRITE_COLS)/(SPRITE_COLS-1)*100}%`,
+    by:`${Math.floor(i/SPRITE_COLS)/(SPRITE_ROWS-1)*100}%`
+  });
+
+  // --- sampling des points (alpha ignoré)
+  const IMG_DAY='assets/leaf_right.png', IMG_NIGHT='assets/leaf_rightN.png';
+  let imgW=0,imgH=0,sample=[];
+  const src = new Image(); src.crossOrigin='anonymous'; src.decoding='async';
+  const maskURL = ()=> isDark()?IMG_NIGHT:IMG_DAY;
+
+  async function rebuildSamples(){
+    await new Promise(res=>{
+      const u=maskURL();
+      if(src.src.endsWith(u)) return res();
+      src.onload=res; 
+      src.src=u;
+    });
+    const c=document.createElement('canvas'); 
+    const ctx=c.getContext('2d',{willReadFrequently:true});
+    imgW=c.width = src.naturalWidth||src.width; 
+    imgH=c.height = src.naturalHeight||src.height;
+    ctx.drawImage(src,0,0);
+    const {data}=ctx.getImageData(0,0,imgW,imgH);
+    sample.length=0;
+    const STRIDE=Math.max(2, Math.round(Math.min(imgW,imgH)/160));
+    for(let y=0;y<imgH;y+=STRIDE){
+      for(let x=0;x<imgW;x+=STRIDE){
+        const i=(y*imgW+x)*4, r=data[i], g=data[i+1], b=data[i+2];
+        const Y=0.2126*r+0.7152*g+0.0722*b; // alpha ignoré
+        if(Y>24) sample.push([x,y]);
+      }
+    }
+  }
+
+  // --- mapping image -> viewport absolu
+  function mapToPanel(x,y){
+    const pr=rightPanel.getBoundingClientRect(), pw=pr.width, ph=pr.height;
+    const ir=imgW/imgH, prr=pw/ph;
+    let dw,dh,ox,oy;
+    if(prr>=ir){ dh=ph; dw=dh*ir; ox=pr.right-dw; oy=pr.top+(ph-dh)/2; }
+    else { dw=pw; dh=dw/ir; ox=pr.right-dw; oy=pr.top+(ph-dh)/2; }
+    return { x: ox + (x/imgW)*dw, y: oy + (y/imgH)*dh };
+  }
+
+  // --- vent lissé
+  let wind=-30, target=-30;
+  function updateWind(dt){
+    target += (Math.random()*20-10)*dt;
+    target = Math.max(-120, Math.min(40, target));
+    wind += (target - wind) * Math.min(1, dt*1.8);
+  }
+
+  // --- particules
+  const MAX=100; 
+  const leaves=[];
+
+  function spawnOne(){
+    if(sample.length===0 || leaves.length>=MAX) return;
+    const pick = sample[(Math.random()*sample.length)|0];
+    const {x,y}=mapToPanel(pick[0],pick[1]);
+
+    const el=document.createElement('div'); 
+    el.className='leaf';
+    el.style.backgroundImage = `url("${isDark() ? SPRITE_NIGHT : SPRITE_DAY}")`;
+
+    const size=16+Math.random()*26; 
+    const {bx,by}=spritePos((Math.random()*9)|0);
+    el.style.setProperty('--w', size+'px');
+    el.style.setProperty('--h', size+'px');
+    el.style.setProperty('--bx', bx);
+    el.style.setProperty('--by', by);
+    el.style.opacity='1';
+    layer.appendChild(el);
+
+    leaves.push({
+      el, x, y,
+      vx: (-40 - Math.random()*60),
+      vy: (30 + Math.random()*70),
+      rot: (Math.random()*60-30)*Math.PI/180,
+      spin:(80 + Math.random()*220)*(Math.random()<.5?-1:1)*Math.PI/180,
+      swayA: 8 + Math.random()*18,
+      swayF: 0.6 + Math.random()*0.9,
+      life: 0, max: 7 + Math.random()*5,
+      fade: 1.6,
+      scroll0: window.scrollY,
+      fading: false,
+      fadeStartLife: null
+    });
+  }
+
+  // --- rafale au scroll
+  let lastY=window.scrollY, budget=0;
+  function onScroll(){
+    const y=window.scrollY, dy=Math.abs(y-lastY); lastY=y;
+    budget += dy*0.2; if(budget>160) budget=160;
+  }
+  window.addEventListener('scroll', onScroll, {passive:true});
+
+  // --- drip constant
+  setInterval(()=>{ if(Math.random()<.35) spawnOne(); }, 350);
+
+  // --- rebuild des points d’émission sur changement de thème
+  new MutationObserver(m=>{
+    if(m.some(x=>x.type==='attributes'&&x.attributeName==='data-theme')) rebuildSamples();
+  }).observe(document.documentElement,{attributes:true});
+
+  // --- swap live des sprites jour/nuit
+  new MutationObserver(() => {
+    const url = isDark() ? SPRITE_NIGHT : SPRITE_DAY;
+    document.querySelectorAll('.leaf').forEach(el => {
+      el.style.backgroundImage = `url("${url}")`;
+    });
+  }).observe(document.documentElement, {
+    attributes: true,
+    attributeFilter: ['data-theme']
+  });
+
+  // --- boucle
+  let prev = performance.now();
+  function tick(t) {
+    requestAnimationFrame(tick);
+    const dt = Math.min(0.033, (t - prev) / 1000); 
+    prev = t;
+
+    updateWind(dt);
+
+    while (budget > 2) { spawnOne(); budget -= 2; }
+
+    const vh = window.innerHeight;
+    for (let i = leaves.length - 1; i >= 0; i--) {
+      const L = leaves[i];
+      L.vy += 240 * dt; 
+      const sway = L.swayA * Math.sin(t * 0.001 * L.swayF * 2 * Math.PI);
+      L.vx += (wind - L.vx) * dt * 0.8;
+      L.x += (L.vx + sway) * dt;
+      L.y += L.vy * dt;
+      L.rot += L.spin * dt;
+
+      const dyScroll = window.scrollY - L.scroll0;
+
+      // Lancer le fade-out si fin de vie ou sortie écran
+      if ((L.max - L.life <= L.fade) || (L.y > vh && !L.fading)) {
+        L.fading = true;
+        L.fadeStartLife = L.life;
+      }
+
+      let scale = 1, opacity = 1;
+      if (L.fading) {
+        const elapsedFade = L.life - L.fadeStartLife;
+        const progress = Math.min(1, elapsedFade / L.fade);
+        const eased = (1 - progress) ** 2; // easing doux
+        scale = eased;
+        opacity = eased;
+        if (progress >= 1) {
+          L.el.remove();
+          leaves.splice(i, 1);
+          continue;
+        }
+      }
+
+      L.el.style.opacity = opacity;
+      L.el.style.transform = `translate(${L.x}px, ${L.y - dyScroll}px) rotate(${L.rot}rad) scale(${scale})`;
+
+      L.life += dt;
+    }
+  }
+
+  (async()=>{ await rebuildSamples(); requestAnimationFrame(tick); })();
+})();
+
   // Avatar + liens
   const avatar = byId('avatarImg');
   const lkdLink = byId('lkdLink'); if(lkdLink) lkdLink.href = CONFIG.SOCIAL.linkedin || '#';
@@ -239,7 +430,7 @@ import { GLTFLoader } from 'https://esm.sh/three@0.164.1/examples/jsm/loaders/GL
 
   // 1) Pose les images immédiatement
   if (CONFIG.CURTAIN.leftImg)  left .style.setProperty('--leaf-img', `url("${CONFIG.CURTAIN.leftImg}")`);
-  if (CONFIG.CURTAIN.rightImg) right.style.setProperty('--leaf-img', `url("${CONFIG.CURTAIN.rightImg}")`);
+  if (CONFIG.CURTAIN.rightImg) right.style.setProperty('--leaf-img', `var(--leaf-img-day)`);
   if (CONFIG.CURTAIN.leafSize) {
     left .style.setProperty('--leaf-size',  CONFIG.CURTAIN.leafSize);
     right.style.setProperty('--leaf-size', CONFIG.CURTAIN.leafSize);
