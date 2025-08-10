@@ -26,7 +26,7 @@ CURTAIN: {
   // Distance d’ouverture (inchangé) :
   maxScrollVh: 160,
   baseGapVW: 1,
-  tightGapVW: 210,
+  tightGapVW: 260,
 
   // --- Nouveau : organique ---
   easing: 'easeOut',   // 'smoother' | 'easeOut' | 'easeInOut'
