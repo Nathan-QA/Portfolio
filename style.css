@@ -27,18 +27,6 @@
   color-scheme:light
 }
 
-/* HERO BANNER */
-#hero-banner {
-  width: 100%;
-  height: auto;
-  aspect-ratio: 16 / 9;
-  background: center no-repeat;
-  background-size: contain;
-}
-/* Jour/Nuit via data-theme */
-html[data-theme="light"] #hero-banner { background-image: url("assets/bannerD.png"); }
-html[data-theme="dark"]  #hero-banner { background-image: url("assets/bannerN.png"); }
-
 /* BASE */
 html,body{height:100%}
 body{
@@ -278,7 +266,7 @@ radial-gradient(120px 90px at 85% 88%,color-mix(in oklab,var(--accent-500) 16%,t
   border: none;
   background: transparent;
   will-change: transform, filter;
-  transition: transform .9s cubic-bezier(.2,.8,.2,1), filter .9s cubic-bezier(.2,.8,.2,1);
+  transition: none; /* scroll → mapping direct, plus fluide */
 }
 .curtain .panel::after{
   content:""; position:absolute; inset:0; pointer-events:none;
@@ -334,41 +322,64 @@ html[data-theme="dark"] .curtain .right::after {
   opacity: 0; transition: opacity .35s;
 }
 
-/* === HERO BANNER avec fade jour/nuit === */
-#hero-banner {
+/* ====== HERO BANNER (crop vertical en remontant le bas) ====== */
+
+/* on neutralise l’ancienne implémentation à base de background/pseudo-éléments */
+#hero-banner { background: none !important; aspect-ratio: auto !important; }
+#hero-banner::before, #hero-banner::after { content: none !important; }
+
+/* variables LOCALES (pas dans :root) */
+#hero-banner{
+  --hero-h: 85vh;   /* hauteur visible du hero */
+
   position: relative;
   width: 100%;
-  aspect-ratio: 16 / 9;
+  height: var(--hero-h);
   overflow: hidden;
 }
 
-#hero-banner::before,
-#hero-banner::after {
-  content: "";
+/* calques */
+#hero-banner > .hero-img,
+#hero-banner > .hero-lift{
   position: absolute;
   inset: 0;
-  background-size: contain;
-  background-position: center;
+  pointer-events: none;
+  transition: opacity .35s ease;
   background-repeat: no-repeat;
-  transition: opacity 0.3s ease-in-out;
+  background-size: 100% auto;     /* on garde la largeur, pas d’écrasement */
+  background-position: center top; /* on aligne en haut */
+  will-change: transform, opacity;
 }
 
-#hero-banner::before {
-  background-image: url("assets/bannerD.png"); /* Jour */
-  opacity: 1;
-  z-index: 1;
+/* image principale : on MASQUE la bande du bas (hauteur = --lift-h) */
+#hero-banner > .hero-img{
+  clip-path: inset(0 0 var(--lift-h) 0);
 }
 
-#hero-banner::after {
-  background-image: url("assets/bannerN.png"); /* Nuit */
-  opacity: 0;
+/* bande inférieure : on ne garde QUE le bas, puis on la remonte par-dessus */
+#hero-banner > .hero-lift{
   z-index: 2;
+  clip-path: inset(calc(100% - var(--lift-h)) 0 0 0);
+  transform: translateY(calc(-1 * var(--lift-h)));
+  /* petit fondu en haut pour éviter une couture */
+  -webkit-mask-image: linear-gradient(to bottom, transparent 0, black 16px);
+          mask-image: linear-gradient(to bottom, transparent 0, black 16px);
 }
 
-[data-theme="dark"] #hero-banner::before {
-  opacity: 0;
+/* jour/nuit */
+#hero-banner > .hero-img.day,
+#hero-banner > .hero-lift.day   { background-image: url("assets/bannerD.png"); opacity: 1; }
+#hero-banner > .hero-img.night,
+#hero-banner > .hero-lift.night { background-image: url("assets/bannerN.png"); opacity: 0; }
+
+[data-theme="dark"] #hero-banner > .hero-img.day,
+[data-theme="dark"] #hero-banner > .hero-lift.day   { opacity: 0; }
+[data-theme="dark"] #hero-banner > .hero-img.night,
+[data-theme="dark"] #hero-banner > .hero-lift.night { opacity: 1; }
+
+/* responsive (optionnel) */
+@media (max-width: 900px){
+  #hero-banner{ --hero-h: 70vh; --lift-h: 90px; }
 }
 
-[data-theme="dark"] #hero-banner::after {
-  opacity: 1;
-}
+

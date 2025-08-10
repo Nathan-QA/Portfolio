@@ -17,11 +17,13 @@
   <link rel="preload" as="image" href="assets/bannerN.png" fetchpriority="high">
 </head>
 <body>
-    <!-- Overlay grain -->
-  <div class="grain-overlay" aria-hidden="true"></div>
-
   <!-- Bannière plein écran (image jour/nuit via CSS) -->
-  <section id="hero-banner" aria-label="Bannière"></section>
+  <section id="hero-banner" aria-label="Bannière">
+  <div class="hero-img day"></div>
+  <div class="hero-img night"></div>
+  <div class="hero-lift day"></div>
+  <div class="hero-lift night"></div>
+</section>
 
   <!-- Rideau d’intro (images posées par app.js via CSS vars) -->
   <div id="curtain" class="curtain" aria-hidden="true">

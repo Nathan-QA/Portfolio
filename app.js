@@ -19,21 +19,26 @@ import { GLTFLoader } from 'https://esm.sh/three@0.164.1/examples/jsm/loaders/GL
       linkedin: 'https://www.linkedin.com/in/nathan-tandille/',
       mobygames: ''
     },
-    CURTAIN: {
-      leftImg: 'assets/leaf_left.png',
-      rightImg: 'assets/leaf_right.png',
-      leafSize: 'contain',
-      holdMs: 1000,      // ouverture auto après 1s
-      maxScrollVh: 80,   // distance de scroll (en % de la hauteur)
+CURTAIN: {
+  leftImg: 'assets/leaf_left.png',
+  rightImg: 'assets/leaf_right.png',
+  leafSize: 'contain',
+  // Distance d’ouverture (inchangé) :
+  maxScrollVh: 140,
+  baseGapVW: 1,
+  tightGapVW: 190,
 
-      // Gap central en vw. Ne va jamais au bord car < 100.
-      baseGapVW: 18,     // gap après auto-open
-      tightGapVW: 190,    // gap max en bas de scroll
+  // --- Nouveau : organique ---
+  easing: 'easeOut',   // 'smoother' | 'easeOut' | 'easeInOut'
+  followHz: 5,          // inertie (↑ = plus “lourd” mais fluide)
+  wobbleGain: 0.018,    // quantité de rebond injectée quand tu scrolles
+  wobbleFreq: 5.5,      // Hz du petit rebond
+  wobbleDecay: 4,       // vitesse d’amortissement
+  desync: 0.06,         // très légère désynchro L/R (échelle/lumière)
 
-      // Effets visuels sur l’image pendant la translation
-      scaleDelta: 0.1,  // réduction max 8%
-      darkDelta: 0.50    // assombrissement max 50%
-    }
+  scaleDelta: 0.10,
+  darkDelta: 0.50
+}
   };
 
   // === Contact / Email config ===
@@ -421,78 +426,103 @@ import { GLTFLoader } from 'https://esm.sh/three@0.164.1/examples/jsm/loaders/GL
   const left  = wrap.querySelector('.left');
   const right = wrap.querySelector('.right');
 
-  const holdMs      = CONFIG.CURTAIN.holdMs ?? 1000; // délai avant ouverture auto
-  const maxScrollVh = Number.isFinite(CONFIG.CURTAIN.maxScrollVh) ? CONFIG.CURTAIN.maxScrollVh : 40;
-  const baseGapVW   = Math.max(0, CONFIG.CURTAIN.baseGapVW ?? 16);
-  const tightGapVW  = Math.max(baseGapVW, CONFIG.CURTAIN.tightGapVW ?? 42);
-  const scaleDelta  = CONFIG.CURTAIN.scaleDelta ?? 0.08;
-  const darkDelta   = CONFIG.CURTAIN.darkDelta  ?? 0.15;
+  const {
+    maxScrollVh = 80, baseGapVW = 18, tightGapVW = 190,
+    scaleDelta = 0.10, darkDelta = 0.50,
+    easing = 'smoother', followHz = 9,
+    wobbleGain = 0.018, wobbleFreq = 5.5, wobbleDecay = 4,
+    desync = 0.06
+  } = CONFIG.CURTAIN;
 
-  // 1) Pose les images immédiatement
+  // Pose images & état initial
   if (CONFIG.CURTAIN.leftImg)  left .style.setProperty('--leaf-img', `url("${CONFIG.CURTAIN.leftImg}")`);
   if (CONFIG.CURTAIN.rightImg) right.style.setProperty('--leaf-img', `var(--leaf-img-day)`);
   if (CONFIG.CURTAIN.leafSize) {
     left .style.setProperty('--leaf-size',  CONFIG.CURTAIN.leafSize);
     right.style.setProperty('--leaf-size', CONFIG.CURTAIN.leafSize);
   }
-
-  // Précharge pour éviter un affichage tardif
-  [CONFIG.CURTAIN.leftImg, CONFIG.CURTAIN.rightImg].forEach(src=>{
-    if(!src) return;
-    const im = new Image();
-    im.decoding = 'async';
-    im.loading = 'eager';
-    im.src = src;
-  });
-
-  // 2) État initial fermé (mais images déjà visibles)
-  wrap.style.setProperty('--slidePct', '0%');
-  left.style.setProperty('--leafScale',  '1');
-  right.style.setProperty('--leafScale', '1');
-  left.style.setProperty('--leafBright', '1');
-  right.style.setProperty('--leafBright','1');
+  wrap .style.setProperty('--slidePct','0%');
+  left .style.setProperty('--leafScale','1');  right.style.setProperty('--leafScale','1');
+  left .style.setProperty('--leafBright','1'); right.style.setProperty('--leafBright','1');
 
   const clamp01 = v => Math.max(0, Math.min(1, v));
+  const ease = (t)=>{
+    t = clamp01(t);
+    if (easing === 'easeOut')    return 1 - Math.pow(1 - t, 3);
+    if (easing === 'easeInOut')  return t < .5 ? 4*t*t*t : 1 - Math.pow(-2*t+2, 3)/2;
+    // smootherstep
+    return t*t*t*(t*(t*6 - 15) + 10);
+  };
+
   let maxScrollPx = window.innerHeight * (maxScrollVh / 100);
-
-  // Fonction qui applique le décalage t
-  const applyT = (t)=>{
-    const gap = baseGapVW + (tightGapVW - baseGapVW) * t; // en vw
-    const slidePct = (gap / 2);                           // chaque panneau glisse de gap/2
-    const leafScale  = 1 - t * scaleDelta;                // réduit légèrement
-    const leafBright = 1 - t * darkDelta;                 // assombrit légèrement
-    wrap .style.setProperty('--slidePct',  slidePct.toFixed(3) + '%');
-    left .style.setProperty('--leafScale',  leafScale.toFixed(4));
-    right.style.setProperty('--leafScale',  leafScale.toFixed(4));
-    left .style.setProperty('--leafBright', leafBright.toFixed(4));
-    right.style.setProperty('--leafBright', leafBright.toFixed(4));
-  };
-
-  // 3) Auto-ouverture après holdMs (1 s par défaut)
-  requestAnimationFrame(()=>{
-    requestAnimationFrame(()=>{
-      setTimeout(()=> { applyT(0); }, holdMs);
-    });
-  });
-
-  // 4) Scroll = ouverture progressive
+  let target = ease(Math.max(0, window.scrollY) / Math.max(1, maxScrollPx));
+  let cur = target;
+  let lastT = performance.now();
   let raf = 0;
-  const computeT = ()=> clamp01( Math.max(0, window.scrollY) / Math.max(1, maxScrollPx) );
-  const onScroll = ()=>{
-    if (raf) return;
-    raf = requestAnimationFrame(()=>{ raf = 0; applyT(computeT()); });
-  };
-  const onResize = ()=>{
+
+  // petit rebond amorti
+  let wobbleA = 0;                 // amplitude dynamique
+  const maxWobble = 0.04;          // garde-fou
+
+  function apply(t, nowSec){
+    const gap = baseGapVW + (tightGapVW - baseGapVW) * t; // en vw
+    const slidePct = gap / 2;
+
+    // base visuelle
+    const leafScale  = 1 - t * scaleDelta;
+    const leafBright = 1 - t * darkDelta;
+
+    // micro désynchro L/R (très léger, dépend de l’ouverture)
+    const micro = desync * 0.06 * (1 - t); // diminue en fin d’ouverture
+
+    wrap .style.setProperty('--slidePct',  slidePct.toFixed(3) + '%');
+    left .style.setProperty('--leafScale',  (leafScale * (1 + micro)).toFixed(4));
+    right.style.setProperty('--leafScale',  (leafScale * (1 - micro)).toFixed(4));
+    left .style.setProperty('--leafBright', Math.max(0, leafBright * (1 + micro*0.4)).toFixed(4));
+    right.style.setProperty('--leafBright', Math.max(0, leafBright * (1 - micro*0.4)).toFixed(4));
+  }
+
+  function loop(ts){
+    const dt = Math.min(0.033, (ts - lastT) / 1000);
+    lastT = ts;
+
+    // inertie (exponentiel continu)
+    const alpha = 1 - Math.exp(-dt * followHz);
+    cur += (target - cur) * alpha;
+
+    // wobble amorti
+    wobbleA *= Math.exp(-dt * wobbleDecay);
+    const wobble = Math.sin(ts/1000 * wobbleFreq * 2*Math.PI) * wobbleA;
+
+    const displayT = clamp01(cur + wobble);
+    apply(displayT, ts/1000);
+
+    if (Math.abs(target - cur) > 0.0008 || wobbleA > 0.0008) {
+      raf = requestAnimationFrame(loop);
+    } else {
+      raf = 0;
+    }
+  }
+  function ensureLoop(){ if(!raf) { lastT = performance.now(); raf = requestAnimationFrame(loop); } }
+
+  function recomputeTarget(){
     maxScrollPx = window.innerHeight * (maxScrollVh / 100);
-    onScroll();
-  };
-  window.addEventListener('scroll', onScroll, {passive:true});
-  window.addEventListener('resize', onResize, {passive:true});
+    const raw = Math.max(0, window.scrollY) / Math.max(1, maxScrollPx);
+    const next = ease(raw);
+    // injecte un peu de rebond proportionnel au changement ET à la fermeture
+    const delta = Math.abs(next - target);
+    wobbleA = Math.min(maxWobble, wobbleA + delta * wobbleGain * (1 - next));
+    target = next;
+    ensureLoop();
+  }
 
-  // Applique l'état courant immédiatement (au cas où on arrive déjà scrollé)
-  applyT(computeT());
+  window.addEventListener('scroll',  recomputeTarget, {passive:true});
+  window.addEventListener('resize',  recomputeTarget, {passive:true});
+  window.addEventListener('orientationchange', recomputeTarget, {passive:true});
+
+  // premier rendu
+  apply(cur, performance.now()/1000);
 }
-
 
   // ===== Helpers images =====
   function imgsArr(imgs){ if(!imgs) return []; if(Array.isArray(imgs)) return imgs; if(typeof imgs==='string') return [imgs]; if(typeof imgs==='object'){const out=[]; for(const k in imgs){const v=imgs[k]; if(Array.isArray(v)) out.push(...v); else if(typeof v==='string') out.push(v)} return [...new Set(out)]} return [] }
