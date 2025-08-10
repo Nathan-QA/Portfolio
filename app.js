@@ -1,16 +1,25 @@
-// Garde-fou pour éviter double init si le script est chargé 2x
+// Garde-fou si le script est chargé deux fois
 if (window.__APP_INIT__) {
   console.warn('app.js déjà initialisé');
 } else {
   window.__APP_INIT__ = true;
 }
 
-// IMPORTANT : pas de "bare specifier" — imports via URL CDN
+// IMPORTANT : imports via URL CDN (pas de bare specifiers)
 import * as THREE from 'https://esm.sh/three@0.164.1';
 import { GLTFLoader } from 'https://esm.sh/three@0.164.1/examples/jsm/loaders/GLTFLoader.js';
 
-(()=>{
-  // ===== Configs =====
+(() => {
+  // ====== Utils DOM & storage ======
+  const $  = (s) => document.querySelector(s);
+  const byId = (id) => document.getElementById(id);
+  const el = (html) => { const t = document.createElement('template'); t.innerHTML = html.trim(); return t.content.firstChild; };
+  const txt = (n, v) => n && (n.textContent = v);
+  const addThemeAnim = () => { document.body.classList.add('theme-anim'); setTimeout(()=>document.body.classList.remove('theme-anim'), 400); };
+  const safeGet = (k) => { try { return localStorage.getItem(k); } catch { return null; } };
+  const safeSet = (k,v) => { try { v==null ? localStorage.removeItem(k) : localStorage.setItem(k,v); } catch {} };
+
+  // ====== Configs ======
   const CONFIG = {
     MODEL_URL: null,
     CV_FR_URL: 'assets/Nathan_Tandille_CV_2025.pdf',
@@ -19,26 +28,24 @@ import { GLTFLoader } from 'https://esm.sh/three@0.164.1/examples/jsm/loaders/GL
       linkedin: 'https://www.linkedin.com/in/nathan-tandille/',
       mobygames: ''
     },
-CURTAIN: {
-  leftImg: 'assets/leaf_left.png',
-  rightImg: 'assets/leaf_right.png',
-  leafSize: 'contain',
-  // Distance d’ouverture (inchangé) :
-  maxScrollVh: 160,
-  baseGapVW: 1,
-  tightGapVW: 260,
-
-  // --- Nouveau : organique ---
-  easing: 'easeOut',   // 'smoother' | 'easeOut' | 'easeInOut'
-  followHz: 5,          // inertie (↑ = plus “lourd” mais fluide)
-  wobbleGain: 0.018,    // quantité de rebond injectée quand tu scrolles
-  wobbleFreq: 5.5,      // Hz du petit rebond
-  wobbleDecay: 4,       // vitesse d’amortissement
-  desync: 0.06,         // très légère désynchro L/R (échelle/lumière)
-
-  scaleDelta: 0.10,
-  darkDelta: 0.50
-}
+    CURTAIN: {
+      leftImg: 'assets/leaf_left_off.png',   // optionnel, on masque à gauche de toute façon
+      rightImg: 'assets/leaf_right.png',
+      leafSize: 'contain',
+      // distance d’ouverture
+      maxScrollVh: 160,
+      baseGapVW: 1,
+      tightGapVW: 260,
+      // organique
+      easing: 'easeOut',   // 'smoother' | 'easeOut' | 'easeInOut'
+      followHz: 5,
+      wobbleGain: 0.018,
+      wobbleFreq: 5.5,
+      wobbleDecay: 4,
+      desync: 0.06,
+      scaleDelta: 0.10,
+      darkDelta: 0.50
+    }
   };
 
   // === Contact / Email config ===
@@ -50,7 +57,7 @@ CURTAIN: {
     GOOGLE_CLIENT_ID: ''
   };
 
-  // ===== Profil =====
+  // ===== Profil (pour "Rôle & forces") =====
   const PROFILE = {
     tagline: {
       fr: "QA Producer facilitant la compréhension entre équipes pour fluidifier la production et garantir la qualité. Expériences en Game & Level Design.",
@@ -73,15 +80,7 @@ CURTAIN: {
     links: { email: "tandille.nathan@gmail.com", location: "Bordeaux, France" }
   };
 
-  // ===== Utils DOM & storage =====
-  const $=s=>document.querySelector(s), byId=id=>document.getElementById(id);
-  const el=h=>{const t=document.createElement('template');t.innerHTML=h.trim();return t.content.firstChild};
-  const txt=(n,v)=>n&&(n.textContent=v);
-  const addThemeAnim=()=>{document.body.classList.add('theme-anim');setTimeout(()=>document.body.classList.remove('theme-anim'),400)};
-  const safeGet=(k)=>{try{return localStorage.getItem(k)}catch{return null}};
-  const safeSet=(k,v)=>{try{v==null?localStorage.removeItem(k):localStorage.setItem(k,v)}catch{}};
-
-  // ===== Langue & Thème (persistants) =====
+  // ====== Langue & Thème ======
   const LANG_KEY='pref-lang';
   const THEME_KEY='pref-theme';
 
@@ -91,7 +90,7 @@ CURTAIN: {
   };
   let lang = safeGet(LANG_KEY) || detectLang();
 
-  const I={
+  const I = {
     fr:{nav_projects:"Projets",nav_cases:"Études de cas",nav_about:"À propos",nav_contact:"Contact",
       cv_fr:"CV FR",cv_en:"CV EN",hero_kicker:"Portfolio",
       hero_desc:"Production QA, coordination multi-équipes, outils et process. Expérience multi-plateformes et multilingue.",
@@ -117,9 +116,9 @@ CURTAIN: {
       contact_sign_google:"Sign in with Google",contact_send:"Send",contact_or:"or",
       contact_placeholder_msg:"Write your message here… (rich text allowed)"}
   };
-  const T=k=>I[lang][k]||k;
+  const T = (k) => I[lang][k] || k;
 
-  // Thème : auto (OS) ou override
+  // Thème auto / override
   let themeLock = !!safeGet(THEME_KEY);
   const applyTheme = (mode)=>{
     document.documentElement.dataset.theme = mode;
@@ -140,28 +139,18 @@ CURTAIN: {
   const storedTheme = safeGet(THEME_KEY);
   if (storedTheme) applyTheme(storedTheme);
 
-  // ====== État & refs DOM ======
-  const $PL=byId('projectList'), $CL=byId('caseList'), $MR=byId('modalRoot'), $LB=byId('lightboxRoot');
-  let projects=[], cases=[];
-  const modalStack=[];
+  // ====== État & refs DOM (déclarés tôt pour éviter TDZ) ======
+  const $PL = byId('projectList');
+  const $CL = byId('caseList');
+  const $MR = byId('modalRoot');
+  const $LB = byId('lightboxRoot');
+
+  let projects = [];
+  let cases = [];
+  const modalStack = [];
   const prefersReduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-  // ===== Static text & i18n init =====
-  function updateLangButton(){ const b=byId('langBtn'); if(b) b.textContent = lang==='fr' ? 'FR 🇫🇷' : 'EN 🇬🇧'; }
-  function setLang(l){
-    lang=l; safeSet(LANG_KEY, l);
-    updateLangButton();
-    txt(byId('heroDesc'), I[lang].hero_desc);
-    ['nav_projects','nav_cases','nav_about','nav_contact','cv_fr','cv_en','hero_kicker','dl_cv_fr','dl_cv_en','projects_title','cases_title','about_role_title','about_skills_title','contact_title','legal_title','open_cv'].forEach(k=>{
-      document.querySelectorAll(`[data-i18n="${k}"]`).forEach(n=>n.textContent=I[lang][k]);
-    });
-    txt(byId('footText'), `© ${new Date().getFullYear()} Nathan Tandille — ${T('footer')}`);
-    renderProjects(); renderCases(); renderSkills(); renderContact();
-  }
-  setLang(lang);
-  byId('langBtn')?.addEventListener('click',()=>setLang(lang==='fr'?'en':'fr'));
-
-  // Thème bouton
+  // ===== Boutons thème/lang =====
   byId('themeBtn')?.addEventListener('click',()=>{
     const cur = document.documentElement.dataset.theme;
     const next = (cur==='dark'?'light':'dark');
@@ -174,198 +163,186 @@ CURTAIN: {
     applyThemeFromOS(); addThemeAnim();
   });
 
+  function updateLangButton(){ const b=byId('langBtn'); if(b) b.textContent = lang==='fr' ? 'FR 🇫🇷' : 'EN 🇬🇧'; }
+  byId('langBtn')?.addEventListener('click',()=>setLang(lang==='fr'?'en':'fr'));
+
+  // ===== Particules / feuilles calées sur le rideau =====
   (function leafParticles(){
-  const banner = document.getElementById('hero-banner');
-  const rightPanel = document.querySelector('#curtain .right');
-  if (!banner || !rightPanel) return;
+    const banner = byId('hero-banner');
+    const rightPanel = $('#curtain .right');
+    if (!banner || !rightPanel) return;
 
-  // ---- Couche globale fixe pour les feuilles
-  const layer = document.getElementById('leafLayer') || (() => {
-    const n = document.createElement('div');
-    n.id = 'leafLayer';
-    n.className = 'leaf-layer';
-    document.documentElement.appendChild(n);
-    return n;
-  })();
+    const layer = byId('leafLayer') || (() => {
+      const n = document.createElement('div');
+      n.id = 'leafLayer';
+      n.className = 'leaf-layer';
+      document.documentElement.appendChild(n);
+      return n;
+    })();
 
-  // --- spritesheets
-  const SPRITE_COLS = 3, SPRITE_ROWS = 3;
-  const SPRITE_DAY   = 'assets/leaf_cliff_particles_grid_export.png';
-  const SPRITE_NIGHT = 'assets/leafN_cliff_particles_grid_export.png';
-  const isDark = () => document.documentElement.dataset.theme === 'dark';
-
-  const spritePos = (i)=>({ 
-    bx:`${(i%SPRITE_COLS)/(SPRITE_COLS-1)*100}%`,
-    by:`${Math.floor(i/SPRITE_COLS)/(SPRITE_ROWS-1)*100}%`
-  });
-
-  // --- sampling des points (alpha ignoré)
-  const IMG_DAY='assets/leaf_right.png', IMG_NIGHT='assets/leaf_rightN.png';
-  let imgW=0,imgH=0,sample=[];
-  const src = new Image(); src.crossOrigin='anonymous'; src.decoding='async';
-  const maskURL = ()=> isDark()?IMG_NIGHT:IMG_DAY;
-
-  async function rebuildSamples(){
-    await new Promise(res=>{
-      const u=maskURL();
-      if(src.src.endsWith(u)) return res();
-      src.onload=res; 
-      src.src=u;
+    const SPRITE_COLS = 3, SPRITE_ROWS = 3;
+    const SPRITE_DAY   = 'assets/leaf_cliff_particles_grid_export.png';
+    const SPRITE_NIGHT = 'assets/leafN_cliff_particles_grid_export.png'; // présent dans ton dossier
+    const isDark = () => document.documentElement.dataset.theme === 'dark';
+    const spritePos = (i)=>({ 
+      bx:`${(i%SPRITE_COLS)/(SPRITE_COLS-1)*100}%`,
+      by:`${Math.floor(i/SPRITE_COLS)/(SPRITE_ROWS-1)*100}%`
     });
-    const c=document.createElement('canvas'); 
-    const ctx=c.getContext('2d',{willReadFrequently:true});
-    imgW=c.width = src.naturalWidth||src.width; 
-    imgH=c.height = src.naturalHeight||src.height;
-    ctx.drawImage(src,0,0);
-    const {data}=ctx.getImageData(0,0,imgW,imgH);
-    sample.length=0;
-    const STRIDE=Math.max(2, Math.round(Math.min(imgW,imgH)/160));
-    for(let y=0;y<imgH;y+=STRIDE){
-      for(let x=0;x<imgW;x+=STRIDE){
-        const i=(y*imgW+x)*4, r=data[i], g=data[i+1], b=data[i+2];
-        const Y=0.2126*r+0.7152*g+0.0722*b; // alpha ignoré
-        if(Y>24) sample.push([x,y]);
-      }
-    }
-  }
 
-  // --- mapping image -> viewport absolu
-  function mapToPanel(x,y){
-    const pr=rightPanel.getBoundingClientRect(), pw=pr.width, ph=pr.height;
-    const ir=imgW/imgH, prr=pw/ph;
-    let dw,dh,ox,oy;
-    if(prr>=ir){ dh=ph; dw=dh*ir; ox=pr.right-dw; oy=pr.top+(ph-dh)/2; }
-    else { dw=pw; dh=dw/ir; ox=pr.right-dw; oy=pr.top+(ph-dh)/2; }
-    return { x: ox + (x/imgW)*dw, y: oy + (y/imgH)*dh };
-  }
+    const IMG_DAY='assets/leaf_right.png', IMG_NIGHT='assets/leaf_rightN.png';
+    let imgW=0,imgH=0,sample=[];
+    const src = new Image(); src.crossOrigin='anonymous'; src.decoding='async';
+    const maskURL = ()=> isDark()?IMG_NIGHT:IMG_DAY;
 
-  // --- vent lissé
-  let wind=-30, target=-30;
-  function updateWind(dt){
-    target += (Math.random()*20-10)*dt;
-    target = Math.max(-120, Math.min(40, target));
-    wind += (target - wind) * Math.min(1, dt*1.8);
-  }
-
-  // --- particules
-  const MAX=100; 
-  const leaves=[];
-
-  function spawnOne(){
-    if(sample.length===0 || leaves.length>=MAX) return;
-    const pick = sample[(Math.random()*sample.length)|0];
-    const {x,y}=mapToPanel(pick[0],pick[1]);
-
-    const el=document.createElement('div'); 
-    el.className='leaf';
-    el.style.backgroundImage = `url("${isDark() ? SPRITE_NIGHT : SPRITE_DAY}")`;
-
-    const size=16+Math.random()*26; 
-    const {bx,by}=spritePos((Math.random()*9)|0);
-    el.style.setProperty('--w', size+'px');
-    el.style.setProperty('--h', size+'px');
-    el.style.setProperty('--bx', bx);
-    el.style.setProperty('--by', by);
-    el.style.opacity='1';
-    layer.appendChild(el);
-
-    leaves.push({
-      el, x, y,
-      vx: (-40 - Math.random()*60),
-      vy: (30 + Math.random()*70),
-      rot: (Math.random()*60-30)*Math.PI/180,
-      spin:(80 + Math.random()*220)*(Math.random()<.5?-1:1)*Math.PI/180,
-      swayA: 8 + Math.random()*18,
-      swayF: 0.6 + Math.random()*0.9,
-      life: 0, max: 7 + Math.random()*5,
-      fade: 1.6,
-      scroll0: window.scrollY,
-      fading: false,
-      fadeStartLife: null
-    });
-  }
-
-  // --- rafale au scroll
-  let lastY=window.scrollY, budget=0;
-  function onScroll(){
-    const y=window.scrollY, dy=Math.abs(y-lastY); lastY=y;
-    budget += dy*0.2; if(budget>160) budget=160;
-  }
-  window.addEventListener('scroll', onScroll, {passive:true});
-
-  // --- drip constant
-  setInterval(()=>{ if(Math.random()<.9) spawnOne(); }, 350);
-
-  // --- rebuild des points d’émission sur changement de thème
-  new MutationObserver(m=>{
-    if(m.some(x=>x.type==='attributes'&&x.attributeName==='data-theme')) rebuildSamples();
-  }).observe(document.documentElement,{attributes:true});
-
-  // --- swap live des sprites jour/nuit
-  new MutationObserver(() => {
-    const url = isDark() ? SPRITE_NIGHT : SPRITE_DAY;
-    document.querySelectorAll('.leaf').forEach(el => {
-      el.style.backgroundImage = `url("${url}")`;
-    });
-  }).observe(document.documentElement, {
-    attributes: true,
-    attributeFilter: ['data-theme']
-  });
-
-  // --- boucle
-  let prev = performance.now();
-  function tick(t) {
-    requestAnimationFrame(tick);
-    const dt = Math.min(0.033, (t - prev) / 1000); 
-    prev = t;
-
-    updateWind(dt);
-
-    while (budget > 2) { spawnOne(); budget -= 2; }
-
-    const vh = window.innerHeight;
-    for (let i = leaves.length - 1; i >= 0; i--) {
-      const L = leaves[i];
-      L.vy += 240 * dt; 
-      const sway = L.swayA * Math.sin(t * 0.001 * L.swayF * 2 * Math.PI);
-      L.vx += (wind - L.vx) * dt * 0.8;
-      L.x += (L.vx + sway) * dt;
-      L.y += L.vy * dt;
-      L.rot += L.spin * dt;
-
-      const dyScroll = window.scrollY - L.scroll0;
-
-      // Lancer le fade-out si fin de vie ou sortie écran
-      if ((L.max - L.life <= L.fade) || (L.y > vh && !L.fading)) {
-        L.fading = true;
-        L.fadeStartLife = L.life;
-      }
-
-      let scale = 1, opacity = 1;
-      if (L.fading) {
-        const elapsedFade = L.life - L.fadeStartLife;
-        const progress = Math.min(1, elapsedFade / L.fade);
-        const eased = (1 - progress) ** 2; // easing doux
-        scale = eased;
-        opacity = eased;
-        if (progress >= 1) {
-          L.el.remove();
-          leaves.splice(i, 1);
-          continue;
+    async function rebuildSamples(){
+      await new Promise(res=>{
+        const u=maskURL();
+        if(src.src.endsWith(u)) return res();
+        src.onload=res; 
+        src.src=u;
+      });
+      const c=document.createElement('canvas'); 
+      const ctx=c.getContext('2d',{willReadFrequently:true});
+      imgW=c.width = src.naturalWidth||src.width; 
+      imgH=c.height = src.naturalHeight||src.height;
+      ctx.drawImage(src,0,0);
+      const {data}=ctx.getImageData(0,0,imgW,imgH);
+      sample.length=0;
+      const STRIDE=Math.max(2, Math.round(Math.min(imgW,imgH)/160));
+      for(let y=0;y<imgH;y+=STRIDE){
+        for(let x=0;x<imgW;x+=STRIDE){
+          const i=(y*imgW+x)*4, r=data[i], g=data[i+1], b=data[i+2];
+          const Y=0.2126*r+0.7152*g+0.0722*b;
+          if(Y>24) sample.push([x,y]);
         }
       }
-
-      L.el.style.opacity = opacity;
-      L.el.style.transform = `translate(${L.x}px, ${L.y - dyScroll}px) rotate(${L.rot}rad) scale(${scale})`;
-
-      L.life += dt;
     }
-  }
 
-  (async()=>{ await rebuildSamples(); requestAnimationFrame(tick); })();
-})();
+    function mapToPanel(x,y){
+      const pr=rightPanel.getBoundingClientRect(), pw=pr.width, ph=pr.height;
+      const ir=imgW/imgH, prr=pw/ph;
+      let dw,dh,ox,oy;
+      if(prr>=ir){ dh=ph; dw=dh*ir; ox=pr.right-dw; oy=pr.top+(ph-dh)/2; }
+      else { dw=pw; dh=dw/ir; ox=pr.right-dw; oy=pr.top+(ph-dh)/2; }
+      return { x: ox + (x/imgW)*dw, y: oy + (y/imgH)*dh };
+    }
 
-  // Avatar + liens
+    let wind=-30, target=-30;
+    function updateWind(dt){
+      target += (Math.random()*20-10)*dt;
+      target = Math.max(-120, Math.min(40, target));
+      wind += (target - wind) * Math.min(1, dt*1.8);
+    }
+
+    const MAX=100; 
+    const leaves=[];
+
+    function spawnOne(){
+      if(sample.length===0 || leaves.length>=MAX) return;
+      const pick = sample[(Math.random()*sample.length)|0];
+      const {x,y}=mapToPanel(pick[0],pick[1]);
+
+      const d=document.createElement('div'); 
+      d.className='leaf';
+      d.style.backgroundImage = `url("${isDark() ? SPRITE_NIGHT : SPRITE_DAY}")`;
+
+      const size=16+Math.random()*26; 
+      const {bx,by}=spritePos((Math.random()*9)|0);
+      d.style.setProperty('--w', size+'px');
+      d.style.setProperty('--h', size+'px');
+      d.style.setProperty('--bx', bx);
+      d.style.setProperty('--by', by);
+      d.style.opacity='1';
+      layer.appendChild(d);
+
+      leaves.push({
+        el: d, x, y,
+        vx: (-40 - Math.random()*60),
+        vy: (30 + Math.random()*70),
+        rot: (Math.random()*60-30)*Math.PI/180,
+        spin:(80 + Math.random()*220)*(Math.random()<.5?-1:1)*Math.PI/180,
+        swayA: 8 + Math.random()*18,
+        swayF: 0.6 + Math.random()*0.9,
+        life: 0, max: 7 + Math.random()*5,
+        fade: 1.6,
+        scroll0: window.scrollY,
+        fading: false,
+        fadeStartLife: null
+      });
+    }
+
+    let lastY=window.scrollY, budget=0;
+    function onScroll(){
+      const y=window.scrollY, dy=Math.abs(y-lastY); lastY=y;
+      budget += dy*0.2; if(budget>160) budget=160;
+    }
+    window.addEventListener('scroll', onScroll, {passive:true});
+
+    setInterval(()=>{ if(Math.random()<.9) spawnOne(); }, 350);
+
+    new MutationObserver(m=>{
+      if(m.some(x=>x.type==='attributes'&&x.attributeName==='data-theme')) rebuildSamples();
+    }).observe(document.documentElement,{attributes:true});
+
+    new MutationObserver(() => {
+      const url = isDark() ? SPRITE_NIGHT : SPRITE_DAY;
+      document.querySelectorAll('.leaf').forEach(el => {
+        el.style.backgroundImage = `url("${url}")`;
+      });
+    }).observe(document.documentElement, { attributes:true, attributeFilter:['data-theme'] });
+
+    let prev = performance.now();
+    function tick(t) {
+      requestAnimationFrame(tick);
+      const dt = Math.min(0.033, (t - prev) / 1000); 
+      prev = t;
+
+      updateWind(dt);
+
+      while (budget > 2) { spawnOne(); budget -= 2; }
+
+      const vh = window.innerHeight;
+      for (let i = leaves.length - 1; i >= 0; i--) {
+        const L = leaves[i];
+        L.vy += 240 * dt; 
+        const sway = L.swayA * Math.sin(t * 0.001 * L.swayF * 2 * Math.PI);
+        L.vx += (wind - L.vx) * dt * 0.8;
+        L.x += (L.vx + sway) * dt;
+        L.y += L.vy * dt;
+        L.rot += L.spin * dt;
+
+        const dyScroll = window.scrollY - L.scroll0;
+
+        if ((L.max - L.life <= L.fade) || (L.y > vh && !L.fading)) {
+          L.fading = true;
+          L.fadeStartLife = L.life;
+        }
+
+        let scale = 1, opacity = 1;
+        if (L.fading) {
+          const elapsedFade = L.life - L.fadeStartLife;
+          const progress = Math.min(1, elapsedFade / L.fade);
+          const eased = (1 - progress) ** 2;
+          scale = eased;
+          opacity = eased;
+          if (progress >= 1) {
+            L.el.remove();
+            leaves.splice(i, 1);
+            continue;
+          }
+        }
+
+        L.el.style.opacity = opacity;
+        L.el.style.transform = `translate(${L.x}px, ${L.y - dyScroll}px) rotate(${L.rot}rad) scale(${scale})`;
+
+        L.life += dt;
+      }
+    }
+
+    (async()=>{ await rebuildSamples(); requestAnimationFrame(tick); })();
+  })();
+
+  // ===== Liens / avatar
   const avatar = byId('avatarImg');
   const lkdLink = byId('lkdLink'); if(lkdLink) lkdLink.href = CONFIG.SOCIAL.linkedin || '#';
   const mobyLink = byId('mobyLink'); if(mobyLink) mobyLink.href = CONFIG.SOCIAL.mobygames || '#';
@@ -392,7 +369,7 @@ CURTAIN: {
   function openCVForLang(){ openCVModal(lang==='fr' ? CONFIG.CV_FR_URL : CONFIG.CV_EN_URL); }
   ;['cvBtn','cvCTA','cvFab'].forEach(id=>{ const n=byId(id); if(n) n.addEventListener('click', openCVForLang); });
 
-  // ===== JSON load =====
+  // ===== Chargement JSON =====
   const tryPaths=['content/content_manifest.json','content/manifest.json','content_manifest.json'];
   async function j(u){try{const r=await fetch(u,{cache:'no-store'});if(!r.ok)throw 0;return await r.json()}catch{return null}}
   const isHttp=u=>/^https?:\/\//i.test(u);
@@ -400,9 +377,11 @@ CURTAIN: {
   const join=(d,f)=>isHttp(f)?f:(f.includes('/')?f:(d?`${d}/${f}`:f));
 
   (async()=>{
-    let mf=null,url=null; for(const p of tryPaths){const m=await j(p); if(m){mf=m; url=p; break}}
-
+    // rendu initial (vide) pour éviter flash
     renderProjects(); renderCases(); renderSkills(); renderContact();
+
+    let mf=null,url=null; 
+    for(const p of tryPaths){const m=await j(p); if(m){mf=m; url=p; break}}
 
     if(!mf){ startCurtain(); return; }
 
@@ -420,109 +399,95 @@ CURTAIN: {
     startCurtain();
   })();
 
- function startCurtain(){
-  const wrap  = document.getElementById('curtain');
-  if(!wrap) return;
-  const left  = wrap.querySelector('.left');
-  const right = wrap.querySelector('.right');
+  // ===== Curtain driver =====
+  function startCurtain(){
+    const wrap  = byId('curtain'); if(!wrap) return;
+    const left  = wrap.querySelector('.left');
+    const right = wrap.querySelector('.right');
 
-  const {
-    maxScrollVh = 80, baseGapVW = 18, tightGapVW = 190,
-    scaleDelta = 0.10, darkDelta = 0.50,
-    easing = 'smoother', followHz = 9,
-    wobbleGain = 0.018, wobbleFreq = 5.5, wobbleDecay = 4,
-    desync = 0.06
-  } = CONFIG.CURTAIN;
+    const {
+      maxScrollVh = 80, baseGapVW = 18, tightGapVW = 190,
+      scaleDelta = 0.10, darkDelta = 0.50,
+      easing = 'smoother', followHz = 9,
+      wobbleGain = 0.018, wobbleFreq = 5.5, wobbleDecay = 4,
+      desync = 0.06
+    } = CONFIG.CURTAIN;
 
-  // Pose images & état initial
-  if (CONFIG.CURTAIN.leftImg)  left .style.setProperty('--leaf-img', `url("${CONFIG.CURTAIN.leftImg}")`);
-  if (CONFIG.CURTAIN.rightImg) right.style.setProperty('--leaf-img', `var(--leaf-img-day)`);
-  if (CONFIG.CURTAIN.leafSize) {
-    left .style.setProperty('--leaf-size',  CONFIG.CURTAIN.leafSize);
-    right.style.setProperty('--leaf-size', CONFIG.CURTAIN.leafSize);
-  }
-  wrap .style.setProperty('--slidePct','0%');
-  left .style.setProperty('--leafScale','1');  right.style.setProperty('--leafScale','1');
-  left .style.setProperty('--leafBright','1'); right.style.setProperty('--leafBright','1');
+    if (CONFIG.CURTAIN.leftImg)  left .style.setProperty('--leaf-img', `url("${CONFIG.CURTAIN.leftImg}")`);
+    if (CONFIG.CURTAIN.rightImg) right.style.setProperty('--leaf-img', `var(--leaf-img-day)`);
+    if (CONFIG.CURTAIN.leafSize) { left.style.setProperty('--leaf-size', CONFIG.CURTAIN.leafSize); right.style.setProperty('--leaf-size', CONFIG.CURTAIN.leafSize); }
+    wrap .style.setProperty('--slidePct','0%');
+    left .style.setProperty('--leafScale','1');  right.style.setProperty('--leafScale','1');
+    left .style.setProperty('--leafBright','1'); right.style.setProperty('--leafBright','1');
 
-  const clamp01 = v => Math.max(0, Math.min(1, v));
-  const ease = (t)=>{
-    t = clamp01(t);
-    if (easing === 'easeOut')    return 1 - Math.pow(1 - t, 3);
-    if (easing === 'easeInOut')  return t < .5 ? 4*t*t*t : 1 - Math.pow(-2*t+2, 3)/2;
-    // smootherstep
-    return t*t*t*(t*(t*6 - 15) + 10);
-  };
+    const clamp01 = v => Math.max(0, Math.min(1, v));
+    const ease = (t)=>{
+      t = clamp01(t);
+      if (easing === 'easeOut')    return 1 - Math.pow(1 - t, 3);
+      if (easing === 'easeInOut')  return t < .5 ? 4*t*t*t : 1 - Math.pow(-2*t+2, 3)/2;
+      return t*t*t*(t*(t*6 - 15) + 10);
+    };
 
-  let maxScrollPx = window.innerHeight * (maxScrollVh / 100);
-  let target = ease(Math.max(0, window.scrollY) / Math.max(1, maxScrollPx));
-  let cur = target;
-  let lastT = performance.now();
-  let raf = 0;
+    let maxScrollPx = window.innerHeight * (maxScrollVh / 100);
+    let target = ease(Math.max(0, window.scrollY) / Math.max(1, maxScrollPx));
+    let cur = target;
+    let lastT = performance.now();
+    let raf = 0;
 
-  // petit rebond amorti
-  let wobbleA = 0;                 // amplitude dynamique
-  const maxWobble = 0.04;          // garde-fou
+    let wobbleA = 0;
+    const maxWobble = 0.04;
 
-  function apply(t, nowSec){
-    const gap = baseGapVW + (tightGapVW - baseGapVW) * t; // en vw
-    const slidePct = gap / 2;
+    function apply(t){
+      const gap = baseGapVW + (tightGapVW - baseGapVW) * t; // en vw
+      const slidePct = gap / 2;
+      const leafScale  = 1 - t * scaleDelta;
+      const leafBright = 1 - t * darkDelta;
+      const micro = desync * 0.06 * (1 - t);
 
-    // base visuelle
-    const leafScale  = 1 - t * scaleDelta;
-    const leafBright = 1 - t * darkDelta;
-
-    // micro désynchro L/R (très léger, dépend de l’ouverture)
-    const micro = desync * 0.06 * (1 - t); // diminue en fin d’ouverture
-
-    wrap .style.setProperty('--slidePct',  slidePct.toFixed(3) + '%');
-    left .style.setProperty('--leafScale',  (leafScale * (1 + micro)).toFixed(4));
-    right.style.setProperty('--leafScale',  (leafScale * (1 - micro)).toFixed(4));
-    left .style.setProperty('--leafBright', Math.max(0, leafBright * (1 + micro*0.4)).toFixed(4));
-    right.style.setProperty('--leafBright', Math.max(0, leafBright * (1 - micro*0.4)).toFixed(4));
-  }
-
-  function loop(ts){
-    const dt = Math.min(0.033, (ts - lastT) / 1000);
-    lastT = ts;
-
-    // inertie (exponentiel continu)
-    const alpha = 1 - Math.exp(-dt * followHz);
-    cur += (target - cur) * alpha;
-
-    // wobble amorti
-    wobbleA *= Math.exp(-dt * wobbleDecay);
-    const wobble = Math.sin(ts/1000 * wobbleFreq * 2*Math.PI) * wobbleA;
-
-    const displayT = clamp01(cur + wobble);
-    apply(displayT, ts/1000);
-
-    if (Math.abs(target - cur) > 0.0008 || wobbleA > 0.0008) {
-      raf = requestAnimationFrame(loop);
-    } else {
-      raf = 0;
+      wrap .style.setProperty('--slidePct',  slidePct.toFixed(3) + '%');
+      left .style.setProperty('--leafScale',  (leafScale * (1 + micro)).toFixed(4));
+      right.style.setProperty('--leafScale',  (leafScale * (1 - micro)).toFixed(4));
+      left .style.setProperty('--leafBright', Math.max(0, leafBright * (1 + micro*0.4)).toFixed(4));
+      right.style.setProperty('--leafBright', Math.max(0, leafBright * (1 - micro*0.4)).toFixed(4));
     }
+
+    function loop(ts){
+      const dt = Math.min(0.033, (ts - lastT) / 1000);
+      lastT = ts;
+
+      const alpha = 1 - Math.exp(-dt * followHz);
+      cur += (target - cur) * alpha;
+
+      wobbleA *= Math.exp(-dt * wobbleDecay);
+      const wobble = Math.sin(ts/1000 * wobbleFreq * 2*Math.PI) * wobbleA;
+
+      const displayT = clamp01(cur + wobble);
+      apply(displayT);
+
+      if (Math.abs(target - cur) > 0.0008 || wobbleA > 0.0008) {
+        raf = requestAnimationFrame(loop);
+      } else {
+        raf = 0;
+      }
+    }
+    function ensureLoop(){ if(!raf) { lastT = performance.now(); raf = requestAnimationFrame(loop); } }
+
+    function recomputeTarget(){
+      maxScrollPx = window.innerHeight * (maxScrollVh / 100);
+      const raw = Math.max(0, window.scrollY) / Math.max(1, maxScrollPx);
+      const next = ease(raw);
+      const delta = Math.abs(next - target);
+      wobbleA = Math.min(maxWobble, wobbleA + delta * wobbleGain * (1 - next));
+      target = next;
+      ensureLoop();
+    }
+
+    window.addEventListener('scroll',  recomputeTarget, {passive:true});
+    window.addEventListener('resize',  recomputeTarget, {passive:true});
+    window.addEventListener('orientationchange', recomputeTarget, {passive:true});
+
+    apply(cur);
   }
-  function ensureLoop(){ if(!raf) { lastT = performance.now(); raf = requestAnimationFrame(loop); } }
-
-  function recomputeTarget(){
-    maxScrollPx = window.innerHeight * (maxScrollVh / 100);
-    const raw = Math.max(0, window.scrollY) / Math.max(1, maxScrollPx);
-    const next = ease(raw);
-    // injecte un peu de rebond proportionnel au changement ET à la fermeture
-    const delta = Math.abs(next - target);
-    wobbleA = Math.min(maxWobble, wobbleA + delta * wobbleGain * (1 - next));
-    target = next;
-    ensureLoop();
-  }
-
-  window.addEventListener('scroll',  recomputeTarget, {passive:true});
-  window.addEventListener('resize',  recomputeTarget, {passive:true});
-  window.addEventListener('orientationchange', recomputeTarget, {passive:true});
-
-  // premier rendu
-  apply(cur, performance.now()/1000);
-}
 
   // ===== Helpers images =====
   function imgsArr(imgs){ if(!imgs) return []; if(Array.isArray(imgs)) return imgs; if(typeof imgs==='string') return [imgs]; if(typeof imgs==='object'){const out=[]; for(const k in imgs){const v=imgs[k]; if(Array.isArray(v)) out.push(...v); else if(typeof v==='string') out.push(v)} return [...new Set(out)]} return [] }
@@ -530,6 +495,7 @@ CURTAIN: {
 
   // ===== Lightbox =====
   function openGallery(imgs,i=0){
+    if(!$LB) return;
     closeGallery(); const list=imgsArr(imgs); if(!list.length) return;
     document.body.classList.add('no-scroll');
     let k=i; const n=el(`<div class="lightbox" role="dialog" aria-modal="true">
@@ -547,12 +513,13 @@ CURTAIN: {
     n.querySelector('.lb-next').addEventListener('click',next);
     window.addEventListener('keydown',onKey); function onKey(e){ if(e.key==='Escape') closeGallery(); if(e.key==='ArrowLeft') prev(); if(e.key==='ArrowRight') next() }
   }
-  function closeGallery(){ $LB.innerHTML=''; document.body.classList.remove('no-scroll') }
+  function closeGallery(){ if(!$LB) return; $LB.innerHTML=''; document.body.classList.remove('no-scroll') }
 
   // ===== Modal (FLIP + fade + scroll lock) =====
   function ghostFrom(el, r, extra={}){const g=el.cloneNode(true); g.classList.add('ghost'); Object.assign(g.style,{position:'fixed',left:r.left+'px',top:r.top+'px',width:r.width+'px',height:r.height+'px',transformOrigin:'top left',margin:0,zIndex:1000,pointerEvents:'none',...extra}); document.body.appendChild(g); return g}
 
   function openModal(title, bodyHTML, {originEl=null, showBack=false, onBack=null, onReady}={}){
+    if(!$MR) return;
     const backdrop=el(`<div class="modal-backdrop"><div class="modal"><header>${showBack?`<button class="back" aria-label="Back">←</button>`:''}<h3 style="margin:0">${title}</h3><button class="x" aria-label="Close">✕</button></header><div class="modal-body">${bodyHTML}</div></div></div>`);
     $MR.innerHTML=''; $MR.appendChild(backdrop);
     const modal=backdrop.querySelector('.modal');
@@ -581,6 +548,7 @@ CURTAIN: {
   }
 
   function closeModal({originEl=null}={}){
+    if(!$MR) return;
     const backdrop=$MR.firstChild; if(!backdrop){$MR.innerHTML='';return}
     if(prefersReduced||!originEl){ $MR.innerHTML=''; document.body.classList.remove('no-scroll'); return }
     const modal=backdrop.querySelector('.modal');
@@ -600,8 +568,8 @@ CURTAIN: {
 
   // ===== Projects =====
   function renderProjects(){
-    if(!$PL) return;
-    $PL.innerHTML='';
+    const list = byId('projectList'); if(!list) return;
+    list.innerHTML='';
     projects.forEach(p=>{
       const gallery=imgsArr(p.images);
       const cov=cover(p.images)||gallery[0]||`https://picsum.photos/seed/${p.id||'p'}/1280/720`;
@@ -647,7 +615,7 @@ CURTAIN: {
       tile.addEventListener('keydown',e=>{ if(e.key==='Enter'||e.key===' '){ e.preventDefault(); openProject(p,{originEl:originMedia}); }});
       const b=tile.querySelector('[data-images]'); if(b) b.addEventListener('click',ev=>{ ev.stopPropagation(); openGallery(p.images) });
 
-      $PL.appendChild(tile);
+      list.appendChild(tile);
     });
   }
   function organicRadius(id){const r=[['28px 20px 32px 18px/24px 28px 20px 30px'],['30px 18px 28px 22px/22px 32px 22px 28px'],['26px 26px 34px 18px/24px 28px 22px 30px']];const h=String(id||'x').split('').reduce((a,c)=>a+c.charCodeAt(0),0);return r[h%r.length]}
@@ -688,8 +656,8 @@ CURTAIN: {
 
   // ===== Cases =====
   function renderCases(){
-    if(!$CL) return;
-    $CL.innerHTML='';
+    const list = byId('caseList'); if(!list) return;
+    list.innerHTML='';
     cases.forEach(c=>{
       const imgs=Array.isArray(c.media?.images)?c.media.images:(c.media?.images?[c.media.images]:[]);
       const cov=c.media?.trailer?`https://img.youtube.com/vi/${c.media.trailer}/hqdefault.jpg`:(imgs[0]||`https://picsum.photos/seed/${c.id||'c'}/1280/720`);
@@ -702,7 +670,7 @@ CURTAIN: {
       const originMedia=tile.querySelector('.thumb');
       tile.addEventListener('click',()=>openCase(c,{originEl:originMedia}));
       tile.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault(); openCase(c,{originEl:originMedia})}});
-      $CL.appendChild(tile);
+      list.appendChild(tile);
     });
   }
 
@@ -775,8 +743,8 @@ CURTAIN: {
     }});
   }
 
-  // ===== Three.js (stable, rendu "on‑demand") =====
-  const canvas = document.getElementById('r3f');
+  // ===== Three.js (rendu "on-demand") =====
+  const canvas = byId('r3f');
   let renderer, scene, camera, head, eyeL, eyeR, loadedModel = null;
   const clamp = (v, min, max) => Math.max(min, Math.min(max, v));
 
@@ -786,10 +754,10 @@ CURTAIN: {
   }catch{ return false } })();
 
   if(!hasGL){
-    const fb = document.getElementById('webglFallback');
+    const fb = byId('webglFallback');
     fb?.classList.remove('sr-only');
     if (fb) fb.textContent = lang==='fr' ? 'Votre navigateur ne supporte pas WebGL.' : 'Your browser does not support WebGL.';
-  } else {
+  } else if (canvas){
     renderer = new THREE.WebGLRenderer({ canvas, antialias: true, alpha: true });
 
     function sizeFromContainer(){
@@ -990,10 +958,6 @@ CURTAIN: {
     });
   }
 
-  // ===== Initial render =====
-  function renderInit(){ renderProjects(); renderCases(); renderSkills(); renderContact(); }
-  renderInit();
-
   // ===== Router =====
   const parseHash = () => {
     const q = new URLSearchParams(location.hash.slice(1));
@@ -1011,5 +975,20 @@ CURTAIN: {
     if(project){ const p=projects.find(x=>x.id===project); if(p) openProject(p,{originEl:null}); }
     if(kase){ const c=cases.find(x=>x.id===kase); if(c) openCase(c,{originEl:null}); }
   }
+
+  // ===== setLang (APRES toutes les déclarations pour éviter TDZ) =====
+  function setLang(l){
+    lang=l; safeSet(LANG_KEY, l);
+    updateLangButton();
+    txt(byId('heroDesc'), I[lang].hero_desc);
+    ['nav_projects','nav_cases','nav_about','nav_contact','cv_fr','cv_en','hero_kicker','dl_cv_fr','dl_cv_en','projects_title','cases_title','about_role_title','about_skills_title','contact_title','legal_title','open_cv'].forEach(k=>{
+      document.querySelectorAll(`[data-i18n="${k}"]`).forEach(n=>n.textContent=I[lang][k]);
+    });
+    txt(byId('footText'), `© ${new Date().getFullYear()} Nathan Tandille — ${T('footer')}`);
+    renderProjects(); renderCases(); renderSkills(); renderContact();
+  }
+
+  // Initialisation finale
+  setLang(lang);
   window.addEventListener('hashchange',()=>{ if(!byId('modalRoot').firstChild) syncFromHash() }, {passive:true});
 })();

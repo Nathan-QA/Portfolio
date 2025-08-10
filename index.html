@@ -13,6 +13,7 @@
 
   <!-- Préloads importants -->
   <link rel="preload" as="image" href="assets/leaf_right.png" fetchpriority="high">
+  <link rel="preload" as="image" href="assets/leaf_rightN.png">
   <link rel="preload" as="image" href="assets/bannerD.png" fetchpriority="high">
   <link rel="preload" as="image" href="assets/bannerN.png" fetchpriority="high">
 </head>
@@ -32,6 +33,7 @@
     <div class="panel right"></div>
   </div>
 
+  <!-- Couche de feuilles -->
   <div id="leafLayer" class="leaf-layer" aria-hidden="true"></div>
 
   <header class="header">
@@ -148,7 +150,7 @@
   <script src="https://accounts.google.com/gsi/client" async defer></script>
   <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js" async defer></script>
 
-  <!-- Petit script pour fermer le menu après clic et gérer aria-expanded -->
+  <!-- Burger / menu (fermeture auto + aria-expanded) -->
   <script>
   (() => {
     const header = document.querySelector('.header');
@@ -186,44 +188,48 @@
   })();
   </script>
 
-<script>
-(() => {
-  const body = document.body;
-  const hdr  = document.querySelector('.header');
-  const sent = document.getElementById('afterHeroSentinel');
-
-  // Hauteur réelle du header -> var CSS pour scroll-margin-top
-  const setHeaderH = () => {
-    if (!hdr) return;
-    document.documentElement.style.setProperty('--headerH', hdr.offsetHeight + 'px');
-  };
-  setHeaderH();
-  addEventListener('resize', setHeaderH, {passive:true});
-  if ('ResizeObserver' in window && hdr) new ResizeObserver(setHeaderH).observe(hdr);
-
-  // Devient .after-hero dès qu'on a dépassé la bannière (sentinel visible)
-  if (sent && 'IntersectionObserver' in window) {
-const io = new IntersectionObserver(([entry]) => {
-  document.body.classList.toggle('after-hero', !entry.isIntersecting);
-}, {
-  root: null,
-  threshold: 0,
-  rootMargin: `-${hdr.offsetHeight}px 0px 0px 0px`
-});
-io.observe(document.getElementById('afterHeroSentinel'));
-  } else {
-    // Fallback
+  <!-- Header "poussé" par le hero puis collant -->
+  <script>
+  (() => {
+    const doc  = document.documentElement;
+    const body = document.body;
+    const hdr  = document.querySelector('.header');
     const hero = document.getElementById('hero-banner');
-    const tick = () => {
-      const btm = hero ? hero.getBoundingClientRect().bottom : 1;
-      body.classList.toggle('after-hero', btm <= hdr.offsetHeight);
+
+    // Met à jour --headerH (sert aux anchors et au menu mobile)
+    const setHeaderH = () => {
+      if (!hdr) return;
+      doc.style.setProperty('--headerH', hdr.offsetHeight + 'px');
     };
-    tick();
-    addEventListener('scroll', tick, {passive:true});
-    addEventListener('resize', tick, {passive:true});
-  }
-})();
-</script>
+
+    let raf = 0;
+    const computeStickTop = () => {
+      raf = 0;
+      if (!hdr || !hero) return;
+      const h = hdr.offsetHeight || 0;
+      const btm = hero.getBoundingClientRect().bottom;      // px du bas du hero par rapport au haut du viewport
+      const topVal = Math.max(-h, Math.min(0, btm - h));     // clamp(-h .. 0)
+      doc.style.setProperty('--stickTop', topVal + 'px');
+      body.classList.toggle('after-hero', btm <= 0);
+    };
+    const schedule = () => { if (!raf) raf = requestAnimationFrame(computeStickTop); };
+
+    // Init + écouteurs
+    setHeaderH();
+    computeStickTop();
+
+    // resize + orientation + changements de taille du header
+    addEventListener('resize', () => { setHeaderH(); schedule(); }, { passive:true });
+    addEventListener('orientationchange', () => { setHeaderH(); schedule(); }, { passive:true });
+    if ('ResizeObserver' in window && hdr) new ResizeObserver(() => { setHeaderH(); schedule(); }).observe(hdr);
+
+    // suivi du scroll (léger via rAF)
+    addEventListener('scroll', schedule, { passive:true });
+
+    // Au cas où des images/aspects modifient la taille du hero au chargement tardif
+    addEventListener('load', () => { setHeaderH(); schedule(); }, { passive:true });
+  })();
+  </script>
 
   <!-- App (imports Three depuis CDN dans app.js) -->
   <script type="module" src="app.js"></script>

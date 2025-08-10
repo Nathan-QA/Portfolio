@@ -5,6 +5,10 @@
   --warm-900:#161311;--warm-800:#1e1a17;
   --radius:22px; --easing:cubic-bezier(.2,.8,.2,1);
   --container-max:1280px;
+
+  /* Hauteur header (mise à jour en JS) + position collante pilotée */
+  --headerH: 90px;
+  --stickTop: calc(-1 * var(--headerH));
 }
 
 /* THEME TOKENS */
@@ -45,28 +49,19 @@ body.no-scroll{overflow:hidden}
 a{color:inherit}
 .container{max-width:var(--container-max);margin:0 auto;padding:0 20px}
 
-/* tout en haut du fichier, avec tes autres :root */
-:root { 
-  --headerH: 90px; /* valeur par défaut, remplacée en JS par la vraie hauteur */
-}
-
-/* Par défaut (au-dessus de la bannière) : normal */
+/* ===== Header sticky (poussé puis collé après le hero) ===== */
+/* top est piloté en JS via --stickTop = clamp(basHero - headerH, -headerH..0) */
 .header{
-  position: relative;
-  z-index: 40;
-  isolation: isolate; /* <— ajoute ça */
+  position: sticky;
+  top: var(--stickTop);
+  z-index: 600;           /* Sous curtain/leaves, au-dessus du contenu */
+  isolation: isolate;
+  transition: top .22s var(--easing);
   backdrop-filter:saturate(1.2) blur(10px);
   background: color-mix(in oklab, var(--panel) 94%, var(--bg) 6%);
   border-bottom:1px solid var(--ring);
   box-shadow: 0 6px 18px rgba(0,0,0,.08);
 }
-
-.after-hero .header{
-  position: sticky;
-  top: 0;
-  z-index: 120; /* au-dessus du curtain (100) */
-}
-
 #hero-banner, #projects, #cases, #about, #contact, #legal {
   scroll-margin-top: calc(var(--headerH) + 10px);
 }
@@ -88,17 +83,12 @@ a{color:inherit}
 .btn:hover{background:color-mix(in oklab,var(--panel)90%,var(--bg))}
 
 /* Nom dans le header (prénom plus gros) */
-.brand-name{
-  display:block; line-height:1.1;
-  font-size:clamp(16px, 1.6vw, 20px);
-}
+.brand-name{ display:block; line-height:1.1; font-size:clamp(16px, 1.6vw, 20px); }
 .brand-name .first{ font-size:1.65em; font-weight:800; }
 .brand-name .last { font-weight:700; opacity:.95; }
 
 /* ===== NAV (desktop) ===== */
-.primary-nav{
-  display:flex; align-items:center; gap:8px;
-}
+.primary-nav{ display:flex; align-items:center; gap:8px; }
 .primary-nav a{
   display:inline-flex; align-items:center; justify-content:center;
   text-decoration:none; font-weight:700;
@@ -111,8 +101,6 @@ a{color:inherit}
   background: color-mix(in oklab, var(--panel) 92%, var(--bg));
   border-color: var(--ring);
 }
-
-/* CTA "Contact" */
 .primary-nav a.cta{
   border:1px solid color-mix(in oklab, var(--accent-500) 45%, var(--ring));
   background: color-mix(in oklab, var(--panel) 96%, var(--accent-500) 12%);
@@ -133,7 +121,7 @@ a{color:inherit}
     position: fixed;
     top: var(--headerH);
     left: 0; right: 0;
-    z-index: 50;
+    z-index: 650; /* Sous curtain/leaves, au-dessus du contenu */
     padding: 10px;
     background: color-mix(in oklab, var(--panel) 96%, var(--bg) 4%);
     border-bottom: 1px solid var(--ring);
@@ -141,14 +129,12 @@ a{color:inherit}
     flex-direction: column;
     gap: 8px;
   }
-  /* Ouverture via checkbox ou classe */
   .nav-chk:checked ~ .primary-nav,
   .header.menu-open .primary-nav{ display:flex; }
-
   .primary-nav a { width: 100%; }
 }
 
-/* ====== OFFSET d’ancre (évite masquage par le header sticky) ====== */
+/* ====== OFFSET d’ancre ====== */
 #hero-banner, #projects, #cases, #about, #contact, #legal {
   scroll-margin-top: calc(var(--headerH, 100px) + 10px);
 }
@@ -198,23 +184,11 @@ a{color:inherit}
   padding: 0 0;
   box-shadow: 0 0 50px rgba(0,0,0,0.08) inset, 0 0 60px rgba(0,0,0,0.15);
 }
-
-/* plus contrasté en mode clair */
-[data-theme=light] .main-contrast {
-  background: color-mix(in oklab, var(--cream-0) 80%, var(--cream-100) 20%);
-}
-
-/* plus contrasté en mode sombre */
-[data-theme=dark] .main-contrast {
-  background: color-mix(in oklab, var(--warm-800) 85%, #000 15%);
-}
+[data-theme=light] .main-contrast { background: color-mix(in oklab, var(--cream-0) 80%, var(--cream-100) 20%); }
+[data-theme=dark]  .main-contrast { background: color-mix(in oklab, var(--warm-800) 85%, #000 15%); }
 
 /* GRID */
-.masonry{
-  display:grid;
-  gap:18px;
-  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
-}
+.masonry{ display:grid; gap:18px; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); }
 @media(min-width:700px){.masonry{grid-template-columns: repeat(auto-fill, minmax(320px, 1fr))}}
 @media(min-width:1024px){.masonry{grid-template-columns: repeat(auto-fill, minmax(340px, 1fr))}}
 @media(min-width:1400px){.masonry{grid-template-columns: repeat(4, minmax(0, 1fr))}}
@@ -257,61 +231,50 @@ radial-gradient(120px 90px at 85% 88%,color-mix(in oklab,var(--accent-500) 16%,t
 .footer{background:var(--cream-100);padding:24px;text-align:center;border-top:1px solid var(--ring)}
 [data-theme=dark] .footer{background:var(--warm-800)}
 
-/* Modal / Lightbox */
-.modal-backdrop{position:fixed;inset:0;background:rgba(0,0,0,.5);display:flex;align-items:center;justify-content:center;padding:16px;z-index:60;opacity:0;transition:opacity .2s var(--easing)}
+/* ===== Modals & Lightbox — AU-DESSUS DU CURTAIN ===== */
+.modal-backdrop{
+  position:fixed; inset:0; display:flex; align-items:center; justify-content:center;
+  background:rgba(0,0,0,.5);
+  z-index:2000; opacity:0; transition:opacity .2s var(--easing);
+}
 .modal-backdrop.backdrop-show{opacity:1}
-.modal{max-width:860px;width:100%;max-height:90vh;overflow:auto;background:var(--panel);border:1px solid var(--ring);border-radius:22px;padding:16px;will-change:transform,opacity;opacity:0;transform:translateY(8px);transition:opacity .22s var(--easing), transform .22s var(--easing)}
-.modal.show{opacity:1;transform:translateY(0)}
+.modal{
+  max-width:860px; width:clamp(320px, 92vw, 860px);
+  max-height:90vh; overflow:auto;
+  position:relative;
+  background:var(--panel); border:1px solid var(--ring); border-radius:22px; padding:16px;
+  will-change:transform,opacity; opacity:0; transform:translateY(8px);
+  transition:opacity .22s var(--easing), transform .22s var(--easing);
+  z-index:2010;
+}
+.modal.show{opacity:1; transform:translateY(0)}
 .modal header{display:flex;align-items:center;gap:8px;justify-content:space-between;margin-bottom:8px}
 .modal header .back{margin-right:auto}
 .x,.back{border:1px solid var(--ring);border-radius:10px;padding:4px 10px;background:transparent;cursor:pointer}
 
-.lightbox{position:fixed;inset:0;display:grid;place-items:center;background:rgba(0,0,0,.85);z-index:70;opacity:0;transition:opacity .18s var(--easing)}
+.lightbox{
+  position:fixed; inset:0; display:grid; place-items:center;
+  background:rgba(0,0,0,.85); z-index:2100;
+  opacity:0; transition:opacity .18s var(--easing)
+}
 .lightbox.show{opacity:1}
 .lightbox img{max-width:92vw;max-height:82vh;border-radius:16px}
 .lb-btn{position:absolute;top:16px;right:12px}
-.lb-prev,.lb-next{position:absolute;top:50%;transform:translateY(-50%);border:1px solid #fff;background:transparent;color:#fff;border-radius:10px;padding:8px}
-.lb-prev{left:8px}
-.lb-next{right:8px}
 
-.row{display:flex;flex-wrap:wrap;gap:8px}
-.sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
-
-/* Media inside modal */
-.media-shell{position:relative;aspect-ratio:16/9;border:1px solid var(--ring);border-radius:16px;overflow:hidden;background:color-mix(in oklab,var(--panel) 92%,var(--bg))}
-.media-shell > *{position:absolute;inset:0;width:100%;height:100%;border:0}
-.media-strip{display:flex;gap:8px;margin-top:10px;overflow:auto;padding-bottom:4px}
-.media-strip img{height:70px;aspect-ratio:16/9;object-fit:cover;border-radius:8px;border:1px solid var(--ring);cursor:pointer}
-.fade-in{animation:fade .18s var(--easing) both}
-@keyframes fade{from{opacity:0;transform:translateY(4px)}to{opacity:1;transform:translateY(0)}}
-
-/* Ghost for FLIP */
-.ghost{box-shadow:0 24px 60px rgba(0,0,0,.2); border:1px solid var(--ring); background:var(--panel); border-radius:inherit; overflow:hidden}
-
-/* Skills UI */
-.skills-wrap{display:grid;gap:18px}
-.skill-group{border:1px solid var(--ring);border-radius:18px;padding:14px;background:var(--panel)}
-.skill-group h3{margin:0 0 10px}
-.skill-badges{display:flex;flex-wrap:wrap;gap:8px}
-.badge{border:1px solid var(--ring);border-radius:999px;padding:6px 10px;font-size:13px}
-
-/* Curtains: images only */
+/* ===== Curtain (DEVANT le header), + particules ===== */
 .curtain{
-  position:fixed; inset:0; z-index:100; pointer-events:none;
+  position:fixed; inset:0; z-index:900; pointer-events:none;
   --slidePct: 0%;
 }
 .curtain .panel{
   position:absolute; top:0; bottom:0;
-  border: none;
-  background: transparent;
-  will-change: transform, filter;
-  transition: none;
+  border: none; background: transparent;
+  will-change: transform, filter; transition: none;
 }
 .curtain .panel::after{
   content:""; position:absolute; inset:0; pointer-events:none;
   background-image: var(--leaf-img);
-  background-repeat: no-repeat;
-  background-size: var(--leaf-size, contain);
+  background-repeat: no-repeat; background-size: var(--leaf-size, contain);
   background-position: var(--leaf-pos, center);
   transform: scale(var(--leafScale, 1));
   filter: brightness(var(--leafBright, 1)) drop-shadow(0 6px 18px rgba(0,0,0,.25));
@@ -325,26 +288,15 @@ radial-gradient(120px 90px at 85% 88%,color-mix(in oklab,var(--accent-500) 16%,t
   --leaf-img-day: url("assets/leaf_right.png");
   --leaf-img-night: url("assets/leaf_rightN.png");
 }
-.curtain .right::after {
-  background-image: var(--leaf-img-day);
-  background-repeat: no-repeat;
-  background-size: var(--leaf-size, contain);
-  background-position: right center;
-}
-html[data-theme="dark"] .curtain .right::after {
-  background-image: var(--leaf-img-night);
-}
+.curtain .right::after { background-image: var(--leaf-img-day); }
+html[data-theme="dark"] .curtain .right::after { background-image: var(--leaf-img-night); }
 
-/* Couche globale, indépendante du scroll */
+/* Couche globale de particules (au-dessus du header, sous les popups) */
 .leaf-layer{
-  position: fixed;
-  top:0; left:0; right:0; bottom:0;
-  pointer-events: none;
-  overflow: visible;
-  z-index: 90;
-  contain: paint;
+  position: fixed; inset:0;
+  pointer-events: none; overflow: visible;
+  z-index: 920; contain: paint;
 }
-
 .leaf{
   position:absolute; will-change: transform, opacity;
   width: var(--w,28px); height: var(--h,28px);
@@ -359,28 +311,18 @@ html[data-theme="dark"] .curtain .right::after {
 /* ====== HERO BANNER (crop vertical) ====== */
 #hero-banner { background: none !important; aspect-ratio: auto !important; }
 #hero-banner::before, #hero-banner::after { content: none !important; }
-
 #hero-banner{
   --hero-h: 85vh;   /* hauteur visible du hero */
-  position: relative;
-  width: 100%;
-  height: var(--hero-h);
-  overflow: hidden;
+  position: relative; width: 100%; height: var(--hero-h); overflow: hidden;
 }
 #hero-banner > .hero-img,
 #hero-banner > .hero-lift{
-  position: absolute;
-  inset: 0;
-  pointer-events: none;
+  position: absolute; inset: 0; pointer-events: none;
   transition: opacity .35s ease;
-  background-repeat: no-repeat;
-  background-size: 100% auto;
-  background-position: center top;
+  background-repeat: no-repeat; background-size: 100% auto; background-position: center top;
   will-change: transform, opacity;
 }
-#hero-banner > .hero-img{
-  clip-path: inset(0 0 var(--lift-h) 0);
-}
+#hero-banner > .hero-img{ clip-path: inset(0 0 var(--lift-h) 0); }
 #hero-banner > .hero-lift{
   z-index: 2;
   clip-path: inset(calc(100% - var(--lift-h)) 0 0 0);
@@ -388,11 +330,8 @@ html[data-theme="dark"] .curtain .right::after {
   -webkit-mask-image: linear-gradient(to bottom, transparent 0, black 16px);
           mask-image: linear-gradient(to bottom, transparent 0, black 16px);
 }
-#hero-banner > .hero-img.day,
-#hero-banner > .hero-lift.day   { background-image: url("assets/bannerD.png"); opacity: 1; }
-#hero-banner > .hero-img.night,
-#hero-banner > .hero-lift.night { background-image: url("assets/bannerN.png"); opacity: 0; }
-
+#hero-banner > .hero-img.day,  #hero-banner > .hero-lift.day  { background-image: url("assets/bannerD.png"); opacity: 1; }
+#hero-banner > .hero-img.night, #hero-banner > .hero-lift.night{ background-image: url("assets/bannerN.png"); opacity: 0; }
 [data-theme="dark"] #hero-banner > .hero-img.day,
 [data-theme="dark"] #hero-banner > .hero-lift.day   { opacity: 0; }
 [data-theme="dark"] #hero-banner > .hero-img.night,
@@ -478,3 +417,89 @@ input[type="text"], input[type="email"]{ -webkit-appearance:none; appearance:non
 
 #hero-banner{ position:relative; }
 #afterHeroSentinel{ position:absolute; left:0; right:0; bottom:0; height:1px; }
+
+/* =========================================================
+   RÔLES & FORCES — Accordéons par catégories et compétences
+   HTML attendu :
+   <div id="skillsWrap" class="skills-wrap">
+     <details class="skill-cat" open>
+       <summary><span>Techniques</span></summary>
+       <div class="skill-grid">
+         <details class="skill">
+           <summary>Automation QA</summary>
+           <div class="skill-panel">...</div>
+         </details>
+       </div>
+     </details>
+   </div>
+   ========================================================= */
+
+.skills-wrap{display:grid;gap:18px}
+
+/* Catégories */
+.skill-cat{
+  border:1px solid var(--ring);
+  border-radius:18px;
+  background: var(--panel);
+  padding: 10px 12px;
+}
+.skill-cat > summary{
+  list-style:none; cursor:pointer;
+  display:flex; align-items:center; gap:10px;
+  font-weight:800; font-size: clamp(18px, 1.6vw, 22px);
+  padding: 6px 4px; border-radius:12px;
+}
+.skill-cat > summary::-webkit-details-marker{display:none}
+.skill-cat > summary::after{
+  content:"▸"; transform: rotate(0deg); transition: transform .2s var(--easing);
+  margin-left:auto; opacity:.75;
+}
+.skill-cat[open] > summary::after{ transform: rotate(90deg); }
+
+/* Grille des compétences */
+.skill-grid{
+  display:grid; gap:12px; margin-top:10px;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+}
+
+/* Tuile-compétence (accordéon interne) */
+.skill{
+  border:1px solid color-mix(in oklab, var(--ring) 85%, transparent);
+  border-radius:14px; background: color-mix(in oklab, var(--panel) 96%, var(--bg) 4%);
+  overflow:hidden;
+}
+.skill > summary{
+  list-style:none; cursor:pointer;
+  padding:10px 12px; font-weight:700;
+  display:flex; align-items:center; gap:10px;
+}
+.skill > summary::-webkit-details-marker{display:none}
+.skill > summary::after{
+  content:"＋"; margin-left:auto; transition: transform .18s var(--easing);
+  font-weight:800; opacity:.8;
+}
+.skill[open] > summary::after{ content:"−"; }
+
+/* Panneau descriptif */
+.skill-panel{
+  padding: 12px; border-top:1px solid color-mix(in oklab, var(--ring) 80%, transparent);
+  font-size: 14.5px; color: var(--ink-700);
+}
+.skill-panel p{ margin: 0 0 10px; }
+.skill-panel ul{ margin: 0; padding-left: 18px; }
+.skill-panel li{ margin: 6px 0; }
+
+/* Petits badges contextuels (niveau, outils, etc.) */
+.badges{ display:flex; flex-wrap:wrap; gap:6px; margin-top:8px; }
+.badges .badge{
+  border:1px solid var(--ring); border-radius:999px; padding:4px 8px; font-size:12px;
+  background: color-mix(in oklab, var(--panel) 95%, var(--bg) 5%);
+}
+
+/* État focus (a11y) */
+.skill > summary:focus-visible,
+.skill-cat > summary:focus-visible{
+  outline: none;
+  box-shadow: 0 0 0 3px color-mix(in oklab, var(--accent-500) 30%, transparent);
+  border-radius:12px;
+}
