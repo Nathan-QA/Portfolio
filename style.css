@@ -63,12 +63,27 @@ a{color:inherit}
 .brand-icon{display:inline-flex;align-items:center;justify-content:center;width:28px;height:28px;border-radius:8px;border:1px solid var(--ring);color:var(--ink-700);text-decoration:none}
 .brand-icon:hover{background:color-mix(in oklab,var(--panel)90%,var(--bg))}
 .avatar-btn{padding:0;border:0;background:transparent;border-radius:999px;cursor:pointer;line-height:0}
-#avatarImg{width:36px;height:36px;border-radius:999px;display:block;object-fit:cover;border:1px solid var(--ring);box-shadow:0 1px 2px rgba(0,0,0,.06)}
+#avatarImg{width:85px;height:85px;border-radius:999px;display:block;object-fit:cover;border:1px solid var(--ring);box-shadow:0 1px 2px rgba(0,0,0,.06)}
 [data-theme=dark] #avatarImg{box-shadow:0 1px 2px rgba(0,0,0,.25)}
 nav a{margin:0 12px;text-decoration:none}
 nav a:hover{opacity:.85}
 .btn{border:1px solid var(--ring);padding:6px 10px;border-radius:12px;background:transparent;cursor:pointer;transition:background .2s ease}
 .btn:hover{background:color-mix(in oklab,var(--panel)90%,var(--bg))}
+
+.brand-name{
+  display:block;
+  line-height:1.1;
+  font-size:clamp(16px, 1.6vw, 20px); /* taille de base */
+}
+.brand-name .first{
+  font-size:1.65em;   /* ↑ grossit le prénom */
+  font-weight:800;
+}
+.brand-name .last{
+    font-size:1.65em;   /* ↑ grossit le prénom */
+  font-weight:800;
+  opacity:.95;        /* optionnel, un poil plus léger visuellement */
+}
 
 /* ====== SLAB CENTRAL (grande zone intérieure plus contrastée) ====== */
 .page-slab{
