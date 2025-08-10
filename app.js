@@ -24,9 +24,9 @@ CURTAIN: {
   rightImg: 'assets/leaf_right.png',
   leafSize: 'contain',
   // Distance d’ouverture (inchangé) :
-  maxScrollVh: 140,
+  maxScrollVh: 160,
   baseGapVW: 1,
-  tightGapVW: 190,
+  tightGapVW: 210,
 
   // --- Nouveau : organique ---
   easing: 'easeOut',   // 'smoother' | 'easeOut' | 'easeInOut'
@@ -294,7 +294,7 @@ CURTAIN: {
   window.addEventListener('scroll', onScroll, {passive:true});
 
   // --- drip constant
-  setInterval(()=>{ if(Math.random()<.35) spawnOne(); }, 350);
+  setInterval(()=>{ if(Math.random()<.9) spawnOne(); }, 350);
 
   // --- rebuild des points d’émission sur changement de thème
   new MutationObserver(m=>{
