@@ -23,6 +23,7 @@
     <div class="hero-img night"></div>
     <div class="hero-lift day"></div>
     <div class="hero-lift night"></div>
+    <div id="afterHeroSentinel" aria-hidden="true"></div>
   </section>
 
   <!-- Rideau d’intro (images posées par app.js via CSS vars) -->
@@ -184,6 +185,45 @@
     }, { capture: true });
   })();
   </script>
+
+<script>
+(() => {
+  const body = document.body;
+  const hdr  = document.querySelector('.header');
+  const sent = document.getElementById('afterHeroSentinel');
+
+  // Hauteur réelle du header -> var CSS pour scroll-margin-top
+  const setHeaderH = () => {
+    if (!hdr) return;
+    document.documentElement.style.setProperty('--headerH', hdr.offsetHeight + 'px');
+  };
+  setHeaderH();
+  addEventListener('resize', setHeaderH, {passive:true});
+  if ('ResizeObserver' in window && hdr) new ResizeObserver(setHeaderH).observe(hdr);
+
+  // Devient .after-hero dès qu'on a dépassé la bannière (sentinel visible)
+  if (sent && 'IntersectionObserver' in window) {
+const io = new IntersectionObserver(([entry]) => {
+  document.body.classList.toggle('after-hero', !entry.isIntersecting);
+}, {
+  root: null,
+  threshold: 0,
+  rootMargin: `-${hdr.offsetHeight}px 0px 0px 0px`
+});
+io.observe(document.getElementById('afterHeroSentinel'));
+  } else {
+    // Fallback
+    const hero = document.getElementById('hero-banner');
+    const tick = () => {
+      const btm = hero ? hero.getBoundingClientRect().bottom : 1;
+      body.classList.toggle('after-hero', btm <= hdr.offsetHeight);
+    };
+    tick();
+    addEventListener('scroll', tick, {passive:true});
+    addEventListener('resize', tick, {passive:true});
+  }
+})();
+</script>
 
   <!-- App (imports Three depuis CDN dans app.js) -->
   <script type="module" src="app.js"></script>
