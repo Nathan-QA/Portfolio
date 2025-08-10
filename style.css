@@ -50,7 +50,7 @@ a{color:inherit}
 .container{max-width:var(--container-max);margin:0 auto;padding:0 20px}
 
 /* ===== Header sticky (poussé puis collé après le hero) ===== */
-/* top est piloté en JS via --stickTop = clamp(basHero - headerH, -headerH..0) */
+/* top est piloté en JS : --stickTop passe progressivement de -headerH à 0 */
 .header{
   position: sticky;
   top: var(--stickTop);

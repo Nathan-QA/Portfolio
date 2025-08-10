@@ -206,9 +206,11 @@
     const computeStickTop = () => {
       raf = 0;
       if (!hdr || !hero) return;
-      const h = hdr.offsetHeight || 0;
-      const btm = hero.getBoundingClientRect().bottom;      // px du bas du hero par rapport au haut du viewport
-      const topVal = Math.max(-h, Math.min(0, btm - h));     // clamp(-h .. 0)
+      const h   = hdr.offsetHeight || 0;
+      const H   = hero.offsetHeight || 1;
+      const btm = hero.getBoundingClientRect().bottom; // bas du hero par rapport au haut du viewport
+      // Déplace progressivement le header de -h à 0 quand le hero sort de l'écran
+      const topVal = Math.max(-h, Math.min(0, -(h * btm) / H));
       doc.style.setProperty('--stickTop', topVal + 'px');
       body.classList.toggle('after-hero', btm <= 0);
     };
