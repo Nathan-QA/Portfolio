@@ -1,0 +1,169 @@
+{
+  "version": 1,
+  "fr": [
+    {
+      "cat": "Qualité / QA",
+      "items": [
+        {
+          "id": "qa-production",
+          "name": "Production QA",
+          "summary": "Coordination multi-équipes, pilotage prestas, synchronisation build/soumissions.",
+          "bullets": ["Planifier des campagnes de test", "Suivre bugs & priorités", "Coordonner les soumissions TRC"],
+          "tags": ["Coordination", "TRC", "Reporting", "Multi-plateforme", "Localisation"],
+          "details": [
+            "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
+            "Integer sed consequat purus, vitae pulvinar nisi.",
+            "Curabitur vitae magna nec lacus varius pharetra."
+          ],
+          "images": ["https://picsum.photos/seed/qa-production/1200/675"],
+          "related": { "projects": ["dordogne"], "cases": ["dordogne-case"] }
+        },
+        {
+          "id": "qa-tooling",
+          "name": "Outillage QA (C# / Scripts)",
+          "summary": "Automatisation de vérifs et analyses de builds.",
+          "bullets": ["Scripts C# / CLI", "Exports pour reporting", "Hooks CI/CD"],
+          "tags": ["C#", "Automation", "CI/CD"],
+          "details": [
+            "Sed ut perspiciatis unde omnis iste natus error.",
+            "Nemo enim ipsam voluptatem quia voluptas sit aspernatur."
+          ],
+          "images": ["https://picsum.photos/seed/qa-tooling/1200/675"],
+          "related": { "projects": ["dordogne"], "cases": ["dordogne-case"] }
+        }
+      ]
+    },
+    {
+      "cat": "Level Design",
+      "items": [
+        {
+          "id": "ld-systems",
+          "name": "Systèmes & Flow",
+          "summary": "Équilibrage boucle de jeu, rythme & lisibilité.",
+          "bullets": ["Block-out → greybox", "Beat mapping", "Docs design lisibles"],
+          "tags": ["Level flow", "Pacing", "Playtests"],
+          "details": [
+            "Ut enim ad minima veniam, quis nostrum exercitationem.",
+            "Quis autem vel eum iure reprehenderit qui in ea voluptate."
+          ],
+          "images": ["https://picsum.photos/seed/ld-systems/1200/675"],
+          "related": { "projects": ["distant-shore-bretagne", "pyla"], "cases": [] }
+        },
+        {
+          "id": "ld-prototyping",
+          "name": "Prototypage",
+          "summary": "Mise au propre rapide d’idées jouables.",
+          "bullets": ["Unity 6 URP", "Unreal 5 Blueprints"],
+          "tags": ["Unity", "Unreal", "Protos"],
+          "details": [
+            "Duis aute irure dolor in reprehenderit in voluptate.",
+            "Excepteur sint occaecat cupidatat non proident."
+          ],
+          "images": ["https://picsum.photos/seed/ld-prototyping/1200/675"],
+          "related": { "projects": ["saila", "pyla"], "cases": [] }
+        }
+      ]
+    },
+    {
+      "cat": "Tech & Prod",
+      "items": [
+        {
+          "id": "prod",
+          "name": "Production",
+          "summary": "Planification, dépendances et communication claire.",
+          "bullets": ["Roadmaps", "Sync inter-équipes", "Suivi KPI"],
+          "tags": ["Planning", "Comms", "Ownership"],
+          "details": [
+            "Accusamus et iusto odio dignissimos ducimus.",
+            "Et harum quidem rerum facilis est et expedita distinctio."
+          ],
+          "images": ["https://picsum.photos/seed/prod/1200/675"],
+          "related": { "projects": ["dordogne"], "cases": ["dordogne-case"] }
+        }
+      ]
+    }
+  ],
+  "en": [
+    {
+      "cat": "Quality Assurance",
+      "items": [
+        {
+          "id": "qa-production",
+          "name": "Production QA",
+          "summary": "Multi-team coordination, vendor oversight, build/submission sync.",
+          "bullets": ["Plan test campaigns", "Track bugs & priorities", "Coordinate TRC submissions"],
+          "tags": ["Coordination", "TRC", "Reporting", "Multiplatform", "Localization"],
+          "details": [
+            "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
+            "Integer sed consequat purus, vitae pulvinar nisi.",
+            "Curabitur vitae magna nec lacus varius pharetra."
+          ],
+          "images": ["https://picsum.photos/seed/qa-production/1200/675"],
+          "related": { "projects": ["dordogne"], "cases": ["dordogne-case"] }
+        },
+        {
+          "id": "qa-tooling",
+          "name": "QA Tooling (C# / Scripts)",
+          "summary": "Automated checks and build analysis.",
+          "bullets": ["C# / CLI scripts", "Reporting exports", "CI/CD hooks"],
+          "tags": ["C#", "Automation", "CI/CD"],
+          "details": [
+            "Sed ut perspiciatis unde omnis iste natus error.",
+            "Nemo enim ipsam voluptatem quia voluptas sit aspernatur."
+          ],
+          "images": ["https://picsum.photos/seed/qa-tooling/1200/675"],
+          "related": { "projects": ["dordogne"], "cases": ["dordogne-case"] }
+        }
+      ]
+    },
+    {
+      "cat": "Level Design",
+      "items": [
+        {
+          "id": "ld-systems",
+          "name": "Systems & Flow",
+          "summary": "Balancing game loops, pacing & readability.",
+          "bullets": ["Block-out → greybox", "Beat mapping", "Clear design docs"],
+          "tags": ["Level flow", "Pacing", "Playtests"],
+          "details": [
+            "Ut enim ad minima veniam, quis nostrum exercitationem.",
+            "Quis autem vel eum iure reprehenderit qui in ea voluptate."
+          ],
+          "images": ["https://picsum.photos/seed/ld-systems/1200/675"],
+          "related": { "projects": ["distant-shore-bretagne", "pyla"], "cases": [] }
+        },
+        {
+          "id": "ld-prototyping",
+          "name": "Rapid Prototyping",
+          "summary": "Fast, playable iterations of ideas.",
+          "bullets": ["Unity 6 URP", "Unreal 5 Blueprints"],
+          "tags": ["Unity", "Unreal", "Protos"],
+          "details": [
+            "Duis aute irure dolor in reprehenderit in voluptate.",
+            "Excepteur sint occaecat cupidatat non proident."
+          ],
+          "images": ["https://picsum.photos/seed/ld-prototyping/1200/675"],
+          "related": { "projects": ["saila", "pyla"], "cases": [] }
+        }
+      ]
+    },
+    {
+      "cat": "Tech & Production",
+      "items": [
+        {
+          "id": "prod",
+          "name": "Production",
+          "summary": "Planning, dependencies and crisp communication.",
+          "bullets": ["Roadmaps", "Cross-team sync", "KPI tracking"],
+          "tags": ["Planning", "Comms", "Ownership"],
+          "details": [
+            "Accusamus et iusto odio dignissimos ducimus.",
+            "Et harum quidem rerum facilis est et expedita distinctio."
+          ],
+          "images": ["https://picsum.photos/seed/prod/1200/675"],
+          "related": { "projects": ["dordogne"], "cases": ["dordogne-case"] }
+        }
+      ]
+    }
+  ]
+}

@@ -1,3 +1,6 @@
+/* =======================
+   TOKENS & THEME
+======================= */
 :root{
   --cream-0:#fffaf3;--cream-50:#fff4e5;--cream-100:#ffe9cc;
   --ink-900:#1c1b19;--ink-700:#3e3b36;--ink-600:#544f47;--ink-300:#b6b1a7;--ink-200:#d0cbc2;--ink-100:#eae7e2;
@@ -9,27 +12,21 @@
   /* Hauteur header (mise à jour en JS) + position collante pilotée */
   --headerH: 90px;
   --stickTop: calc(-1 * var(--headerH));
+
+  /* === Études de cas : tailles constantes === */
+  --case-w: 820px;     /* largeur fixe d’une card (desktop) */
+  --case-min: 300px;   /* hauteur mini */
+  --case-thumb-ar: 16/9;
+  --case-cols: 1.35fr 1fr;
 }
 
-/* THEME TOKENS */
-[data-theme=dark]{
-  --bg:var(--warm-900);
-  --fg:var(--ink-100);
-  --panel:var(--warm-800);
-  --ring:#2a241f;
-  --slab: color-mix(in oklab, var(--warm-800) 92%, #000 8%);
-  color-scheme:dark
-}
-[data-theme=light]{
-  --bg:var(--cream-50);
-  --fg:var(--ink-900);
-  --panel:var(--cream-0);
-  --ring:#e6dfd4;
-  --slab: color-mix(in oklab, var(--cream-0) 88%, var(--cream-100) 12%);
-  color-scheme:light
-}
+[data-theme=dark]{ --bg:var(--warm-900); --fg:var(--ink-100); --panel:var(--warm-800); --ring:#2a241f; --slab: color-mix(in oklab, var(--warm-800) 92%, #000 8%); color-scheme:dark; }
+[data-theme=light]{ --bg:var(--cream-50); --fg:var(--ink-900); --panel:var(--cream-0); --ring:#e6dfd4; --slab: color-mix(in oklab, var(--cream-0) 88%, var(--cream-100) 12%); color-scheme:light; }
 
-/* BASE */
+/* =======================
+   BASE & UTILS
+======================= */
+*{ box-sizing:border-box }
 html,body{height:100%}
 html{ scroll-behavior:smooth; }
 @media (prefers-reduced-motion: reduce){ html{ scroll-behavior:auto } }
@@ -47,14 +44,30 @@ body.theme-anim, body.theme-anim *{
 }
 body.no-scroll{overflow:hidden}
 a{color:inherit}
+img{display:block;max-width:100%;height:auto}
+iframe{border:0}
 .container{max-width:var(--container-max);margin:0 auto;padding:0 20px}
 
-/* ===== Header sticky (poussé puis collé après le hero) ===== */
-/* top est piloté en JS : --stickTop passe progressivement de -headerH à 0 */
+/* Visually hidden but accessible */
+.sr-only{
+  position:absolute !important; width:1px; height:1px; padding:0; margin:-1px;
+  overflow:hidden; clip:rect(0,0,0,0); white-space:nowrap; border:0;
+}
+
+/* Focus rings */
+:where(button, a, [role="button"], input, .chip-btn, .nav-toggle, .x, .back, .lb-prev, .lb-next):focus-visible{
+  outline:none;
+  box-shadow:0 0 0 3px color-mix(in oklab, var(--accent-500) 35%, transparent);
+  border-radius:12px;
+}
+
+/* =======================
+   HEADER (sticky poussé)
+======================= */
 .header{
   position: sticky;
   top: var(--stickTop);
-  z-index: 600;           /* Sous curtain/leaves, au-dessus du contenu */
+  z-index: 600;
   isolation: isolate;
   transition: top .22s var(--easing);
   backdrop-filter:saturate(1.2) blur(10px);
@@ -62,9 +75,7 @@ a{color:inherit}
   border-bottom:1px solid var(--ring);
   box-shadow: 0 6px 18px rgba(0,0,0,.08);
 }
-#hero-banner, #projects, #cases, #about, #contact, #legal {
-  scroll-margin-top: calc(var(--headerH) + 10px);
-}
+#hero-banner, #projects, #cases, #about, #contact, #legal { scroll-margin-top: calc(var(--headerH) + 10px); }
 
 [data-theme=dark] .header{
   background: color-mix(in oklab, var(--panel) 88%, #000 12%);
@@ -73,7 +84,7 @@ a{color:inherit}
 .h-row{display:flex;align-items:center;justify-content:space-between;padding:12px 16px}
 .brand{display:flex;gap:12px;align-items:center}
 .brand-links{display:flex;gap:6px;margin-top:2px}
-.brand-icon{display:inline-flex;align-items:center;justify-content:center;width:28px;height:28px;border-radius:8px;border:1px solid var(--ring);color:var(--ink-700);text-decoration:none}
+.brand-icon{display:inline-flex;align-items:center;justify-content:center;width:28px;height:28px;border-radius:8px;border:1px solid var(--ring);color:var(--ink-700);text-decoration:none;transition:background .2s}
 .brand-icon:hover{background:color-mix(in oklab,var(--panel)90%,var(--bg))}
 .avatar-btn{padding:0;border:0;background:transparent;border-radius:999px;cursor:pointer;line-height:0}
 #avatarImg{width:85px;height:85px;border-radius:999px;display:block;object-fit:cover;border:1px solid var(--ring);box-shadow:0 1px 2px rgba(0,0,0,.06)}
@@ -87,7 +98,7 @@ a{color:inherit}
 .brand-name .first{ font-size:1.65em; font-weight:800; }
 .brand-name .last { font-weight:700; opacity:.95; }
 
-/* ===== NAV (desktop) ===== */
+/* NAV (desktop) */
 .primary-nav{ display:flex; align-items:center; gap:8px; }
 .primary-nav a{
   display:inline-flex; align-items:center; justify-content:center;
@@ -121,7 +132,7 @@ a{color:inherit}
     position: fixed;
     top: var(--headerH);
     left: 0; right: 0;
-    z-index: 650; /* Sous curtain/leaves, au-dessus du contenu */
+    z-index: 650;
     padding: 10px;
     background: color-mix(in oklab, var(--panel) 96%, var(--bg) 4%);
     border-bottom: 1px solid var(--ring);
@@ -134,12 +145,9 @@ a{color:inherit}
   .primary-nav a { width: 100%; }
 }
 
-/* ====== OFFSET d’ancre ====== */
-#hero-banner, #projects, #cases, #about, #contact, #legal {
-  scroll-margin-top: calc(var(--headerH, 100px) + 10px);
-}
-
-/* ====== SLAB CENTRAL ====== */
+/* =======================
+   SLAB CENTRAL
+======================= */
 .page-slab{
   background:
     radial-gradient(1200px 600px at 10% 0%, rgba(0,0,0,.035), transparent 60%),
@@ -199,17 +207,21 @@ a{color:inherit}
   padding:12px;cursor:pointer;
   border-radius:28px 20px 32px 18px/24px 28px 20px 30px;
   box-shadow:0 1px 2px rgba(0,0,0,.03);
-  transition:box-shadow .2s ease,transform .2s ease;
+  transition:box-shadow .2s ease,transform .2s ease, border-radius .24s var(--easing);
   min-height:320px;
+  will-change: transform, box-shadow;
 }
-.tile:hover{box-shadow:0 10px 30px rgba(0,0,0,.08)}
+.tile:hover{box-shadow:0 10px 30px rgba(0,0,0,.08); transform:translateY(-1px)}
 .tile:active{transform:translateY(1px)}
 .tile.organic:before{content:"";position:absolute;inset:-12%;background:
 radial-gradient(140px 100px at 18% 12%,color-mix(in oklab,var(--accent-300) 35%,transparent),transparent 65%),
 radial-gradient(120px 90px at 85% 88%,color-mix(in oklab,var(--accent-500) 16%,transparent),transparent 65%);filter:blur(28px);opacity:.55;pointer-events:none}
+
+/* Generic media thumbs */
 .thumb{position:relative;aspect-ratio:16/9;overflow:hidden;border-radius:20px}
 .thumb img,.thumb iframe{width:100%;height:100%;object-fit:cover;display:block;border:0}
 
+/* meta */
 .meta-row{display:flex;justify-content:space-between;align-items:flex-start;gap:12px;margin-top:8px}
 .tile h3{margin:0 0 6px}
 .summary{
@@ -218,10 +230,28 @@ radial-gradient(120px 90px at 85% 88%,color-mix(in oklab,var(--accent-500) 16%,t
   min-height:40px;
 }
 
+/* Badge rôle */
+.role-badge{
+  display:inline-flex; align-items:center; gap:8px;
+  font-size:12px; padding:4px 8px; border-radius:999px;
+  border:1px solid var(--ring);
+  background: color-mix(in oklab, var(--panel) 96%, var(--bg) 4%);
+  color: var(--ink-700);
+}
+.role-badge .dot{
+  width:8px; height:8px; border-radius:999px;
+  background: color-mix(in oklab, var(--accent-500) 70%, var(--panel));
+  box-shadow: 0 0 0 2px color-mix(in oklab, var(--accent-500) 25%, transparent);
+}
+
+/* Chips */
 .chips{display:flex;flex-wrap:wrap;gap:8px;margin-top:auto}
 .chip,.chip-btn{font-size:12px;display:inline-flex;align-items:center;border:1px solid var(--ring);padding:2px 8px;border-radius:999px;background:transparent}
 .chip-btn{cursor:pointer}
 
+/* =======================
+   CARDS & GRIDS
+======================= */
 .card{border-radius:24px;background:var(--panel);border:1px solid var(--ring);padding:16px}
 .grid{display:grid;gap:16px}
 @media(min-width:720px){.grid2{grid-template-columns:1fr 1fr}}
@@ -231,27 +261,56 @@ radial-gradient(120px 90px at 85% 88%,color-mix(in oklab,var(--accent-500) 16%,t
 .footer{background:var(--cream-100);padding:24px;text-align:center;border-top:1px solid var(--ring)}
 [data-theme=dark] .footer{background:var(--warm-800)}
 
-/* ===== Modals & Lightbox — AU-DESSUS DU CURTAIN ===== */
+/* =======================
+   MODAL & LIGHTBOX
+======================= */
+@keyframes modalIn{0%{opacity:0;transform:scale(.98) translateY(6px)}100%{opacity:1;transform:scale(1) translateY(0)}}
+@keyframes modalOut{0%{opacity:1;transform:scale(1) translateY(0)}100%{opacity:0;transform:scale(.98) translateY(6px)}}
+
 .modal-backdrop{
   position:fixed; inset:0; display:flex; align-items:center; justify-content:center;
-  background:rgba(0,0,0,.5);
-  z-index:2000; opacity:0; transition:opacity .2s var(--easing);
+  background:rgba(0,0,0,.45);
+  backdrop-filter: blur(2px);
+  z-index:2000; opacity:0; transition:opacity .22s var(--easing);
 }
 .modal-backdrop.backdrop-show{opacity:1}
+
 .modal{
   max-width:860px; width:clamp(320px, 92vw, 860px);
   max-height:90vh; overflow:auto;
   position:relative;
   background:var(--panel); border:1px solid var(--ring); border-radius:22px; padding:16px;
-  will-change:transform,opacity; opacity:0; transform:translateY(8px);
-  transition:opacity .22s var(--easing), transform .22s var(--easing);
+  transform-origin:center;
+  animation: modalIn .22s var(--easing) forwards;
   z-index:2010;
 }
-.modal.show{opacity:1; transform:translateY(0)}
+.modal.fade-out{ animation: modalOut .18s var(--easing) forwards; }
+
 .modal header{display:flex;align-items:center;gap:8px;justify-content:space-between;margin-bottom:8px}
 .modal header .back{margin-right:auto}
 .x,.back{border:1px solid var(--ring);border-radius:10px;padding:4px 10px;background:transparent;cursor:pointer}
 
+/* Media shell (vidéo/image dans modales) */
+.media-shell{
+  position:relative; width:100%; aspect-ratio:16/9; overflow:hidden;
+  border-radius:16px; background:color-mix(in oklab, var(--panel) 90%, var(--bg));
+}
+.media-shell > *{ width:100%; height:100%; object-fit:cover; display:block }
+
+/* Bande d’images */
+.media-strip{ display:flex; gap:10px; overflow:auto; padding:8px 2px }
+.media-strip img{ width:180px; height:110px; object-fit:cover; border-radius:10px; flex:0 0 auto; cursor:pointer; border:1px solid var(--ring) }
+
+/* CV modal toolbar & view */
+.cv-toolbar{
+  display:flex; gap:8px; position:sticky; top:0; z-index:5;
+  background: color-mix(in oklab, var(--panel) 96%, var(--bg) 4%);
+  border:1px solid var(--ring); border-radius:14px; padding:8px; margin-bottom:10px;
+}
+.cv-view{ overflow:hidden; border-radius:16px; border:1px solid var(--ring); background:var(--panel) }
+.cv-view .cv-zoom{ will-change:transform }
+
+/* Lightbox */
 .lightbox{
   position:fixed; inset:0; display:grid; place-items:center;
   background:rgba(0,0,0,.85); z-index:2100;
@@ -261,7 +320,17 @@ radial-gradient(120px 90px at 85% 88%,color-mix(in oklab,var(--accent-500) 16%,t
 .lightbox img{max-width:92vw;max-height:82vh;border-radius:16px}
 .lb-btn{position:absolute;top:16px;right:12px}
 
-/* ===== Curtain (DEVANT le header), + particules ===== */
+.lb-prev,.lb-next{
+  position:absolute; top:50%; transform:translateY(-50%);
+  border:1px solid var(--ring); background:color-mix(in oklab, var(--panel) 92%, var(--bg));
+  padding:8px 12px; border-radius:999px; cursor:pointer;
+}
+.lb-prev{ left:16px }
+.lb-next{ right:16px }
+
+/* =======================
+   CURTAIN & PARTICLES
+======================= */
 .curtain{
   position:fixed; inset:0; z-index:900; pointer-events:none;
   --slidePct: 0%;
@@ -284,10 +353,7 @@ radial-gradient(120px 90px at 85% 88%,color-mix(in oklab,var(--accent-500) 16%,t
 .curtain .left::after  { --leaf-pos: left center; }
 .curtain .right::after { --leaf-pos: right center; }
 
-:root {
-  --leaf-img-day: url("assets/leaf_right.png");
-  --leaf-img-night: url("assets/leaf_rightN.png");
-}
+:root { --leaf-img-day: url("assets/leaf_right.png"); --leaf-img-night: url("assets/leaf_rightN.png"); }
 .curtain .right::after { background-image: var(--leaf-img-day); }
 html[data-theme="dark"] .curtain .right::after { background-image: var(--leaf-img-night); }
 
@@ -308,28 +374,41 @@ html[data-theme="dark"] .curtain .right::after { background-image: var(--leaf-im
   opacity: 0; transition: opacity .35s;
 }
 
-/* ====== HERO BANNER (crop vertical) ====== */
+/* =======================
+   HERO BANNER (fix)
+======================= */
 #hero-banner { background: none !important; aspect-ratio: auto !important; }
 #hero-banner::before, #hero-banner::after { content: none !important; }
+
 #hero-banner{
-  --hero-h: 85vh;   /* hauteur visible du hero */
+  --hero-h: 85vh;          /* hauteur visible */
+  --lift-fudge: 1px;       /* anti-liseré / arrondis */
   position: relative; width: 100%; height: var(--hero-h); overflow: hidden;
 }
+
 #hero-banner > .hero-img,
 #hero-banner > .hero-lift{
   position: absolute; inset: 0; pointer-events: none;
   transition: opacity .35s ease;
-  background-repeat: no-repeat; background-size: 100% auto; background-position: center top;
+  background-repeat: no-repeat;
+  background-size: cover;                 /* << au lieu de 100% auto */
+  background-position: center top;
   will-change: transform, opacity;
 }
-#hero-banner > .hero-img{ clip-path: inset(0 0 var(--lift-h) 0); }
+
+/* on coupe un peu plus bas/haut pour éviter le gap d’1 px */
+#hero-banner > .hero-img{
+  clip-path: inset(0 0 calc(var(--lift-h) + var(--lift-fudge)) 0);
+}
 #hero-banner > .hero-lift{
   z-index: 2;
-  clip-path: inset(calc(100% - var(--lift-h)) 0 0 0);
+  clip-path: inset(calc(100% - var(--lift-h) - var(--lift-fudge)) 0 0 0);
   transform: translateY(calc(-1 * var(--lift-h)));
   -webkit-mask-image: linear-gradient(to bottom, transparent 0, black 16px);
           mask-image: linear-gradient(to bottom, transparent 0, black 16px);
 }
+
+/* images jour/nuit */
 #hero-banner > .hero-img.day,  #hero-banner > .hero-lift.day  { background-image: url("assets/bannerD.png"); opacity: 1; }
 #hero-banner > .hero-img.night, #hero-banner > .hero-lift.night{ background-image: url("assets/bannerN.png"); opacity: 0; }
 [data-theme="dark"] #hero-banner > .hero-img.day,
@@ -337,12 +416,13 @@ html[data-theme="dark"] .curtain .right::after { background-image: var(--leaf-im
 [data-theme="dark"] #hero-banner > .hero-img.night,
 [data-theme="dark"] #hero-banner > .hero-lift.night { opacity: 1; }
 
-/* responsive (optionnel) */
 @media (max-width: 900px){
-  #hero-banner{ --hero-h: 70vh; --lift-h: 90px; }
+  #hero-banner{ --hero-h: 70vh;}
 }
 
-/* ===== Contact — DA cohérente ===== */
+/* =======================
+   CONTACT
+======================= */
 #contact .card{
   border-radius: 28px;
   padding: 18px;
@@ -354,10 +434,7 @@ html[data-theme="dark"] .curtain .right::after { background-image: var(--leaf-im
 .contact-grid{ display:grid; gap:16px; }
 @media (min-width: 820px){ .contact-grid{ grid-template-columns: 1.1fr 1.9fr } }
 
-/* Lignes info (Google / ou / mail) en "pills" */
-.contact-row{
-  display:flex; align-items:center; gap:8px; flex-wrap:wrap;
-}
+.contact-row{ display:flex; align-items:center; gap:8px; flex-wrap:wrap; }
 .contact-row .pill{
   background: color-mix(in oklab, var(--panel) 92%, var(--bg));
   border-color: color-mix(in oklab, var(--ring) 85%, transparent);
@@ -411,95 +488,216 @@ html[data-theme="dark"] .curtain .right::after { background-image: var(--leaf-im
   background: color-mix(in oklab, var(--panel) 88%, var(--accent-500) 24%);
 }
 
-/* Petites polishes cross-navigateur */
+/* Petites polishes */
 .input::-ms-reveal, .input::-ms-clear{ display:none }
 input[type="text"], input[type="email"]{ -webkit-appearance:none; appearance:none }
 
 #hero-banner{ position:relative; }
 #afterHeroSentinel{ position:absolute; left:0; right:0; bottom:0; height:1px; }
 
-/* =========================================================
-   RÔLES & FORCES — Accordéons par catégories et compétences
-   HTML attendu :
-   <div id="skillsWrap" class="skills-wrap">
-     <details class="skill-cat" open>
-       <summary><span>Techniques</span></summary>
-       <div class="skill-grid">
-         <details class="skill">
-           <summary>Automation QA</summary>
-           <div class="skill-panel">...</div>
-         </details>
-       </div>
-     </details>
-   </div>
-   ========================================================= */
-
+/* =======================
+   RÔLES & FORCES (fallbacks)
+======================= */
 .skills-wrap{display:grid;gap:18px}
-
-/* Catégories */
-.skill-cat{
-  border:1px solid var(--ring);
-  border-radius:18px;
-  background: var(--panel);
-  padding: 10px 12px;
+.skill-group{ padding:12px; border:1px solid var(--ring); border-radius:16px; background:var(--panel) }
+.skill-group > h3{ margin:0 0 8px }
+.skill-badges{ display:flex; gap:8px; flex-wrap:wrap }
+.badge{
+  display:inline-flex; align-items:center; gap:6px;
+  padding:6px 10px; border:1px solid var(--ring); border-radius:999px;
+  background: color-mix(in oklab, var(--panel) 95%, var(--bg) 5%);
+  font-size:12px;
 }
+
+/* Accordéons (non utilisés ici mais gardés) */
+.skill-cat{ border:1px solid var(--ring); border-radius:18px; background: var(--panel); padding: 10px 12px; }
 .skill-cat > summary{
-  list-style:none; cursor:pointer;
-  display:flex; align-items:center; gap:10px;
-  font-weight:800; font-size: clamp(18px, 1.6vw, 22px);
-  padding: 6px 4px; border-radius:12px;
+  list-style:none; cursor:pointer; display:flex; align-items:center; gap:10px;
+  font-weight:800; font-size: clamp(18px, 1.6vw, 22px); padding: 6px 4px; border-radius:12px;
 }
 .skill-cat > summary::-webkit-details-marker{display:none}
-.skill-cat > summary::after{
-  content:"▸"; transform: rotate(0deg); transition: transform .2s var(--easing);
-  margin-left:auto; opacity:.75;
-}
+.skill-cat > summary::after{ content:"▸"; transform: rotate(0deg); transition: transform .2s var(--easing); margin-left:auto; opacity:.75; }
 .skill-cat[open] > summary::after{ transform: rotate(90deg); }
-
-/* Grille des compétences */
-.skill-grid{
-  display:grid; gap:12px; margin-top:10px;
-  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
-}
-
-/* Tuile-compétence (accordéon interne) */
-.skill{
-  border:1px solid color-mix(in oklab, var(--ring) 85%, transparent);
-  border-radius:14px; background: color-mix(in oklab, var(--panel) 96%, var(--bg) 4%);
-  overflow:hidden;
-}
-.skill > summary{
-  list-style:none; cursor:pointer;
-  padding:10px 12px; font-weight:700;
-  display:flex; align-items:center; gap:10px;
-}
+.skill-grid{ display:grid; gap:12px; margin-top:10px; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); }
+.skill{ border:1px solid color-mix(in oklab, var(--ring) 85%, transparent); border-radius:14px; background: color-mix(in oklab, var(--panel) 96%, var(--bg) 4%); overflow:hidden; }
+.skill > summary{ list-style:none; cursor:pointer; padding:10px 12px; font-weight:700; display:flex; align-items:center; gap:10px; }
 .skill > summary::-webkit-details-marker{display:none}
-.skill > summary::after{
-  content:"＋"; margin-left:auto; transition: transform .18s var(--easing);
-  font-weight:800; opacity:.8;
-}
+.skill > summary::after{ content:"＋"; margin-left:auto; transition: transform .18s var(--easing); font-weight:800; opacity:.8; }
 .skill[open] > summary::after{ content:"−"; }
-
-/* Panneau descriptif */
-.skill-panel{
-  padding: 12px; border-top:1px solid color-mix(in oklab, var(--ring) 80%, transparent);
-  font-size: 14.5px; color: var(--ink-700);
-}
+.skill-panel{ padding: 12px; border-top:1px solid color-mix(in oklab, var(--ring) 80%, transparent); font-size: 14.5px; color: var(--ink-700); }
 .skill-panel p{ margin: 0 0 10px; }
 .skill-panel ul{ margin: 0; padding-left: 18px; }
 .skill-panel li{ margin: 6px 0; }
-
-/* Petits badges contextuels (niveau, outils, etc.) */
-.badges{ display:flex; flex-wrap:wrap; gap:6px; margin-top:8px; }
-.badges .badge{
-  border:1px solid var(--ring); border-radius:999px; padding:4px 8px; font-size:12px;
-  background: color-mix(in oklab, var(--panel) 95%, var(--bg) 5%);
-}
-
-/* État focus (a11y) */
 .skill > summary:focus-visible,
-.skill-cat > summary:focus-visible{
-  outline: none;
-  box-shadow: 0 0 0 3px color-mix(in oklab, var(--accent-500) 30%, transparent);
-  border-radius:12px;
+.skill-cat > summary:focus-visible{ outline: none; box-shadow: 0 0 0 3px color-mix(in oklab, var(--accent-500) 30%, transparent); border-radius:12px; }
+
+/* =======================
+   REDUCE MOTION
+======================= */
+@media (prefers-reduced-motion: reduce){
+  .tile{ transition: none }
+  .modal, .modal-backdrop, .lightbox{ transition: none; animation:none }
 }
+
+/* =======================
+   SKILLS — cartes + filtres + sections
+======================= */
+.skills-wrap .grid{ gap:14px; }
+.skills-wrap .grid > .card{
+  display:flex; flex-direction:column;
+  border-radius:18px;
+  background: color-mix(in oklab, var(--panel) 96%, var(--bg) 4%);
+  border:1px solid color-mix(in oklab, var(--ring) 85%, transparent);
+  transition: transform .18s var(--easing), box-shadow .18s var(--easing), border-color .22s var(--easing), background-color .22s var(--easing);
+  cursor: pointer;
+  will-change: transform;
+  transform: translateZ(0);
+}
+.skills-wrap .grid > .card:hover{ box-shadow: 0 10px 26px rgba(0,0,0,.10); transform: translateY(-2px); }
+
+.skills-wrap .grid > .card h3{ font-size:16px; margin:0 0 4px; line-height:1.25; }
+.skills-wrap .grid > .card p{
+  margin:0 0 6px; opacity:.85; line-height:1.35;
+  display:-webkit-box; -webkit-line-clamp:2; -webkit-box-orient:vertical; overflow:hidden;
+}
+.skills-wrap .grid > .card ul{ margin:4px 0 0 18px; }
+.skills-wrap .grid > .card .skill-badges{ margin-top:8px; }
+.skills-wrap .grid > .card .btn-cta{ margin-top:auto; align-self:flex-start; font-weight:700; }
+
+/* Head */
+.skills-head{ padding:18px 20px; border-radius:20px; background: color-mix(in oklab, var(--panel) 96%, var(--bg) 4%); border:1px solid color-mix(in oklab, var(--ring) 85%, transparent); }
+.skills-head p{ font-size: clamp(15px, 1.15vw, 18px); line-height: 1.45; }
+
+/* Filtres */
+.skills-filter{
+  display:flex; align-items:center; gap:8px; flex-wrap:wrap;
+  border-radius:18px;
+  background: color-mix(in oklab, var(--panel) 96%, var(--bg) 4%);
+  border:1px solid color-mix(in oklab, var(--ring) 85%, transparent);
+}
+.skills-filter .btn{ padding:8px 12px; border-radius:999px; border:1px solid color-mix(in oklab, var(--ring) 75%, transparent); }
+.skills-filter .btn[aria-pressed="true"]{
+  border-color: color-mix(in oklab, var(--accent-500) 45%, var(--ring));
+  background: color-mix(in oklab, var(--panel) 90%, var(--accent-500) 14%);
+  box-shadow: 0 4px 16px rgba(0,0,0,.12), 0 0 0 2px color-mix(in oklab, var(--accent-500) 20%, transparent) inset;
+  font-weight: 800;
+}
+.skills-tip{ margin-left:auto; opacity:.6; font-size:13px; white-space:nowrap; }
+
+/* Section bloc */
+.skills-sec{ margin-top:18px; }
+.skills-sec-head{ margin-bottom:12px; }
+.skills-sec-title{
+  margin:0; font-weight:900; letter-spacing:.2px;
+  font-size: clamp(18px, 1.4vw, 22px);
+  padding:6px 10px;
+  border-radius:12px;
+  border:1px solid color-mix(in oklab, var(--ring) 80%, transparent);
+  background: color-mix(in oklab, var(--panel) 94%, var(--bg) 6%);
+}
+
+/* Skill card visuals */
+.skill-card{ cursor:pointer; }
+.skill-card:focus-visible{ outline:none; box-shadow: 0 0 0 3px color-mix(in oklab, var(--accent-500) 30%, transparent); }
+.skill-card h3{ margin:0 0 6px; font-weight:800; font-size: clamp(17px, 1.1vw, 19px); letter-spacing:.2px; }
+.skill-card .pill{ padding:6px 10px; font-size:12px; }
+.skill-card .badge{ font-size:11.5px; padding:5px 9px; }
+.skill-card .btn-cta{ padding:8px 12px; }
+
+/* Skill images / logo */
+.skill-thumb{
+  position:relative; aspect-ratio:16/9; border-radius:14px; overflow:hidden;
+  background: color-mix(in oklab, var(--panel) 92%, var(--bg) 8%); margin-bottom:10px;
+}
+.skill-thumb[data-empty]{ display:none; }
+.skill-thumb img{ width:100%; height:100%; object-fit:cover; display:block; transition: transform .28s var(--easing), filter .28s var(--easing); will-change: transform; }
+.skill-card:hover .skill-thumb img{ transform: scale(1.02); filter: saturate(1.05); }
+
+/* Petits ajustements responsives Skills */
+@media (max-width: 700px){
+  .skills-tip{ display:none; }
+  .skills-head p{ font-size:15px; }
+  .skill-card h3{ font-size:17px; }
+}
+
+/* =======================
+   PROJECTS (x2 & CTA flèche)
+======================= */
+.projects-grid{
+  display:grid; gap:18px;
+  grid-template-columns: repeat(auto-fill, minmax(360px, 1fr));
+}
+@media (max-width: 620px){ .projects-grid{ grid-template-columns: 1fr; } }
+
+.project-tile{ padding:10px; min-height:auto; }
+.project-tile .thumb{ border-radius:24px; aspect-ratio:16/9; }
+.project-tile .thumb .media{ position:absolute; inset:0; }
+.project-tile .thumb img, .project-tile .thumb iframe{ width:100%; height:100%; object-fit:cover; display:block; }
+
+.project-tile .ovr{
+  position:absolute; inset:0; display:flex; flex-direction:column; justify-content:space-between;
+  padding:14px; color:#fff;
+  background: linear-gradient(to top, rgba(0,0,0,.42) 0%, rgba(0,0,0,.25) 38%, rgba(0,0,0,0) 65%);
+}
+[data-theme=light] .project-tile .ovr{ color:#fff; }
+[data-theme=dark]  .project-tile .ovr{ color:#fff; }
+
+.project-tile .ovr-top{ display:flex; }
+.project-tile .role-badge.o{
+  font-size:13.5px; padding:6px 10px; font-weight:800; letter-spacing:.2px;
+  border-color: rgba(255,255,255,.45);
+  background: color-mix(in oklab, #000 40%, transparent);
+  color:#fff;
+}
+.project-tile .role-badge.o .dot{ background: color-mix(in oklab, var(--accent-500) 80%, #fff 20%); box-shadow:none; }
+
+.project-tile .ovr-bottom{ display:flex; align-items:flex-end; gap:12px; }
+.project-tile .ovr-bottom .t{
+  margin:0; font-weight:900; line-height:1.05;
+  font-size: clamp(20px, 2.4vw, 34px);
+  text-shadow: 0 2px 10px rgba(0,0,0,.6);
+}
+.project-cta{
+  margin-left:auto; display:inline-flex; align-items:center; gap:8px;
+  padding:10px 12px; border-radius:14px;
+  background: color-mix(in oklab, #000 28%, var(--panel) 12%);
+  border:1px solid rgba(255,255,255,.45);
+  color:#fff; font-weight:800;
+}
+.project-cta .arr{ transform: translateX(0); transition: transform .15s var(--easing); }
+.project-cta:hover .arr{ transform: translateX(3px); }
+
+/* =======================
+   CASES (taille constante)
+======================= */
+.cases-grid{
+  display:grid; gap:18px;
+  /* colonnes élastiques MAIS cartes à largeur fixe : */
+  grid-template-columns: repeat(auto-fit, minmax(var(--case-w), 1fr));
+  justify-content: start;          /* aligne à gauche quand il reste de la place */
+  justify-items: start;            /* l’item ne s’étire pas */
+}
+.case-tile{
+  display:grid; gap:12px;
+  grid-template-columns: var(--case-cols);
+  min-height: var(--case-min);
+  width: 100%;
+  max-width: var(--case-w);        /* <- fixe la largeur réelle */
+  justify-self: start;             /* ne pas centrer/étirer dans la piste */
+}
+.tile.case-tile{ min-height: var(--case-min) !important; }
+
+@media (max-width: 920px){
+  .cases-grid{ grid-template-columns: 1fr; }
+  .case-tile{ max-width: 100%; }
+}
+
+.case-tile .thumb{ border-radius:18px; aspect-ratio: var(--case-thumb-ar); }
+.case-tile .thumb .media{ position:absolute; inset:0; }
+.case-tile .case-body{ display:flex; flex-direction:column; gap:8px; }
+.case-title{ margin:0; font-size: clamp(20px, 2vw, 28px); font-weight:900; }
+.case-lead{
+  margin:0; opacity:.9; line-height:1.45;
+  display:-webkit-box; -webkit-line-clamp:3; -webkit-box-orient:vertical; overflow:hidden;
+}
+.case-cta{ margin-top:auto; }

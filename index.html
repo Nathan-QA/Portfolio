@@ -27,7 +27,7 @@
     <div id="afterHeroSentinel" aria-hidden="true"></div>
   </section>
 
-  <!-- Rideau d’intro (images posées par app.js via CSS vars) -->
+  <!-- Rideau d’intro (images posées par JS via CSS vars) -->
   <div id="curtain" class="curtain" aria-hidden="true">
     <div class="panel left"></div>
     <div class="panel right"></div>
@@ -49,7 +49,7 @@
           <div class="brand-links">
             <a id="lkdLink" class="brand-icon" aria-label="LinkedIn" target="_blank" rel="noopener" href="#">
               <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true">
-                <path fill="currentColor" d="M19 3A2.94 2.94 0 0 1 22 6v12a2.94 2.94 0 0 1-3 3H5a2.94 2.94 0 0 1-3-3V6a2.94 2.94 0 0 1 3-3h14m-9 7H8v9h2V10m0-3a1 1 0 1 0-1.9.38A1 1 0 0 0 10 7m9 6.5c0-3-1.6-4.5-3.8-4.5A3.3 3.3 0 0 0 12 10h-.1V10h.1v9h2v-5.1c0-1.3.3-2.6 2-2.6s1.9 1.5 1.9 2.7V19h2z"/>
+                <path fill="currentColor" d="M19 3A2.94 2.94 0 0 1 22 6v12a2.94 2.94 0 0 1-3 3H5a2.94 2.94 0 0 1-3-3V6a2.94 2.94 0 0 1 3-3h14m-9 7H8v9h2V10m0-3a1 1 0 1 0-1.9.38A1 1 0 0 0 10 7m9 6.5c0-3-1.6-4.5-3.8-4.5A3.3 3.3 0  0 0 12 10h-.1V10h.1v9h2v-5.1c0-1.3.3-2.6 2-2.6s1.9 1.5 1.9 2.7V19h2z"/>
               </svg>
             </a>
             <a id="mobyLink" class="brand-icon" aria-label="MobyGames" target="_blank" rel="noopener" href="#">
@@ -74,9 +74,7 @@
 
       <!-- Actions à droite -->
       <div style="display:flex; gap:8px; align-items:center">
-        <!-- Bouton burger (label lié au checkbox) -->
         <label for="navChk" id="navToggle" class="btn nav-toggle" aria-label="Ouvrir le menu" aria-controls="primaryNav" aria-expanded="false">☰</label>
-
         <button id="cvBtn" class="btn" title="CV">CV</button>
         <button id="themeBtn" class="btn" aria-label="Theme">☀</button>
         <button id="langBtn" class="btn" aria-label="Language">FR 🇫🇷</button>
@@ -150,90 +148,7 @@
   <script src="https://accounts.google.com/gsi/client" async defer></script>
   <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js" async defer></script>
 
-  <!-- Burger / menu (fermeture auto + aria-expanded) -->
-  <script>
-  (() => {
-    const header = document.querySelector('.header');
-    const chk    = document.getElementById('navChk');
-    const toggle = document.getElementById('navToggle');
-    const nav    = document.getElementById('primaryNav');
-
-    const sync = () => toggle && toggle.setAttribute('aria-expanded', chk && chk.checked ? 'true' : 'false');
-    if (chk) {
-      chk.addEventListener('change', () => {
-        header.classList.toggle('menu-open', chk.checked);
-        sync();
-      });
-    }
-    nav?.querySelectorAll('a[href^="#"]').forEach(a => {
-      a.addEventListener('click', () => {
-        if (chk) chk.checked = false;
-        header.classList.remove('menu-open');
-        sync();
-      }, { passive: true });
-    });
-    document.addEventListener('keydown', e => {
-      if (e.key === 'Escape' && chk && chk.checked) {
-        chk.checked = false; header.classList.remove('menu-open'); sync();
-      }
-    });
-    document.addEventListener('click', e => {
-      if (!header.classList.contains('menu-open')) return;
-      if (!header.contains(e.target)) {
-        if (chk) chk.checked = false;
-        header.classList.remove('menu-open');
-        sync();
-      }
-    }, { capture: true });
-  })();
-  </script>
-
-  <!-- Header "poussé" par le hero puis collant -->
-  <script>
-  (() => {
-    const doc  = document.documentElement;
-    const body = document.body;
-    const hdr  = document.querySelector('.header');
-    const hero = document.getElementById('hero-banner');
-
-    // Met à jour --headerH (sert aux anchors et au menu mobile)
-    const setHeaderH = () => {
-      if (!hdr) return;
-      doc.style.setProperty('--headerH', hdr.offsetHeight + 'px');
-    };
-
-    let raf = 0;
-    const computeStickTop = () => {
-      raf = 0;
-      if (!hdr || !hero) return;
-      const h   = hdr.offsetHeight || 0;
-      const H   = hero.offsetHeight || 1;
-      const btm = hero.getBoundingClientRect().bottom; // bas du hero par rapport au haut du viewport
-      // Déplace progressivement le header de -h à 0 quand le hero sort de l'écran
-      const topVal = Math.max(-h, Math.min(0, -(h * btm) / H));
-      doc.style.setProperty('--stickTop', topVal + 'px');
-      body.classList.toggle('after-hero', btm <= 0);
-    };
-    const schedule = () => { if (!raf) raf = requestAnimationFrame(computeStickTop); };
-
-    // Init + écouteurs
-    setHeaderH();
-    computeStickTop();
-
-    // resize + orientation + changements de taille du header
-    addEventListener('resize', () => { setHeaderH(); schedule(); }, { passive:true });
-    addEventListener('orientationchange', () => { setHeaderH(); schedule(); }, { passive:true });
-    if ('ResizeObserver' in window && hdr) new ResizeObserver(() => { setHeaderH(); schedule(); }).observe(hdr);
-
-    // suivi du scroll (léger via rAF)
-    addEventListener('scroll', schedule, { passive:true });
-
-    // Au cas où des images/aspects modifient la taille du hero au chargement tardif
-    addEventListener('load', () => { setHeaderH(); schedule(); }, { passive:true });
-  })();
-  </script>
-
-  <!-- App (imports Three depuis CDN dans app.js) -->
-  <script type="module" src="app.js"></script>
+<!-- Entrée de l’app -->
+<script type="module" src="./js/main.js"></script>
 </body>
 </html>
