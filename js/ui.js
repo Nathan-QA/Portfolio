@@ -1,7 +1,56 @@
-// ui.js
+// ui.js — curtain OFF < 900px (robuste), toggle auto sur resize, particles clean
 import { byId, el, $ } from './utils.js';
 import { state } from './state.js';
 import { CONFIG } from './config.js';
+
+/* =========================
+   Threshold & runtimes
+========================= */
+const CURTAIN_MIN_WIDTH = 900;
+
+const curtainRuntime = {
+  enabled: false,
+  wrap: null,
+  left: null,
+  right: null,
+  rafId: null,
+  listeners: [], // [{target, type, fn, opts}]
+  resetStyles() {
+    if (!this.wrap) return;
+    this.wrap.style.display = 'none';
+    this.wrap.style.removeProperty('--slidePct');
+    this.left?.style.removeProperty('--leafScale');
+    this.left?.style.removeProperty('--leafBright');
+    this.right?.style.removeProperty('--leafScale');
+    this.right?.style.removeProperty('--leafBright');
+  },
+  off() {
+    if (!this.enabled) return;
+    this.enabled = false;
+    if (this.rafId) { cancelAnimationFrame(this.rafId); this.rafId = null; }
+    for (const L of this.listeners) L.target.removeEventListener(L.type, L.fn, L.opts);
+    this.listeners.length = 0;
+    this.resetStyles();
+  }
+};
+
+const particlesRuntime = {
+  running: false,
+  spawnTimer: null,
+  onKeyObs: null,
+  onScrollRef: null,
+  themeObserver: null,
+  rafId: null,
+  layerId: 'leafLayer',
+  off() {
+    this.running = false;
+    if (this.spawnTimer) { clearInterval(this.spawnTimer); this.spawnTimer = null; }
+    if (this.onScrollRef) { window.removeEventListener('scroll', this.onScrollRef); this.onScrollRef = null; }
+    if (this.rafId) { cancelAnimationFrame(this.rafId); this.rafId = null; }
+    if (this.themeObserver) { this.themeObserver.disconnect(); this.themeObserver = null; }
+    byId(this.layerId)?.remove();
+  }
+};
 
 /* =========================
    Helpers
@@ -35,8 +84,8 @@ function mediaFromElement(el){
 // Ghost fixed avec background cover (pas d’étirement)
 function makeGhost(url, fromRect, radius){
   return el(`<div style="
-    position:fixed; left:${fromRect.left}px; top:${fromRect.top}px;
-    width:${fromRect.width}px; height:${fromRect.height}px;
+    position:fixed; left:${Math.round(fromRect.left)}px; top:${Math.round(fromRect.top)}px;
+    width:${Math.round(fromRect.width)}px; height:${Math.round(fromRect.height)}px;
     ${url ? `background:url('${url}') center/cover no-repeat;` : `background: var(--panel);`}
     border-radius:${radius};
     box-shadow:0 10px 28px rgba(0,0,0,.25);
@@ -67,11 +116,12 @@ function animateUniform(node, fromRect, toRect, rStart, rEnd, duration=300){
   return new Promise(res => setTimeout(res, duration));
 }
 
-/* ---------- Modal & Lightbox ---------- */
+/* =========================
+   Modal & Lightbox
+========================= */
 export async function openModal(title, bodyHTML, {originEl=null, showBack=false, onBack=null, onReady}={}){
   const root = byId('modalRoot'); if(!root) return;
 
-  // Backdrop + modal
   const backdrop = el(`<div class="modal-backdrop">
     <div class="modal" role="dialog" aria-modal="true">
       <header>
@@ -88,7 +138,6 @@ export async function openModal(title, bodyHTML, {originEl=null, showBack=false,
   const modal = backdrop.querySelector('.modal');
   const shell = modal.querySelector('[data-media-shell]') || modal;
 
-  // callbacks + boutons
   const wire = ()=>{
     document.body.classList.add('no-scroll');
     backdrop.addEventListener('click',e=>{ if(e.target===backdrop) closeModal({originEl}); }, {passive:true});
@@ -107,12 +156,10 @@ export async function openModal(title, bodyHTML, {originEl=null, showBack=false,
     return;
   }
 
-  // 1) Prépare le ghost depuis l’origine
   const fromRect = rect(originEl);
   const media    = mediaFromElement(originEl);
   const ghost    = makeGhost(media.url, fromRect, borderRadius(originEl));
 
-  // 2) Rendre le backdrop visible, mais geler la modale (pas d’anim CSS, pas visible)
   backdrop.classList.add('backdrop-show');
   modal.style.animation = 'none';
   modal.style.opacity = '0';
@@ -120,19 +167,16 @@ export async function openModal(title, bodyHTML, {originEl=null, showBack=false,
 
   document.body.appendChild(ghost);
 
-  // 3) Attendre que la modale prenne sa place (2 frames)
   await nextFrame();
   await nextFrame();
 
-  // 4) Mesurer la cible réelle puis animer
   const toRect = rect(shell);
   await animateUniform(ghost, fromRect, toRect, borderRadius(originEl), borderRadius(shell), 340);
 
-  // 5) Fin du morph → afficher la modale et câbler les events
   ghost.remove();
   modal.style.opacity = '';
   modal.style.pointerEvents = '';
-  modal.style.animation = ''; // rend la CSS d’entrée dispo pour les cas sans morph
+  modal.style.animation = '';
   wire();
 }
 
@@ -152,18 +196,15 @@ export function closeModal({originEl=null}={}){
     return;
   }
 
-  // Mesurer avant retrait + ghost
   const fromRect = rect(shell);
   const toRect   = rect(originEl);
   const media    = mediaFromElement(shell) || mediaFromElement(originEl);
   const ghost    = makeGhost(media.url, fromRect, borderRadius(shell));
   document.body.appendChild(ghost);
 
-  // Retirer la modale
   root.innerHTML='';
   document.body.classList.remove('no-scroll');
 
-  // Morph inverse
   animateUniform(ghost, fromRect, toRect, borderRadius(shell), borderRadius(originEl), 300)
     .then(()=> ghost.remove());
 }
@@ -218,22 +259,42 @@ export const yt = (id,autoplay=false,muted=false)=>
 export const mediaShellHtml = (inner='') =>
   `<div class="media-shell" data-media-shell>${inner}</div>`;
 
-/* ---------- Rideau (ouverture latérale) ---------- */
+/* =========================
+   Curtain (ouverture latérale)
+========================= */
 export function startCurtain(){
   const wrap  = byId('curtain'); if(!wrap) return;
-  const left  = wrap.querySelector('.left');
-  const right = wrap.querySelector('.right');
+  const underThreshold = window.innerWidth < CURTAIN_MIN_WIDTH;
+
+  // Si trop petit → off + nettoyage
+  if (underThreshold) {
+    curtainRuntime.off();
+    particlesRuntime.off();
+    return;
+  }
+
+  // Si déjà actif, ne pas dupliquer
+  if (curtainRuntime.enabled) return;
+
+  curtainRuntime.wrap = wrap;
+  curtainRuntime.left = wrap.querySelector('.left');
+  curtainRuntime.right = wrap.querySelector('.right');
+
+  const left  = curtainRuntime.left;
+  const right = curtainRuntime.right;
+
   const {
     maxScrollVh, baseGapVW, tightGapVW, scaleDelta, darkDelta,
     easing, followHz, wobbleGain, wobbleFreq, wobbleDecay, desync
   } = CONFIG.CURTAIN;
 
+  // Assets & base styles
   if (CONFIG.CURTAIN.leftImg)  left?.style.setProperty('--leaf-img', `url("${CONFIG.CURTAIN.leftImg}")`);
   if (CONFIG.CURTAIN.leafSize) {
-    left?.style.setProperty('--leaf-size', CONFIG.CURTAIN.leafSize);
+    left ?.style.setProperty('--leaf-size', CONFIG.CURTAIN.leafSize);
     right?.style.setProperty('--leaf-size', CONFIG.CURTAIN.leafSize);
   }
-
+  wrap .style.display = ''; // s’assurer qu’il est visible
   wrap .style.setProperty('--slidePct','0%');
   left ?.style.setProperty('--leafScale','1');
   right?.style.setProperty('--leafScale','1');
@@ -245,7 +306,7 @@ export function startCurtain(){
     t = clamp01(t);
     if (easing === 'easeOut')    return 1 - Math.pow(1 - t, 3);
     if (easing === 'easeInOut')  return t < .5 ? 4*t*t*t : 1 - Math.pow(-2*t+2, 3)/2;
-    return t*t*t*(t*(t*6 - 15) + 10);
+    return t*t*t*(t*(t*6 - 15) + 10); // smootherstep
   };
 
   let maxScrollPx = window.innerHeight * (maxScrollVh / 100);
@@ -268,7 +329,10 @@ export function startCurtain(){
     left ?.style.setProperty('--leafBright', Math.max(0, leafBright * (1 + micro*0.4)).toFixed(4));
     right?.style.setProperty('--leafBright', Math.max(0, leafBright * (1 - micro*0.4)).toFixed(4));
   }
+
   function loop(ts){
+    // Si on a été coupé pendant l’anim, on stoppe
+    if (!curtainRuntime.enabled || window.innerWidth < CURTAIN_MIN_WIDTH) return;
     const dt = Math.min(0.033, (ts - lastT) / 1000);
     lastT = ts;
     const alpha = 1 - Math.exp(-dt * followHz);
@@ -277,34 +341,63 @@ export function startCurtain(){
     const wobble = Math.sin(ts/1000 * wobbleFreq * 2*Math.PI) * wobbleA;
     const displayT = clamp01(cur + wobble);
     apply(displayT);
-    if (Math.abs(target - cur) > 0.0008 || wobbleA > 0.0008) requestAnimationFrame(loop);
+    if (Math.abs(target - cur) > 0.0008 || wobbleA > 0.0008) {
+      curtainRuntime.rafId = requestAnimationFrame(loop);
+    } else {
+      curtainRuntime.rafId = requestAnimationFrame(loop); // keep subtle follow
+    }
   }
+
   function recomputeTarget(){
+    if (!curtainRuntime.enabled) return;
+    // Kill immédiat si on passe sous le seuil
+    if (window.innerWidth < CURTAIN_MIN_WIDTH) {
+      curtainRuntime.off();
+      particlesRuntime.off();
+      return;
+    }
     maxScrollPx = window.innerHeight * (maxScrollVh / 100);
     const raw = Math.max(0, window.scrollY) / Math.max(1, maxScrollPx);
     const next = easeFn(raw);
     const delta = Math.abs(next - target);
     wobbleA = Math.min(maxWobble, wobbleA + delta * wobbleGain * (1 - next));
-    target = next; requestAnimationFrame(loop);
+    target = next; curtainRuntime.rafId = requestAnimationFrame(loop);
   }
-  window.addEventListener('scroll',  recomputeTarget, {passive:true});
-  window.addEventListener('resize',  recomputeTarget, {passive:true});
-  window.addEventListener('orientationchange', recomputeTarget, {passive:true});
+
+  // Listeners (enregistrés pour cleanup)
+  const addL = (target, type, fn, opts)=> {
+    target.addEventListener(type, fn, opts);
+    curtainRuntime.listeners.push({target, type, fn, opts});
+  };
+  addL(window, 'scroll',  recomputeTarget, {passive:true});
+  addL(window, 'resize',  recomputeTarget, {passive:true});
+  addL(window, 'orientationchange',  recomputeTarget, {passive:true});
+
+  curtainRuntime.enabled = true;
   apply(cur);
+  curtainRuntime.rafId = requestAnimationFrame(loop);
 }
 
-/* ---------- Particules feuilles (derrière le curtain) ---------- */
+/* =========================
+   Particules feuilles (derrière curtain)
+========================= */
 export function initLeafParticles(){
+  const underThreshold = window.innerWidth < CURTAIN_MIN_WIDTH;
   const banner = byId('hero-banner');
   const curtain = byId('curtain');
   const rightPanel = $('#curtain .right');
-  if (!banner || !curtain || !rightPanel) return;
+
+  if (underThreshold || !banner || !curtain || !rightPanel) {
+    particlesRuntime.off();
+    return;
+  }
+  if (particlesRuntime.running) return;
 
   // Crée/replace la couche de particules
-  let layer = byId('leafLayer');
+  let layer = byId(particlesRuntime.layerId);
   if (!layer) {
     layer = document.createElement('div');
-    layer.id = 'leafLayer';
+    layer.id = particlesRuntime.layerId;
     layer.className = 'leaf-layer';
     curtain.parentNode.insertBefore(layer, curtain);
   }
@@ -330,7 +423,7 @@ export function initLeafParticles(){
   async function rebuildSamples(){
     await new Promise(res=>{
       const u=maskURL();
-      if(src.src.endsWith(u)) return res();
+      if(src.src && src.src.includes(u)) return res();
       src.onload=res; src.src=u;
     });
     const c = (typeof OffscreenCanvas!=='undefined')
@@ -411,10 +504,11 @@ export function initLeafParticles(){
     budget = Math.min(160, budget + dy*0.2);
   }
   window.addEventListener('scroll', onScroll, {passive:true});
-  const spawnTimer = setInterval(()=>{ if(Math.random()<.9) spawnOne(); }, 350);
+  particlesRuntime.onScrollRef = onScroll;
 
-  // Thème : reconstruire et mettre à jour les sprites
-  new MutationObserver(m=>{
+  particlesRuntime.spawnTimer = setInterval(()=>{ if(Math.random()<.9) spawnOne(); }, 350);
+
+  particlesRuntime.themeObserver = new MutationObserver(m=>{
     if(m.some(x=>x.type==='attributes'&&x.attributeName==='data-theme')){
       rebuildSamples().then(()=> {
         const url = isDark() ? SPRITE_NIGHT : SPRITE_DAY;
@@ -423,11 +517,15 @@ export function initLeafParticles(){
         });
       });
     }
-  }).observe(document.documentElement,{attributes:true});
+  });
+  particlesRuntime.themeObserver.observe(document.documentElement,{attributes:true});
 
   let prev = performance.now();
+  particlesRuntime.running = true;
+
   function tick(t) {
-    requestAnimationFrame(tick);
+    if (!particlesRuntime.running || window.innerWidth < CURTAIN_MIN_WIDTH) return;
+    particlesRuntime.rafId = requestAnimationFrame(tick);
     const dt = Math.min(0.033, (t - prev) / 1000);
     prev = t;
 
@@ -461,7 +559,31 @@ export function initLeafParticles(){
       L.life += dt;
     }
   }
-  (async()=>{ await rebuildSamples(); requestAnimationFrame(tick); })();
+  (async()=>{ await rebuildSamples(); particlesRuntime.rafId = requestAnimationFrame(tick); })();
 
-  window.addEventListener('beforeunload', ()=> clearInterval(spawnTimer), {once:true});
+  window.addEventListener('beforeunload', ()=> particlesRuntime.spawnTimer && clearInterval(particlesRuntime.spawnTimer), {once:true});
 }
+
+/* =========================
+   Responsive toggle (auto)
+========================= */
+function onResizeToggle(){
+  if (window.innerWidth < CURTAIN_MIN_WIDTH) {
+    curtainRuntime.off();
+    particlesRuntime.off();
+  } else {
+    // (Re)boot features si besoin
+    if (!curtainRuntime.enabled) startCurtain();
+    if (!particlesRuntime.running) initLeafParticles();
+  }
+}
+// Debounce léger pour éviter le spam
+let _resizeTick = null;
+window.addEventListener('resize', ()=>{
+  if (_resizeTick) cancelAnimationFrame(_resizeTick);
+  _resizeTick = requestAnimationFrame(()=>{ _resizeTick = null; onResizeToggle(); });
+}, {passive:true});
+window.addEventListener('orientationchange', onResizeToggle, {passive:true});
+
+// Boot initial (au cas où ce module est importé tôt)
+queueMicrotask(onResizeToggle);

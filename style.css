@@ -27,7 +27,7 @@
    BASE & UTILS
 ======================= */
 *{ box-sizing:border-box }
-html,body{height:100%}
+html,body{height:100%; overflow-x:hidden;}  /* ← jamais de scroll horizontal */
 html{ scroll-behavior:smooth; }
 @media (prefers-reduced-motion: reduce){ html{ scroll-behavior:auto } }
 
@@ -334,6 +334,7 @@ radial-gradient(120px 90px at 85% 88%,color-mix(in oklab,var(--accent-500) 16%,t
 .curtain{
   position:fixed; inset:0; z-index:900; pointer-events:none;
   --slidePct: 0%;
+  overflow:hidden;                 /* ← sécurité anti-débordement */
 }
 .curtain .panel{
   position:absolute; top:0; bottom:0;
@@ -353,9 +354,15 @@ radial-gradient(120px 90px at 85% 88%,color-mix(in oklab,var(--accent-500) 16%,t
 .curtain .left::after  { --leaf-pos: left center; }
 .curtain .right::after { --leaf-pos: right center; }
 
+/* Thèmes */
 :root { --leaf-img-day: url("assets/leaf_right.png"); --leaf-img-night: url("assets/leaf_rightN.png"); }
 .curtain .right::after { background-image: var(--leaf-img-day); }
 html[data-theme="dark"] .curtain .right::after { background-image: var(--leaf-img-night); }
+
+/* >>> Désactive totalement le curtain en mobile/tablette <<< */
+@media (max-width: 900px){
+  #curtain, .curtain, .leaf-layer{ display:none !important; }
+}
 
 /* Couche globale de particules (au-dessus du header, sous les popups) */
 .leaf-layer{
@@ -519,7 +526,7 @@ input[type="text"], input[type="email"]{ -webkit-appearance:none; appearance:non
 .skill-cat > summary::after{ content:"▸"; transform: rotate(0deg); transition: transform .2s var(--easing); margin-left:auto; opacity:.75; }
 .skill-cat[open] > summary::after{ transform: rotate(90deg); }
 .skill-grid{ display:grid; gap:12px; margin-top:10px; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); }
-.skill{ border:1px solid color-mix(in oklab, var(--ring) 85%, transparent); border-radius:14px; background: color-mix(in oklab, var(--panel) 96%, var(--bg) 4%); overflow:hidden; }
+.skill{ border:1px solid color-mix(in oklab, var(--ring) 80%, transparent); border-radius:14px; background: color-mix(in oklab, var(--panel) 96%, var(--bg) 4%); overflow:hidden; }
 .skill > summary{ list-style:none; cursor:pointer; padding:10px 12px; font-weight:700; display:flex; align-items:center; gap:10px; }
 .skill > summary::-webkit-details-marker{display:none}
 .skill > summary::after{ content:"＋"; margin-left:auto; transition: transform .18s var(--easing); font-weight:800; opacity:.8; }
@@ -701,3 +708,8 @@ input[type="text"], input[type="email"]{ -webkit-appearance:none; appearance:non
   display:-webkit-box; -webkit-line-clamp:3; -webkit-box-orient:vertical; overflow:hidden;
 }
 .case-cta{ margin-top:auto; }
+
+/* ===== Hard kill overflow on small viewports ===== */
+@media (max-width: 900px){
+  :where(body, .page-slab, .container, #hero-banner){ overflow-x: clip; }
+}
