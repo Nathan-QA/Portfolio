@@ -1,18 +1,179 @@
 // render.js
 import { byId, el, imgsArr, cover } from './utils.js';
 import { state } from './state.js';
-import { I, PROFILE, MAILCFG } from './config.js';
+import { CONFIG, I, PROFILE, MAILCFG } from './config.js';
 import { openModal, openGallery, yt, mediaShellHtml } from './ui.js';
 import { setHash } from './router.js';
 
 const T = (k, fallback) => (I?.[state.lang]?.[k]) || fallback || k;
 
 function organicRadius(id){
-  const r=[['28px 20px 32px 18px/24px 28px 20px 30px'],['30px 18px 28px 22px/22px 32px 22px 28px'],['26px 26px 34px 18px/24px 28px 22px 30px']];
-  const h=String(id||'x').split('').reduce((a,c)=>a+c.charCodeAt(0),0);
-  return r[h%r.length];
+  return '10px';
 }
 function hueFromStr(s='skills'){ return [...String(s)].reduce((a,c)=>a+c.charCodeAt(0),0)%360; }
+function htmlText(v){ return String(v ?? '').replace(/[&<>"]/g, m => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[m])); }
+function localized(v){ return v && (v[state.lang] || v.fr || v.en || v); }
+function paragraphHTML(v){
+  const list = Array.isArray(v) ? v : (v ? [v] : []);
+  return list.map(p => `<p>${htmlText(p)}</p>`).join('');
+}
+function listHTML(items){
+  const list = Array.isArray(items) ? items : (items ? [items] : []);
+  if(!list.length) return '';
+  return `<ul class="clean-list">${list.map(x=>`<li>${htmlText(localizedValue(x))}</li>`).join('')}</ul>`;
+}
+function projectPlaceholder(title){
+  const letters = String(title||'NT').split(/\s+|:|\//).filter(Boolean).slice(0,2).map(x=>x[0]).join('').toUpperCase() || 'NT';
+  return `<div class="project-placeholder"><span>${letters}</span></div>`;
+}
+function asArray(v){ return Array.isArray(v) ? v : (v ? [v] : []); }
+function localizedValue(v){ const x = localized(v); return x == null ? '' : x; }
+function mediaSrc(item){
+  return typeof item === 'string' ? item : (item?.src || item?.url || item?.image || item?.cover || '');
+}
+function imageSrcList(v){
+  if(!v) return [];
+  if(Array.isArray(v)) return v.map(mediaSrc).filter(Boolean);
+  if(typeof v === 'string') return [v];
+  if(mediaSrc(v)) return [mediaSrc(v)];
+  return imgsArr(v).map(mediaSrc).filter(Boolean);
+}
+function caseImages(c){
+  const media = c?.media || {};
+  return imageSrcList(media.images || media.gallery || c?.images);
+}
+function caseCover(c){
+  const media = c?.media || {};
+  const imgs = caseImages(c);
+  const explicit = mediaSrc(media.cover) || mediaSrc(cover(media.images)) || mediaSrc(cover(media.gallery)) || mediaSrc(c?.cover);
+  return explicit || (media.trailer ? `https://img.youtube.com/vi/${media.trailer}/hqdefault.jpg` : (imgs[0] || ''));
+}
+function renderCaseTags(tags){
+  const list = asArray(localizedValue(tags)).filter(Boolean);
+  if(!list.length) return '';
+  return `<div class="case-tags">${list.map(t=>`<span>${htmlText(localizedValue(t))}</span>`).join('')}</div>`;
+}
+function renderCaseMetrics(items, compact=false){
+  const list = asArray(localizedValue(items)).filter(Boolean);
+  if(!list.length) return '';
+  return `<dl class="case-metrics ${compact?'case-metrics--compact':''}">
+    ${list.map(it=>{
+      const value = localizedValue(it.value || it.number || it.stat || '');
+      const label = localizedValue(it.label || it.title || it.caption || '');
+      return `<div><dt>${htmlText(value)}</dt><dd>${htmlText(label)}</dd></div>`;
+    }).join('')}
+  </dl>`;
+}
+function renderProjectFacts(items, compact=false){
+  const list = asArray(localizedValue(items)).filter(Boolean);
+  if(!list.length) return '';
+  return `<dl class="project-facts ${compact?'project-facts--compact':''}">
+    ${list.map(it=>{
+      const label = localizedValue(it.label || it.title || '');
+      const value = localizedValue(it.value || it.text || it.stat || '');
+      return `<div>${label ? `<dt>${htmlText(label)}</dt>` : ''}<dd>${htmlText(value)}</dd></div>`;
+    }).join('')}
+  </dl>`;
+}
+function mediaItemData(item){
+  if(typeof item === 'string') return {src:item, alt:'', caption:''};
+  return {
+    src: mediaSrc(item),
+    alt: localizedValue(item?.alt || ''),
+    caption: localizedValue(item?.caption || '')
+  };
+}
+function renderCaseImage(src, caption='', alt=''){
+  if(!src) return '';
+  return `<figure class="case-figure">
+    <img src="${htmlText(src)}" alt="${htmlText(alt)}" loading="lazy" decoding="async">
+    ${caption ? `<figcaption>${htmlText(caption)}</figcaption>` : ''}
+  </figure>`;
+}
+function renderCaseGallery(images, caption=''){
+  const list = asArray(images).map(mediaItemData).filter(x=>x.src);
+  if(!list.length) return '';
+  return `<figure class="case-gallery-wrap">
+    <div class="case-gallery" data-case-gallery>
+      ${list.map((img,i)=>`<button type="button" class="case-gallery-item" data-gallery-index="${i}">
+        <img src="${htmlText(img.src)}" alt="${htmlText(img.alt)}" loading="lazy" decoding="async">
+        ${img.caption ? `<span>${htmlText(img.caption)}</span>` : ''}
+      </button>`).join('')}
+    </div>
+    ${caption ? `<figcaption>${htmlText(caption)}</figcaption>` : ''}
+  </figure>`;
+}
+function renderCaseMedia(media, fallbackTitle=''){
+  const data = typeof media === 'string' ? {src:media} : (media || {});
+  if(data.trailer){
+    const caption = localizedValue(data.caption || '');
+    return `<figure class="case-figure case-figure--embed">
+      <div class="case-embed">${yt(data.trailer,false,false)}</div>
+      ${caption ? `<figcaption>${htmlText(caption)}</figcaption>` : ''}
+    </figure>`;
+  }
+  const gallery = data.images || data.gallery;
+  if(gallery) return renderCaseGallery(gallery, localizedValue(data.caption || ''));
+  const src = data.src || data.url || data.image || data.cover || '';
+  return renderCaseImage(src, localizedValue(data.caption || ''), localizedValue(data.alt || fallbackTitle));
+}
+function renderCaseCallout(block){
+  if(!block) return '';
+  const title = localizedValue(block.title || block.heading || '');
+  const body = localizedValue(block.text || block.body || block.paragraphs || '');
+  return `<aside class="case-callout">
+    ${title ? `<strong>${htmlText(title)}</strong>` : ''}
+    ${paragraphHTML(body)}
+  </aside>`;
+}
+function renderCaseSection(sec){
+  const heading = localizedValue(sec.heading || sec.title || '');
+  const paragraphs = localizedValue(sec.paragraphs || sec.body || sec.text || '');
+  const bullets = localizedValue(sec.bullets || sec.items || []);
+  const media = sec.media ? renderCaseMedia(sec.media, heading) : '';
+  const callout = sec.callout ? renderCaseCallout(sec.callout) : '';
+  return `<section class="case-section ${media?'case-section--with-media':''}">
+    <div class="case-section-copy">
+      ${heading ? `<h4>${htmlText(heading)}</h4>` : ''}
+      ${paragraphHTML(paragraphs)}
+      ${listHTML(bullets)}
+    </div>
+    ${media ? `<div class="case-section-media">${media}</div>` : ''}
+    ${callout}
+  </section>`;
+}
+function renderCaseBlock(block){
+  if(!block) return '';
+  const type = block.type || 'text';
+  if(type === 'image' || type === 'media') return renderCaseMedia(block.media || block, localizedValue(block.title || ''));
+  if(type === 'gallery') return renderCaseGallery(block.images || block.gallery, localizedValue(block.caption || ''));
+  if(type === 'callout') return renderCaseCallout(block);
+  if(type === 'metrics' || type === 'stats') return renderCaseMetrics(block.items || block.metrics);
+  return renderCaseSection(block);
+}
+function renderCaseArticle(article){
+  if(!article) return '';
+  const intro = paragraphHTML(localizedValue(article.intro));
+  const sections = asArray(article.sections).map(renderCaseSection).join('');
+  const blocks = asArray(article.blocks).map(renderCaseBlock).join('');
+  const closing = localizedValue(article.closing);
+  return `<article class="case-article">
+    ${intro ? `<div class="case-intro">${intro}</div>` : ''}
+    ${sections}
+    ${blocks}
+    ${closing ? `<p class="article-closing">${htmlText(closing)}</p>` : ''}
+  </article>`;
+}
+function wireCaseGalleries(root){
+  root.querySelectorAll('[data-case-gallery]').forEach(gallery=>{
+    const buttons = [...gallery.querySelectorAll('[data-gallery-index]')];
+    const imgs = buttons.map(btn=>btn.querySelector('img')?.getAttribute('src')).filter(Boolean);
+    buttons.forEach((btn,i)=>btn.addEventListener('click', e=>{
+      e.preventDefault();
+      openGallery(imgs, i);
+    }));
+  });
+}
 
 /* ---------------------------
    Gabarit de modale UNIFIÉ
@@ -60,7 +221,7 @@ function openLegalModal(){
       <p style="opacity:.8">${fr?'Informations conformes au droit français (LCEN, RGPD, Propriété intellectuelle).':'Information compliant with French law (LCEN, GDPR, IP).'}</p>
     </div>
     <div class="grid grid3" style="margin-top:10px">
-      <div class="card"><h4 style="margin:0 0 6px">${fr?'Éditeur':'Publisher'}</h4><p style="margin:0">Nathan Tandille — Portfolio non commercial.</p><p style="margin:6px 0 0">${fr?'Contact :':'Contact:'} <a href="mailto:${PROFILE.links.email}">${PROFILE.links.email}</a></p></div>
+      <div class="card"><h4 style="margin:0 0 6px">${fr?'Éditeur':'Publisher'}</h4><p style="margin:0">Nathan Tandille - Portfolio non commercial.</p><p style="margin:6px 0 0">${fr?'Contact :':'Contact:'} <a href="mailto:${PROFILE.links.email}">${PROFILE.links.email}</a></p></div>
       <div class="card"><h4 style="margin:0 0 6px">${fr?'Hébergement':'Hosting'}</h4><p style="margin:0">Vercel Inc.</p></div>
       <div class="card"><h4 style="margin:0 0 6px">${fr?'Données personnelles':'Privacy'}</h4><p style="margin:0">${fr?'Ce site ne collecte pas de données nominatives. Aucune analyse tierce n\'est active (ou restreinte à des statistiques anonymisées si activées).':'This site does not collect personally identifiable data. No third-party analytics are active (or limited to anonymized stats if enabled).'}</p></div>
       <div class="card"><h4 style="margin:0 0 6px">${fr?'Propriété intellectuelle':'Intellectual Property'}</h4><p style="margin:0">${fr?'Les contenus et marques cités restent la propriété de leurs détenteurs.':'All referenced content and trademarks remain the property of their respective owners.'}</p></div>
@@ -77,24 +238,26 @@ export function renderProjects(){
 
   state.projects.forEach(p=>{
     const gallery=imgsArr(p.images);
-    const cov=cover(p.images)||gallery[0]||`https://picsum.photos/seed/${p.id||'p'}/1600/900`;
+    const cov=cover(p.images)||gallery[0]||'';
     const title = p.title?.[state.lang] || p.title;
+    const summary = localizedValue(p.summary || '');
 
     const tile=el(`
-      <article class="tile project-tile organic" tabindex="0" aria-label="${title}">
+      <article class="tile project-tile" tabindex="0" aria-label="${htmlText(title)}">
         <div class="thumb">
           <div class="media" data-media>
-            <img src="${cov}" alt="${title}" loading="lazy" decoding="async"/>
+            ${cov ? `<img src="${htmlText(cov)}" alt="${htmlText(title)}" loading="lazy" decoding="async"/>` : projectPlaceholder(title)}
           </div>
           <div class="ovr">
             <div class="ovr-top">
-              ${p.role ? `<span class="role-badge o"><span class="dot"></span>${p.role?.[state.lang]||p.role}</span>` : ''}
+              ${p.role ? `<span class="role-badge o"><span class="dot"></span>${htmlText(p.role?.[state.lang]||p.role)}</span>` : ''}
             </div>
             <div class="ovr-bottom">
-              <h3 class="t">${title}</h3>
-              <button class="project-cta" data-open aria-label="${state.lang==='fr'?'Ouvrir le projet':'Open project'}">
-                <span class="label">${state.lang==='fr'?'Détails':'Details'}</span><span class="arr">➜</span>
-              </button>
+              <div class="project-copy">
+                <h3 class="t">${htmlText(title)}</h3>
+                ${summary ? `<p class="project-tile-summary">${htmlText(summary)}</p>` : ''}
+              </div>
+              <span class="project-cta" aria-hidden="true">${state.lang==='fr'?'Détails':'Details'} <span class="arr">→</span></span>
             </div>
           </div>
         </div>
@@ -106,8 +269,14 @@ export function renderProjects(){
     // Trailer au hover
     let wasVideo=false;
     if (p.trailer){
-      const toVideo = ()=>{ if(wasVideo) return; mediaEl.innerHTML = yt(p.trailer,true,true); wasVideo=true; };
-      const toImg   = ()=>{ if(!wasVideo) return; mediaEl.innerHTML = `<img src="${cov}" alt="${title}" loading="lazy" decoding="async"/>`; wasVideo=false; };
+      const toVideo = ()=>{
+        if(wasVideo) return;
+        mediaEl.innerHTML = yt(p.trailer,true,true);
+        const video = mediaEl.querySelector('video');
+        if(video && cov) video.poster = cov;
+        wasVideo=true;
+      };
+      const toImg   = ()=>{ if(!wasVideo) return; mediaEl.innerHTML = cov ? `<img src="${htmlText(cov)}" alt="${htmlText(title)}" loading="lazy" decoding="async"/>` : projectPlaceholder(title); wasVideo=false; };
       tile.addEventListener('mouseenter', toVideo, {passive:true});
       tile.addEventListener('mouseleave', toImg, {passive:true});
     }
@@ -115,7 +284,6 @@ export function renderProjects(){
     const open = ()=> openProject(p,{originEl:mediaEl});
     tile.addEventListener('click', open);
     tile.addEventListener('keydown',e=>{ if(e.key==='Enter'||e.key===' '){ e.preventDefault(); open(); }});
-    tile.querySelector('[data-open]').addEventListener('click', e=>{ e.stopPropagation(); open(); });
 
     list.appendChild(tile);
   });
@@ -130,41 +298,52 @@ export function openProject(p,{originEl=null}={}){
 
   const gallery = imgsArr(p.images);
   const cov = cover(p.images) || gallery[0] || '';
-  const initial = p.trailer ? yt(p.trailer,true,false)
-                            : (cov?`<img src="${cov}" alt="" style="object-fit:cover"/>`:'');
-  const relCase = state.cases.find(c=>c.projects?.includes(p.id));
+  const title = p.title?.[state.lang] || p.title;
+  const initial = p.trailer ? yt(p.trailer,false,false)
+                            : (cov ? `<img src="${cov}" alt="" style="object-fit:cover"/>` : projectPlaceholder(title));
+  const relCases = state.cases.filter(c=>c.projects?.includes(p.id));
 
   const actions = [
     gallery.length ? `<button class="btn" data-gallery>${T('btn_open_gallery','Open gallery')}</button>` : '',
-    relCase       ? `<button class="btn" data-case>${T('btn_open_case','Open study')}</button>` : '',
+    ...relCases.map(c => `<button class="btn" data-case="${c.id}">${c.title?.[state.lang]||c.title}</button>`),
     ...(p.links||[]).map(l=>`<a class="btn" target="_blank" rel="noopener" href="${l.url}">${l.label?.[state.lang]||l.label}</a>`)
-  ].join('');
+  ].filter(Boolean).join('');
 
-  const leadHTML = (p.summary?.[state.lang] || '')
-    ? `<div class="card" style="margin-top:10px"><p style="margin:0;color:var(--ink-700)">${p.summary[state.lang]}</p></div>` : '';
+  const summary = localized(p.summary);
+  const overview = localized(p.overview);
+  const contribution = localized(p.contribution);
+  const anecdotes = localized(p.anecdotes);
+  const richBlocks = asArray(p.blocks || p.sections).map(renderCaseBlock).join('');
+  const tags = renderCaseTags(p.tags);
+  const facts = renderProjectFacts(p.facts, true);
 
-  const blocksHTML = (p.anecdotes?.[state.lang]?.length)
-    ? `<div class="card" style="margin-top:10px">
-         <h4 style="margin:0 0 6px">${T('chip_anecdotes','Anecdotes')}</h4>
-         <ul style="margin:0 0 0 18px">${p.anecdotes[state.lang].map(a=>`<li>${a}</li>`).join('')}</ul>
-       </div>`
-    : '';
+  const leadHTML = `
+    ${tags ? `<div class="project-modal-tags" style="margin-top:10px">${tags}</div>` : ''}
+    ${facts}
+    ${summary ? `<div class="card project-lead" style="margin-top:10px"><p>${htmlText(summary)}</p></div>` : ''}
+    ${overview ? `<div class="card project-section" style="margin-top:10px"><h4>${state.lang==='fr'?'Projet':'Project'}</h4>${paragraphHTML(overview)}</div>` : ''}
+    ${contribution ? `<div class="card project-section" style="margin-top:10px"><h4>${state.lang==='fr'?'Mon rôle':'My role'}</h4>${listHTML(contribution)}</div>` : ''}
+    ${anecdotes ? `<div class="card project-section" style="margin-top:10px"><h4>${state.lang==='fr'?'Points clés':'Key points'}</h4>${listHTML(anecdotes)}</div>` : ''}
+  `;
 
   const body = modalScaffold({
-    initial, images: gallery, actionsHTML: actions, leadHTML, blocksHTML
+    initial, images: gallery, actionsHTML: actions, leadHTML, blocksHTML: richBlocks ? `<div class="project-rich">${richBlocks}</div>` : ''
   });
 
-  openModal(p.title?.[state.lang]||p.title, body, {
+  openModal(title, body, {
     originEl,
     onReady(m){
       const { shell } = wireStandardModal(m, {images:gallery});
       const gbtn = m.querySelector('[data-gallery]');
-      if(gbtn) gbtn.addEventListener('click',()=>openGallery(p.images));
-      const cbtn = m.querySelector('[data-case]');
-      if(cbtn) cbtn.addEventListener('click',()=>{
-        state.modalStack.push(()=> openProject(p,{originEl:shell}));
-        const relCase2 = state.cases.find(c=>c.projects?.includes(p.id));
-        if(relCase2) openCase(relCase2,{originEl:shell});
+      if(gbtn) gbtn.addEventListener('click',()=>openGallery(gallery));
+      wireCaseGalleries(m);
+      m.querySelectorAll('[data-case]').forEach(btn=>{
+        btn.addEventListener('click',()=>{
+          state.modalStack.push(()=> openProject(p,{originEl:shell}));
+          const id = btn.getAttribute('data-case');
+          const relCase = state.cases.find(c=>c.id===id);
+          if(relCase) openCase(relCase,{originEl:shell});
+        });
       });
     }
   });
@@ -176,17 +355,24 @@ export function renderCases(){
   list.classList.add('cases-grid');
   list.innerHTML='';
   state.cases.forEach(c=>{
-    const imgs=Array.isArray(c.media?.images)?c.media.images:(c.media?.images?[c.media.images]:[]);
-    const cov=c.media?.trailer?`https://img.youtube.com/vi/${c.media.trailer}/hqdefault.jpg`:(imgs[0]||`https://picsum.photos/seed/${c.id||'c'}/1280/720`);
+    const cov = caseCover(c);
     const title = c.title?.[state.lang]||c.title;
     const lead = (c.abstract&&c.abstract[state.lang])||c.abstract||'';
+    const role = localizedValue(c.role || '');
+    const timeframe = localizedValue(c.timeframe || '');
 
-    const tile=el(`<article class="tile tile--wide case-tile organic" tabindex="0" aria-label="${title}">
-      <div class="thumb"><div class="media" data-media><img src="${cov}" alt="${title}" loading="lazy" decoding="async"/></div></div>
+    const tile=el(`<article class="tile tile--wide case-tile" tabindex="0" aria-label="${htmlText(title)}">
+      <div class="case-thumb">
+        <div class="media" data-media>${cov ? `<img src="${htmlText(cov)}" alt="${htmlText(title)}" loading="lazy" decoding="async"/>` : projectPlaceholder(title)}</div>
+        <div class="case-thumb-meta">
+          ${role ? `<span>${htmlText(role)}</span>` : ''}
+          ${timeframe ? `<span>${htmlText(timeframe)}</span>` : ''}
+        </div>
+      </div>
       <div class="case-body">
-        <h3 class="case-title">${title}</h3>
-        <p class="case-lead">${lead}</p>
-        <div class="case-cta"><button class="btn btn-cta" data-open>${state.lang==='fr'?'Ouvrir pour détails':'Open for details'}</button></div>
+        <h3 class="case-title">${htmlText(title)}</h3>
+        <p class="case-lead">${htmlText(lead)}</p>
+        <span class="case-link">${state.lang==='fr'?'Explorer le cas':'Explore case'} →</span>
       </div>
     </article>`);
     tile.style.borderRadius=organicRadius(c.id||title||'y');
@@ -194,7 +380,6 @@ export function renderCases(){
     const open=()=>openCase(c,{originEl:tile.querySelector('[data-media]')});
     tile.addEventListener('click',open);
     tile.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault(); open()}});
-    tile.querySelector('[data-open]').addEventListener('click',e=>{e.stopPropagation(); open()});
     list.appendChild(tile);
   });
 
@@ -207,33 +392,59 @@ export function openCase(c,{originEl=null}={}){
   const pr = state.projects.find(p=>c.projects?.includes(p.id));
   setHash(fromProject?{project:pr?.id,kase:c.id}:{kase:c.id});
 
-  const imgs = Array.isArray(c.media?.images) ? c.media.images
-             : (c.media?.images ? [c.media.images] : []);
+  const imgs = caseImages(c);
+  const title = c.title?.[state.lang]||c.title;
   const initial = c.media?.trailer ? yt(c.media.trailer,true,false)
-                                   : (imgs[0]?`<img src="${imgs[0]}" alt="" style="object-fit:cover"/>`:'');
+                                   : (imgs[0]?`<img src="${imgs[0]}" alt="" style="object-fit:cover"/>`:projectPlaceholder(title));
 
+  const relProjects = (c.projects||[]).map(id=>state.projects.find(p=>p.id===id)).filter(Boolean);
   const actions = [
-    imgs.length ? `<button class="btn" data-gallery>${T('btn_open_gallery','Open gallery')}</button>` : ''
-  ].join('');
+    imgs.length ? `<button class="btn" data-gallery>${T('btn_open_gallery','Open gallery')}</button>` : '',
+    ...relProjects.map(p=>`<button class="btn" data-project="${p.id}">${p.title?.[state.lang]||p.title}</button>`),
+    ...(c.links||[]).map(l=>`<a class="btn" target="_blank" rel="noopener" href="${l.url}">${l.label?.[state.lang]||l.label}</a>`)
+  ].filter(Boolean).join('');
 
-  const leadHTML = (c.abstract && (c.abstract[state.lang]||c.abstract))
-    ? `<div class="card" style="margin-top:10px"><p class="fade-in" style="margin:0;color:var(--ink-700)">${c.abstract[state.lang]||c.abstract}</p></div>`
-    : '';
+  const article = c.article?.[state.lang] || c.article?.fr || null;
+  let leadHTML = '';
+  let blocksHTML = '';
 
-  const blocksHTML = `
-    <div class="grid grid3 fade-in" style="margin-top:10px">
-      ${listBlock(state.lang==='fr'?'Objectifs':'Objectives', c.objectives?.[state.lang])}
-      ${listBlock(state.lang==='fr'?'Responsabilités':'Responsibilities', c.responsibilities?.[state.lang])}
-      ${listBlock('Impact', c.impact?.[state.lang])}
-    </div>
+  const role = localizedValue(c.role || '');
+  const timeframe = localizedValue(c.timeframe || '');
+  const abstract = localizedValue(c.abstract || '');
+  const metaHTML = `
+    <section class="case-overview">
+      <div>
+        ${renderCaseTags(c.tags)}
+        ${abstract ? `<p>${htmlText(abstract)}</p>` : ''}
+      </div>
+      <div class="case-facts">
+        ${role ? `<span><strong>${state.lang==='fr'?'Rôle':'Role'}</strong>${htmlText(role)}</span>` : ''}
+        ${timeframe ? `<span><strong>${state.lang==='fr'?'Période':'Timeframe'}</strong>${htmlText(timeframe)}</span>` : ''}
+      </div>
+    </section>
+    ${renderCaseMetrics(c.metrics)}
   `;
 
-  const body = modalScaffold({
-    initial, images: imgs, actionsHTML: actions, leadHTML, blocksHTML
-  });
+  if(article){
+    leadHTML = `${metaHTML}${renderCaseArticle(article)}`;
+  } else {
+    leadHTML = metaHTML;
+    blocksHTML = `
+      <div class="grid grid3 fade-in case-legacy-grid">
+        ${listBlock(state.lang==='fr'?'Objectifs':'Objectives', c.objectives?.[state.lang])}
+        ${listBlock(state.lang==='fr'?'Responsabilités':'Responsibilities', c.responsibilities?.[state.lang])}
+        ${listBlock('Impact', c.impact?.[state.lang])}
+      </div>
+    `;
+  }
 
-  openModal(c.title?.[state.lang]||c.title, body, {
+  const body = `<div class="case-study">${modalScaffold({
+    initial, images: imgs, actionsHTML: actions, leadHTML, blocksHTML
+  })}</div>`;
+
+  openModal(title, body, {
     originEl,
+    modalClass: 'modal--case-study',
     showBack: fromProject,
     onBack: ()=>{
       const prev = state.modalStack.pop();
@@ -242,14 +453,23 @@ export function openCase(c,{originEl=null}={}){
     },
     onReady(m){
       wireStandardModal(m,{images:imgs});
+      wireCaseGalleries(m);
       const gbtn = m.querySelector('[data-gallery]');
       if(gbtn) gbtn.addEventListener('click',()=>openGallery(imgs));
+      m.querySelectorAll('[data-project]').forEach(btn=>{
+        btn.addEventListener('click',()=>{
+          const p = state.projects.find(x=>x.id===btn.getAttribute('data-project'));
+          if(p) openProject(p,{originEl:m.querySelector('[data-media-shell]')});
+        });
+      });
     }
   });
 }
 
 function listBlock(title, items){
-  return `<div class="card"><h4 style="margin:0 0 4px">${title}</h4><ul style="margin:8px 0 0 18px">${(items||[]).map(x=>`<li>${x}</li>`).join('')}</ul></div>`;
+  const list = asArray(items);
+  if(!list.length) return '';
+  return `<div class="card"><h4 style="margin:0 0 4px">${htmlText(title)}</h4><ul style="margin:8px 0 0 18px">${list.map(x=>`<li>${htmlText(localizedValue(x))}</li>`).join('')}</ul></div>`;
 }
 
 /* ---------- Skills ---------- */
@@ -353,12 +573,10 @@ export function renderSkills(){
             <div class="skill-body">
               <div style="display:flex;align-items:flex-start;gap:8px;justify-content:space-between">
                 <h3 class="skill-title">${s.name}</h3>
-                <span class="pill sec-pill" style="white-space:nowrap">${s.cat}</span>
               </div>
               ${s.summary?`<p class="skill-sum">${s.summary}</p>`:''}
               ${s.bullets?.length?`<ul class="skill-bul">${s.bullets.slice(0,2).map(b=>`<li>${b}</li>`).join('')}</ul>`:''}
-              ${s.tags?.length?`<div class="skill-badges" style="margin-top:6px">${s.tags.map(t=>`<span class="badge">${t}</span>`).join('')}</div>`:''}
-              <div style="margin-top:auto"><button class="btn btn-cta" data-open>${state.lang==='fr'?'Voir les détails':'See details'}</button></div>
+              <span class="skill-link">${state.lang==='fr'?'Détails':'Details'} →</span>
             </div>
           </article>
         `);
@@ -373,7 +591,6 @@ export function renderSkills(){
           open();
         });
         node.addEventListener('keydown', e=>{ if(e.key==='Enter'||e.key===' '){ e.preventDefault(); open(); }});
-        node.querySelector('[data-open]').addEventListener('click', e=>{ e.stopPropagation(); open(); });
 
         grid.appendChild(node);
       });
@@ -445,21 +662,26 @@ export function renderSkills(){
 /* ---------- Contact ---------- */
 export function renderContact(){
   const mount = byId('contactMount'); if(!mount) return;
+  const cvUrl = state.lang === 'fr' ? CONFIG.CV_FR_URL : CONFIG.CV_EN_URL;
   mount.innerHTML = `
     <div class="contact-grid">
-      <div>
+      <div class="contact-aside">
+        <span class="pill">${I[state.lang].contact_kicker}</span>
+        <h3>${I[state.lang].contact_intro_title}</h3>
+        <p>${I[state.lang].contact_intro_body}</p>
+        <div class="contact-actions">
+          <a class="btn btn-cta" href="mailto:${MAILCFG.TO}">${I[state.lang].contact_email_direct}</a>
+          <a class="btn" target="_blank" rel="noopener" href="${CONFIG.SOCIAL.linkedin}">LinkedIn</a>
+          <a class="btn" href="${cvUrl}" download>${I[state.lang].contact_cv}</a>
+        </div>
+        <p class="contact-note">${I[state.lang].contact_note}</p>
+      </div>
+      <div class="contact-form">
         <div style="display:grid;gap:8px">
           <input id="cName" class="input" type="text" placeholder="${I[state.lang].contact_name}">
           <input id="cEmail" class="input" type="email" placeholder="${I[state.lang].contact_email}">
           <input id="cSubj" class="input" type="text" placeholder="${I[state.lang].contact_subject}">
-          <div class="row" style="align-items:center;gap:8px">
-            <div id="googleBtn"></div>
-            <span style="opacity:.6">${I[state.lang].contact_or}</span>
-            <a class="pill" href="mailto:${MAILCFG.TO}">${MAILCFG.TO}</a>
-          </div>
         </div>
-      </div>
-      <div>
         <div class="rte">
           <div class="rte-toolbar">
             <button class="btn" data-cmd="bold"><b>B</b></button>
@@ -499,7 +721,7 @@ export function renderContact(){
     try{
       const tmp=document.createElement('div'); tmp.innerHTML=html;
       const plain=tmp.innerText.replace(/\n{3,}/g,'\n\n');
-      const href=`mailto:${encodeURIComponent(MAILCFG.TO)}?subject=${encodeURIComponent(subj)}&body=${encodeURIComponent(plain + `\n\n— ${name} <${email}>`)}`;
+      const href=`mailto:${encodeURIComponent(MAILCFG.TO)}?subject=${encodeURIComponent(subj)}&body=${encodeURIComponent(plain + `\n\n- ${name} <${email}>`)}`;
       location.href=href;
     }catch(err){
       console.error(err);

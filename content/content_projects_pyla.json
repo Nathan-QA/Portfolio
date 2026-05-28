@@ -1,17 +1,110 @@
 {
   "id": "pyla",
-  "title": { "fr": "PYLA", "en": "PYLA" },
-  "role": { "fr": "Level Designer (Side project)", "en": "Level Designer (Side project)" },
-  "summary": {
-    "fr": "Unreal Engine 5 : prototypage et itérations de layouts, systèmes via Blueprints.",
-    "en": "Unreal Engine 5: prototyped and refined layouts, blueprint-driven systems."
+  "title": {
+    "fr": "PYLA",
+    "en": "PYLA"
   },
-  "images": {
-    "cover": "https://picsum.photos/seed/pyla-cover/1280/720",
-    "gallery": [
-      "https://picsum.photos/seed/pyla-1/1280/720",
-      "https://picsum.photos/seed/pyla-2/1280/720"
+  "role": {
+    "fr": "Producer",
+    "en": "Producer"
+  },
+  "summary": {
+    "fr": "Producer sur un projet narratif action-exploration sous Unreal Engine 5 : scope, planning, budgets, priorités, pitch decks, dossiers CNC et coordination de 5 pôles.",
+    "en": "Producer on a narrative action-exploration project in Unreal Engine 5: scope, schedule, budgets, priorities, pitch decks, CNC files and coordination across 5 teams."
+  },
+  "tags": {
+    "fr": [
+      "Production",
+      "Action-exploration",
+      "UE5",
+      "Pitch"
+    ],
+    "en": [
+      "Production",
+      "Action-exploration",
+      "UE5",
+      "Pitch"
     ]
   },
-  "links": []
+  "facts": {
+    "fr": [
+      {
+        "label": "Rôle",
+        "value": "Producer"
+      },
+      {
+        "label": "Moteur",
+        "value": "Unreal Engine 5"
+      },
+      {
+        "label": "Genre",
+        "value": "Action-exploration"
+      },
+      {
+        "label": "Focus",
+        "value": "Scope, jalons, pitch"
+      }
+    ],
+    "en": [
+      {
+        "label": "Role",
+        "value": "Producer"
+      },
+      {
+        "label": "Engine",
+        "value": "Unreal Engine 5"
+      },
+      {
+        "label": "Genre",
+        "value": "Action-exploration"
+      },
+      {
+        "label": "Focus",
+        "value": "Scope, milestones, pitch"
+      }
+    ]
+  },
+  "overview": {
+    "fr": [
+      "PYLA est un projet narratif action-exploration sous Unreal Engine 5 sur lequel mon travail est orienté production, cadrage et formalisation. L’enjeu principal est de sécuriser les jalons du projet tout en alignant les ambitions créatives avec les contraintes réelles de fabrication.",
+      "Le projet montre ma capacité à coordonner game design, level design, art, tech art et programmation, avec une attention constante portée aux dépendances, aux besoins de production, aux budgets et aux impacts sur l’expérience joueur."
+    ],
+    "en": [
+      "PYLA is a narrative action-exploration project in Unreal Engine 5 where my work focuses on production, framing and formalization. The main challenge is to secure milestones while aligning creative ambitions with real manufacturing constraints.",
+      "The project shows my ability to coordinate game design, level design, art, tech art and programming, with constant attention to dependencies, production needs, budgets and impacts on the player experience."
+    ]
+  },
+  "contribution": {
+    "fr": [
+      "Suivi des jalons, priorités, risques et dépendances entre pôles.",
+      "Cadrage du scope et des besoins de production.",
+      "Préparation et consolidation de pitch decks, dossiers CNC, budgets prévisionnels et supports de présentation internes et externes.",
+      "Mise en cohérence entre intentions créatives, contraintes réelles et planning."
+    ],
+    "en": [
+      "Milestone, priority, risk and cross-discipline dependency tracking.",
+      "Scope and production needs framing.",
+      "Preparation and consolidation of pitch decks, CNC files, budget forecasts and internal/external presentation material.",
+      "Alignment between creative intentions, real constraints and schedule."
+    ]
+  },
+  "trailer": "https://youtu.be/DqwgDLScVDE",
+  "images": {
+    "cover": "assets/projects/pyla-keyart-official.jpg",
+    "gallery": [
+      "assets/projects/pyla-keyart-official.jpg",
+      "assets/projects/pyla-keyart.webp",
+      "assets/projects/pyla-watercolor-cover.webp",
+      "assets/projects/pyla-press-preview.webp"
+    ]
+  },
+  "links": [
+    {
+      "label": {
+        "fr": "Site PepinKojo",
+        "en": "PepinKojo page"
+      },
+      "url": "https://pepinkojo.com/pyla?lang=fr"
+    }
+  ]
 }

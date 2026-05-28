@@ -1,0 +1,100 @@
+{
+  "id": "ltag-ltdc",
+  "title": {
+    "fr": "LTAG / LTDC",
+    "en": "LTAG / LTDC"
+  },
+  "role": {
+    "fr": "Game & Level Design",
+    "en": "Game & Level Design"
+  },
+  "summary": {
+    "fr": "Travaux de game design, level design, documentation et prototypage sur des projets non publics ou interrompus, présentés ici de façon synthétique.",
+    "en": "Game design, level design, documentation and prototyping work on non-public or interrupted projects, presented here in a concise format."
+  },
+  "tags": {
+    "fr": [
+      "Game Design",
+      "Level Design",
+      "Documentation",
+      "Prototype"
+    ],
+    "en": [
+      "Game Design",
+      "Level Design",
+      "Documentation",
+      "Prototype"
+    ]
+  },
+  "facts": {
+    "fr": [
+      {
+        "label": "Rôle",
+        "value": "Game & Level Design"
+      },
+      {
+        "label": "Type",
+        "value": "Prototypes / non public"
+      },
+      {
+        "label": "Focus",
+        "value": "Rythme & navigation"
+      },
+      {
+        "label": "Livrable",
+        "value": "Docs & séquences"
+      }
+    ],
+    "en": [
+      {
+        "label": "Role",
+        "value": "Game & Level Design"
+      },
+      {
+        "label": "Type",
+        "value": "Prototypes / non-public"
+      },
+      {
+        "label": "Focus",
+        "value": "Pacing & navigation"
+      },
+      {
+        "label": "Deliverable",
+        "value": "Docs & sequences"
+      }
+    ]
+  },
+  "overview": {
+    "fr": [
+      "Cette section regroupe des travaux que je ne peux pas présenter aussi librement que des projets publics. L’objectif n’est pas de montrer des assets ou des documents confidentiels, mais de garder une trace claire du type de travail réalisé autour du design, de la structure de niveaux, de la documentation et de l’itération.",
+      "Pour Long Time A Girl, projet annulé chez UMANIMATION, certains éléments peuvent être détaillés dans un cadre professionnel. Sur le portfolio public, je présente surtout les axes de travail : intentions, documentation, structure de séquences, rythme et contraintes de parcours."
+    ],
+    "en": [
+      "This section gathers work that I cannot present as freely as public projects. The goal is not to show confidential assets or documents, but to keep a clear trace of the kind of work done around design, level structure, documentation and iteration.",
+      "For Long Time A Girl, a cancelled UMANIMATION project, selected elements can be discussed in a professional setting. On the public portfolio, I focus on the work axes: intentions, documentation, sequence structure, pacing and pathing constraints."
+    ]
+  },
+  "contribution": {
+    "fr": [
+      "Game design et level design sur des prototypes ou projets interrompus.",
+      "Documentation de systèmes, intentions, séquences et besoins de production.",
+      "Travail sur le rythme, la navigation, les contraintes de parcours et les boucles d’itération.",
+      "Présentation détaillable en entretien lorsque le cadre de confidentialité le permet."
+    ],
+    "en": [
+      "Game design and level design on prototypes or interrupted projects.",
+      "Documentation of systems, intentions, sequences and production needs.",
+      "Work on pacing, navigation, pathing constraints and iteration loops.",
+      "Detailed presentation possible in interviews when confidentiality allows it."
+    ]
+  },
+  "images": {
+    "cover": "assets/projects/ltag-ltdc-01.png",
+    "gallery": [
+      "assets/projects/ltag-ltdc-01.png",
+      "assets/projects/ltag-ltdc-02.png",
+      "assets/projects/ltag-ltdc-03.png"
+    ]
+  },
+  "links": []
+}

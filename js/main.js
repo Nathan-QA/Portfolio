@@ -7,7 +7,6 @@ import { startCurtain, initLeafParticles } from './ui.js';
 import { renderProjects, openProject, renderCases, openCase, renderSkills, renderContact, openCVModal } from './render.js';
 import { loadContent } from './data.js';
 import { parseHash } from './router.js';
-import { initThree } from './three.js';
 
 // Anti double-inclusion
 if (window.__APP_INIT__) { console.warn('main déjà initialisé'); }
@@ -16,12 +15,18 @@ else { window.__APP_INIT__ = true; }
 function updateLangButton(){ const b=byId('langBtn'); if(b) b.textContent = state.lang==='fr' ? 'FR 🇫🇷' : 'EN 🇬🇧'; }
 function setLang(l){
   state.lang = l; safeSet(LANG_KEY, l);
+  document.documentElement.lang = l;
   updateLangButton();
   txt(byId('heroDesc'), I[state.lang].hero_desc);
-  ['nav_projects','nav_cases','nav_about','nav_contact','cv_fr','cv_en','hero_kicker','dl_cv_fr','dl_cv_en','projects_title','cases_title','about_role_title','about_skills_title','contact_title','legal_title','open_cv'].forEach(k=>{
+  [
+    'skip_content','nav_projects','nav_cases','nav_about','nav_contact','cv_fr','cv_en',
+    'hero_kicker',
+    'projects_title','cases_title','about_role_title','about_skills_title',
+    'contact_title','legal_title','open_cv'
+  ].forEach(k=>{
     document.querySelectorAll(`[data-i18n="${k}"]`).forEach(n=>n.textContent=I[state.lang][k]);
   });
-  txt(byId('footText'), `© ${new Date().getFullYear()} Nathan Tandille — ${state.lang==='fr'?'Tous droits réservés':'All rights reserved'}`);
+  txt(byId('footText'), `© ${new Date().getFullYear()} Nathan Tandille - ${state.lang==='fr'?'Tous droits réservés':'All rights reserved'}`);
   renderProjects(); renderCases(); renderSkills(); renderContact();
 }
 
@@ -59,19 +64,10 @@ function initTheme(){
   });
 }
 
-// Liens sociaux + avatar
+// Liens sociaux
 (function initLinks(){
-  const avatarBtn = byId('avatarBtn');
-  const avatarImg = byId('avatarImg');
   const lkdLink = byId('lkdLink'); if(lkdLink) lkdLink.href = CONFIG.SOCIAL.linkedin || '#';
   const mobyLink = byId('mobyLink'); if(mobyLink) mobyLink.href = CONFIG.SOCIAL.mobygames || '#';
-  avatarBtn?.addEventListener('click',()=>{
-    const src = avatarImg?.src || '';
-    // lazy import pour éviter cycle
-    import('./ui.js').then(({openModal})=>{
-      openModal('Photo', `<div class="media-shell"><img src="${src}" alt="Photo"/></div>`, {originEl: avatarBtn});
-    });
-  });
 })();
 
 // Préférences & boutons
@@ -84,7 +80,7 @@ setLang(state.lang); // premier rendu
 function openCVForLang(){ openCVModal(state.lang==='fr' ? CONFIG.CV_FR_URL : CONFIG.CV_EN_URL); }
 ;['cvBtn','cvCTA','cvFab'].forEach(id=>{ const n=byId(id); if(n) n.addEventListener('click', openCVForLang); });
 
-// Router — empêcher restauration des modales au reload
+// Router - empêcher restauration des modales au reload
 if ('scrollRestoration' in history) history.scrollRestoration = 'manual';
 const navEntries = performance.getEntriesByType?.('navigation') || [];
 const isReload = navEntries[0]?.type === 'reload' || performance.navigation?.type === 1;
@@ -131,9 +127,6 @@ window.addEventListener('pageshow', ()=>{ window.scrollTo(0,0); });
   startCurtain();
   initLeafParticles();
 })();
-
-// GL — après DOM prêt
-initThree();
 
 // Header interactions
 initHeader();

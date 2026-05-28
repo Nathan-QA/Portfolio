@@ -1,0 +1,206 @@
+{
+  "id": "distant-shore-readability",
+  "projects": [
+    "distant-shore-bretagne"
+  ],
+  "title": {
+    "fr": "Concevoir, tester et documenter 4 zones majeures",
+    "en": "Designing, testing and documenting 4 major areas"
+  },
+  "role": {
+    "fr": "Level Design / Unity / Suivi production",
+    "en": "Level Design / Unity / Production follow-up"
+  },
+  "timeframe": "2025-2026",
+  "abstract": {
+    "fr": "Une étude de cas sur mon travail level design sur Distant Shore : Bretagne : intentions de navigation, progression, rythme, intégration Unity, retours de test et documentation exploitable par l’équipe.",
+    "en": "A case study about my LD work on Distant Shore: Brittany: navigation intentions, progression, pacing, Unity integration, test feedback and team-readable documentation."
+  },
+  "tags": [
+    "Level Design",
+    "Unity",
+    "Playtests",
+    "Documentation"
+  ],
+  "metrics": [
+    {
+      "value": "4",
+      "label": {
+        "fr": "zones majeures",
+        "en": "major areas"
+      }
+    },
+    {
+      "value": "Unity",
+      "label": {
+        "fr": "intégration et réglages",
+        "en": "integration and tuning"
+      }
+    },
+    {
+      "value": "LD Doc",
+      "label": {
+        "fr": "intentions, risques, besoins",
+        "en": "intentions, risks, needs"
+      }
+    },
+    {
+      "value": "Tests",
+      "label": {
+        "fr": "frictions, densité, timings",
+        "en": "frictions, density, timings"
+      }
+    }
+  ],
+  "media": {
+    "trailer": "https://youtu.be/p-1Kv50FjuA",
+    "images": [
+      "assets/projects/distant-shore-cover.webp",
+      "assets/projects/distant-shore-zone.webp",
+      "assets/projects/distant-shore-beach.webp",
+      "assets/projects/distant-shore-steam-01.jpg"
+    ]
+  },
+  "article": {
+    "fr": {
+      "intro": [
+        "Sur Distant Shore : Bretagne, mon travail de Level Designer ne se limite pas au dessin d’un espace. Il couvre la conception de zones, leur passage en séquences jouables, leur intégration sous Unity, les ajustements gameplay, la documentation et la prise en compte des besoins de production.",
+        "Le sujet central est la lisibilité : ce que le joueur comprend de l’espace, de ses objectifs à court terme, de ses transitions et de son rythme. Mais cette lisibilité doit aussi être testable, documentée et transmissible aux autres pôles."
+      ],
+      "sections": [
+        {
+          "heading": "Clarifier l’intention avant le détail",
+          "paragraphs": [
+            "Chaque zone majeure part d’une intention simple : guider, ouvrir, ralentir, créer une tension, préparer une transition ou donner au joueur une nouvelle lecture de l’espace. Cette intention sert de filtre pour les volumes, les points de repère, les lignes de vue, les objectifs courts et les zones de respiration.",
+            "Le block-out et le greybox servent ensuite à vérifier si cette intention existe réellement en jeu. Un layout peut être clair sur plan et devenir confus dès que le joueur bouge, regarde ailleurs ou arrive depuis un angle inattendu."
+          ],
+          "bullets": [
+            "Définir les objectifs de navigation, les repères et les points de tension.",
+            "Construire des séquences jouables en passes successives.",
+            "Arbitrer entre lisibilité, rythme et charge d’interaction."
+          ],
+          "media": {
+            "src": "assets/projects/distant-shore-zone.webp",
+            "caption": "Les zones sont travaillées par intentions, repères, transitions et angles d’arrivée."
+          }
+        },
+        {
+          "heading": "Passer du greybox à l’intégration Unity",
+          "paragraphs": [
+            "L’intégration sous Unity demande de garder le design concret. Mise en place d’assets, réglages gameplay, tests en conditions réelles et suivi des besoins de production font partie de la boucle. L’objectif n’est pas seulement d’avoir une bonne idée de zone, mais une séquence qui tient quand elle devient jouable.",
+            "Cette étape fait apparaître les dépendances : besoin d’un asset plus lisible, interaction trop dense, timing à revoir, objectif mal préparé, système existant qui ne soutient pas encore l’intention. Ces dépendances doivent être visibles tôt pour éviter que les corrections arrivent trop tard."
+          ],
+          "media": {
+            "images": [
+              "assets/projects/distant-shore-cover.webp",
+              "assets/projects/distant-shore-beach.webp",
+              "assets/projects/distant-shore-steam-02.jpg"
+            ],
+            "caption": "Le travail alterne entre intention LD, intégration moteur et vérification en conditions jouables."
+          }
+        },
+        {
+          "heading": "Transformer les tests en priorités",
+          "paragraphs": [
+            "Les retours de test sont traités comme des informations de design. Un joueur qui hésite, rate un objectif, traverse trop vite une zone ou se perd pour les mauvaises raisons donne une indication sur la composition, la densité, le timing ou l’onboarding.",
+            "Mon background QA aide ici : je distingue bug, incompréhension de parcours, friction de design, problème de rythme ou sujet de production. Cette distinction rend les corrections plus actionnables et évite de répondre à chaque problème par une solution de guidage trop lourde."
+          ],
+          "bullets": [
+            "Prioriser les corrections selon impact joueur, coût et dépendances.",
+            "Identifier les frictions de parcours avant d’ajouter du texte ou des marqueurs.",
+            "Faire le lien entre ressenti de test et action concrète sur la zone."
+          ]
+        },
+        {
+          "heading": "Documenter pour faire avancer l’équipe",
+          "paragraphs": [
+            "La documentation LD ne sert pas seulement à archiver. Elle explique les intentions, les risques, les besoins assets ou gameplay, les dépendances et les prochaines passes. Elle permet de rendre une zone discutable par le game design, l’art et la production.",
+            "Une bonne doc transforme une intention en outil de travail : elle clarifie ce qui est validé, ce qui reste fragile, ce qui doit être testé, et ce qui demande un arbitrage."
+          ],
+          "media": {
+            "src": "assets/projects/distant-shore-steam-03.jpg",
+            "caption": "Documentation, tests et intégration servent à garder une zone lisible pour le joueur et pour l’équipe."
+          }
+        }
+      ],
+      "blocks": [
+        {
+          "type": "callout",
+          "title": "Ce que je cherche à prouver dans une zone",
+          "text": "Une intention de design doit être lisible en jeu, testable par l’équipe et assez claire pour survivre aux contraintes de production."
+        }
+      ],
+      "closing": "Ce projet montre bien la manière dont je travaille aujourd’hui : concevoir une expérience d’exploration, l’intégrer, la tester, la documenter et la rendre améliorable par plusieurs métiers."
+    },
+    "en": {
+      "intro": [
+        "On Distant Shore: Brittany, my Level Designer work is not limited to drawing spaces. It covers area design, playable sequence construction, Unity integration, gameplay tuning, documentation and production needs.",
+        "The central topic is readability: what the player understands about the space, short-term goals, transitions and pacing. But that readability also has to be testable, documented and shareable with other disciplines."
+      ],
+      "sections": [
+        {
+          "heading": "Clarifying intention before detail",
+          "paragraphs": [
+            "Each major area starts from a simple intention: guide, open up, slow down, create tension, prepare a transition or give the player a new way to read the space. This intention filters volumes, landmarks, sightlines, short-term objectives and breathing areas.",
+            "Blockout and greybox then test whether that intention actually exists in game. A layout can be clear on paper and become confusing once the player moves, looks elsewhere or arrives from an unexpected angle."
+          ],
+          "bullets": [
+            "Define navigation goals, landmarks and tension points.",
+            "Build playable sequences through successive passes.",
+            "Balance readability, pacing and interaction load."
+          ],
+          "media": {
+            "src": "assets/projects/distant-shore-zone.webp",
+            "caption": "Areas are shaped through intentions, landmarks, transitions and arrival angles."
+          }
+        },
+        {
+          "heading": "From greybox to Unity integration",
+          "paragraphs": [
+            "Unity integration keeps the design concrete. Asset setup, gameplay tuning, real-condition testing and production-needs follow-up are part of the loop. The goal is not only to have a good area idea, but a sequence that holds up once playable.",
+            "This step reveals dependencies: a clearer asset need, interaction density, timing, an objective that is not properly prepared, or an existing system that does not yet support the intention. Those dependencies need to be visible early."
+          ],
+          "media": {
+            "images": [
+              "assets/projects/distant-shore-cover.webp",
+              "assets/projects/distant-shore-beach.webp",
+              "assets/projects/distant-shore-steam-02.jpg"
+            ],
+            "caption": "The work alternates between LD intent, engine integration and playable checks."
+          }
+        },
+        {
+          "heading": "Turning tests into priorities",
+          "paragraphs": [
+            "Test feedback is treated as design information. A player hesitating, missing an objective, crossing an area too fast or getting lost for the wrong reasons gives insight into composition, density, timing or onboarding.",
+            "My QA background helps here: I separate bugs, pathing misunderstandings, design friction, pacing issues and production topics. That distinction makes corrections more actionable and avoids solving every problem with heavy guidance."
+          ],
+          "bullets": [
+            "Prioritize corrections by player impact, cost and dependencies.",
+            "Identify pathing frictions before adding text or markers.",
+            "Connect test observations to concrete area changes."
+          ]
+        },
+        {
+          "heading": "Documenting to move the team forward",
+          "paragraphs": [
+            "LD documentation is not only an archive. It explains intentions, risks, asset or gameplay needs, dependencies and upcoming passes. It makes an area easier to discuss with game design, art and production.",
+            "Good documentation turns an intention into a work tool: what is validated, what is still fragile, what needs testing and what requires arbitration."
+          ],
+          "media": {
+            "src": "assets/projects/distant-shore-steam-03.jpg",
+            "caption": "Documentation, tests and integration keep an area readable for players and for the team."
+          }
+        }
+      ],
+      "blocks": [
+        {
+          "type": "callout",
+          "title": "What I try to prove in an area",
+          "text": "A design intention should be readable in game, testable by the team and clear enough to survive production constraints."
+        }
+      ],
+      "closing": "This project reflects how I currently work: design an exploration experience, integrate it, test it, document it and make it improvable by multiple disciplines."
+    }
+  }
+}

@@ -1,4 +1,4 @@
-// ui.js — curtain OFF < 900px (robuste), toggle auto sur resize, particles clean
+// ui.js - curtain OFF < 900px (robuste), toggle auto sur resize, particles clean
 import { byId, el, $ } from './utils.js';
 import { state } from './state.js';
 import { CONFIG } from './config.js';
@@ -18,14 +18,23 @@ const curtainRuntime = {
   resetStyles() {
     if (!this.wrap) return;
     this.wrap.style.display = 'none';
+    this.wrap.classList.remove('curtain-ready', 'curtain-out');
     this.wrap.style.removeProperty('--slidePct');
+    this.wrap.style.removeProperty('--treeX');
+    this.wrap.style.removeProperty('--treeY');
+    this.wrap.style.removeProperty('--treeOpacity');
     this.left?.style.removeProperty('--leafScale');
     this.left?.style.removeProperty('--leafBright');
+    this.left?.style.removeProperty('transform');
+    this.left?.style.removeProperty('opacity');
     this.right?.style.removeProperty('--leafScale');
     this.right?.style.removeProperty('--leafBright');
+    this.right?.style.removeProperty('transform');
+    this.right?.style.removeProperty('opacity');
+    this.right?.style.removeProperty('visibility');
   },
   off() {
-    if (!this.enabled) return;
+    if (!this.enabled && !this.wrap) return;
     this.enabled = false;
     if (this.rafId) { cancelAnimationFrame(this.rafId); this.rafId = null; }
     for (const L of this.listeners) L.target.removeEventListener(L.type, L.fn, L.opts);
@@ -65,6 +74,14 @@ function borderRadius(el){
   return cs.borderRadius || cs.borderTopLeftRadius || '12px';
 }
 function inDoc(el){ return !!(el && document.body.contains(el)); }
+function pageScrollY(){
+  const doc = document.scrollingElement || document.documentElement;
+  return Math.max(
+    0,
+    window.pageYOffset || window.scrollY || doc?.scrollTop ||
+    document.documentElement?.scrollTop || document.body?.scrollTop || 0
+  );
+}
 
 // Récupère une image exploitable depuis un élément (img/vid/bg)
 function mediaFromElement(el){
@@ -119,11 +136,11 @@ function animateUniform(node, fromRect, toRect, rStart, rEnd, duration=300){
 /* =========================
    Modal & Lightbox
 ========================= */
-export async function openModal(title, bodyHTML, {originEl=null, showBack=false, onBack=null, onReady}={}){
+export async function openModal(title, bodyHTML, {originEl=null, showBack=false, onBack=null, onReady, modalClass=''}={}){
   const root = byId('modalRoot'); if(!root) return;
 
   const backdrop = el(`<div class="modal-backdrop">
-    <div class="modal" role="dialog" aria-modal="true">
+    <div class="modal ${modalClass}" role="dialog" aria-modal="true">
       <header>
         ${showBack?`<button class="back" aria-label="Back">←</button>`:''}
         <h3 style="margin:0">${title||''}</h3>
@@ -251,10 +268,37 @@ export function closeGallery(){
   document.body.classList.remove('no-scroll');
 }
 
-export const yt = (id,autoplay=false,muted=false)=>
-  `<iframe src="https://www.youtube-nocookie.com/embed/${id}?rel=0${autoplay?'&autoplay=1':''}${muted?'&mute=1':''}"
+function mediaAttr(v){
+  return String(v ?? '').replace(/[&<>"]/g, m => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[m]));
+}
+function youtubeEmbedId(v){
+  const raw = String(v || '').trim();
+  if(!/^https?:\/\//i.test(raw)) return raw;
+  try{
+    const u = new URL(raw);
+    if(u.hostname.includes('youtu.be')) return u.pathname.split('/').filter(Boolean)[0] || raw;
+    if(u.hostname.includes('youtube.com')){
+      return u.searchParams.get('v') || u.pathname.split('/').filter(Boolean).pop() || raw;
+    }
+  }catch{}
+  return raw;
+}
+export const yt = (id,autoplay=false,muted=false)=>{
+  const src = String(id || '').trim();
+  const isUrl = /^https?:\/\//i.test(src);
+  const isVideo = isUrl && /\.(mp4|webm)(\?|#|$)/i.test(src);
+  if(isVideo){
+    const type = /\.webm(\?|#|$)/i.test(src) ? 'video/webm' : 'video/mp4';
+    const attrs = `${autoplay?' autoplay':''}${muted?' muted':''}${autoplay&&muted?' loop':''}${autoplay&&muted?'':' controls'}`;
+    return `<video${attrs} playsinline preload="metadata" style="width:100%;height:100%;display:block;object-fit:cover">
+      <source src="${mediaAttr(src)}" type="${type}">
+    </video>`;
+  }
+  const embedId = youtubeEmbedId(src);
+  return `<iframe src="https://www.youtube-nocookie.com/embed/${mediaAttr(embedId)}?rel=0${autoplay?'&autoplay=1':''}${muted?'&mute=1':''}"
     allow="autoplay; encrypted-media; accelerometer; gyroscope; picture-in-picture; web-share"
     allowfullscreen style="width:100%;height:100%;display:block;border:0"></iframe>`;
+};
 
 export const mediaShellHtml = (inner='') =>
   `<div class="media-shell" data-media-shell>${inner}</div>`;
@@ -263,115 +307,149 @@ export const mediaShellHtml = (inner='') =>
    Curtain (ouverture latérale)
 ========================= */
 export function startCurtain(){
-  const wrap  = byId('curtain'); if(!wrap) return;
-  const underThreshold = window.innerWidth < CURTAIN_MIN_WIDTH;
+  const wrap = byId('curtain');
+  if (!wrap) return;
 
-  // Si trop petit → off + nettoyage
+  const underThreshold = window.innerWidth < CURTAIN_MIN_WIDTH;
   if (underThreshold) {
     curtainRuntime.off();
     particlesRuntime.off();
     return;
   }
 
-  // Si déjà actif, ne pas dupliquer
   if (curtainRuntime.enabled) return;
 
-  curtainRuntime.wrap = wrap;
-  curtainRuntime.left = wrap.querySelector('.left');
-  curtainRuntime.right = wrap.querySelector('.right');
+  const left  = wrap.querySelector('.left');
+  const right = wrap.querySelector('.right');
+  if (!right) return;
 
-  const left  = curtainRuntime.left;
-  const right = curtainRuntime.right;
+  curtainRuntime.wrap = wrap;
+  curtainRuntime.left = left;
+  curtainRuntime.right = right;
 
   const {
-    maxScrollVh, baseGapVW, tightGapVW, scaleDelta, darkDelta,
-    easing, followHz, wobbleGain, wobbleFreq, wobbleDecay, desync
+    scaleDelta, darkDelta, easing, followHz,
+    wobbleGain, wobbleFreq, wobbleDecay, desync
   } = CONFIG.CURTAIN;
 
-  // Assets & base styles
   if (CONFIG.CURTAIN.leftImg)  left?.style.setProperty('--leaf-img', `url("${CONFIG.CURTAIN.leftImg}")`);
+  if (CONFIG.CURTAIN.rightImg) right.style.setProperty('--leaf-img', `url("${CONFIG.CURTAIN.rightImg}")`);
   if (CONFIG.CURTAIN.leafSize) {
     left ?.style.setProperty('--leaf-size', CONFIG.CURTAIN.leafSize);
-    right?.style.setProperty('--leaf-size', CONFIG.CURTAIN.leafSize);
+    right.style.setProperty('--leaf-size', CONFIG.CURTAIN.leafSize);
   }
-  wrap .style.display = ''; // s’assurer qu’il est visible
-  wrap .style.setProperty('--slidePct','0%');
-  left ?.style.setProperty('--leafScale','1');
-  right?.style.setProperty('--leafScale','1');
-  left ?.style.setProperty('--leafBright','1');
-  right?.style.setProperty('--leafBright','1');
 
-  const clamp01 = v => Math.max(0, Math.min(1, v));
+  wrap.style.display = '';
+  wrap.classList.add('curtain-ready');
+  wrap.classList.remove('curtain-out');
+  wrap.style.setProperty('--slidePct', '0px');
+  wrap.style.setProperty('--treeX', '0px');
+  wrap.style.setProperty('--treeY', '0px');
+  left ?.style.setProperty('--leafScale', '1');
+  right.style.setProperty('--leafScale', '1');
+  left ?.style.setProperty('--leafBright', '1');
+  right.style.setProperty('--leafBright', '1');
+  right.style.opacity = '1';
+  right.style.visibility = 'visible';
+
+  const clamp01 = v => Math.max(0, Math.min(1, Number.isFinite(v) ? v : 0));
   const easeFn = (t)=>{
     t = clamp01(t);
-    if (easing === 'easeOut')    return 1 - Math.pow(1 - t, 3);
-    if (easing === 'easeInOut')  return t < .5 ? 4*t*t*t : 1 - Math.pow(-2*t+2, 3)/2;
-    return t*t*t*(t*(t*6 - 15) + 10); // smootherstep
+    if (easing === 'easeOut')   return 1 - Math.pow(1 - t, 3);
+    if (easing === 'easeInOut') return t < .5 ? 4*t*t*t : 1 - Math.pow(-2*t+2, 3)/2;
+    return t*t*t*(t*(t*6 - 15) + 10);
   };
 
-  let maxScrollPx = window.innerHeight * (maxScrollVh / 100);
-  let target = easeFn(Math.max(0, window.scrollY) / Math.max(1, maxScrollPx));
+  function travelPx(){
+    const panelWidth = right.offsetWidth || right.getBoundingClientRect().width || window.innerWidth * 0.5;
+    const buffer = Math.max(180, window.innerWidth * 0.14);
+    return panelWidth + buffer;
+  }
+
+  function maxScrollPx(){
+    // Distance de scroll utilisée pour faire sortir l'arbre.
+    // Plus la valeur est haute, plus le mouvement est lent.
+    // 150vh garde le mouvement progressif sans laisser l'arbre bloqué trop longtemps sur les sections.
+    const vhDistance = Number(CONFIG.CURTAIN.maxScrollVh) || 150;
+    return Math.max(1, window.innerHeight * (vhDistance / 100));
+  }
+
+  function readTarget(){
+    return easeFn(pageScrollY() / maxScrollPx());
+  }
+
+  let target = readTarget();
   let cur = target;
   let lastT = performance.now();
   let wobbleA = 0;
-  const maxWobble = 0.04;
+  const maxWobble = 0.035;
 
   function apply(t){
-    const gap = baseGapVW + (tightGapVW - baseGapVW) * t;
-    const slidePct = gap / 2;
+    t = clamp01(t);
+
+    const micro = desync * 0.06 * (1 - t);
+    const x = travelPx() * t;
+    const y = window.innerHeight * 0.08 * t;
     const leafScale  = 1 - t * scaleDelta;
     const leafBright = 1 - t * darkDelta;
-    const micro = desync * 0.06 * (1 - t);
 
-    wrap .style.setProperty('--slidePct',  slidePct.toFixed(3) + '%');
+    wrap.style.setProperty('--slidePct', `${x.toFixed(2)}px`);
+    wrap.style.setProperty('--treeX', `${x.toFixed(2)}px`);
+    wrap.style.setProperty('--treeY', `${y.toFixed(2)}px`);
+
+    right.style.transform = `translate3d(${x.toFixed(2)}px, ${y.toFixed(2)}px, 0)`;
+    right.style.opacity = '1';
+    right.style.visibility = 'visible';
+    right.style.setProperty('--leafScale',  (leafScale * (1 - micro)).toFixed(4));
+    right.style.setProperty('--leafBright', Math.max(0, leafBright * (1 - micro*0.4)).toFixed(4));
     left ?.style.setProperty('--leafScale',  (leafScale * (1 + micro)).toFixed(4));
-    right?.style.setProperty('--leafScale',  (leafScale * (1 - micro)).toFixed(4));
     left ?.style.setProperty('--leafBright', Math.max(0, leafBright * (1 + micro*0.4)).toFixed(4));
-    right?.style.setProperty('--leafBright', Math.max(0, leafBright * (1 - micro*0.4)).toFixed(4));
   }
 
-  function loop(ts){
-    // Si on a été coupé pendant l’anim, on stoppe
-    if (!curtainRuntime.enabled || window.innerWidth < CURTAIN_MIN_WIDTH) return;
-    const dt = Math.min(0.033, (ts - lastT) / 1000);
-    lastT = ts;
-    const alpha = 1 - Math.exp(-dt * followHz);
-    cur += (target - cur) * alpha;
-    wobbleA *= Math.exp(-dt * wobbleDecay);
-    const wobble = Math.sin(ts/1000 * wobbleFreq * 2*Math.PI) * wobbleA;
-    const displayT = clamp01(cur + wobble);
-    apply(displayT);
-    if (Math.abs(target - cur) > 0.0008 || wobbleA > 0.0008) {
-      curtainRuntime.rafId = requestAnimationFrame(loop);
-    } else {
-      curtainRuntime.rafId = requestAnimationFrame(loop); // keep subtle follow
-    }
-  }
-
-  function recomputeTarget(){
+  function updateTarget(){
     if (!curtainRuntime.enabled) return;
-    // Kill immédiat si on passe sous le seuil
     if (window.innerWidth < CURTAIN_MIN_WIDTH) {
       curtainRuntime.off();
       particlesRuntime.off();
       return;
     }
-    maxScrollPx = window.innerHeight * (maxScrollVh / 100);
-    const raw = Math.max(0, window.scrollY) / Math.max(1, maxScrollPx);
-    const next = easeFn(raw);
+    const next = readTarget();
     const delta = Math.abs(next - target);
     wobbleA = Math.min(maxWobble, wobbleA + delta * wobbleGain * (1 - next));
-    target = next; curtainRuntime.rafId = requestAnimationFrame(loop);
+    target = next;
   }
 
-  // Listeners (enregistrés pour cleanup)
-  const addL = (target, type, fn, opts)=> {
-    target.addEventListener(type, fn, opts);
-    curtainRuntime.listeners.push({target, type, fn, opts});
+  function loop(ts){
+    if (!curtainRuntime.enabled) return;
+    if (window.innerWidth < CURTAIN_MIN_WIDTH) {
+      curtainRuntime.off();
+      particlesRuntime.off();
+      return;
+    }
+
+    updateTarget();
+    const dt = Math.min(0.033, (ts - lastT) / 1000);
+    lastT = ts;
+
+    const alpha = 1 - Math.exp(-dt * followHz);
+    cur += (target - cur) * alpha;
+    wobbleA *= Math.exp(-dt * wobbleDecay);
+
+    const wobble = Math.sin(ts/1000 * wobbleFreq * 2*Math.PI) * wobbleA;
+    apply(clamp01(cur + wobble));
+
+    curtainRuntime.rafId = requestAnimationFrame(loop);
+  }
+
+  const addL = (targetEl, type, fn, opts)=> {
+    targetEl.addEventListener(type, fn, opts);
+    curtainRuntime.listeners.push({target: targetEl, type, fn, opts});
   };
-  addL(window, 'scroll',  recomputeTarget, {passive:true});
-  addL(window, 'resize',  recomputeTarget, {passive:true});
-  addL(window, 'orientationchange',  recomputeTarget, {passive:true});
+
+  addL(window, 'scroll', updateTarget, {passive:true});
+  addL(window, 'resize', updateTarget, {passive:true});
+  addL(window, 'orientationchange', updateTarget, {passive:true});
+  addL(window, 'load', updateTarget, {passive:true});
 
   curtainRuntime.enabled = true;
   apply(cur);
@@ -492,15 +570,15 @@ export function initLeafParticles(){
       swayF: 0.6 + Math.random()*0.9,
       life: 0, max: 7 + Math.random()*5,
       fade: 1.6,
-      scroll0: window.scrollY,
+      scroll0: pageScrollY(),
       fading: false,
       fadeStartLife: null
     });
   }
 
-  let lastY=window.scrollY, budget=0;
+  let lastY=pageScrollY(), budget=0;
   function onScroll(){
-    const y=window.scrollY, dy=Math.abs(y-lastY); lastY=y;
+    const y=pageScrollY(), dy=Math.abs(y-lastY); lastY=y;
     budget = Math.min(160, budget + dy*0.2);
   }
   window.addEventListener('scroll', onScroll, {passive:true});
@@ -542,7 +620,7 @@ export function initLeafParticles(){
       L.y += L.vy * dt;
       L.rot += L.spin * dt;
 
-      const dyScroll = window.scrollY - L.scroll0;
+      const dyScroll = pageScrollY() - L.scroll0;
 
       if ((L.max - L.life <= L.fade) || (L.y > vh && !L.fading)) {
         L.fading = true; L.fadeStartLife = L.life;

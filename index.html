@@ -3,7 +3,21 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Nathan — Portfolio</title>
+  <meta name="description" content="Nathan Tandille, profil jeu vidéo entre level design, QA et production. Portfolio de projets, case studies, coordination, outils, playtests et livraison." />
+  <meta name="theme-color" content="#fff4e5" />
+  <link rel="canonical" href="https://www.nathantandille.com/" />
+  <title>Nathan Tandille - Game Portfolio</title>
+
+  <meta property="og:type" content="website" />
+  <meta property="og:site_name" content="Nathan Tandille Portfolio" />
+  <meta property="og:title" content="Nathan Tandille - Game Portfolio" />
+  <meta property="og:description" content="Portfolio jeu vidéo entre level design, QA et production : projets, case studies, coordination, outils, playtests et livraison." />
+  <meta property="og:image" content="https://www.nathantandille.com/assets/bannerD.png" />
+  <meta property="og:url" content="https://www.nathantandille.com/" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Nathan Tandille - Game Portfolio" />
+  <meta name="twitter:description" content="Level design, QA, production, outils, playtests et coordination de projets jeu vidéo." />
+  <meta name="twitter:image" content="https://www.nathantandille.com/assets/bannerD.png" />
 
   <!-- Favicon "vide" pour éviter le 404 en local -->
   <link rel="icon" href="data:," />
@@ -16,8 +30,11 @@
   <link rel="preload" as="image" href="assets/leaf_rightN.png">
   <link rel="preload" as="image" href="assets/bannerD.png" fetchpriority="high">
   <link rel="preload" as="image" href="assets/bannerN.png" fetchpriority="high">
+  <link rel="preload" as="image" href="assets/PP.png">
 </head>
 <body>
+  <a class="skip-link" href="#main" data-i18n="skip_content">Aller au contenu</a>
+
   <!-- Bannière plein écran (image jour/nuit via CSS) -->
   <section id="hero-banner" aria-label="Bannière">
     <div class="hero-img day"></div>
@@ -39,9 +56,7 @@
   <header class="header">
     <div class="h-row container">
       <div class="brand">
-        <button id="avatarBtn" class="avatar-btn" aria-label="Voir la photo">
-          <img id="avatarImg" src="assets/PP.png" alt="Photo de profil" />
-        </button>
+        <img id="avatarImg" src="assets/PP.png" alt="Nathan Tandille" loading="eager" decoding="async">
         <div>
           <strong class="brand-name">
             <span class="first">Nathan</span> <span class="last">Tandille</span>
@@ -68,7 +83,7 @@
       <nav id="primaryNav" class="primary-nav" aria-label="primary">
         <a href="#projects" data-i18n="nav_projects">Projets</a>
         <a href="#cases" data-i18n="nav_cases">Études de cas</a>
-        <a href="#about" data-i18n="nav_about">À propos</a>
+        <a href="#about" data-i18n="nav_about">Skills</a>
         <a href="#contact" class="cta" data-i18n="nav_contact">Contact</a>
       </nav>
 
@@ -84,20 +99,16 @@
 
   <!-- Zone centrale légèrement plus sombre / contrastée -->
   <div class="main-contrast">
-    <main class="page-slab">
+    <main id="main" class="page-slab">
       <section class="hero container">
         <div class="hero-grid">
-          <div>
+          <div class="hero-copy">
             <span class="pill" data-i18n="hero_kicker">Portfolio</span>
-            <h1>QA Producer & Technical Level Designer</h1>
-            <p id="heroDesc">Production QA, coordination multi-équipes, outils et process…</p>
+            <h1>Level Design / QA / Production</h1>
+            <p id="heroDesc">Profil jeu vidéo entre conception de niveaux, suivi qualité et coordination de production, avec une approche très concrète des builds, des retours de test, des outils et de la livraison.</p>
             <div class="hero-cta">
               <button id="cvCTA" class="btn btn-cta" data-i18n="open_cv">Ouvrir le CV</button>
             </div>
-          </div>
-          <div class="hero3d">
-            <canvas id="r3f" aria-label="3D presentation"></canvas>
-            <div id="webglFallback" class="sr-only"></div>
           </div>
         </div>
       </section>
@@ -120,7 +131,7 @@
       <section id="legal" class="section container">
         <h2 data-i18n="legal_title">Mentions légales</h2>
         <div id="legalContent" class="card">
-          <p><strong>Éditeur :</strong> Nathan Tandille — Portfolio non commercial.</p>
+          <p><strong>Éditeur :</strong> Nathan Tandille - Portfolio non commercial.</p>
           <p><strong>Hébergement :</strong> Vercel.</p>
           <p><strong>Contact :</strong> Voir section “Contact”. Contenus et marques citées restent la propriété de leurs détenteurs.</p>
           <p><strong>Vie privée :</strong> Ce site ne collecte pas de données nominatives. Aucune analyse tierce (ou limitée à des statistiques anonymisées si activées par toi).</p>
@@ -136,7 +147,7 @@
 
   <footer class="footer">
     <div class="container">
-      <span id="footText">© Nathan Tandille — Tous droits réservés</span>
+      <span id="footText">© Nathan Tandille - Tous droits réservés</span>
     </div>
   </footer>
 
@@ -147,6 +158,36 @@
   <!-- Google Identity Services + EmailJS -->
   <script src="https://accounts.google.com/gsi/client" async defer></script>
   <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js" async defer></script>
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Person",
+    "name": "Nathan Tandille",
+    "jobTitle": "Level Designer / QA Producer / Producer",
+    "url": "https://www.nathantandille.com/",
+    "image": "https://www.nathantandille.com/assets/PP.png",
+    "email": "mailto:tandille.nathan@gmail.com",
+    "address": {
+      "@type": "PostalAddress",
+      "addressLocality": "Bordeaux",
+      "addressCountry": "FR"
+    },
+    "sameAs": [
+      "https://www.linkedin.com/in/nathan-tandille/",
+      "https://www.mobygames.com/person/1375320/nathan-tandille/"
+    ],
+    "knowsAbout": [
+      "Level Design",
+      "Game QA",
+      "Game Production",
+      "Unity",
+      "Playtesting",
+      "Narrative games",
+      "Exploration games"
+    ]
+  }
+  </script>
 
 <!-- Entrée de l’app -->
 <script type="module" src="./js/main.js"></script>

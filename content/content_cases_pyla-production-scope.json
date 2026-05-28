@@ -1,0 +1,203 @@
+{
+  "id": "pyla-production-scope",
+  "projects": [
+    "pyla"
+  ],
+  "title": {
+    "fr": "Aligner vision créative, scope et production",
+    "en": "Aligning creative vision, scope and production"
+  },
+  "role": {
+    "fr": "Production / Scope / Supports",
+    "en": "Production / Scope / Strategic documents"
+  },
+  "timeframe": "2025-2026",
+  "abstract": {
+    "fr": "Une étude de cas sur mon rôle de Producer sur PYLA : coordination de 5 pôles, suivi des plannings, budgets, priorités, dépendances, pitch decks et dossiers CNC.",
+    "en": "A case study about my Producer role on PYLA: coordination across 5 teams, schedules, budgets, priorities, dependencies, pitch decks and CNC files."
+  },
+  "tags": [
+    "Production",
+    "Scope",
+    "UE5",
+    "Coordination"
+  ],
+  "metrics": [
+    {
+      "value": "5",
+      "label": {
+        "fr": "pôles coordonnés",
+        "en": "teams coordinated"
+      }
+    },
+    {
+      "value": "UE5",
+      "label": {
+        "fr": "projet action-exploration",
+        "en": "action-exploration project"
+      }
+    },
+    {
+      "value": "CNC",
+      "label": {
+        "fr": "dossiers et supports stratégiques",
+        "en": "strategic files and decks"
+      }
+    },
+    {
+      "value": "Scope",
+      "label": {
+        "fr": "jalons, risques, priorités",
+        "en": "milestones, risks, priorities"
+      }
+    }
+  ],
+  "media": {
+    "trailer": "https://youtu.be/DqwgDLScVDE",
+    "images": [
+      "assets/projects/pyla-keyart-official.jpg",
+      "assets/projects/pyla-watercolor-cover.webp",
+      "assets/projects/pyla-press-preview.webp"
+    ]
+  },
+  "article": {
+    "fr": {
+      "intro": [
+        "Sur PYLA, mon rôle de Producer consiste à transformer une ambition créative en production lisible : jalons, budgets, priorités, dépendances, besoins de présentation et risques à suivre. Le projet est narratif, action-exploration, sous Unreal Engine 5.",
+        "La difficulté n’est pas de réduire la vision, mais de la rendre fabricable. Il faut que game design, level design, art, tech art et programmation puissent comprendre ce qui est attendu, ce qui dépend de quoi, et ce qui doit être sécurisé en priorité."
+      ],
+      "sections": [
+        {
+          "heading": "Traduire la vision en scope de travail",
+          "paragraphs": [
+            "Le scope sert à rendre la vision actionnable. Il relie les intentions créatives aux besoins concrets : prototypes à sécuriser, jalons à tenir, contenus à produire, dépendances entre pôles et arbitrages à préparer.",
+            "Sur un projet action-exploration, les intentions game design et level design ont rapidement des impacts sur l’art, le tech art, la programmation et le planning. Mon rôle est de rendre ces impacts visibles pour éviter que les risques soient découverts trop tard."
+          ],
+          "bullets": [
+            "Construire et suivre plannings, budgets, priorités et besoins de production.",
+            "Identifier rapidement les zones à risque et les dépendances entre métiers.",
+            "Aligner ambitions créatives et contraintes réelles de fabrication."
+          ],
+          "media": {
+            "src": "assets/projects/pyla-keyart-official.jpg",
+            "caption": "Le travail de production sert à garder une vision ambitieuse, lisible et réalisable."
+          }
+        },
+        {
+          "heading": "Coordonner les pôles sans perdre l’expérience joueur",
+          "paragraphs": [
+            "La coordination transverse n’est pas seulement un suivi de tâches. Elle demande de comprendre ce que chaque métier attend des autres, ce qui bloque une décision et ce qui risque d’affaiblir l’expérience si le sujet n’est pas traité à temps.",
+            "Mon background QA et design aide à garder une lecture concrète : un changement de planning, de scope ou de dépendance n’est pas seulement organisationnel. Il peut modifier la façon dont le joueur comprendra une zone, un rythme, une interaction ou une progression."
+          ],
+          "media": {
+            "images": [
+              "assets/projects/pyla-keyart-official.jpg",
+              "assets/projects/pyla-press-preview.webp"
+            ],
+            "caption": "Coordonner signifie aussi garder le lien entre décisions de production et expérience finale."
+          }
+        },
+        {
+          "heading": "Utiliser les documents stratégiques comme outils de production",
+          "paragraphs": [
+            "Pitch decks, dossiers CNC, budgets prévisionnels et supports de présentation ne sont pas seulement des documents externes. Ils obligent à clarifier la vision, les priorités, les besoins et la cohérence du projet.",
+            "Un bon support aide à prendre des décisions : il rend visible ce qui est important, ce qui est encore fragile, ce qui doit être financé, cadré ou prototypé, et ce qui doit être expliqué plus clairement aux partenaires ou à l’équipe."
+          ],
+          "bullets": [
+            "Formaliser la vision et les besoins de production.",
+            "Consolider dossiers de financement, budgets et supports internes/externes.",
+            "Rendre les priorités compréhensibles pour plusieurs interlocuteurs."
+          ]
+        },
+        {
+          "heading": "Sécuriser les jalons sans figer le projet",
+          "paragraphs": [
+            "Un planning utile ne doit pas empêcher l’itération. Il doit plutôt donner un cadre clair pour savoir quand tester, quand décider, quand réduire un risque et quand réévaluer un objectif.",
+            "C’est l’équilibre que je cherche : laisser de la place à la recherche créative tout en gardant une production réaliste, lisible et capable d’avancer."
+          ],
+          "media": {
+            "src": "assets/projects/pyla-watercolor-cover.webp",
+            "caption": "Le suivi de production doit protéger l’intention autant que le planning."
+          }
+        }
+      ],
+      "blocks": [
+        {
+          "type": "callout",
+          "title": "Principe de production",
+          "text": "Une ambition créative devient plus forte quand ses risques, ses dépendances et ses besoins sont visibles assez tôt pour être travaillés."
+        }
+      ],
+      "closing": "PYLA montre une autre partie importante de mon profil : la capacité à structurer une production, préparer des supports stratégiques et coordonner plusieurs métiers sans perdre de vue l’expérience du joueur."
+    },
+    "en": {
+      "intro": [
+        "On PYLA, my Producer role is about turning creative ambition into readable production: milestones, budgets, priorities, dependencies, presentation needs and risks to track. The project is a narrative action-exploration game in Unreal Engine 5.",
+        "The challenge is not to reduce the vision, but to make it buildable. Game design, level design, art, tech art and programming need to understand what is expected, what depends on what, and what must be secured first."
+      ],
+      "sections": [
+        {
+          "heading": "Translating vision into work scope",
+          "paragraphs": [
+            "Scope makes the vision actionable. It connects creative intentions to concrete needs: prototypes to secure, milestones to hold, content to produce, cross-discipline dependencies and decisions to prepare.",
+            "On an action-exploration project, game design and level design intentions quickly affect art, tech art, programming and schedule. My role is to make those impacts visible before risks are discovered too late."
+          ],
+          "bullets": [
+            "Build and follow schedules, budgets, priorities and production needs.",
+            "Identify risky areas and cross-discipline dependencies early.",
+            "Align creative ambitions with real manufacturing constraints."
+          ],
+          "media": {
+            "src": "assets/projects/pyla-keyart-official.jpg",
+            "caption": "Production work keeps an ambitious vision readable and buildable."
+          }
+        },
+        {
+          "heading": "Coordinating teams without losing player experience",
+          "paragraphs": [
+            "Cross-discipline coordination is not only task tracking. It requires understanding what each discipline expects from the others, what blocks a decision and what might weaken the experience if handled too late.",
+            "My QA and design background helps keep a concrete read: a schedule, scope or dependency change is not only organizational. It can change how the player understands an area, rhythm, interaction or progression."
+          ],
+          "media": {
+            "images": [
+              "assets/projects/pyla-keyart-official.jpg",
+              "assets/projects/pyla-press-preview.webp"
+            ],
+            "caption": "Coordination also means connecting production decisions to the final experience."
+          }
+        },
+        {
+          "heading": "Using strategic documents as production tools",
+          "paragraphs": [
+            "Pitch decks, CNC files, budget forecasts and presentation material are not only external documents. They force the project to clarify vision, priorities, needs and coherence.",
+            "A good support helps decisions: it makes visible what matters, what is still fragile, what needs funding, framing or prototyping, and what must be explained more clearly to partners or to the team."
+          ],
+          "bullets": [
+            "Formalize vision and production needs.",
+            "Consolidate funding files, budgets and internal/external supports.",
+            "Make priorities understandable for multiple stakeholders."
+          ]
+        },
+        {
+          "heading": "Securing milestones without freezing the project",
+          "paragraphs": [
+            "A useful schedule should not prevent iteration. It should provide a clear frame for knowing when to test, decide, reduce a risk and re-evaluate an objective.",
+            "That is the balance I look for: leaving room for creative research while keeping production realistic, readable and able to move forward."
+          ],
+          "media": {
+            "src": "assets/projects/pyla-watercolor-cover.webp",
+            "caption": "Production follow-up should protect both the intention and the schedule."
+          }
+        }
+      ],
+      "blocks": [
+        {
+          "type": "callout",
+          "title": "Production principle",
+          "text": "A creative ambition becomes stronger when its risks, dependencies and needs are visible early enough to be worked on."
+        }
+      ],
+      "closing": "PYLA shows another important part of my profile: structuring production, preparing strategic material and coordinating multiple disciplines without losing sight of the player experience."
+    }
+  }
+}

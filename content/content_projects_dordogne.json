@@ -1,33 +1,128 @@
 {
   "id": "dordogne",
-  "title": { "fr": "Dordogne", "en": "Dordogne" },
-  "role": { "fr": "QA Producer", "en": "QA Producer" },
+  "title": {
+    "fr": "Dordogne",
+    "en": "Dordogne"
+  },
+  "role": {
+    "fr": "QA Producer",
+    "en": "QA Producer"
+  },
   "summary": {
-    "fr": "Coordination prod, supervision QA interne/externe (Huwiz), outillage C# (automatisation & analyses), soumissions TRC avec Focus. QA multiplateforme (PC/PS/Xbox/Switch/iOS) et multilingue (14 langues).",
-    "en": "Production coordination, internal/external QA supervision (Huwiz), C# tooling (automation & analysis), TRC submissions with Focus. Multiplatform QA (PC/PS/Xbox/Switch/iOS) and multilingual (14 languages)."
+    "fr": "QA Producer sur une production complète jusqu’à la sortie : builds, tickets, reporting, prestataire QA, outils C#, TRC, plateformes et localisation.",
+    "en": "QA Producer on a full production through release: builds, tickets, reporting, external QA, C# tools, TRC, platforms and localization."
   },
-  "trailer": "u0L_mCJJU98",
-  "images": {
-    "cover": "https://img.youtube.com/vi/u0L_mCJJU98/hqdefault.jpg",
-    "gallery": [
-      "https://img.youtube.com/vi/u0L_mCJJU98/maxresdefault.jpg",
-      "https://picsum.photos/seed/dordogne-1/1280/720",
-      "https://picsum.photos/seed/dordogne-2/1280/720"
-    ]
-  },
-  "anecdotes": {
+  "tags": {
     "fr": [
-      "Pilotage du prestataire Huwiz et reporting détaillé.",
-      "Outils C# pour automatiser tests et pré-analyses.",
-      "Soumissions TRC en lien avec Focus Entertainment."
+      "QA Producer",
+      "Builds",
+      "Tickets",
+      "Certification"
     ],
     "en": [
-      "Vendor oversight (Huwiz) with detailed reporting.",
-      "C# tools to automate tests and pre-analyses.",
-      "TRC submissions with Focus Entertainment."
+      "QA Producer",
+      "Builds",
+      "Tickets",
+      "Certification"
+    ]
+  },
+  "facts": {
+    "fr": [
+      {
+        "label": "Rôle",
+        "value": "QA Producer"
+      },
+      {
+        "label": "Plateformes",
+        "value": "PC, consoles, iOS"
+      },
+      {
+        "label": "Feedback",
+        "value": "+1500 tickets"
+      },
+      {
+        "label": "Équipe",
+        "value": "5 pôles / 23 personnes"
+      }
+    ],
+    "en": [
+      {
+        "label": "Role",
+        "value": "QA Producer"
+      },
+      {
+        "label": "Platforms",
+        "value": "PC, consoles, iOS"
+      },
+      {
+        "label": "Feedback",
+        "value": "1500+ tickets"
+      },
+      {
+        "label": "Team",
+        "value": "5 teams / 23 people"
+      }
+    ]
+  },
+  "overview": {
+    "fr": [
+      "Dordogne est l’expérience qui m’a donné la vision la plus concrète d’une production menée jusqu’à la sortie. Mon rôle était centré sur la QA, la coordination et la fiabilisation des boucles de retour entre équipes.",
+      "Cette expérience influence encore mon approche globale du jeu. Elle m’a appris à relier qualité, planning, outils, priorités et expérience joueur au lieu de traiter chaque sujet séparément."
+    ],
+    "en": [
+      "Dordogne gave me the most concrete view of a project carried all the way to release. My role focused on QA, coordination and making feedback loops more reliable between teams.",
+      "This experience still shapes my broader approach to games. It taught me to connect quality, schedule, tools, priorities and player experience instead of treating each topic separately."
+    ]
+  },
+  "contribution": {
+    "fr": [
+      "Coordination de production sur 5 pôles et 23 collaborateurs.",
+      "Supervision QA interne et externe avec Huwiz, suivi de plus de 1500 retours et tickets.",
+      "Gestion des builds QA, reporting exploitable par les équipes et suivi des sujets critiques.",
+      "Développement d’outils QA en C# pour réduire les tâches répétitives et accélérer la première analyse.",
+      "Suivi des soumissions constructeurs sur PC, Xbox, PlayStation, Switch et iOS, TRC, retours constructeurs et support de 14 langues."
+    ],
+    "en": [
+      "Production coordination across 5 teams and 23 collaborators.",
+      "Internal and external QA supervision with Huwiz, tracking more than 1500 reports and tickets.",
+      "QA build management, team-readable reporting and critical issue follow-up.",
+      "C# QA tools to reduce repetitive checks and speed up initial analysis.",
+      "Platform submissions on PC, Xbox, PlayStation, Switch and iOS, TRC topics, first-party feedback and 14-language support."
+    ]
+  },
+  "trailer": "https://youtu.be/u0L_mCJJU98",
+  "images": {
+    "cover": "assets/projects/dordogne-cover.webp",
+    "gallery": [
+      "assets/projects/dordogne-cover.webp",
+      "assets/projects/dordogne-camera.webp",
+      "assets/projects/dordogne-room.webp",
+      "assets/projects/dordogne-steam-01.jpg",
+      "assets/projects/dordogne-steam-02.jpg",
+      "assets/projects/dordogne-steam-03.jpg"
     ]
   },
   "links": [
-    { "label": { "fr": "Trailer", "en": "Trailer" }, "url": "https://youtu.be/u0L_mCJJU98" }
+    {
+      "label": {
+        "fr": "Page Steam",
+        "en": "Steam page"
+      },
+      "url": "https://store.steampowered.com/app/1272840/Dordogne/"
+    },
+    {
+      "label": {
+        "fr": "Page Focus",
+        "en": "Focus page"
+      },
+      "url": "https://www.focus-entmt.com/en/games/dordogne"
+    },
+    {
+      "label": {
+        "fr": "MobyGames",
+        "en": "MobyGames"
+      },
+      "url": "https://www.mobygames.com/person/1375320/nathan-tandille/"
+    }
   ]
 }

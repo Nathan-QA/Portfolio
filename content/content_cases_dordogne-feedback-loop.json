@@ -1,0 +1,206 @@
+{
+  "id": "dordogne-feedback-loop",
+  "projects": [
+    "dordogne"
+  ],
+  "title": {
+    "fr": "De 1500 retours à des décisions de production",
+    "en": "From 1500 reports to production decisions"
+  },
+  "role": {
+    "fr": "QA Production / Builds / Livraison",
+    "en": "QA Production / Builds / Shipping"
+  },
+  "timeframe": "2022-2025",
+  "abstract": {
+    "fr": "Une étude de cas sur mon rôle de QA Producer sur Dordogne : QA interne/externe, builds, tickets, reporting, outils C#, plateformes, certification et coordination jusqu’à la sortie.",
+    "en": "A case study about my QA Producer role on Dordogne: internal/external QA, builds, tickets, reporting, C# tools, platforms, certification and coordination through release."
+  },
+  "tags": [
+    "QA Producer",
+    "Production",
+    "Builds",
+    "Certification"
+  ],
+  "metrics": [
+    {
+      "value": "1500+",
+      "label": {
+        "fr": "retours / tickets suivis",
+        "en": "reports / tickets tracked"
+      }
+    },
+    {
+      "value": "5",
+      "label": {
+        "fr": "plateformes suivies",
+        "en": "platforms followed"
+      }
+    },
+    {
+      "value": "23",
+      "label": {
+        "fr": "collaborateurs / 5 pôles",
+        "en": "collaborators / 5 teams"
+      }
+    },
+    {
+      "value": "~10h",
+      "label": {
+        "fr": "gagnées par semaine via outils C#",
+        "en": "saved weekly through C# tools"
+      }
+    }
+  ],
+  "media": {
+    "trailer": "https://youtu.be/u0L_mCJJU98",
+    "images": [
+      "assets/projects/dordogne-cover.webp",
+      "assets/projects/dordogne-camera.webp",
+      "assets/projects/dordogne-room.webp",
+      "assets/projects/dordogne-steam-01.jpg"
+    ]
+  },
+  "article": {
+    "fr": {
+      "intro": [
+        "Dordogne est l’expérience qui m’a le plus appris sur la réalité d’un jeu livré. En tant que QA Producer, mon rôle était de garder une boucle de production lisible entre les builds, la QA interne, le prestataire Huwiz, les tickets, les priorités, les retours constructeurs et les équipes de développement.",
+        "Le volume de retours ne suffit jamais. Pour qu’un ticket aide vraiment, il doit être contextualisé, priorisé, relié à un build, compréhensible par le bon métier et intégré à une décision de production."
+      ],
+      "sections": [
+        {
+          "heading": "Structurer la QA interne et externe",
+          "paragraphs": [
+            "La supervision QA couvrait à la fois les retours internes et le pilotage d’un prestataire externe sur plusieurs mois. Il fallait garder une lecture claire de ce qui venait des tests, de ce qui bloquait une plateforme, de ce qui relevait d’une régression, d’un confort joueur, d’un sujet de localisation ou d’un risque de certification.",
+            "Cette structuration permettait de transformer +1500 retours en matière exploitable : tickets qualifiés, reporting détaillé, priorités visibles et sujets critiques remontés au bon moment."
+          ],
+          "bullets": [
+            "Suivi des builds QA et des retours associés.",
+            "Coordination avec Huwiz sur 6 mois de QA externe.",
+            "Reporting orienté décision pour design, tech et production."
+          ],
+          "media": {
+            "src": "assets/projects/dordogne-camera.webp",
+            "caption": "Le reporting devait rendre les problèmes lisibles, pas seulement les accumuler."
+          }
+        },
+        {
+          "heading": "Relier tickets, deadlines et priorités",
+          "paragraphs": [
+            "Sur une production complète jusqu’à la sortie, un sujet QA n’existe pas seul. Il touche un planning, une plateforme, une équipe, parfois une contrainte constructeur ou une localisation. Mon travail consistait aussi à maintenir les bases de tâches, assigner, prioriser et clarifier les dépouillements pour que les équipes sachent quoi traiter ensuite.",
+            "Ce rôle demande de distinguer urgence et importance : un bug très visible n’a pas toujours le même poids qu’un risque TRC, une régression tardive ou un problème qui bloque une soumission."
+          ],
+          "media": {
+            "images": [
+              "assets/projects/dordogne-cover.webp",
+              "assets/projects/dordogne-room.webp",
+              "assets/projects/dordogne-steam-02.jpg"
+            ],
+            "caption": "La qualité finale dépend autant des corrections que de la façon dont elles sont priorisées."
+          }
+        },
+        {
+          "heading": "Réduire le coût de la première analyse avec des outils",
+          "paragraphs": [
+            "J’ai développé des outils QA en C# pour automatiser certaines vérifications, réduire les tâches répétitives et accélérer la première analyse. L’objectif n’était pas de remplacer le regard QA, mais de dégager du temps pour les vrais arbitrages.",
+            "Ces outils ont permis de réduire environ 10 heures par semaine sur des tâches de vérification et de première analyse. C’est un bon exemple de ma façon de travailler : quand un workflow fatigue l’équipe ou ralentit la décision, je cherche une amélioration concrète."
+          ],
+          "bullets": [
+            "Automatiser les vérifications mécaniques.",
+            "Rendre les retours plus rapides à qualifier.",
+            "Améliorer les conditions de travail par des outils et process internes."
+          ]
+        },
+        {
+          "heading": "Préparer la livraison multiplateforme",
+          "paragraphs": [
+            "Dordogne impliquait un suivi sur PC, Xbox, PlayStation, Switch et iOS, avec préparation des certifications TRC, retours constructeurs, coordination avec Focus Entertainment et support de 14 langues.",
+            "Cette partie m’a donné une vision très concrète de la qualité livrée : un jeu ne sort pas seulement parce que son contenu est prêt, mais parce que les risques plateforme, localisation, planning, builds et communication ont été suivis avec rigueur."
+          ],
+          "media": {
+            "src": "assets/projects/dordogne-steam-03.jpg",
+            "caption": "La livraison demandait de relier qualité joueur, contraintes plateformes et réalités de planning."
+          }
+        }
+      ],
+      "blocks": [
+        {
+          "type": "callout",
+          "title": "Ce que cette expérience a changé",
+          "text": "Elle m’a appris à penser un contenu comme quelque chose qui doit être compris par le joueur, testé par la QA, priorisé par la production et corrigé par l’équipe dans un planning réel."
+        }
+      ],
+      "closing": "Aujourd’hui, cette expérience nourrit autant mon regard design que mon regard production. Elle m’aide à garder des idées créatives concrètes, testables et livrables."
+    },
+    "en": {
+      "intro": [
+        "Dordogne is the experience that taught me the most about the reality of a shipped game. As QA Producer, my role was to keep a readable production loop between builds, internal QA, the external provider Huwiz, tickets, priorities, first-party feedback and development teams.",
+        "Feedback volume is never enough by itself. For a ticket to truly help, it needs context, priority, build information, the right audience and a connection to a production decision."
+      ],
+      "sections": [
+        {
+          "heading": "Structuring internal and external QA",
+          "paragraphs": [
+            "QA supervision covered both internal feedback and an external provider over several months. The challenge was to keep a clear read on what came from tests, what blocked a platform, what was a regression, a player comfort topic, a localization issue or a certification risk.",
+            "This structure turned 1500+ reports into usable material: qualified tickets, detailed reporting, visible priorities and critical topics escalated at the right time."
+          ],
+          "bullets": [
+            "QA build tracking and associated feedback.",
+            "Coordination with Huwiz over 6 months of external QA.",
+            "Decision-oriented reporting for design, tech and production."
+          ],
+          "media": {
+            "src": "assets/projects/dordogne-camera.webp",
+            "caption": "Reporting had to make problems readable, not only accumulate them."
+          }
+        },
+        {
+          "heading": "Connecting tickets, deadlines and priorities",
+          "paragraphs": [
+            "On a full production through release, a QA topic never exists alone. It touches a schedule, a platform, a team, sometimes a first-party constraint or localization. My work also involved maintaining task databases, assigning, prioritizing and clarifying test analysis so teams knew what to address next.",
+            "That role requires separating urgency from importance: a very visible bug does not always carry the same weight as a TRC risk, a late regression or an issue blocking submission."
+          ],
+          "media": {
+            "images": [
+              "assets/projects/dordogne-cover.webp",
+              "assets/projects/dordogne-room.webp",
+              "assets/projects/dordogne-steam-02.jpg"
+            ],
+            "caption": "Final quality depends on fixes, but also on how those fixes are prioritized."
+          }
+        },
+        {
+          "heading": "Reducing first-analysis cost through tools",
+          "paragraphs": [
+            "I developed C# QA tools to automate some checks, reduce repetitive tasks and speed up first analysis. The goal was not to replace QA judgment, but to free time for real decisions.",
+            "Those tools reduced verification and initial analysis work by about 10 hours per week. It reflects how I work: when a workflow tires the team or slows decisions, I look for a concrete improvement."
+          ],
+          "bullets": [
+            "Automate mechanical checks.",
+            "Make feedback faster to qualify.",
+            "Improve team working conditions through internal tools and processes."
+          ]
+        },
+        {
+          "heading": "Preparing multiplatform shipping",
+          "paragraphs": [
+            "Dordogne involved follow-up on PC, Xbox, PlayStation, Switch and iOS, with TRC certification preparation, first-party feedback, coordination with Focus Entertainment and support for 14 languages.",
+            "This gave me a very concrete view of shipped quality: a game does not ship only because its content is ready, but because platform risks, localization, schedule, builds and communication have been followed rigorously."
+          ],
+          "media": {
+            "src": "assets/projects/dordogne-steam-03.jpg",
+            "caption": "Shipping required connecting player quality, platform constraints and schedule reality."
+          }
+        }
+      ],
+      "blocks": [
+        {
+          "type": "callout",
+          "title": "What this experience changed",
+          "text": "It taught me to think of content as something players must understand, QA must test, production must prioritize and the team must fix within a real schedule."
+        }
+      ],
+      "closing": "Today, this experience shapes both my design eye and my production eye. It helps me keep creative ideas concrete, testable and shippable."
+    }
+  }
+}

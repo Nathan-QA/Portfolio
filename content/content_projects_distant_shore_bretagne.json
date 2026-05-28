@@ -1,21 +1,114 @@
 {
   "id": "distant-shore-bretagne",
-  "title": { "fr": "Distant Shore : Bretagne", "en": "Distant Shore: Brittany" },
-  "role": { "fr": "Level Designer (Side project)", "en": "Level Designer (Side project)" },
-  "summary": {
-    "fr": "Unity 6 URP : conception de niveaux, documentation, prototypage et tests.",
-    "en": "Unity 6 URP: level design, documentation, prototyping and testing."
+  "title": {
+    "fr": "Distant Shore : Bretagne",
+    "en": "Distant Shore: Brittany"
   },
-  "images": {
-    "cover": "https://picsum.photos/seed/distant-cover/1280/720",
-    "gallery": [
-      "https://picsum.photos/seed/distant-1/1280/720",
-      "https://picsum.photos/seed/distant-2/1280/720"
+  "role": {
+    "fr": "Level Designer",
+    "en": "Level Designer"
+  },
+  "summary": {
+    "fr": "Level design sous Unity : 4 zones majeures, séquences jouables, documentation, intégration de contenus, réglages gameplay et itérations après tests.",
+    "en": "Level design in Unity: 4 major areas, playable sequences, documentation, content integration, gameplay tuning and test-driven iterations."
+  },
+  "tags": {
+    "fr": [
+      "Level Design",
+      "Exploration",
+      "Unity",
+      "Playtests"
+    ],
+    "en": [
+      "Level Design",
+      "Exploration",
+      "Unity",
+      "Playtests"
     ]
   },
-  "anecdotes": {
-    "fr": ["Processus block-out → greybox → art pass.", "Critères de test définis en amont."],
-    "en": ["Block-out → greybox → art pass pipeline.", "Defined clear test criteria upfront."]
+  "facts": {
+    "fr": [
+      {
+        "label": "Rôle",
+        "value": "Level Designer"
+      },
+      {
+        "label": "Moteur",
+        "value": "Unity"
+      },
+      {
+        "label": "Scope",
+        "value": "4 zones majeures"
+      },
+      {
+        "label": "Focus",
+        "value": "Exploration & lisibilité"
+      }
+    ],
+    "en": [
+      {
+        "label": "Role",
+        "value": "Level Designer"
+      },
+      {
+        "label": "Engine",
+        "value": "Unity"
+      },
+      {
+        "label": "Scope",
+        "value": "4 major areas"
+      },
+      {
+        "label": "Focus",
+        "value": "Exploration & readability"
+      }
+    ]
   },
-  "links": []
+  "overview": {
+    "fr": [
+      "Distant Shore : Bretagne est le projet qui montre le plus directement mon travail actuel en level design. Mon rôle porte sur la conception de 4 zones majeures, la construction de séquences jouables, l’intégration Unity et la documentation des intentions, risques, besoins et prochaines passes.",
+      "Le travail se concentre sur la lisibilité, le rythme et la cohérence de l’expérience, mais aussi sur la capacité à rendre chaque zone testable, itérable et compatible avec les besoins de production."
+    ],
+    "en": [
+      "Distant Shore: Brittany is the project that best represents my current level design work. My role covers 4 major areas, playable sequences, Unity integration and documentation of intentions, risks, needs and upcoming passes.",
+      "The work focuses on readability, pacing and experience coherence, but also on making each area testable, iterable and compatible with production needs."
+    ]
+  },
+  "contribution": {
+    "fr": [
+      "Conception, itération et documentation de 4 zones majeures et nombreuses séquences de level design.",
+      "Block-out, greybox, intégration Unity, mise en place d’assets, réglages gameplay et tests en conditions réelles.",
+      "Documentation LD pour partager les intentions, les contraintes, les besoins assets et les prochaines passes.",
+      "Exploitation des retours de test pour prioriser les corrections de lisibilité, de timing, de densité et de parcours.",
+      "Participation à l’amélioration de systèmes existants et à la structuration du pipeline de travail."
+    ],
+    "en": [
+      "Design, iteration and documentation of 4 major areas and multiple level design sequences.",
+      "Blockout, greybox, Unity integration, asset setup, gameplay tuning and real-condition testing.",
+      "Level design documentation to share intentions, constraints, asset needs and next passes.",
+      "Use of test feedback to prioritize readability, timing, density and pathing corrections.",
+      "Participation in improving existing systems and structuring the work pipeline."
+    ]
+  },
+  "trailer": "https://youtu.be/p-1Kv50FjuA",
+  "images": {
+    "cover": "assets/projects/distant-shore-cover.webp",
+    "gallery": [
+      "assets/projects/distant-shore-cover.webp",
+      "assets/projects/distant-shore-beach.webp",
+      "assets/projects/distant-shore-zone.webp",
+      "assets/projects/distant-shore-steam-01.jpg",
+      "assets/projects/distant-shore-steam-02.jpg",
+      "assets/projects/distant-shore-steam-03.jpg"
+    ]
+  },
+  "links": [
+    {
+      "label": {
+        "fr": "Page Steam",
+        "en": "Steam page"
+      },
+      "url": "https://store.steampowered.com/app/3892370/Distant_Shore_BRETAGNE/"
+    }
+  ]
 }
