@@ -38,7 +38,7 @@
       },
       {
         "label": "Genre",
-        "value": "Action-exploration"
+        "value": "Action-exploration, escort, aventure narrative"
       },
       {
         "label": "Focus",
@@ -56,13 +56,53 @@
       },
       {
         "label": "Genre",
-        "value": "Action-exploration"
+        "value": "Action-exploration, escort, narrative adventure"
       },
       {
         "label": "Focus",
         "value": "Scope, milestones, pitch"
       }
     ]
+  },
+  "projectInfo": {
+    "developer": "Pepin Kojo",
+    "publisher": {
+      "fr": "À annoncer",
+      "en": "To be announced"
+    },
+    "platforms": {
+      "fr": "PC, Xbox Series, PlayStation 5, Nintendo Switch 2",
+      "en": "PC, Xbox Series, PlayStation 5, Nintendo Switch 2"
+    },
+    "languages": {
+      "fr": [
+        "Anglais",
+        "Français",
+        "Japonais"
+      ],
+      "en": [
+        "English",
+        "French",
+        "Japanese"
+      ]
+    },
+    "releaseDate": {
+      "fr": "À annoncer",
+      "en": "To be announced"
+    },
+    "role": {
+      "fr": "Producer",
+      "en": "Producer"
+    },
+    "engine": "Unreal Engine 5",
+    "genres": {
+      "fr": "Action-exploration, escort, aventure narrative",
+      "en": "Action-exploration, escort, narrative adventure"
+    },
+    "description": {
+      "fr": "Projet narratif action-exploration centré sur une vision ambitieuse à formaliser, financer et produire : scope, jalons, budgets, dossiers, dépendances et coordination entre métiers.",
+      "en": "Narrative action-exploration project built around an ambitious vision to frame, fund and produce: scope, milestones, budgets, documents, dependencies and cross-discipline coordination."
+    }
   },
   "overview": {
     "fr": [
@@ -90,12 +130,10 @@
   },
   "trailer": "https://youtu.be/DqwgDLScVDE",
   "images": {
-    "cover": "assets/projects/pyla-keyart-official.jpg",
+    "cover": "assets/projects/pyla-carousel-01-keyart.jpg",
     "gallery": [
-      "assets/projects/pyla-keyart-official.jpg",
-      "assets/projects/pyla-keyart.webp",
-      "assets/projects/pyla-watercolor-cover.webp",
-      "assets/projects/pyla-press-preview.webp"
+      "assets/projects/pyla-carousel-01-keyart.jpg",
+      "assets/projects/pyla-carousel-06-watercolor-couv.webp"
     ]
   },
   "links": [

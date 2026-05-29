@@ -64,6 +64,44 @@
       }
     ]
   },
+  "projectInfo": {
+    "developer": {
+      "fr": "UMANIMATION / projets non publics",
+      "en": "UMANIMATION / non-public projects"
+    },
+    "publisher": {
+      "fr": "Non public / annulé",
+      "en": "Non-public / cancelled"
+    },
+    "platforms": {
+      "fr": "Non public",
+      "en": "Non-public"
+    },
+    "languages": {
+      "fr": "Non public",
+      "en": "Non-public"
+    },
+    "releaseDate": {
+      "fr": "Non sorti",
+      "en": "Unreleased"
+    },
+    "role": {
+      "fr": "Game & Level Design",
+      "en": "Game & Level Design"
+    },
+    "engine": {
+      "fr": "Selon projet / prototype",
+      "en": "Depending on project / prototype"
+    },
+    "genres": {
+      "fr": "Prototype, aventure, exploration, séquences de design",
+      "en": "Prototype, adventure, exploration, design sequences"
+    },
+    "description": {
+      "fr": "Travaux de game design, level design, documentation et prototypage sur des projets non publics ou interrompus. La présentation publique reste volontairement synthétique.",
+      "en": "Game design, level design, documentation and prototyping work on non-public or interrupted projects. The public presentation remains intentionally concise."
+    }
+  },
   "overview": {
     "fr": [
       "Cette section regroupe des travaux que je ne peux pas présenter aussi librement que des projets publics. L’objectif n’est pas de montrer des assets ou des documents confidentiels, mais de garder une trace claire du type de travail réalisé autour du design, de la structure de niveaux, de la documentation et de l’itération.",
@@ -89,7 +127,7 @@
     ]
   },
   "images": {
-    "cover": "assets/projects/ltag-ltdc-01.png",
+    "cover": "assets/projects/ltag-thumb.png",
     "gallery": [
       "assets/projects/ltag-ltdc-01.png",
       "assets/projects/ltag-ltdc-02.png",

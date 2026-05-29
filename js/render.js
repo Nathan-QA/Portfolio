@@ -28,6 +28,14 @@ function projectPlaceholder(title){
 }
 function asArray(v){ return Array.isArray(v) ? v : (v ? [v] : []); }
 function localizedValue(v){ const x = localized(v); return x == null ? '' : x; }
+function infoValueParts(v){
+  const value = localizedValue(v);
+  if(Array.isArray(value)) return value.map(x=>localizedValue(x)).filter(Boolean);
+  return value ? [value] : [];
+}
+function infoValueHTML(v){
+  return infoValueParts(v).map(x=>htmlText(x)).join(', ');
+}
 function mediaSrc(item){
   return typeof item === 'string' ? item : (item?.src || item?.url || item?.image || item?.cover || '');
 }
@@ -48,10 +56,65 @@ function caseCover(c){
   const explicit = mediaSrc(media.cover) || mediaSrc(cover(media.images)) || mediaSrc(cover(media.gallery)) || mediaSrc(c?.cover);
   return explicit || (media.trailer ? `https://img.youtube.com/vi/${media.trailer}/hqdefault.jpg` : (imgs[0] || ''));
 }
+function projectGalleryImages(p){
+  const images = p?.images;
+  if(images && typeof images === 'object' && !Array.isArray(images) && images.gallery){
+    return imageSrcList(images.gallery);
+  }
+  return imgsArr(images).map(mediaSrc).filter(Boolean);
+}
 function renderCaseTags(tags){
   const list = asArray(localizedValue(tags)).filter(Boolean);
   if(!list.length) return '';
   return `<div class="case-tags">${list.map(t=>`<span>${htmlText(localizedValue(t))}</span>`).join('')}</div>`;
+}
+function renderProjectTags(tags){
+  const list = asArray(localizedValue(tags)).filter(Boolean);
+  if(!list.length) return '';
+  return `<div class="project-tags" aria-label="${state.lang==='fr'?'Tags projet':'Project tags'}">
+    <strong>${state.lang==='fr'?'Tags':'Tags'}</strong>
+    ${list.map(t=>`<span>${htmlText(localizedValue(t))}</span>`).join('')}
+  </div>`;
+}
+function renderProjectInfo(p){
+  const info = p.projectInfo || {};
+  const role = localizedValue(info.role || p.role || '');
+  const description = localizedValue(info.description || p.summary || '');
+  const labels = {
+    developer: state.lang==='fr'?'Développeur':'Developer',
+    publisher: state.lang==='fr'?'Éditeur':'Publisher',
+    platforms: state.lang==='fr'?'Plateformes':'Platforms',
+    languages: state.lang==='fr'?'Langues':'Languages',
+    releaseDate: state.lang==='fr'?'Date de sortie':'Release date',
+    role: state.lang==='fr'?'Rôle':'Role',
+    engine: state.lang==='fr'?'Moteur':'Engine',
+    genres: state.lang==='fr'?'Genres':'Genres',
+    description: state.lang==='fr'?'Description':'Description'
+  };
+  const order = ['developer','publisher','platforms','languages','releaseDate','role','engine','genres'];
+  const rows = order.map(key=>{
+    const value = key === 'role' ? role : localizedValue(info[key]);
+    const parts = infoValueParts(value);
+    if(!parts.length) return '';
+    const plain = parts.join(', ');
+    const wide = parts.length > 5 || plain.length > 54;
+    return `<div class="project-info-row project-info-row--${key}${wide?' project-info-row--wide':''}"><dt>${labels[key]}</dt><dd>${infoValueHTML(value)}</dd></div>`;
+  }).filter(Boolean).join('');
+  if(!rows && !description) return '';
+  return `<section class="project-info card" aria-label="${state.lang==='fr'?'Fiche projet':'Project sheet'}">
+    <h4>${state.lang==='fr'?'Fiche projet':'Project sheet'}</h4>
+    ${rows ? `<dl class="project-info-grid">${rows}</dl>` : ''}
+    ${description ? `<div class="project-info-description"><strong>${labels.description}</strong><p>${htmlText(description)}</p></div>` : ''}
+  </section>`;
+}
+function renderProjectActionGroup(title, items, modifier=''){
+  const list = asArray(items).filter(Boolean);
+  if(!list.length) return '';
+  const className = `project-action-group${modifier ? ` project-action-group--${modifier}` : ''}`;
+  return `<section class="${className}" aria-label="${htmlText(title)}">
+    <h4>${htmlText(title)}</h4>
+    <div class="project-action-list">${list.join('')}</div>
+  </section>`;
 }
 function renderCaseMetrics(items, compact=false){
   const list = asArray(localizedValue(items)).filter(Boolean);
@@ -61,17 +124,6 @@ function renderCaseMetrics(items, compact=false){
       const value = localizedValue(it.value || it.number || it.stat || '');
       const label = localizedValue(it.label || it.title || it.caption || '');
       return `<div><dt>${htmlText(value)}</dt><dd>${htmlText(label)}</dd></div>`;
-    }).join('')}
-  </dl>`;
-}
-function renderProjectFacts(items, compact=false){
-  const list = asArray(localizedValue(items)).filter(Boolean);
-  if(!list.length) return '';
-  return `<dl class="project-facts ${compact?'project-facts--compact':''}">
-    ${list.map(it=>{
-      const label = localizedValue(it.label || it.title || '');
-      const value = localizedValue(it.value || it.text || it.stat || '');
-      return `<div>${label ? `<dt>${htmlText(label)}</dt>` : ''}<dd>${htmlText(value)}</dd></div>`;
     }).join('')}
   </dl>`;
 }
@@ -178,11 +230,12 @@ function wireCaseGalleries(root){
 /* ---------------------------
    Gabarit de modale UNIFIÉ
 ---------------------------- */
-function modalScaffold({ initial, images=[], actionsHTML='', leadHTML='', blocksHTML='' }){
+function modalScaffold({ initial, images=[], mediaActionsHTML='', actionsHTML='', leadHTML='', blocksHTML='' }){
   return `
     ${mediaShellHtml(initial)}
     ${images.length ? `<div class="media-strip" style="margin-top:10px">${images.map(u=>`<img src="${u}" alt="">`).join('')}</div>` : ''}
-    ${actionsHTML ? `<div class="row" style="margin:10px 0; display:flex; gap:8px; flex-wrap:wrap">${actionsHTML}</div>` : ''}
+    ${mediaActionsHTML || ''}
+    ${actionsHTML ? `<div class="modal-actions">${actionsHTML}</div>` : ''}
     ${leadHTML || ''}
     ${blocksHTML || ''}
   `;
@@ -237,7 +290,7 @@ export function renderProjects(){
   list.innerHTML='';
 
   state.projects.forEach(p=>{
-    const gallery=imgsArr(p.images);
+    const gallery=projectGalleryImages(p);
     const cov=cover(p.images)||gallery[0]||'';
     const title = p.title?.[state.lang] || p.title;
     const summary = localizedValue(p.summary || '');
@@ -296,41 +349,56 @@ export function openProject(p,{originEl=null}={}){
   setHash({project:p.id});
   state.modalStack.length=0;
 
-  const gallery = imgsArr(p.images);
+  const gallery = projectGalleryImages(p);
   const cov = cover(p.images) || gallery[0] || '';
   const title = p.title?.[state.lang] || p.title;
   const initial = p.trailer ? yt(p.trailer,false,false)
                             : (cov ? `<img src="${cov}" alt="" style="object-fit:cover"/>` : projectPlaceholder(title));
   const relCases = state.cases.filter(c=>c.projects?.includes(p.id));
-
-  const actions = [
-    gallery.length ? `<button class="btn" data-gallery>${T('btn_open_gallery','Open gallery')}</button>` : '',
-    ...relCases.map(c => `<button class="btn" data-case="${c.id}">${c.title?.[state.lang]||c.title}</button>`),
-    ...(p.links||[]).map(l=>`<a class="btn" target="_blank" rel="noopener" href="${l.url}">${l.label?.[state.lang]||l.label}</a>`)
-  ].filter(Boolean).join('');
+  const fr = state.lang === 'fr';
+  const mediaActions = [
+    gallery.length ? `<button class="btn action-btn action-btn--media" data-gallery>${T('btn_open_gallery', fr ? 'Ouvrir la galerie' : 'Open gallery')}</button>` : ''
+  ];
+  const externalLinks = (p.links||[]).map(l=>{
+    const url = String(l.url || '').toLowerCase();
+    const isOfficial = /steam|focus-entmt|pepinkojo|distantshore/.test(url);
+    const html = `<a class="btn action-btn ${isOfficial?'action-btn--external':'action-btn--reference'}" target="_blank" rel="noopener" href="${l.url}">${l.label?.[state.lang]||l.label}</a>`;
+    return { isOfficial, html };
+  });
+  const gameLinks = externalLinks.filter(l=>l.isOfficial).map(l=>l.html);
+  const referenceLinks = externalLinks.filter(l=>!l.isOfficial).map(l=>l.html);
+  const portfolioLinks = relCases.map(c => `<button class="btn action-btn action-btn--portfolio" data-case="${c.id}">${c.title?.[state.lang]||c.title}</button>`);
+  const mediaActionsHTML = renderProjectActionGroup(fr ? 'Médias du projet' : 'Project media', mediaActions, 'media');
+  const gameLinksHTML = renderProjectActionGroup(fr ? 'Liens du jeu' : 'Game links', gameLinks, 'game');
+  const referenceLinksHTML = renderProjectActionGroup(fr ? 'Références externes' : 'External references', referenceLinks, 'reference');
+  const portfolioLinksHTML = renderProjectActionGroup(fr ? 'Dans ce portfolio' : 'In this portfolio', portfolioLinks, 'portfolio');
 
   const summary = localized(p.summary);
   const overview = localized(p.overview);
   const contribution = localized(p.contribution);
   const anecdotes = localized(p.anecdotes);
   const richBlocks = asArray(p.blocks || p.sections).map(renderCaseBlock).join('');
-  const tags = renderCaseTags(p.tags);
-  const facts = renderProjectFacts(p.facts, true);
+  const tags = renderProjectTags(p.tags);
+  const projectInfo = renderProjectInfo(p);
 
   const leadHTML = `
-    ${tags ? `<div class="project-modal-tags" style="margin-top:10px">${tags}</div>` : ''}
-    ${facts}
-    ${summary ? `<div class="card project-lead" style="margin-top:10px"><p>${htmlText(summary)}</p></div>` : ''}
+    ${projectInfo}
+    ${gameLinksHTML}
+    ${referenceLinksHTML}
+    ${tags ? `<div class="project-modal-tags">${tags}</div>` : ''}
+    ${summary ? `<div class="card project-lead"><p>${htmlText(summary)}</p></div>` : ''}
+    ${portfolioLinksHTML}
     ${overview ? `<div class="card project-section" style="margin-top:10px"><h4>${state.lang==='fr'?'Projet':'Project'}</h4>${paragraphHTML(overview)}</div>` : ''}
     ${contribution ? `<div class="card project-section" style="margin-top:10px"><h4>${state.lang==='fr'?'Mon rôle':'My role'}</h4>${listHTML(contribution)}</div>` : ''}
     ${anecdotes ? `<div class="card project-section" style="margin-top:10px"><h4>${state.lang==='fr'?'Points clés':'Key points'}</h4>${listHTML(anecdotes)}</div>` : ''}
   `;
 
   const body = modalScaffold({
-    initial, images: gallery, actionsHTML: actions, leadHTML, blocksHTML: richBlocks ? `<div class="project-rich">${richBlocks}</div>` : ''
+    initial, images: gallery, mediaActionsHTML, actionsHTML: '', leadHTML, blocksHTML: richBlocks ? `<div class="project-rich">${richBlocks}</div>` : ''
   });
 
   openModal(title, body, {
+    modalClass: 'modal--project',
     originEl,
     onReady(m){
       const { shell } = wireStandardModal(m, {images:gallery});
@@ -399,9 +467,9 @@ export function openCase(c,{originEl=null}={}){
 
   const relProjects = (c.projects||[]).map(id=>state.projects.find(p=>p.id===id)).filter(Boolean);
   const actions = [
-    imgs.length ? `<button class="btn" data-gallery>${T('btn_open_gallery','Open gallery')}</button>` : '',
-    ...relProjects.map(p=>`<button class="btn" data-project="${p.id}">${p.title?.[state.lang]||p.title}</button>`),
-    ...(c.links||[]).map(l=>`<a class="btn" target="_blank" rel="noopener" href="${l.url}">${l.label?.[state.lang]||l.label}</a>`)
+    imgs.length ? `<button class="btn action-btn" data-gallery>${T('btn_open_gallery','Open gallery')}</button>` : '',
+    ...relProjects.map(p=>`<button class="btn action-btn action-btn--secondary" data-project="${p.id}">${p.title?.[state.lang]||p.title}</button>`),
+    ...(c.links||[]).map(l=>`<a class="btn action-btn action-btn--external" target="_blank" rel="noopener" href="${l.url}">${l.label?.[state.lang]||l.label}</a>`)
   ].filter(Boolean).join('');
 
   const article = c.article?.[state.lang] || c.article?.fr || null;
@@ -609,8 +677,8 @@ export function renderSkills(){
 
     const initial = s.images?.length ? `<img src="${s.images[0]}" alt="" style="object-fit:cover"/>` : '';
     const actions = [
-      ...relProjects.map(p=>`<button class="btn" data-open-project="${p.id}">${p.title?.[state.lang]||p.title}</button>`),
-      ...relCases.map(c=>`<button class="btn" data-open-case="${c.id}">${c.title?.[state.lang]||c.title}</button>`)
+      ...relProjects.map(p=>`<button class="btn action-btn action-btn--secondary" data-open-project="${p.id}">${p.title?.[state.lang]||p.title}</button>`),
+      ...relCases.map(c=>`<button class="btn action-btn action-btn--secondary" data-open-case="${c.id}">${c.title?.[state.lang]||c.title}</button>`)
     ].join('');
 
     const leadHTML = `

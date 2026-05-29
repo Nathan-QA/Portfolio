@@ -14,7 +14,7 @@
   "timeframe": "2025-2026",
   "abstract": {
     "fr": "Une étude de cas sur mon travail level design sur Distant Shore : Bretagne : intentions de navigation, progression, rythme, intégration Unity, retours de test et documentation exploitable par l’équipe.",
-    "en": "A case study about my LD work on Distant Shore: Brittany: navigation intentions, progression, pacing, Unity integration, test feedback and team-readable documentation."
+    "en": "A case study about my LD work on Distant Shore: Bretagne: navigation intentions, progression, pacing, Unity integration, test feedback and team-readable documentation."
   },
   "tags": [
     "Level Design",
@@ -134,7 +134,7 @@
     },
     "en": {
       "intro": [
-        "On Distant Shore: Brittany, my Level Designer work is not limited to drawing spaces. It covers area design, playable sequence construction, Unity integration, gameplay tuning, documentation and production needs.",
+        "On Distant Shore: Bretagne, my Level Designer work is not limited to drawing spaces. It covers area design, playable sequence construction, Unity integration, gameplay tuning, documentation and production needs.",
         "The central topic is readability: what the player understands about the space, short-term goals, transitions and pacing. But that readability also has to be testable, documented and shareable with other disciplines."
       ],
       "sections": [

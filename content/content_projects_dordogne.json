@@ -64,6 +64,32 @@
       }
     ]
   },
+  "projectInfo": {
+    "developer": "UMANIMATION / Un Je Ne Sais Quoi",
+    "publisher": "Focus Entertainment",
+    "platforms": "PC, Nintendo Switch, PlayStation 4, PlayStation 5, Xbox One, Xbox Series, iOS",
+    "languages": {
+      "fr": "EN, FR, OC, DE, ES-ES, ES-419 / ES-MX, IT, JA, KO, PL, RU, ZH-Hans, ZH-Hant, PT-BR",
+      "en": "EN, FR, OC, DE, ES-ES, ES-419 / ES-MX, IT, JA, KO, PL, RU, ZH-Hans, ZH-Hant, PT-BR"
+    },
+    "releaseDate": {
+      "fr": "13 juin 2023",
+      "en": "June 13, 2023"
+    },
+    "role": {
+      "fr": "QA Producer",
+      "en": "QA Producer"
+    },
+    "engine": "Unity",
+    "genres": {
+      "fr": "Aventure narrative, exploration, puzzle, récit interactif",
+      "en": "Narrative adventure, exploration, puzzle, interactive story"
+    },
+    "description": {
+      "fr": "Aventure narrative en aquarelle où Mimi revient dans la maison familiale et explore ses souvenirs d’enfance à travers objets, paysages, sensations et moments de vie.",
+      "en": "Watercolor narrative adventure where Mimi returns to her family home and explores childhood memories through objects, landscapes, sensations and life moments."
+    }
+  },
   "overview": {
     "fr": [
       "Dordogne est l’expérience qui m’a donné la vision la plus concrète d’une production menée jusqu’à la sortie. Mon rôle était centré sur la QA, la coordination et la fiabilisation des boucles de retour entre équipes.",
@@ -92,14 +118,19 @@
   },
   "trailer": "https://youtu.be/u0L_mCJJU98",
   "images": {
-    "cover": "assets/projects/dordogne-cover.webp",
+    "cover": "assets/projects/dordogne-thumb.jpg",
     "gallery": [
-      "assets/projects/dordogne-cover.webp",
-      "assets/projects/dordogne-camera.webp",
-      "assets/projects/dordogne-room.webp",
       "assets/projects/dordogne-steam-01.jpg",
       "assets/projects/dordogne-steam-02.jpg",
-      "assets/projects/dordogne-steam-03.jpg"
+      "assets/projects/dordogne-steam-03.jpg",
+      "assets/projects/dordogne-steam-04.jpg",
+      "assets/projects/dordogne-steam-05.jpg",
+      "assets/projects/dordogne-steam-06.jpg",
+      "assets/projects/dordogne-steam-07.jpg",
+      "assets/projects/dordogne-steam-08.jpg",
+      "assets/projects/dordogne-steam-09.jpg",
+      "assets/projects/dordogne-steam-10.jpg",
+      "assets/projects/dordogne-steam-11.jpg"
     ]
   },
   "links": [
