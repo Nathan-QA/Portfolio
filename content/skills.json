@@ -504,6 +504,140 @@
             ]
           }
         }
+        {
+  "cat": "Outils & logiciels",
+  "items": [
+    {
+      "id": "tool-engines",
+      "name": "Moteurs & intégration",
+      "summary": "Utilisation de moteurs et outils techniques pour intégrer, tester, itérer et suivre des contenus jouables en production.",
+      "bullets": [
+        "Unity : intégration de contenus, blockout, réglages gameplay, tests en conditions réelles et vérifications QA dans le moteur",
+        "Unreal Engine 5 : suivi de production, scope, pipelines et dépendances sur un projet action-exploration",
+        "C# : développement d’outils internes QA et automatisation de vérifications répétitives"
+      ],
+      "tags": [
+        "Unity",
+        "Unreal Engine 5",
+        "C#",
+        "Integration"
+      ],
+      "images": [
+        "assets/projects/distant-shore-steam-02.jpg",
+        "assets/projects/pyla-carousel-01-keyart.jpg"
+      ],
+      "related": {
+        "projects": [
+          "distant-shore-bretagne",
+          "pyla",
+          "dordogne"
+        ],
+        "cases": [
+          "distant-shore-readability",
+          "pyla-production-scope",
+          "dordogne-feedback-loop"
+        ]
+      }
+    },
+    {
+      "id": "tool-production-tracking",
+      "name": "Outils de production & suivi",
+      "summary": "Structurer le suivi projet, les tâches, les dépendances, les priorités, les deadlines et les échanges entre équipes.",
+      "bullets": [
+        "ClickUp certifié : création de spaces projet, statuts, vues, priorités, deadlines, dépendances et pipelines",
+        "JIRA : suivi de tickets, bugs, retours QA, régressions, corrections et reporting",
+        "Miro : cartographie de flux, schémas de pipeline, préparation de réunions et clarification d’intentions"
+      ],
+      "tags": [
+        "ClickUp",
+        "JIRA",
+        "Miro",
+        "Tracking"
+      ],
+      "images": [
+        "assets/projects/pyla-carousel-06-watercolor-couv.webp",
+        "assets/projects/dordogne-steam-04.jpg"
+      ],
+      "related": {
+        "projects": [
+          "pyla",
+          "dordogne"
+        ],
+        "cases": [
+          "pyla-production-scope",
+          "dordogne-feedback-loop"
+        ]
+      }
+    },
+    {
+      "id": "tool-docs-versioning",
+      "name": "Documentation, supports & versioning",
+      "summary": "Produire, organiser et maintenir des documents de production, supports externes, suivis, budgets et workflows projet.",
+      "bullets": [
+        "Office 365 et Google Workspace : documents de production, budgets, plannings, tableaux, présentations et reporting",
+        "InDesign : mise en forme de dossiers, supports externes et documents stratégiques",
+        "Git / Sourcetree : suivi de versions, récupération de builds, repositories et workflows de production"
+      ],
+      "tags": [
+        "Office 365",
+        "Google Workspace",
+        "InDesign",
+        "Git"
+      ],
+      "images": [
+        "assets/projects/pyla-carousel-01-keyart.jpg",
+        "assets/projects/dordogne-steam-07.jpg"
+      ],
+      "related": {
+        "projects": [
+          "pyla",
+          "dordogne"
+        ],
+        "cases": [
+          "pyla-production-scope",
+          "dordogne-feedback-loop"
+        ]
+      }
+    }
+  ]
+},
+{
+  "cat": "Langues",
+  "items": [
+    {
+      "id": "lang-french-english",
+      "name": "Français natif & anglais avancé",
+      "summary": "Communication professionnelle en français et en anglais, avec usage quotidien en documentation, production, coordination et échanges avec partenaires ou prestataires.",
+      "bullets": [
+        "Français : langue maternelle",
+        "Anglais : C1, avancé",
+        "Documentation, reporting, échanges professionnels, coordination externe et lecture de supports techniques"
+      ],
+      "tags": [
+        "Français natif",
+        "Anglais C1",
+        "Communication",
+        "Documentation"
+      ],
+      "images": [
+        "assets/projects/dordogne-steam-07.jpg",
+        "assets/projects/pyla-carousel-01-keyart.jpg"
+      ],
+      "related": {
+        "projects": [
+          "dordogne",
+          "pyla",
+          "distant-shore-bretagne"
+        ],
+        "cases": [
+          "dordogne-feedback-loop",
+          "pyla-production-scope",
+          "distant-shore-readability"
+        ]
+      }
+    }
+  ]
+}
       ]
     }
   ],
