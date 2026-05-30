@@ -9,8 +9,8 @@
     "en": "QA Producer"
   },
   "summary": {
-    "fr": "QA Producer sur une production complète jusqu’à la sortie : builds, tickets, reporting, prestataire QA, outils C#, TRC, plateformes et localisation.",
-    "en": "QA Producer on a full production through release: builds, tickets, reporting, external QA, C# tools, TRC, platforms and localization."
+    "fr": "QA Producer sur une production livrée : gestion de la boucle QA complète, de la préparation des builds au pilotage Huwiz, puis du triage des retours au suivi des fixes, régressions, TRC et soumissions plateformes.",
+    "en": "QA Producer on a shipped production: full QA loop management, from build preparation to Huwiz coordination, then from report triage to fix follow-up, regressions, TRC and platform submissions."
   },
   "tags": {
     "fr": [
@@ -33,16 +33,16 @@
         "value": "QA Producer"
       },
       {
-        "label": "Plateformes",
-        "value": "PC, consoles, iOS"
-      },
-      {
         "label": "Feedback",
-        "value": "+1500 tickets"
+        "value": "+1500 retours / tickets"
       },
       {
         "label": "Équipe",
         "value": "5 pôles / 23 personnes"
+      },
+      {
+        "label": "Livraison",
+        "value": "5 plateformes / 14 langues"
       }
     ],
     "en": [
@@ -51,16 +51,16 @@
         "value": "QA Producer"
       },
       {
-        "label": "Platforms",
-        "value": "PC, consoles, iOS"
-      },
-      {
         "label": "Feedback",
-        "value": "1500+ tickets"
+        "value": "1500+ reports / tickets"
       },
       {
         "label": "Team",
         "value": "5 teams / 23 people"
+      },
+      {
+        "label": "Shipping",
+        "value": "5 platforms / 14 languages"
       }
     ]
   },
@@ -92,30 +92,33 @@
   },
   "overview": {
     "fr": [
-      "Dordogne est l’expérience qui m’a donné la vision la plus concrète d’une production menée jusqu’à la sortie. Mon rôle était centré sur la QA, la coordination et la fiabilisation des boucles de retour entre équipes.",
-      "Cette expérience influence encore mon approche globale du jeu. Elle m’a appris à relier qualité, planning, outils, priorités et expérience joueur au lieu de traiter chaque sujet séparément."
+      "Dordogne m’a donné une expérience complète de production jusqu’à la sortie. Mon rôle était de tenir la boucle QA entre les builds internes, le prestataire Huwiz, les tickets, les priorités, les équipes de développement, les retours constructeurs et la livraison multiplateforme.",
+      "Je ne traitais pas les retours comme une simple liste de bugs. Chaque sujet devait être qualifié, relié à une build, assigné, priorisé, suivi jusqu’au fix, puis vérifié en régression lorsque nécessaire."
     ],
     "en": [
-      "Dordogne gave me the most concrete view of a project carried all the way to release. My role focused on QA, coordination and making feedback loops more reliable between teams.",
-      "This experience still shapes my broader approach to games. It taught me to connect quality, schedule, tools, priorities and player experience instead of treating each topic separately."
+      "Dordogne gave me full production experience through release. My role was to maintain the QA loop between internal builds, the Huwiz provider, tickets, priorities, development teams, first-party feedback and multiplatform shipping.",
+      "I did not treat feedback as a simple bug list. Each issue had to be qualified, tied to a build, assigned, prioritized, followed through fix and regression-checked when needed."
     ]
   },
   "contribution": {
     "fr": [
-      "Coordination de production sur 5 pôles et 23 collaborateurs.",
-      "Supervision QA interne et externe avec Huwiz, suivi de plus de 1500 retours et tickets.",
-      "Gestion des builds QA, reporting exploitable par les équipes et suivi des sujets critiques.",
-      "Développement d’outils QA en C# pour réduire les tâches répétitives et accélérer la première analyse.",
-      "Suivi des soumissions constructeurs sur PC, Xbox, PlayStation, Switch et iOS, TRC, retours constructeurs et support de 14 langues."
+      "Pilotage de la QA interne et externe avec Huwiz pendant environ 6 mois.",
+      "Suivi de plus de 1500 retours et tickets : qualification, priorisation, assignation, deadlines et statuts.",
+      "Préparation des builds QA, plans de test, patch notes, known issues et reporting exploitable par l’équipe.",
+      "Suivi des fixes, régressions, validations et risques critiques jusqu’à la livraison.",
+      "Développement d’outils QA en C# pour automatiser des vérifications et réduire la première analyse.",
+      "Suivi des soumissions constructeurs, TRC, plateformes et support de 14 langues."
     ],
     "en": [
-      "Production coordination across 5 teams and 23 collaborators.",
-      "Internal and external QA supervision with Huwiz, tracking more than 1500 reports and tickets.",
-      "QA build management, team-readable reporting and critical issue follow-up.",
-      "C# QA tools to reduce repetitive checks and speed up initial analysis.",
-      "Platform submissions on PC, Xbox, PlayStation, Switch and iOS, TRC topics, first-party feedback and 14-language support."
+      "Internal and external QA coordination with Huwiz over about 6 months.",
+      "Tracking of 1500+ reports and tickets: qualification, prioritization, assignment, deadlines and statuses.",
+      "QA build preparation, test plans, patch notes, known issues and team-readable reporting.",
+      "Fix follow-up, regressions, validation and critical risk tracking through shipping.",
+      "C# QA tools to automate checks and reduce first-analysis time.",
+      "First-party submissions, TRC, platform and 14-language support follow-up."
     ]
   },
+  "caseStudy": "dordogne-feedback-loop",
   "trailer": "https://youtu.be/u0L_mCJJU98",
   "images": {
     "cover": "assets/projects/dordogne-thumb.jpg",
