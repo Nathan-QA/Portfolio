@@ -9,21 +9,21 @@
     "en": "Producer"
   },
   "summary": {
-    "fr": "Producer sur un projet narratif action-exploration sous Unreal Engine 5 : scope, planning, budgets, priorités, pitch decks, dossiers CNC et coordination de 5 pôles.",
-    "en": "Producer on a narrative action-exploration project in Unreal Engine 5: scope, schedule, budgets, priorities, pitch decks, CNC files and coordination across 5 teams."
+    "fr": "Producer sur un projet narratif survival-escort sous Unreal Engine 5 : structuration de la production, création du space ClickUp, pipelines avec les leads, scope, planning, budgets, documents de financement et suivi quotidien des dépendances.",
+    "en": "Producer on a narrative survival-escort project in Unreal Engine 5: production structure, ClickUp space creation, pipelines with leads, scope, schedule, budgets, funding documents and daily dependency follow-up."
   },
   "tags": {
     "fr": [
       "Production",
-      "Action-exploration",
+      "Survival-escort",
       "UE5",
-      "Pitch"
+      "Financement"
     ],
     "en": [
       "Production",
-      "Action-exploration",
+      "Survival-escort",
       "UE5",
-      "Pitch"
+      "Funding"
     ]
   },
   "facts": {
@@ -37,12 +37,12 @@
         "value": "Unreal Engine 5"
       },
       {
-        "label": "Genre",
-        "value": "Action-exploration, escort, aventure narrative"
+        "label": "Périmètre",
+        "value": "5 pôles coordonnés"
       },
       {
         "label": "Focus",
-        "value": "Scope, jalons, pitch"
+        "value": "Scope, pipelines, budgets, financements"
       }
     ],
     "en": [
@@ -55,12 +55,12 @@
         "value": "Unreal Engine 5"
       },
       {
-        "label": "Genre",
-        "value": "Action-exploration, escort, narrative adventure"
+        "label": "Scope",
+        "value": "5 teams coordinated"
       },
       {
         "label": "Focus",
-        "value": "Scope, milestones, pitch"
+        "value": "Scope, pipelines, budgets, funding"
       }
     ]
   },
@@ -71,20 +71,12 @@
       "en": "To be announced"
     },
     "platforms": {
-      "fr": "PC, Xbox Series, PlayStation 5, Nintendo Switch 2",
-      "en": "PC, Xbox Series, PlayStation 5, Nintendo Switch 2"
+      "fr": "À annoncer",
+      "en": "To be announced"
     },
     "languages": {
-      "fr": [
-        "Anglais",
-        "Français",
-        "Japonais"
-      ],
-      "en": [
-        "English",
-        "French",
-        "Japanese"
-      ]
+      "fr": "À annoncer",
+      "en": "To be announced"
     },
     "releaseDate": {
       "fr": "À annoncer",
@@ -96,38 +88,43 @@
     },
     "engine": "Unreal Engine 5",
     "genres": {
-      "fr": "Action-exploration, escort, aventure narrative",
-      "en": "Action-exploration, escort, narrative adventure"
+      "fr": "Survival-escort narratif, action-exploration, aventure narrative",
+      "en": "Narrative survival-escort, action-exploration, narrative adventure"
     },
     "description": {
-      "fr": "Projet narratif action-exploration centré sur une vision ambitieuse à formaliser, financer et produire : scope, jalons, budgets, dossiers, dépendances et coordination entre métiers.",
-      "en": "Narrative action-exploration project built around an ambitious vision to frame, fund and produce: scope, milestones, budgets, documents, dependencies and cross-discipline coordination."
+      "fr": "Projet narratif survival-escort situé dans une relecture du Bassin d’Arcachon, construit autour de la vulnérabilité, de la lumière, de la progression et de la tension. Mon travail porte sur le cadre de production qui permet de rendre cette vision fabricable.",
+      "en": "Narrative survival-escort project set in a reimagined Arcachon Bay, built around vulnerability, light, progression and tension. My work focuses on the production framework that makes this vision buildable."
     }
   },
   "overview": {
     "fr": [
-      "PYLA est un projet narratif action-exploration sous Unreal Engine 5 sur lequel mon travail est orienté production, cadrage et formalisation. L’enjeu principal est de sécuriser les jalons du projet tout en alignant les ambitions créatives avec les contraintes réelles de fabrication.",
-      "Le projet montre ma capacité à coordonner game design, level design, art, tech art et programmation, avec une attention constante portée aux dépendances, aux besoins de production, aux budgets et aux impacts sur l’expérience joueur."
+      "Sur PYLA, mon rôle était de transformer une vision créative ambitieuse en production pilotable. Je ne remplaçais pas la direction créative : je construisais le cadre qui permettait au projet d’avancer sans perdre sa vision, son scope ou ses priorités.",
+      "J’ai structuré le suivi quotidien du projet : space ClickUp, statuts, vues, pipelines avec les leads, dépendances, risques, arbitrages, plannings, budgets prévisionnels et supports de financement."
     ],
     "en": [
-      "PYLA is a narrative action-exploration project in Unreal Engine 5 where my work focuses on production, framing and formalization. The main challenge is to secure milestones while aligning creative ambitions with real manufacturing constraints.",
-      "The project shows my ability to coordinate game design, level design, art, tech art and programming, with constant attention to dependencies, production needs, budgets and impacts on the player experience."
+      "On PYLA, my role was to turn an ambitious creative vision into manageable production. I was not replacing creative direction: I built the framework that allowed the project to move forward without losing its vision, scope or priorities.",
+      "I structured the project’s daily follow-up: ClickUp space, statuses, views, pipelines with leads, dependencies, risks, arbitrations, schedules, budget forecasts and funding material."
     ]
   },
   "contribution": {
     "fr": [
-      "Suivi des jalons, priorités, risques et dépendances entre pôles.",
-      "Cadrage du scope et des besoins de production.",
-      "Préparation et consolidation de pitch decks, dossiers CNC, budgets prévisionnels et supports de présentation internes et externes.",
-      "Mise en cohérence entre intentions créatives, contraintes réelles et planning."
+      "Création et structuration d’un space ClickUp complet pour le suivi projet.",
+      "Mise en place de pipelines avec les leads : game design, level design, art, tech art et programmation.",
+      "Suivi quotidien des tâches, priorités, dépendances, deadlines, risques et décisions à prendre.",
+      "Cadrage du scope, des jalons, des besoins de production et des budgets prévisionnels.",
+      "Préparation et consolidation de pitch decks, dossiers CNC, MegaGrant et supports internes ou externes.",
+      "Aide à la décision pour garder la vision ambitieuse tout en évitant les dérives de scope ou de planning."
     ],
     "en": [
-      "Milestone, priority, risk and cross-discipline dependency tracking.",
-      "Scope and production needs framing.",
-      "Preparation and consolidation of pitch decks, CNC files, budget forecasts and internal/external presentation material.",
-      "Alignment between creative intentions, real constraints and schedule."
+      "Creation and structure of a complete ClickUp space for project follow-up.",
+      "Pipeline setup with leads: game design, level design, art, tech art and programming.",
+      "Daily follow-up of tasks, priorities, dependencies, deadlines, risks and decisions to make.",
+      "Framing of scope, milestones, production needs and budget forecasts.",
+      "Preparation and consolidation of pitch decks, CNC files, MegaGrant material and internal or external support material.",
+      "Decision support to keep the vision ambitious while avoiding scope or schedule drift."
     ]
   },
+  "caseStudy": "pyla-production-scope",
   "trailer": "https://youtu.be/DqwgDLScVDE",
   "images": {
     "cover": "assets/projects/pyla-carousel-01-keyart.jpg",
@@ -139,8 +136,8 @@
   "links": [
     {
       "label": {
-        "fr": "Site PepinKojo",
-        "en": "PepinKojo page"
+        "fr": "Site Pepin Kojo",
+        "en": "Pepin Kojo page"
       },
       "url": "https://pepinkojo.com/pyla?lang=fr"
     }
