@@ -112,7 +112,7 @@
             "Demande de passes ciblées : smoke test, run complète, régression, plateforme, certification ou feature spécifique."
           ],
           "media": {
-            "src": "assets/projects/8b78ef46-87dc-44e6-90ff-74467c74736c.png",
+            "src": "assets/projects/production-task-board.png",
             "caption": "Exemple anonymisé de database QA : le but était de rendre chaque retour exploitable par la production, pas seulement de stocker des bugs."
           }
         },
@@ -265,7 +265,7 @@
             "Requests for targeted passes: smoke test, full run, regression, platform, certification or specific feature."
           ],
           "media": {
-            "src": "assets/projects/8b78ef46-87dc-44e6-90ff-74467c74736c.png",
+            "src": "assets/projects/production-task-board.png",
             "caption": "An anonymized example of the QA database: the goal was to make each report usable by production, not simply store bugs."
           }
         },

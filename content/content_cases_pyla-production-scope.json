@@ -57,8 +57,12 @@
   "media": {
     "trailer": "https://youtu.be/DqwgDLScVDE",
     "images": [
-      "assets/projects/pyla-keyart-official.jpg",
-      "assets/projects/pyla-watercolor-cover.webp",
+      "assets/projects/pyla-carousel-01-keyart.jpg",
+      "assets/projects/pyla-carousel-06-watercolor-couv.webp",
+      "assets/projects/pyla-concept-05-bridge-ash.avif",
+      "assets/projects/pyla-concept-04-creature.avif",
+      "assets/projects/pyla-concept-03-chase.avif",
+      "assets/projects/pyla-concept-06-landscape.avif",
       "assets/projects/pyla-press-preview.webp"
     ]
   },
@@ -85,7 +89,7 @@
             "Arbitrage de scope avec les leads, sans prendre la direction créative à leur place."
           ],
           "media": {
-            "src": "assets/projects/pyla-keyart-official.jpg",
+            "src": "assets/projects/pyla-concept-05-bridge-ash.avif",
             "caption": "Le rôle de production consistait à protéger la vision en la rendant fabricable, lisible et priorisée."
           }
         },
@@ -102,7 +106,11 @@
             "Mise en place de statuts, priorités, responsables, deadlines, jalons et dépendances.",
             "Création de vues lisibles pour les leads, le suivi global et les points quotidiens.",
             "Centralisation des décisions, risques, tâches bloquantes et besoins de documentation."
-          ]
+          ],
+          "media": {
+            "src": "assets/projects/production-task-board.png",
+            "caption": "Un suivi production lisible permettait de relier tâches, priorités, plateformes, statuts, responsables et sujets bloquants."
+          }
         },
         {
           "heading": "Mettre en place des pipelines avec les leads",
@@ -135,8 +143,9 @@
           ],
           "media": {
             "images": [
-              "assets/projects/pyla-keyart-official.jpg",
-              "assets/projects/pyla-press-preview.webp"
+              "assets/projects/production-task-board.png",
+              "assets/projects/pyla-concept-06-landscape.avif",
+              "assets/projects/pyla-concept-03-chase.avif"
             ],
             "caption": "Le pilotage quotidien servait à garder les équipes alignées sur les actions concrètes, pas seulement sur une intention générale."
           }
@@ -201,7 +210,7 @@
             "Maintien d’un équilibre entre ambition, faisabilité et jalons."
           ],
           "media": {
-            "src": "assets/projects/pyla-watercolor-cover.webp",
+            "src": "assets/projects/pyla-concept-04-creature.avif",
             "caption": "Produire ne voulait pas dire réduire la vision, mais l’aider à rester faisable sans perdre son identité."
           }
         }
@@ -247,7 +256,7 @@
             "Scope arbitration with leads, without taking creative direction away from them."
           ],
           "media": {
-            "src": "assets/projects/pyla-keyart-official.jpg",
+            "src": "assets/projects/pyla-concept-05-bridge-ash.avif",
             "caption": "Production work was about protecting the vision by making it buildable, readable and prioritized."
           }
         },
@@ -264,7 +273,11 @@
             "Setup of statuses, priorities, owners, deadlines, milestones and dependencies.",
             "Creation of readable views for leads, global follow-up and daily points.",
             "Centralization of decisions, risks, blocking tasks and documentation needs."
-          ]
+          ],
+          "media": {
+            "src": "assets/projects/production-task-board.png",
+            "caption": "Readable production tracking connected tasks, priorities, platforms, statuses, owners and blocking topics."
+          }
         },
         {
           "heading": "Setting up pipelines with leads",
@@ -297,8 +310,9 @@
           ],
           "media": {
             "images": [
-              "assets/projects/pyla-keyart-official.jpg",
-              "assets/projects/pyla-press-preview.webp"
+              "assets/projects/production-task-board.png",
+              "assets/projects/pyla-concept-06-landscape.avif",
+              "assets/projects/pyla-concept-03-chase.avif"
             ],
             "caption": "Daily production follow-up kept teams aligned on concrete actions, not only on a general intention."
           }
@@ -363,7 +377,7 @@
             "Balance between ambition, feasibility and milestones."
           ],
           "media": {
-            "src": "assets/projects/pyla-watercolor-cover.webp",
+            "src": "assets/projects/pyla-concept-04-creature.avif",
             "caption": "Producing did not mean reducing the vision, but helping it stay feasible without losing its identity."
           }
         }

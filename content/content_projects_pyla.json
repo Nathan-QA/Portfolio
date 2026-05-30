@@ -130,7 +130,12 @@
     "cover": "assets/projects/pyla-carousel-01-keyart.jpg",
     "gallery": [
       "assets/projects/pyla-carousel-01-keyart.jpg",
-      "assets/projects/pyla-carousel-06-watercolor-couv.webp"
+      "assets/projects/pyla-carousel-06-watercolor-couv.webp",
+      "assets/projects/pyla-concept-05-bridge-ash.avif",
+      "assets/projects/pyla-concept-04-creature.avif",
+      "assets/projects/pyla-concept-03-chase.avif",
+      "assets/projects/pyla-concept-06-landscape.avif",
+      "assets/projects/pyla-press-preview.webp"
     ]
   },
   "links": [
