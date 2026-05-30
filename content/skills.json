@@ -1,9 +1,37 @@
 {
-  "version": 2,
+  "version": 3,
   "fr": [
     {
       "cat": "Level Design & Game Design",
       "items": [
+        {
+          "id": "ld-systemic-empowerment",
+          "name": "Level design systémique & empowerment joueur",
+          "summary": "Concevoir des zones qui donnent au joueur une route lisible, tout en lui laissant la liberté d’expérimenter, contourner, optimiser et s’approprier les systèmes.",
+          "bullets": [
+            "Revamp de la démo Distant Shore : Bretagne pour renforcer la clarté, la liberté et l’empowerment joueur",
+            "Travail des routes critiques, routes alternatives, skips contrôlés et trajectoires optimisables",
+            "Proposition d’une upgrade majeure côté game design à partir de besoins observés en level design"
+          ],
+          "tags": [
+            "Systemic LD",
+            "Player empowerment",
+            "Movement",
+            "Alternative routes"
+          ],
+          "images": [
+            "assets/projects/distant-shore-steam-04.jpg",
+            "assets/projects/distant-shore-steam-05.jpg"
+          ],
+          "related": {
+            "projects": [
+              "distant-shore-bretagne"
+            ],
+            "cases": [
+              "distant-shore-readability"
+            ]
+          }
+        },
         {
           "id": "ld-readability-pacing",
           "name": "Lisibilité, rythme & navigation",
@@ -36,17 +64,17 @@
         {
           "id": "ld-greybox-unity",
           "name": "Greybox, intégration Unity & passes successives",
-          "summary": "Passer d’une intention à une séquence jouable : block-out, greybox, intégration d’assets, réglages gameplay et tests en conditions réelles.",
+          "summary": "Passer d’une intention à une séquence jouable : blockout, greybox, intégration d’assets, réglages gameplay, collisions, checkpoints et tests en conditions réelles.",
           "bullets": [
-            "Construction de séquences jouables en passes successives",
-            "Intégration et ajustement de contenus sous Unity",
-            "Suivi des besoins de production liés aux zones et aux systèmes"
+            "Construction de séquences jouables en passes successives, directement testées dans Unity",
+            "Intégration et ajustement de contenus : assets, volumes, colliders, triggers, checkpoints et timings",
+            "Suivi des besoins de production liés aux zones, aux systèmes et aux dépendances entre métiers"
           ],
           "tags": [
             "Unity",
             "Greybox",
-            "Assets",
-            "Playable flow"
+            "Playable flow",
+            "Iteration"
           ],
           "images": [
             "assets/projects/distant-shore-steam-02.jpg",
@@ -62,13 +90,43 @@
           }
         },
         {
+          "id": "ld-playtest-friction-analysis",
+          "name": "Playtests, analyse des frictions & itération",
+          "summary": "Lire les tests comme des problèmes concrets de design : incompréhension, rythme, affordance, timing, densité, onboarding ou route alternative mal maîtrisée.",
+          "bullets": [
+            "Analyse des comportements joueurs sur des séquences jouables, pas seulement lecture de feedbacks",
+            "Distinction entre bug, friction LD, problème d’onboarding, rythme, affordance ou sujet de production",
+            "Corrections ciblées : repères, lignes de vue, checkpoints, densité d’interactions, timing et lisibilité"
+          ],
+          "tags": [
+            "Playtests",
+            "Iteration",
+            "Friction analysis",
+            "QA mindset"
+          ],
+          "images": [
+            "assets/projects/distant-shore-steam-02.jpg",
+            "assets/projects/distant-shore-steam-06.jpg"
+          ],
+          "related": {
+            "projects": [
+              "distant-shore-bretagne",
+              "dordogne"
+            ],
+            "cases": [
+              "distant-shore-readability",
+              "dordogne-feedback-loop"
+            ]
+          }
+        },
+        {
           "id": "ld-documentation",
           "name": "Documentation LD & intentions jouables",
-          "summary": "Formaliser les intentions, besoins, risques, dépendances et prochaines passes pour rendre le design compréhensible par l’équipe.",
+          "summary": "Formaliser les intentions, besoins, risques, dépendances et prochaines passes pour rendre le design compréhensible, testable et modifiable par l’équipe.",
           "bullets": [
-            "Documents LD exploitables par game design, art et production",
-            "Suivi des besoins assets/gameplay et des dépendances",
-            "Documentation de séquences, systèmes et contraintes de parcours"
+            "Documents LD exploitables par game design, art, tech art, programmation et production",
+            "Suivi des besoins assets, gameplay, intégration et dépendances entre métiers",
+            "Documentation de séquences, systèmes, contraintes de parcours et critères de validation"
           ],
           "tags": [
             "LD docs",
@@ -92,18 +150,18 @@
         },
         {
           "id": "gd-prototyping-systems",
-          "name": "Game design, prototypage & systèmes",
-          "summary": "Travailler les séquences, systèmes et prototypes avec une attention aux contraintes de production, au rythme et à la cohérence de l’expérience.",
+          "name": "Game design, progression & systèmes",
+          "summary": "Travailler les séquences, systèmes et prototypes avec une attention à la progression joueur, à la faisabilité, au rythme et à la cohérence globale de l’expérience.",
           "bullets": [
-            "Participation à l’amélioration de systèmes existants et à la structuration du pipeline",
-            "Prototypage et documentation sur projets publics, non publics ou interrompus",
-            "Lien constant entre intention de design, faisabilité et testabilité"
+            "Participation à l’amélioration de systèmes existants et à la structuration du pipeline de travail",
+            "Proposition d’améliorations game design issues de problèmes observés en level design et en playtest",
+            "Lien constant entre intention de design, faisabilité moteur, testabilité et impact joueur"
           ],
           "tags": [
             "Game Design",
-            "Prototype",
+            "Progression",
             "Systems",
-            "Iteration"
+            "Prototype"
           ],
           "images": [
             "assets/projects/ltag-ltdc-01.png",
@@ -127,13 +185,41 @@
       "cat": "Production & coordination",
       "items": [
         {
+          "id": "prod-clickup-pipelines",
+          "name": "ClickUp, pipelines & ownership production",
+          "summary": "Créer un cadre de production complet : space ClickUp, statuts, vues, responsables, dépendances, priorités, jalons et risques.",
+          "bullets": [
+            "Création d’un space ClickUp complet pour piloter PYLA au quotidien",
+            "Structuration de pipelines avec les leads : game design, level design, art, tech art et programmation",
+            "Suivi des tâches, dépendances, risques, arbitrages, deadlines et besoins de production"
+          ],
+          "tags": [
+            "ClickUp",
+            "Pipelines",
+            "Scope",
+            "Dependencies"
+          ],
+          "images": [
+            "assets/projects/pyla-carousel-01-keyart.jpg",
+            "assets/projects/pyla-carousel-06-watercolor-couv.webp"
+          ],
+          "related": {
+            "projects": [
+              "pyla"
+            ],
+            "cases": [
+              "pyla-production-scope"
+            ]
+          }
+        },
+        {
           "id": "prod-planning-budget-priorities",
           "name": "Planning, budgets & priorités",
           "summary": "Construire et suivre plannings, budgets, besoins de production et priorités pour sécuriser les jalons sans perdre la vision créative.",
           "bullets": [
-            "Suivi de production sur PYLA, projet narratif action-exploration sous UE5",
-            "Construction et suivi des plannings, budgets, priorités et besoins",
-            "Alignement entre ambitions créatives et contraintes réelles de fabrication"
+            "Suivi de production sur PYLA, projet action-exploration narratif sous Unreal Engine 5",
+            "Construction et suivi des plannings, budgets prévisionnels, priorités et besoins de production",
+            "Alignement entre ambitions créatives, moyens disponibles, jalons et contraintes réelles de fabrication"
           ],
           "tags": [
             "Planning",
@@ -157,11 +243,11 @@
         {
           "id": "prod-cross-discipline",
           "name": "Coordination transverse",
-          "summary": "Faire le lien entre game design, level design, art, tech art, programmation, QA et production pour garder les dépendances visibles.",
+          "summary": "Faire le lien entre game design, level design, art, tech art, programmation, QA et production pour garder les dépendances visibles et les décisions actionnables.",
           "bullets": [
-            "Coordination entre 5 pôles sur PYLA",
-            "Coordination de 5 pôles / 23 collaborateurs sur Dordogne",
-            "Lecture des impacts équipe, planning, qualité et expérience joueur"
+            "Coordination entre 5 pôles sur PYLA : game design, level design, art, tech art et programmation",
+            "Coordination de 5 pôles / 23 collaborateurs sur Dordogne dans un contexte de sortie",
+            "Lecture des impacts équipe, planning, qualité, dépendances et expérience joueur"
           ],
           "tags": [
             "Coordination",
@@ -185,18 +271,48 @@
           }
         },
         {
+          "id": "prod-scope-risk-arbitration",
+          "name": "Scope, risques & arbitrages",
+          "summary": "Rendre les choix de production visibles : ce qui est essentiel, ce qui peut attendre, ce qui doit être prototypé et ce qui met le projet en risque.",
+          "bullets": [
+            "Hiérarchisation entre must-have, should-have, nice-to-have et hors scope",
+            "Identification des dépendances critiques avant qu’elles bloquent les équipes",
+            "Préparation d’arbitrages lorsque la vision créative dépasse les moyens, délais ou capacités disponibles"
+          ],
+          "tags": [
+            "Scope",
+            "Risk tracking",
+            "Arbitration",
+            "Milestones"
+          ],
+          "images": [
+            "assets/projects/pyla-carousel-06-watercolor-couv.webp",
+            "assets/projects/pyla-carousel-01-keyart.jpg"
+          ],
+          "related": {
+            "projects": [
+              "pyla",
+              "dordogne"
+            ],
+            "cases": [
+              "pyla-production-scope",
+              "dordogne-feedback-loop"
+            ]
+          }
+        },
+        {
           "id": "prod-strategic-docs",
           "name": "Pitch decks, dossiers CNC & supports",
-          "summary": "Préparer et consolider les supports qui clarifient vision, besoins, financement, priorités et cohérence d’un projet.",
+          "summary": "Préparer et consolider les supports qui clarifient vision, besoins, financement, priorités, budget et cohérence d’un projet.",
           "bullets": [
-            "Pitch decks, dossiers CNC, budgets prévisionnels",
-            "Supports de présentation internes et externes",
-            "Formalisation de la vision, des besoins et des arbitrages"
+            "Préparation et consolidation de pitch decks, dossiers CNC, MegaGrant et budgets prévisionnels",
+            "Supports de présentation internes et externes pour rendre le projet lisible par différents interlocuteurs",
+            "Formalisation de la vision, du scope, des besoins, des risques et des arbitrages"
           ],
           "tags": [
             "Pitch",
             "CNC",
-            "Budgets",
+            "MegaGrant",
             "Presentation"
           ],
           "images": [
@@ -214,18 +330,18 @@
         },
         {
           "id": "prod-task-tracking",
-          "name": "Bases de tâches, assignation & suivi d’équipe",
-          "summary": "Maintenir une production lisible : dépouillements, bases de données de tâches, assignation, priorisation et suivi des deadlines.",
+          "name": "Bases de tâches, ownership & suivi d’équipe",
+          "summary": "Maintenir une production lisible : dépouillements, bases de données, assignation, priorisation, deadlines, ownership et suivi des décisions.",
           "bullets": [
-            "Mise à jour constante des bases de tâches sur Dordogne",
-            "Gestion des priorités, assignation et suivi des deadlines",
-            "Management et communication d’équipe dans un contexte de sortie"
+            "Mise à jour constante des bases de tâches sur Dordogne et suivi des actions jusqu’à leur résolution",
+            "Gestion des priorités, assignations, estimations, deadlines, milestones et fix versions",
+            "Management, communication et suivi d’équipe dans un contexte de production réelle et de livraison"
           ],
           "tags": [
             "Tasks",
+            "Ownership",
             "Prioritization",
-            "Deadlines",
-            "Team follow-up"
+            "Deadlines"
           ],
           "images": [
             "assets/projects/dordogne-steam-04.jpg",
@@ -233,10 +349,12 @@
           ],
           "related": {
             "projects": [
-              "dordogne"
+              "dordogne",
+              "pyla"
             ],
             "cases": [
-              "dordogne-feedback-loop"
+              "dordogne-feedback-loop",
+              "pyla-production-scope"
             ]
           }
         }
@@ -248,11 +366,11 @@
         {
           "id": "qa-builds-tickets-reporting",
           "name": "Builds, tickets & reporting QA",
-          "summary": "Transformer de gros volumes de retours en informations exploitables : builds, tickets, reporting détaillé et priorités de correction.",
+          "summary": "Transformer de gros volumes de retours en informations exploitables : builds, tickets, triage, reporting détaillé et priorités de correction.",
           "bullets": [
             "+1500 retours / tickets suivis sur Dordogne",
-            "Gestion des builds QA et production d’un reporting détaillé",
-            "Différenciation entre bugs, régressions, confort joueur et risques critiques"
+            "Gestion des builds QA, qualification des retours et production d’un reporting détaillé",
+            "Différenciation entre bugs, régressions, confort joueur, localisation, risques plateforme et sujets critiques"
           ],
           "tags": [
             "Builds",
@@ -278,9 +396,9 @@
           "name": "QA interne/externe & prestataires",
           "summary": "Superviser une boucle QA entre équipe interne, prestataire externe, production et métiers de développement.",
           "bullets": [
-            "Pilotage du prestataire Huwiz sur 6 mois",
-            "Qualification des retours avant leur arrivée en production",
-            "Communication claire pour accélérer les arbitrages design, tech et production"
+            "Pilotage du prestataire Huwiz sur 6 mois via leur Lead QA",
+            "Préparation des builds, plans de test, patch notes, known issues et demandes de passes ciblées",
+            "Qualification des retours avant leur arrivée en production pour accélérer les arbitrages design, tech et production"
           ],
           "tags": [
             "External QA",
@@ -302,13 +420,41 @@
           }
         },
         {
+          "id": "qa-fixing-regression",
+          "name": "Suivi des fixes, régressions & validation",
+          "summary": "Suivre un problème après sa création en ticket : assignation, correction, vérification dans la bonne build, régression et validation finale.",
+          "bullets": [
+            "Passage des retours QA en tâches de production claires et actionnables",
+            "Suivi des corrections, régressions ciblées, statuts, responsables et fix versions",
+            "Vérifications ponctuelles dans Unity pour mieux isoler certains problèmes et orienter les développeurs"
+          ],
+          "tags": [
+            "Fix follow-up",
+            "Regression",
+            "Validation",
+            "Unity checks"
+          ],
+          "images": [
+            "assets/projects/dordogne-steam-04.jpg",
+            "assets/projects/dordogne-steam-09.jpg"
+          ],
+          "related": {
+            "projects": [
+              "dordogne"
+            ],
+            "cases": [
+              "dordogne-feedback-loop"
+            ]
+          }
+        },
+        {
           "id": "tools-csharp-workflows",
           "name": "Outils C# & optimisation de workflows",
-          "summary": "Créer des outils concrets pour réduire les tâches répétitives, automatiser certaines vérifications et accélérer l’analyse.",
+          "summary": "Créer des outils concrets pour réduire les tâches répétitives, automatiser certaines vérifications et accélérer la première analyse.",
           "bullets": [
             "Développement d’outils QA en C# sur Dordogne",
-            "Réduction d’environ 10h par semaine sur la vérification et première analyse",
-            "Amélioration de process et conditions de travail de l’équipe"
+            "Réduction d’environ 10h par semaine sur la vérification et la première analyse",
+            "Amélioration de process, de fiabilité et des conditions de travail de l’équipe"
           ],
           "tags": [
             "C#",
@@ -336,7 +482,7 @@
           "summary": "Suivre les contraintes de livraison : PC, Xbox, PlayStation, Switch, iOS, retours constructeurs, TRC et support multilingue.",
           "bullets": [
             "Préparation des certifications TRC et coordination avec Focus Entertainment",
-            "Expérience QA multiplateforme : PC, Xbox, PlayStation, Switch, iOS",
+            "Expérience QA multiplateforme : PC, Xbox, PlayStation, Switch et iOS",
             "Suivi d’un support multilingue sur 14 langues"
           ],
           "tags": [
@@ -365,6 +511,34 @@
     {
       "cat": "Level Design & Game Design",
       "items": [
+        {
+          "id": "ld-systemic-empowerment",
+          "name": "Systemic level design & player empowerment",
+          "summary": "Designing areas that give players a readable route, while also letting them experiment, bypass, optimize and take ownership of the systems.",
+          "bullets": [
+            "Revamp of the Distant Shore: Bretagne demo to strengthen clarity, freedom and player empowerment",
+            "Work on critical paths, alternative routes, controlled skips and optimizable trajectories",
+            "Major game design upgrade proposal based on needs observed through level design"
+          ],
+          "tags": [
+            "Systemic LD",
+            "Player empowerment",
+            "Movement",
+            "Alternative routes"
+          ],
+          "images": [
+            "assets/projects/distant-shore-steam-04.jpg",
+            "assets/projects/distant-shore-steam-05.jpg"
+          ],
+          "related": {
+            "projects": [
+              "distant-shore-bretagne"
+            ],
+            "cases": [
+              "distant-shore-readability"
+            ]
+          }
+        },
         {
           "id": "ld-readability-pacing",
           "name": "Readability, pacing & navigation",
@@ -397,17 +571,17 @@
         {
           "id": "ld-greybox-unity",
           "name": "Greybox, Unity integration & successive passes",
-          "summary": "Turning an intention into a playable sequence: blockout, greybox, asset integration, gameplay tuning and real-condition tests.",
+          "summary": "Turning an intention into a playable sequence: blockout, greybox, asset integration, gameplay tuning, collisions, checkpoints and real-condition tests.",
           "bullets": [
-            "Playable sequence construction through successive passes",
-            "Content integration and adjustment in Unity",
-            "Production-needs follow-up tied to areas and systems"
+            "Playable sequence construction through successive passes, directly tested in Unity",
+            "Content integration and adjustment: assets, volumes, colliders, triggers, checkpoints and timings",
+            "Production-needs follow-up tied to areas, systems and cross-discipline dependencies"
           ],
           "tags": [
             "Unity",
             "Greybox",
-            "Assets",
-            "Playable flow"
+            "Playable flow",
+            "Iteration"
           ],
           "images": [
             "assets/projects/distant-shore-steam-02.jpg",
@@ -423,13 +597,43 @@
           }
         },
         {
+          "id": "ld-playtest-friction-analysis",
+          "name": "Playtests, friction analysis & iteration",
+          "summary": "Reading tests as concrete design problems: misunderstanding, pacing, affordance, timing, density, onboarding or uncontrolled alternative routes.",
+          "bullets": [
+            "Analysis of player behavior on playable sequences, not only feedback reading",
+            "Separation between bugs, LD friction, onboarding issues, pacing, affordance and production topics",
+            "Targeted corrections: landmarks, sightlines, checkpoints, interaction density, timing and readability"
+          ],
+          "tags": [
+            "Playtests",
+            "Iteration",
+            "Friction analysis",
+            "QA mindset"
+          ],
+          "images": [
+            "assets/projects/distant-shore-steam-02.jpg",
+            "assets/projects/distant-shore-steam-06.jpg"
+          ],
+          "related": {
+            "projects": [
+              "distant-shore-bretagne",
+              "dordogne"
+            ],
+            "cases": [
+              "distant-shore-readability",
+              "dordogne-feedback-loop"
+            ]
+          }
+        },
+        {
           "id": "ld-documentation",
           "name": "LD documentation & playable intentions",
-          "summary": "Formalizing intentions, needs, risks, dependencies and next passes so design can be understood by the team.",
+          "summary": "Formalizing intentions, needs, risks, dependencies and next passes so design can be understood, tested and modified by the team.",
           "bullets": [
-            "LD documents usable by game design, art and production",
-            "Asset/gameplay needs and dependency follow-up",
-            "Documentation of sequences, systems and pathing constraints"
+            "LD documents usable by game design, art, tech art, programming and production",
+            "Asset, gameplay, integration and cross-discipline dependency follow-up",
+            "Documentation of sequences, systems, pathing constraints and validation criteria"
           ],
           "tags": [
             "LD docs",
@@ -453,18 +657,18 @@
         },
         {
           "id": "gd-prototyping-systems",
-          "name": "Game design, prototyping & systems",
-          "summary": "Working on sequences, systems and prototypes with attention to production constraints, pacing and experience coherence.",
+          "name": "Game design, progression & systems",
+          "summary": "Working on sequences, systems and prototypes with attention to player progression, feasibility, pacing and overall experience coherence.",
           "bullets": [
-            "Participation in improving existing systems and structuring the pipeline",
-            "Prototyping and documentation on public, non-public or interrupted projects",
-            "Constant link between design intention, feasibility and testability"
+            "Participation in improving existing systems and structuring the work pipeline",
+            "Game design improvement proposals based on issues observed through level design and playtests",
+            "Constant link between design intention, engine feasibility, testability and player impact"
           ],
           "tags": [
             "Game Design",
-            "Prototype",
+            "Progression",
             "Systems",
-            "Iteration"
+            "Prototype"
           ],
           "images": [
             "assets/projects/ltag-ltdc-01.png",
@@ -488,13 +692,41 @@
       "cat": "Production & coordination",
       "items": [
         {
+          "id": "prod-clickup-pipelines",
+          "name": "ClickUp, pipelines & production ownership",
+          "summary": "Creating a complete production framework: ClickUp space, statuses, views, owners, dependencies, priorities, milestones and risks.",
+          "bullets": [
+            "Creation of a complete ClickUp space to drive PYLA on a daily basis",
+            "Pipeline structure with leads: game design, level design, art, tech art and programming",
+            "Task, dependency, risk, arbitration, deadline and production-needs follow-up"
+          ],
+          "tags": [
+            "ClickUp",
+            "Pipelines",
+            "Scope",
+            "Dependencies"
+          ],
+          "images": [
+            "assets/projects/pyla-carousel-01-keyart.jpg",
+            "assets/projects/pyla-carousel-06-watercolor-couv.webp"
+          ],
+          "related": {
+            "projects": [
+              "pyla"
+            ],
+            "cases": [
+              "pyla-production-scope"
+            ]
+          }
+        },
+        {
           "id": "prod-planning-budget-priorities",
           "name": "Schedule, budgets & priorities",
           "summary": "Building and tracking schedules, budgets, production needs and priorities to secure milestones without losing the creative vision.",
           "bullets": [
-            "Production follow-up on PYLA, a narrative action-exploration project in UE5",
-            "Schedules, budgets, priorities and needs tracking",
-            "Alignment between creative ambitions and real manufacturing constraints"
+            "Production follow-up on PYLA, a narrative action-exploration project in Unreal Engine 5",
+            "Schedules, budget forecasts, priorities and production-needs tracking",
+            "Alignment between creative ambitions, available means, milestones and real manufacturing constraints"
           ],
           "tags": [
             "Planning",
@@ -518,11 +750,11 @@
         {
           "id": "prod-cross-discipline",
           "name": "Cross-discipline coordination",
-          "summary": "Connecting game design, level design, art, tech art, programming, QA and production to keep dependencies visible.",
+          "summary": "Connecting game design, level design, art, tech art, programming, QA and production to keep dependencies visible and decisions actionable.",
           "bullets": [
-            "Coordination across 5 teams on PYLA",
-            "Coordination of 5 teams / 23 collaborators on Dordogne",
-            "Reading team, schedule, quality and player-experience impacts"
+            "Coordination across 5 teams on PYLA: game design, level design, art, tech art and programming",
+            "Coordination of 5 teams / 23 collaborators on Dordogne in a release context",
+            "Reading team, schedule, quality, dependency and player-experience impacts"
           ],
           "tags": [
             "Coordination",
@@ -546,18 +778,48 @@
           }
         },
         {
+          "id": "prod-scope-risk-arbitration",
+          "name": "Scope, risks & arbitration",
+          "summary": "Making production choices visible: what is essential, what can wait, what needs prototyping and what puts the project at risk.",
+          "bullets": [
+            "Hierarchy between must-have, should-have, nice-to-have and out-of-scope",
+            "Identification of critical dependencies before they block teams",
+            "Preparation of arbitrations when creative vision exceeds available means, time or capacity"
+          ],
+          "tags": [
+            "Scope",
+            "Risk tracking",
+            "Arbitration",
+            "Milestones"
+          ],
+          "images": [
+            "assets/projects/pyla-carousel-06-watercolor-couv.webp",
+            "assets/projects/pyla-carousel-01-keyart.jpg"
+          ],
+          "related": {
+            "projects": [
+              "pyla",
+              "dordogne"
+            ],
+            "cases": [
+              "pyla-production-scope",
+              "dordogne-feedback-loop"
+            ]
+          }
+        },
+        {
           "id": "prod-strategic-docs",
           "name": "Pitch decks, CNC files & support material",
-          "summary": "Preparing and consolidating material that clarifies vision, needs, funding, priorities and project coherence.",
+          "summary": "Preparing and consolidating material that clarifies vision, needs, funding, priorities, budget and project coherence.",
           "bullets": [
-            "Pitch decks, CNC files, budget forecasts",
-            "Internal and external presentation material",
-            "Formalization of vision, needs and tradeoffs"
+            "Preparation and consolidation of pitch decks, CNC files, MegaGrant material and budget forecasts",
+            "Internal and external presentation material to make the project readable for different stakeholders",
+            "Formalization of vision, scope, needs, risks and tradeoffs"
           ],
           "tags": [
             "Pitch",
             "CNC",
-            "Budgets",
+            "MegaGrant",
             "Presentation"
           ],
           "images": [
@@ -575,18 +837,18 @@
         },
         {
           "id": "prod-task-tracking",
-          "name": "Task databases, assignment & team follow-up",
-          "summary": "Keeping production readable: test analysis, task databases, assignment, prioritization and deadline follow-up.",
+          "name": "Task databases, ownership & team follow-up",
+          "summary": "Keeping production readable: test analysis, databases, assignment, prioritization, deadlines, ownership and decision follow-up.",
           "bullets": [
-            "Constant task database updates on Dordogne",
-            "Priority management, assignment and deadline follow-up",
-            "Team management and communication in a release context"
+            "Constant task database updates on Dordogne and follow-up of actions through resolution",
+            "Priority, assignment, estimate, deadline, milestone and fix-version management",
+            "Team management, communication and follow-up in a real production and shipping context"
           ],
           "tags": [
             "Tasks",
+            "Ownership",
             "Prioritization",
-            "Deadlines",
-            "Team follow-up"
+            "Deadlines"
           ],
           "images": [
             "assets/projects/dordogne-steam-04.jpg",
@@ -594,10 +856,12 @@
           ],
           "related": {
             "projects": [
-              "dordogne"
+              "dordogne",
+              "pyla"
             ],
             "cases": [
-              "dordogne-feedback-loop"
+              "dordogne-feedback-loop",
+              "pyla-production-scope"
             ]
           }
         }
@@ -609,11 +873,11 @@
         {
           "id": "qa-builds-tickets-reporting",
           "name": "Builds, tickets & QA reporting",
-          "summary": "Turning large volumes of feedback into usable information: builds, tickets, detailed reporting and correction priorities.",
+          "summary": "Turning large volumes of feedback into usable information: builds, tickets, triage, detailed reporting and correction priorities.",
           "bullets": [
             "1500+ reports / tickets tracked on Dordogne",
-            "QA build management and detailed reporting",
-            "Separating bugs, regressions, player comfort and critical risks"
+            "QA build management, feedback qualification and detailed reporting",
+            "Separating bugs, regressions, player comfort, localization, platform risks and critical topics"
           ],
           "tags": [
             "Builds",
@@ -639,9 +903,9 @@
           "name": "Internal/external QA & providers",
           "summary": "Supervising a QA loop between the internal team, an external provider, production and development disciplines.",
           "bullets": [
-            "Huwiz provider coordination over 6 months",
-            "Feedback qualification before it reaches production",
-            "Clear communication to speed up design, tech and production arbitration"
+            "Huwiz provider coordination over 6 months through their Lead QA",
+            "Build preparation, test plans, patch notes, known issues and targeted pass requests",
+            "Feedback qualification before it reached production to speed up design, tech and production arbitration"
           ],
           "tags": [
             "External QA",
@@ -663,13 +927,41 @@
           }
         },
         {
+          "id": "qa-fixing-regression",
+          "name": "Fix follow-up, regression & validation",
+          "summary": "Following an issue after ticket creation: assignment, correction, verification in the correct build, regression and final validation.",
+          "bullets": [
+            "Conversion of QA reports into clear and actionable production tasks",
+            "Follow-up of corrections, targeted regressions, statuses, owners and fix versions",
+            "Occasional checks inside Unity to better isolate issues and guide developers"
+          ],
+          "tags": [
+            "Fix follow-up",
+            "Regression",
+            "Validation",
+            "Unity checks"
+          ],
+          "images": [
+            "assets/projects/dordogne-steam-04.jpg",
+            "assets/projects/dordogne-steam-09.jpg"
+          ],
+          "related": {
+            "projects": [
+              "dordogne"
+            ],
+            "cases": [
+              "dordogne-feedback-loop"
+            ]
+          }
+        },
+        {
           "id": "tools-csharp-workflows",
           "name": "C# tools & workflow optimization",
-          "summary": "Creating concrete tools to reduce repetitive tasks, automate selected checks and speed up analysis.",
+          "summary": "Creating concrete tools to reduce repetitive tasks, automate selected checks and speed up first analysis.",
           "bullets": [
             "C# QA tool development on Dordogne",
             "About 10 hours per week saved on checks and first analysis",
-            "Process and team working-condition improvements"
+            "Process, reliability and team working-condition improvements"
           ],
           "tags": [
             "C#",
@@ -697,7 +989,7 @@
           "summary": "Following shipping constraints: PC, Xbox, PlayStation, Switch, iOS, first-party feedback, TRC and multilingual support.",
           "bullets": [
             "TRC certification preparation and coordination with Focus Entertainment",
-            "Multiplatform QA experience: PC, Xbox, PlayStation, Switch, iOS",
+            "Multiplatform QA experience: PC, Xbox, PlayStation, Switch and iOS",
             "Follow-up on 14-language support"
           ],
           "tags": [
@@ -721,5 +1013,195 @@
         }
       ]
     }
-  ]
+  ],
+  "toolbox": {
+    "fr": [
+      {
+        "cat": "Moteurs & intégration",
+        "items": [
+          {
+            "name": "Unity",
+            "level": "Usage production",
+            "details": "Intégration de contenus, blockout, réglages gameplay, tests en conditions réelles, itérations LD et vérifications QA dans le moteur."
+          },
+          {
+            "name": "Unreal Engine 5",
+            "level": "Contexte production",
+            "details": "Suivi de production sur un projet UE5 : scope, pipelines, dépendances entre game design, level design, art, tech art et programmation."
+          }
+        ]
+      },
+      {
+        "cat": "Production & suivi",
+        "items": [
+          {
+            "name": "ClickUp",
+            "level": "Certifié / usage avancé",
+            "details": "Création de spaces projet, statuts, vues, priorités, deadlines, dépendances, pipelines, suivi des risques et rituels de production."
+          },
+          {
+            "name": "JIRA",
+            "level": "Usage production / QA",
+            "details": "Suivi de tickets, priorisation, statuts, retours QA, bugs, régressions, corrections et reporting."
+          },
+          {
+            "name": "Miro",
+            "level": "Usage production",
+            "details": "Cartographie de flux, schémas de pipeline, alignement visuel, préparation de réunions et clarification d’intentions."
+          }
+        ]
+      },
+      {
+        "cat": "Développement & versioning",
+        "items": [
+          {
+            "name": "C#",
+            "level": "Outils internes",
+            "details": "Création d’outils QA, automatisation de vérifications répétitives et optimisation de workflows."
+          },
+          {
+            "name": "Git / Sourcetree",
+            "level": "Usage projet",
+            "details": "Suivi de versions, récupération de builds, travail avec des repositories et workflows de production."
+          }
+        ]
+      },
+      {
+        "cat": "Documentation & supports",
+        "items": [
+          {
+            "name": "Office 365 / Google Workspace",
+            "level": "Usage professionnel",
+            "details": "Documents de production, budgets, plannings, suivis, tableaux, présentations, reporting et supports d’équipe."
+          },
+          {
+            "name": "InDesign",
+            "level": "Supports de présentation",
+            "details": "Mise en forme de dossiers, supports externes, présentations et documents stratégiques."
+          }
+        ]
+      },
+      {
+        "cat": "Shipping & plateformes",
+        "items": [
+          {
+            "name": "PC, Xbox, PlayStation, Switch, iOS",
+            "level": "Expérience livraison",
+            "details": "Suivi QA multiplateforme, builds, retours constructeurs, TRC et contraintes de soumission."
+          },
+          {
+            "name": "Localisation",
+            "level": "Suivi QA multilingue",
+            "details": "Expérience de suivi sur un projet supportant 14 langues."
+          }
+        ]
+      }
+    ],
+    "en": [
+      {
+        "cat": "Engines & integration",
+        "items": [
+          {
+            "name": "Unity",
+            "level": "Production use",
+            "details": "Content integration, blockout, gameplay tuning, real-condition testing, LD iterations and QA checks inside the engine."
+          },
+          {
+            "name": "Unreal Engine 5",
+            "level": "Production context",
+            "details": "Production follow-up on a UE5 project: scope, pipelines and dependencies across game design, level design, art, tech art and programming."
+          }
+        ]
+      },
+      {
+        "cat": "Production & tracking",
+        "items": [
+          {
+            "name": "ClickUp",
+            "level": "Certified / advanced use",
+            "details": "Project spaces, statuses, views, priorities, deadlines, dependencies, pipelines, risk tracking and production rituals."
+          },
+          {
+            "name": "JIRA",
+            "level": "Production / QA use",
+            "details": "Ticket tracking, prioritization, statuses, QA feedback, bugs, regressions, fixes and reporting."
+          },
+          {
+            "name": "Miro",
+            "level": "Production use",
+            "details": "Flow mapping, pipeline diagrams, visual alignment, meeting preparation and intention clarification."
+          }
+        ]
+      },
+      {
+        "cat": "Development & versioning",
+        "items": [
+          {
+            "name": "C#",
+            "level": "Internal tools",
+            "details": "QA tools, automation of repetitive checks and workflow optimization."
+          },
+          {
+            "name": "Git / Sourcetree",
+            "level": "Project use",
+            "details": "Version tracking, build recovery, repository work and production workflows."
+          }
+        ]
+      },
+      {
+        "cat": "Documentation & support material",
+        "items": [
+          {
+            "name": "Office 365 / Google Workspace",
+            "level": "Professional use",
+            "details": "Production documents, budgets, schedules, tracking sheets, presentations, reporting and team material."
+          },
+          {
+            "name": "InDesign",
+            "level": "Presentation material",
+            "details": "Funding files, external supports, presentations and strategic documents."
+          }
+        ]
+      },
+      {
+        "cat": "Shipping & platforms",
+        "items": [
+          {
+            "name": "PC, Xbox, PlayStation, Switch, iOS",
+            "level": "Shipping experience",
+            "details": "Multiplatform QA follow-up, builds, first-party feedback, TRC and submission constraints."
+          },
+          {
+            "name": "Localization",
+            "level": "Multilingual QA follow-up",
+            "details": "Experience following a project with support for 14 languages."
+          }
+        ]
+      }
+    ]
+  },
+  "languages": {
+    "fr": [
+      {
+        "name": "Français",
+        "level": "Natif"
+      },
+      {
+        "name": "Anglais",
+        "level": "C1 - avancé",
+        "details": "Communication professionnelle, documentation, échanges avec partenaires, prestataires et équipes internationales."
+      }
+    ],
+    "en": [
+      {
+        "name": "French",
+        "level": "Native"
+      },
+      {
+        "name": "English",
+        "level": "C1 - advanced",
+        "details": "Professional communication, documentation, partner, provider and international team exchanges."
+      }
+    ]
+  }
 }
