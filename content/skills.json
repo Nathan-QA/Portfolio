@@ -578,7 +578,7 @@
           "bullets": [
             "Office 365 et Google Workspace : documents de production, budgets, plannings, tableaux, présentations et reporting",
             "InDesign : mise en forme de dossiers, supports externes et documents stratégiques",
-            "Git / Sourcetree : suivi de versions, récupération de builds, repositories et workflows de production"
+            "Git / Sourcetree / Fork : suivi de versions, récupération de builds, repositories et workflows de production"
           ],
           "tags": [
             "Office 365",
@@ -1219,7 +1219,7 @@
           "bullets": [
             "Office 365 and Google Workspace: production documents, budgets, schedules, sheets, presentations and reporting",
             "InDesign: layout for funding files, external material and strategic documents",
-            "Git / Sourcetree: version tracking, build recovery, repositories and production workflows"
+            "Git / Sourcetree / Fork: version tracking, build recovery, repositories and production workflows"
           ],
           "tags": [
             "Office 365",
