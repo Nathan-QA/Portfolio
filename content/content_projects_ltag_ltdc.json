@@ -1,16 +1,16 @@
 {
   "id": "ltag-ltdc",
   "title": {
-    "fr": "LTAG / LTDC",
-    "en": "LTAG / LTDC"
+    "fr": "LTAG",
+    "en": "LTAG"
   },
   "role": {
     "fr": "Game & Level Design",
     "en": "Game & Level Design"
   },
   "summary": {
-    "fr": "Travaux de game design, level design, documentation et prototypage sur des projets non publics ou interrompus, présentés ici de façon synthétique.",
-    "en": "Game design, level design, documentation and prototyping work on non-public or interrupted projects, presented here in a concise format."
+    "fr": "Travaux confidentiels de game design, level design, documentation et prototypage sur des projets non publics ou interrompus, présentés de façon synthétique pour respecter le cadre de confidentialité.",
+    "en": "Confidential game design, level design, documentation and prototyping work on non-public or interrupted projects, presented in a concise format to respect confidentiality."
   },
   "tags": {
     "fr": [
@@ -34,15 +34,15 @@
       },
       {
         "label": "Type",
-        "value": "Prototypes / non public"
+        "value": "Projets confidentiels / interrompus"
       },
       {
         "label": "Focus",
-        "value": "Rythme & navigation"
+        "value": "Rythme, navigation, séquences"
       },
       {
-        "label": "Livrable",
-        "value": "Docs & séquences"
+        "label": "Présentation",
+        "value": "Détaillable en entretien"
       }
     ],
     "en": [
@@ -52,15 +52,15 @@
       },
       {
         "label": "Type",
-        "value": "Prototypes / non-public"
+        "value": "Confidential / interrupted projects"
       },
       {
         "label": "Focus",
-        "value": "Pacing & navigation"
+        "value": "Pacing, navigation, sequences"
       },
       {
-        "label": "Deliverable",
-        "value": "Docs & sequences"
+        "label": "Presentation",
+        "value": "More details in interviews"
       }
     ]
   },
@@ -98,18 +98,18 @@
       "en": "Prototype, adventure, exploration, design sequences"
     },
     "description": {
-      "fr": "Travaux de game design, level design, documentation et prototypage sur des projets non publics ou interrompus. La présentation publique reste volontairement synthétique.",
-      "en": "Game design, level design, documentation and prototyping work on non-public or interrupted projects. The public presentation remains intentionally concise."
+      "fr": "Travaux de game design, level design, documentation et prototypage sur des projets non publics ou interrompus. La présentation publique reste volontairement synthétique, mais certains éléments peuvent être détaillés dans un cadre professionnel.",
+      "en": "Game design, level design, documentation and prototyping work on non-public or interrupted projects. The public presentation remains intentionally concise, but selected elements can be discussed in a professional setting."
     }
   },
   "overview": {
     "fr": [
-      "Cette section regroupe des travaux que je ne peux pas présenter aussi librement que des projets publics. L’objectif n’est pas de montrer des assets ou des documents confidentiels, mais de garder une trace claire du type de travail réalisé autour du design, de la structure de niveaux, de la documentation et de l’itération.",
-      "Pour Long Time A Girl, projet annulé chez UMANIMATION, certains éléments peuvent être détaillés dans un cadre professionnel. Sur le portfolio public, je présente surtout les axes de travail : intentions, documentation, structure de séquences, rythme et contraintes de parcours."
+      "Cette section regroupe des travaux que je ne peux pas montrer aussi librement que mes projets publics. L’objectif est de présenter le type de responsabilités que j’ai eues sans exposer d’assets, documents ou détails confidentiels.",
+      "En entretien, je peux détailler certains éléments de méthode lorsque le cadre professionnel le permet : intentions de design, structure de séquences, documentation, rythme, navigation, contraintes de parcours et itérations."
     ],
     "en": [
-      "This section gathers work that I cannot present as freely as public projects. The goal is not to show confidential assets or documents, but to keep a clear trace of the kind of work done around design, level structure, documentation and iteration.",
-      "For Long Time A Girl, a cancelled UMANIMATION project, selected elements can be discussed in a professional setting. On the public portfolio, I focus on the work axes: intentions, documentation, sequence structure, pacing and pathing constraints."
+      "This section gathers work I cannot show as freely as public projects. The goal is to present the type of responsibilities I had without exposing confidential assets, documents or details.",
+      "In interviews, I can discuss selected methods when the professional context allows it: design intentions, sequence structure, documentation, pacing, navigation, pathing constraints and iterations."
     ]
   },
   "contribution": {
@@ -117,13 +117,13 @@
       "Game design et level design sur des prototypes ou projets interrompus.",
       "Documentation de systèmes, intentions, séquences et besoins de production.",
       "Travail sur le rythme, la navigation, les contraintes de parcours et les boucles d’itération.",
-      "Présentation détaillable en entretien lorsque le cadre de confidentialité le permet."
+      "Présentation volontairement synthétique en public, détaillable en entretien si le cadre de confidentialité le permet."
     ],
     "en": [
       "Game design and level design on prototypes or interrupted projects.",
       "Documentation of systems, intentions, sequences and production needs.",
       "Work on pacing, navigation, pathing constraints and iteration loops.",
-      "Detailed presentation possible in interviews when confidentiality allows it."
+      "Intentionally concise public presentation, with more detail possible in interviews when confidentiality allows it."
     ]
   },
   "images": {
