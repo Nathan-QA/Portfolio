@@ -20,7 +20,15 @@ function setLang(l){
   txt(byId('heroDesc'), I[state.lang].hero_desc);
   [
     'skip_content','nav_projects','nav_cases','nav_about','nav_contact','cv_fr','cv_en',
-    'hero_kicker',
+    'hero_kicker','hero_title','hero_roles',
+    'hero_focus_label','hero_focus_value','hero_scope_label','hero_scope_value','hero_tools_label','hero_tools_value',
+    'timeline_kicker','timeline_title',
+    'timeline_education_time','timeline_education_title','timeline_education_text',
+    'timeline_uma_time','timeline_uma_title','timeline_uma_text',
+    'timeline_ltag_time','timeline_ltag_title','timeline_ltag_text',
+    'timeline_bretagne_time','timeline_bretagne_title','timeline_bretagne_text',
+    'timeline_pyla_time','timeline_pyla_title','timeline_pyla_text',
+    'timeline_next_time','timeline_next_title','timeline_next_text',
     'projects_title','cases_title','about_role_title','about_skills_title',
     'contact_title','legal_title','open_cv'
   ].forEach(k=>{

@@ -63,10 +63,10 @@
         },
         {
           "id": "ld-greybox-unity",
-          "name": "Greybox, intégration Unity & passes successives",
+          "name": "Greybox, intégration moteur & passes successives",
           "summary": "Passer d’une intention à une séquence jouable : blockout, greybox, intégration d’assets, réglages gameplay, collisions, checkpoints et tests en conditions réelles.",
           "bullets": [
-            "Construction de séquences jouables en passes successives, directement testées dans Unity",
+            "Construction de séquences jouables en passes successives, directement testées dans le moteur",
             "Intégration et ajustement de contenus : assets, volumes, colliders, triggers, checkpoints et timings",
             "Suivi des besoins de production liés aux zones, aux systèmes et aux dépendances entre métiers"
           ],
@@ -510,55 +510,158 @@
       "cat": "Outils & logiciels",
       "items": [
         {
-          "id": "tool-engines",
-          "name": "Moteurs & intégration",
-          "summary": "Utiliser les moteurs et outils techniques pour intégrer, tester, itérer et suivre des contenus jouables en production.",
+          "id": "tool-unity",
+          "name": "Unity",
+          "summary": "Moteur utilisé pour intégrer des contenus jouables, tester des scènes, ajuster des paramètres gameplay et vérifier les comportements en conditions réelles.",
           "bullets": [
-            "Unity : intégration de contenus, blockout, réglages gameplay, tests en conditions réelles et vérifications QA dans le moteur",
-            "Unreal Engine 5 : suivi de production, scope, pipelines et dépendances sur un projet action-exploration",
-            "C# : développement d’outils internes QA et automatisation de vérifications répétitives"
+            "Blockout, assets, volumes, colliders, triggers, checkpoints et timings",
+            "Vérifications QA directement dans le moteur",
+            "Intégration de corrections LD et suivi des dépendances techniques"
           ],
           "tags": [
-            "Unity",
-            "Unreal Engine 5",
-            "C#",
-            "Integration"
+            "Moteur",
+            "Intégration",
+            "LD"
           ],
           "images": [
-            "assets/projects/distant-shore-steam-02.jpg",
-            "assets/projects/pyla-concept-03-chase.avif"
+            "https://cdn.simpleicons.org/unity/0B1020"
           ],
           "related": {
             "projects": [
               "distant-shore-bretagne",
-              "pyla",
+              "dordogne",
+              "ltag-ltdc"
+            ],
+            "cases": [
+              "distant-shore-readability",
+              "dordogne-feedback-loop"
+            ]
+          }
+        },
+        {
+          "id": "tool-unreal-engine",
+          "name": "Unreal Engine 5",
+          "summary": "Moteur suivi côté production sur un projet action-exploration, avec attention portée au scope, aux pipelines, aux dépendances et aux besoins d’équipe.",
+          "bullets": [
+            "Lecture des contraintes moteur dans le suivi de production",
+            "Suivi des dépendances et des risques liés aux contenus",
+            "Communication entre design, production et technique"
+          ],
+          "tags": [
+            "Moteur",
+            "Production",
+            "Pipeline"
+          ],
+          "images": [
+            "https://cdn.simpleicons.org/unrealengine/0B1020"
+          ],
+          "related": {
+            "projects": [
+              "pyla"
+            ],
+            "cases": [
+              "pyla-production-scope"
+            ]
+          }
+        },
+        {
+          "id": "tool-csharp-scripting",
+          "name": "C# / scripting",
+          "summary": "Scripting orienté production, QA et level design : outils internes, automatisation et petits éléments jouables pour prototyper ou débloquer une intention.",
+          "bullets": [
+            "Développement d’outils QA internes",
+            "Automatisation de vérifications répétitives",
+            "Scripting d’éléments LD simples pour rendre une intention testable"
+          ],
+          "tags": [
+            "Scripting",
+            "QA tools",
+            "Prototype"
+          ],
+          "images": [
+            "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/csharp/csharp-original.svg"
+          ],
+          "related": {
+            "projects": [
+              "distant-shore-bretagne",
               "dordogne"
             ],
             "cases": [
               "distant-shore-readability",
-              "pyla-production-scope",
               "dordogne-feedback-loop"
             ]
           }
         },
         {
-          "id": "tool-production-tracking",
-          "name": "Outils de production & suivi",
-          "summary": "Structurer le suivi projet, les tâches, les dépendances, les priorités, les deadlines et les échanges entre équipes.",
+          "id": "tool-clickup",
+          "name": "ClickUp",
+          "summary": "Outil principal de structuration projet : spaces, vues, statuts, priorités, deadlines, dépendances et suivi de production.",
           "bullets": [
-            "ClickUp certifié : création de spaces projet, statuts, vues, priorités, deadlines, dépendances et pipelines",
-            "JIRA : suivi de tickets, bugs, retours QA, régressions, corrections et reporting",
-            "Miro : cartographie de flux, schémas de pipeline, préparation de réunions et clarification d’intentions"
+            "Certification ClickUp",
+            "Création et maintenance de spaces projet",
+            "Vues de suivi adaptées aux besoins de production"
           ],
           "tags": [
-            "ClickUp",
-            "JIRA",
-            "Miro",
-            "Tracking"
+            "Production",
+            "Tracking",
+            "Certification"
           ],
           "images": [
-            "assets/projects/production-task-board.png",
-            "assets/projects/dordogne-steam-04.jpg"
+            "https://cdn.simpleicons.org/clickup"
+          ],
+          "related": {
+            "projects": [
+              "pyla"
+            ],
+            "cases": [
+              "pyla-production-scope"
+            ]
+          }
+        },
+        {
+          "id": "tool-jira",
+          "name": "JIRA",
+          "summary": "Suivi de tickets, bugs, retours QA, régressions, corrections et reporting, avec une attention particulière à la clarté des informations transmises.",
+          "bullets": [
+            "Suivi de bugs et de corrections",
+            "Tri des retours QA et des régressions",
+            "Reporting lisible pour les équipes concernées"
+          ],
+          "tags": [
+            "Tickets",
+            "QA",
+            "Reporting"
+          ],
+          "images": [
+            "https://cdn.simpleicons.org/jira/0052CC"
+          ],
+          "related": {
+            "projects": [
+              "dordogne",
+              "pyla"
+            ],
+            "cases": [
+              "dordogne-feedback-loop",
+              "pyla-production-scope"
+            ]
+          }
+        },
+        {
+          "id": "tool-miro",
+          "name": "Miro",
+          "summary": "Support de clarification visuelle pour flux, pipelines, intentions, réunions et organisation d’informations partagées.",
+          "bullets": [
+            "Cartographie de flux et pipelines",
+            "Préparation de réunions",
+            "Clarification d’intentions et de dépendances"
+          ],
+          "tags": [
+            "Mapping",
+            "Organisation",
+            "Production"
+          ],
+          "images": [
+            "https://cdn.simpleicons.org/miro/050038"
           ],
           "related": {
             "projects": [
@@ -572,23 +675,21 @@
           }
         },
         {
-          "id": "tool-docs-versioning",
-          "name": "Documentation, supports & versioning",
-          "summary": "Produire, organiser et maintenir des documents de production, supports externes, suivis, budgets et workflows projet.",
+          "id": "tool-office-365",
+          "name": "Office 365",
+          "summary": "Suite utilisée pour documents de production, budgets, plannings, tableaux, présentations, reporting et supports de suivi.",
           "bullets": [
-            "Office 365 et Google Workspace : documents de production, budgets, plannings, tableaux, présentations et reporting",
-            "InDesign : mise en forme de dossiers, supports externes et documents stratégiques",
-            "Git / Sourcetree / Fork : suivi de versions, récupération de builds, repositories et workflows de production"
+            "Documents de production et supports de suivi",
+            "Budgets, plannings et tableaux",
+            "Présentations et reporting"
           ],
           "tags": [
-            "Office 365",
-            "Google Workspace",
-            "InDesign",
-            "Git"
+            "Suite",
+            "Production",
+            "Reporting"
           ],
           "images": [
-            "assets/projects/pyla-concept-06-landscape.avif",
-            "assets/projects/dordogne-steam-07.jpg"
+            "https://upload.wikimedia.org/wikipedia/commons/3/32/Microsoft_365_logo.svg"
           ],
           "related": {
             "projects": [
@@ -598,6 +699,90 @@
             "cases": [
               "pyla-production-scope",
               "dordogne-feedback-loop"
+            ]
+          }
+        },
+        {
+          "id": "tool-google-workspace",
+          "name": "Google Workspace",
+          "summary": "Suite utilisée pour documents partagés, tableaux, coordination externe, suivi de production et collaboration asynchrone.",
+          "bullets": [
+            "Documents et tableaux partagés",
+            "Coordination avec partenaires ou prestataires",
+            "Suivi accessible et maintenable"
+          ],
+          "tags": [
+            "Suite",
+            "Collaboration",
+            "Documentation"
+          ],
+          "images": [
+            "https://upload.wikimedia.org/wikipedia/commons/5/5f/Google_Workspace_Logo.svg"
+          ],
+          "related": {
+            "projects": [
+              "pyla",
+              "dordogne"
+            ],
+            "cases": [
+              "pyla-production-scope",
+              "dordogne-feedback-loop"
+            ]
+          }
+        },
+        {
+          "id": "tool-indesign",
+          "name": "InDesign",
+          "summary": "Mise en forme de dossiers, supports externes et documents stratégiques quand la présentation doit être lisible et propre.",
+          "bullets": [
+            "Dossiers et supports externes",
+            "Documents stratégiques",
+            "Mise en page claire pour transmission"
+          ],
+          "tags": [
+            "Mise en page",
+            "Documents",
+            "Supports"
+          ],
+          "images": [
+            "https://upload.wikimedia.org/wikipedia/commons/4/48/Adobe_InDesign_CC_icon.svg"
+          ],
+          "related": {
+            "projects": [
+              "pyla"
+            ],
+            "cases": [
+              "pyla-production-scope"
+            ]
+          }
+        },
+        {
+          "id": "tool-git-versioning",
+          "name": "Git, Sourcetree & Fork",
+          "summary": "Versioning et suivi de repositories côté production : récupération de builds, historique, workflows et coordination avec les besoins techniques.",
+          "bullets": [
+            "Suivi de versions et repositories",
+            "Récupération et vérification de builds",
+            "Lecture des workflows de production"
+          ],
+          "tags": [
+            "Versioning",
+            "Builds",
+            "Repositories"
+          ],
+          "images": [
+            "https://cdn.simpleicons.org/git/F05032",
+            "https://cdn.simpleicons.org/sourcetree/0052CC",
+            "https://git-fork.com/images/logo.png"
+          ],
+          "related": {
+            "projects": [
+              "dordogne",
+              "pyla"
+            ],
+            "cases": [
+              "dordogne-feedback-loop",
+              "pyla-production-scope"
             ]
           }
         }
@@ -607,23 +792,51 @@
       "cat": "Langues",
       "items": [
         {
-          "id": "lang-french-english",
-          "name": "Français natif & anglais avancé",
-          "summary": "Communication professionnelle en français et en anglais, avec usage quotidien en documentation, production, coordination et échanges avec partenaires ou prestataires.",
+          "id": "lang-french",
+          "name": "Français",
+          "summary": "Langue maternelle, utilisée pour la documentation, la coordination, les échanges de production, les supports et le suivi quotidien.",
           "bullets": [
-            "Français : langue maternelle",
-            "Anglais : C1, avancé",
-            "Documentation, reporting, échanges professionnels, coordination externe et lecture de supports techniques"
+            "Communication professionnelle écrite et orale",
+            "Documentation, reporting, présentations et coordination",
+            "Suivi de production et échanges avec équipes ou partenaires"
           ],
           "tags": [
-            "Français natif",
-            "Anglais C1",
+            "Natif",
             "Communication",
             "Documentation"
           ],
           "images": [
-            "assets/projects/dordogne-steam-07.jpg",
-            "assets/projects/pyla-concept-05-bridge-ash.avif"
+            "https://flagcdn.com/fr.svg"
+          ],
+          "related": {
+            "projects": [
+              "dordogne",
+              "pyla",
+              "distant-shore-bretagne"
+            ],
+            "cases": [
+              "dordogne-feedback-loop",
+              "pyla-production-scope",
+              "distant-shore-readability"
+            ]
+          }
+        },
+        {
+          "id": "lang-english",
+          "name": "Anglais",
+          "summary": "Niveau C1 avancé, utilisé pour la lecture de supports techniques, la documentation, la coordination externe et les échanges professionnels.",
+          "bullets": [
+            "Documentation et reporting en anglais",
+            "Échanges avec partenaires, prestataires ou équipes internationales",
+            "Lecture et synthèse de supports techniques"
+          ],
+          "tags": [
+            "C1",
+            "Avancé",
+            "Communication"
+          ],
+          "images": [
+            "https://flagcdn.com/gb.svg"
           ],
           "related": {
             "projects": [
@@ -704,10 +917,10 @@
         },
         {
           "id": "ld-greybox-unity",
-          "name": "Greybox, Unity integration & successive passes",
+          "name": "Greybox, engine integration & successive passes",
           "summary": "Turning an intention into a playable sequence: blockout, greybox, asset integration, gameplay tuning, collisions, checkpoints and real-condition tests.",
           "bullets": [
-            "Playable sequence construction through successive passes, directly tested in Unity",
+            "Playable sequence construction through successive passes, directly tested in engine",
             "Content integration and adjustment: assets, volumes, colliders, triggers, checkpoints and timings",
             "Production-needs follow-up tied to areas, systems and cross-discipline dependencies"
           ],
@@ -1151,55 +1364,158 @@
       "cat": "Tools & software",
       "items": [
         {
-          "id": "tool-engines",
-          "name": "Engines & integration",
-          "summary": "Using engines and technical tools to integrate, test, iterate and follow playable content in production.",
+          "id": "tool-unity",
+          "name": "Unity",
+          "summary": "Engine used to integrate playable content, test scenes, adjust gameplay parameters and verify behavior in real conditions.",
           "bullets": [
-            "Unity: content integration, blockout, gameplay tuning, real-condition testing and QA checks inside the engine",
-            "Unreal Engine 5: production follow-up, scope, pipelines and dependencies on an action-exploration project",
-            "C#: internal QA tools and automation of repetitive checks"
+            "Blockout, assets, volumes, colliders, triggers, checkpoints and timings",
+            "QA checks directly inside the engine",
+            "LD correction integration and technical dependency follow-up"
           ],
           "tags": [
-            "Unity",
-            "Unreal Engine 5",
-            "C#",
-            "Integration"
+            "Engine",
+            "Integration",
+            "LD"
           ],
           "images": [
-            "assets/projects/distant-shore-steam-02.jpg",
-            "assets/projects/pyla-concept-03-chase.avif"
+            "https://cdn.simpleicons.org/unity/0B1020"
           ],
           "related": {
             "projects": [
               "distant-shore-bretagne",
-              "pyla",
+              "dordogne",
+              "ltag-ltdc"
+            ],
+            "cases": [
+              "distant-shore-readability",
+              "dordogne-feedback-loop"
+            ]
+          }
+        },
+        {
+          "id": "tool-unreal-engine",
+          "name": "Unreal Engine 5",
+          "summary": "Engine followed from a production angle on an action-exploration project, with attention to scope, pipelines, dependencies and team needs.",
+          "bullets": [
+            "Reading engine constraints in production follow-up",
+            "Tracking content dependencies and risks",
+            "Communication between design, production and technical needs"
+          ],
+          "tags": [
+            "Engine",
+            "Production",
+            "Pipeline"
+          ],
+          "images": [
+            "https://cdn.simpleicons.org/unrealengine/0B1020"
+          ],
+          "related": {
+            "projects": [
+              "pyla"
+            ],
+            "cases": [
+              "pyla-production-scope"
+            ]
+          }
+        },
+        {
+          "id": "tool-csharp-scripting",
+          "name": "C# / scripting",
+          "summary": "Production, QA and level design oriented scripting: internal tools, automation and small playable elements to prototype or unblock an intention.",
+          "bullets": [
+            "Internal QA tool development",
+            "Automation of repetitive checks",
+            "Simple LD element scripting to make an intention testable"
+          ],
+          "tags": [
+            "Scripting",
+            "QA tools",
+            "Prototype"
+          ],
+          "images": [
+            "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/csharp/csharp-original.svg"
+          ],
+          "related": {
+            "projects": [
+              "distant-shore-bretagne",
               "dordogne"
             ],
             "cases": [
               "distant-shore-readability",
-              "pyla-production-scope",
               "dordogne-feedback-loop"
             ]
           }
         },
         {
-          "id": "tool-production-tracking",
-          "name": "Production & tracking tools",
-          "summary": "Structuring project follow-up, tasks, dependencies, priorities, deadlines and team communication.",
+          "id": "tool-clickup",
+          "name": "ClickUp",
+          "summary": "Main project-structuring tool: spaces, views, statuses, priorities, deadlines, dependencies and production follow-up.",
           "bullets": [
-            "ClickUp certified: project spaces, statuses, views, priorities, deadlines, dependencies and pipelines",
-            "JIRA: ticket tracking, bugs, QA feedback, regressions, fixes and reporting",
-            "Miro: flow mapping, pipeline diagrams, meeting preparation and intention clarification"
+            "ClickUp certification",
+            "Project space creation and maintenance",
+            "Tracking views adapted to production needs"
           ],
           "tags": [
-            "ClickUp",
-            "JIRA",
-            "Miro",
-            "Tracking"
+            "Production",
+            "Tracking",
+            "Certification"
           ],
           "images": [
-            "assets/projects/production-task-board.png",
-            "assets/projects/dordogne-steam-04.jpg"
+            "https://cdn.simpleicons.org/clickup"
+          ],
+          "related": {
+            "projects": [
+              "pyla"
+            ],
+            "cases": [
+              "pyla-production-scope"
+            ]
+          }
+        },
+        {
+          "id": "tool-jira",
+          "name": "JIRA",
+          "summary": "Ticket, bug, QA feedback, regression, fix and reporting follow-up, with particular attention to clear information transfer.",
+          "bullets": [
+            "Bug and fix tracking",
+            "QA feedback and regression triage",
+            "Readable reporting for the teams involved"
+          ],
+          "tags": [
+            "Tickets",
+            "QA",
+            "Reporting"
+          ],
+          "images": [
+            "https://cdn.simpleicons.org/jira/0052CC"
+          ],
+          "related": {
+            "projects": [
+              "dordogne",
+              "pyla"
+            ],
+            "cases": [
+              "dordogne-feedback-loop",
+              "pyla-production-scope"
+            ]
+          }
+        },
+        {
+          "id": "tool-miro",
+          "name": "Miro",
+          "summary": "Visual clarification support for flows, pipelines, intentions, meetings and shared information organization.",
+          "bullets": [
+            "Flow and pipeline mapping",
+            "Meeting preparation",
+            "Clarification of intentions and dependencies"
+          ],
+          "tags": [
+            "Mapping",
+            "Organization",
+            "Production"
+          ],
+          "images": [
+            "https://cdn.simpleicons.org/miro/050038"
           ],
           "related": {
             "projects": [
@@ -1213,23 +1529,21 @@
           }
         },
         {
-          "id": "tool-docs-versioning",
-          "name": "Documentation, support material & versioning",
-          "summary": "Producing, organizing and maintaining production documents, external material, tracking files, budgets and project workflows.",
+          "id": "tool-office-365",
+          "name": "Office 365",
+          "summary": "Suite used for production documents, budgets, schedules, tables, presentations, reporting and tracking material.",
           "bullets": [
-            "Office 365 and Google Workspace: production documents, budgets, schedules, sheets, presentations and reporting",
-            "InDesign: layout for funding files, external material and strategic documents",
-            "Git / Sourcetree / Fork: version tracking, build recovery, repositories and production workflows"
+            "Production documents and tracking material",
+            "Budgets, schedules and tables",
+            "Presentations and reporting"
           ],
           "tags": [
-            "Office 365",
-            "Google Workspace",
-            "InDesign",
-            "Git"
+            "Suite",
+            "Production",
+            "Reporting"
           ],
           "images": [
-            "assets/projects/pyla-concept-06-landscape.avif",
-            "assets/projects/dordogne-steam-07.jpg"
+            "https://upload.wikimedia.org/wikipedia/commons/3/32/Microsoft_365_logo.svg"
           ],
           "related": {
             "projects": [
@@ -1239,6 +1553,90 @@
             "cases": [
               "pyla-production-scope",
               "dordogne-feedback-loop"
+            ]
+          }
+        },
+        {
+          "id": "tool-google-workspace",
+          "name": "Google Workspace",
+          "summary": "Suite used for shared documents, sheets, external coordination, production follow-up and asynchronous collaboration.",
+          "bullets": [
+            "Shared documents and sheets",
+            "Coordination with partners or providers",
+            "Accessible and maintainable follow-up"
+          ],
+          "tags": [
+            "Suite",
+            "Collaboration",
+            "Documentation"
+          ],
+          "images": [
+            "https://upload.wikimedia.org/wikipedia/commons/5/5f/Google_Workspace_Logo.svg"
+          ],
+          "related": {
+            "projects": [
+              "pyla",
+              "dordogne"
+            ],
+            "cases": [
+              "pyla-production-scope",
+              "dordogne-feedback-loop"
+            ]
+          }
+        },
+        {
+          "id": "tool-indesign",
+          "name": "InDesign",
+          "summary": "Layout for files, external material and strategic documents when presentation needs to be readable and clean.",
+          "bullets": [
+            "Files and external material",
+            "Strategic documents",
+            "Clear layout for transmission"
+          ],
+          "tags": [
+            "Layout",
+            "Documents",
+            "Support material"
+          ],
+          "images": [
+            "https://upload.wikimedia.org/wikipedia/commons/4/48/Adobe_InDesign_CC_icon.svg"
+          ],
+          "related": {
+            "projects": [
+              "pyla"
+            ],
+            "cases": [
+              "pyla-production-scope"
+            ]
+          }
+        },
+        {
+          "id": "tool-git-versioning",
+          "name": "Git, Sourcetree & Fork",
+          "summary": "Versioning and repository follow-up from a production angle: build recovery, history, workflows and coordination with technical needs.",
+          "bullets": [
+            "Version and repository follow-up",
+            "Build recovery and verification",
+            "Production workflow reading"
+          ],
+          "tags": [
+            "Versioning",
+            "Builds",
+            "Repositories"
+          ],
+          "images": [
+            "https://cdn.simpleicons.org/git/F05032",
+            "https://cdn.simpleicons.org/sourcetree/0052CC",
+            "https://git-fork.com/images/logo.png"
+          ],
+          "related": {
+            "projects": [
+              "dordogne",
+              "pyla"
+            ],
+            "cases": [
+              "dordogne-feedback-loop",
+              "pyla-production-scope"
             ]
           }
         }
@@ -1248,23 +1646,51 @@
       "cat": "Languages",
       "items": [
         {
-          "id": "lang-french-english",
-          "name": "Native French & advanced English",
-          "summary": "Professional communication in French and English, used for documentation, production, coordination and exchanges with partners or providers.",
+          "id": "lang-french",
+          "name": "French",
+          "summary": "Native language, used for documentation, coordination, production exchanges, support material and daily follow-up.",
           "bullets": [
-            "French: native",
-            "English: C1, advanced",
-            "Documentation, reporting, professional exchanges, external coordination and technical reading"
+            "Professional written and spoken communication",
+            "Documentation, reporting, presentations and coordination",
+            "Production follow-up and exchanges with teams or partners"
           ],
           "tags": [
-            "Native French",
-            "English C1",
+            "Native",
             "Communication",
             "Documentation"
           ],
           "images": [
-            "assets/projects/dordogne-steam-07.jpg",
-            "assets/projects/pyla-concept-05-bridge-ash.avif"
+            "https://flagcdn.com/fr.svg"
+          ],
+          "related": {
+            "projects": [
+              "dordogne",
+              "pyla",
+              "distant-shore-bretagne"
+            ],
+            "cases": [
+              "dordogne-feedback-loop",
+              "pyla-production-scope",
+              "distant-shore-readability"
+            ]
+          }
+        },
+        {
+          "id": "lang-english",
+          "name": "English",
+          "summary": "Advanced C1 level, used for technical reading, documentation, external coordination and professional exchanges.",
+          "bullets": [
+            "Documentation and reporting in English",
+            "Exchanges with partners, providers or international teams",
+            "Reading and synthesis of technical material"
+          ],
+          "tags": [
+            "C1",
+            "Advanced",
+            "Communication"
+          ],
+          "images": [
+            "https://flagcdn.com/gb.svg"
           ],
           "related": {
             "projects": [
