@@ -1,13 +1,48 @@
 {
   "projects": {
-    "distant-shore-bretagne": {"fr":"Reprise de 4 zones de la démo : guidage, routes alternatives et intégration Unity","en":"Revamping 4 demo areas: guidance, alternative routes and Unity integration"},
-    "dordogne": {"fr":"Pilotage de la QA, suivi des builds et accompagnement de la livraison","en":"QA coordination, build tracking and support through delivery"},
-    "pyla": {"fr":"Structuration de la production, priorités et coordination de l’équipe","en":"Production structure, priorities and team coordination"},
-    "ltag-ltdc": {"fr":"Game design, level design, documentation et prototypage sur des projets confidentiels","en":"Game design, level design, documentation and prototyping on confidential projects"}
+    "distant-shore-bretagne": {
+      "fr": "Reprise de 4 zones de la démo : guidage, routes alternatives et intégration Unity",
+      "en": "Revamping 4 demo areas: guidance, alternative routes and Unity integration"
+    },
+    "dordogne": {
+      "fr": "Pilotage de la QA, suivi des builds et accompagnement de la livraison",
+      "en": "QA coordination, build tracking and support through delivery"
+    },
+    "pyla": {
+      "fr": "Structuration de la production, priorités et coordination de l’équipe",
+      "en": "Production structure, priorities and team coordination"
+    },
+    "ltag-ltdc": {
+      "fr": "Game design, level design, documentation et prototypage sur des projets confidentiels",
+      "en": "Game design, level design, documentation and prototyping on confidential projects"
+    }
   },
   "articles": {
-    "distant-shore-readability": {"fr":"Reprendre une base de level design, rendre le parkour magnétique plus lisible et laisser une place à l’expérimentation du joueur","en":"Taking over an existing level design, making magnetic parkour easier to read and leaving room for player experimentation"},
-    "dordogne-feedback-loop": {"fr":"Transformer les retours de test en actions, suivre les corrections et préparer des builds jusqu’à la livraison","en":"Turning test feedback into actions, tracking fixes and preparing builds through delivery"},
-    "pyla-production-scope": {"fr":"Relier les intentions de création aux contraintes de production : scope, priorités, planning et coordination","en":"Connecting creative intentions to production constraints: scope, priorities, scheduling and coordination"}
+    "distant-shore-readability": {
+      "fr": "Reprendre une base de level design, rendre le parkour magnétique plus lisible et laisser une place à l’expérimentation du joueur",
+      "en": "Taking over an existing level design, making magnetic parkour easier to read and leaving room for player experimentation"
+    },
+    "dordogne-feedback-loop": {
+      "fr": "Transformer les retours de test en actions, suivre les corrections et préparer des builds jusqu’à la livraison",
+      "en": "Turning test feedback into actions, tracking fixes and preparing builds through delivery"
+    },
+    "pyla-production-scope": {
+      "fr": "Relier les intentions de création aux contraintes de production : scope, priorités, planning et coordination",
+      "en": "Connecting creative intentions to production constraints: scope, priorities, scheduling and coordination"
+    }
+  },
+  "articleTitles": {
+    "distant-shore-readability": {
+      "fr": "Rendre le parkour magnétique lisible, sans brider la liberté",
+      "en": "Making magnetic parkour readable, without limiting freedom"
+    },
+    "dordogne-feedback-loop": {
+      "fr": "Des retours de test à la livraison de Dordogne",
+      "en": "From test feedback to shipping Dordogne"
+    },
+    "pyla-production-scope": {
+      "fr": "Structurer la production sans perdre l’intention créative",
+      "en": "Structuring production without losing the creative intent"
+    }
   }
 }
