@@ -1,0 +1,43 @@
+name: Portfolio review
+on:
+  push:
+    branches: [refactor/editorial-portfolio]
+  pull_request:
+    branches: [main]
+permissions:
+  contents: read
+concurrency:
+  group: portfolio-review-${{ github.ref }}
+  cancel-in-progress: true
+jobs:
+  review:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Validate and build when available
+        run: |
+          if test -f scripts/build.mjs; then node scripts/build.mjs; fi
+          if test -f scripts/check.mjs; then node scripts/check.mjs; fi
+      - uses: actions/upload-artifact@v4
+        with:
+          name: portfolio-review
+          path: |
+            assets/
+            content/
+            js/
+            src/
+            scripts/
+            dist/
+            tests/
+            index.html
+            style.css
+            package.json
+            README.md
+            IMAGE_SOURCES.md
+            docs/
+          retention-days: 7
+          if-no-files-found: error
