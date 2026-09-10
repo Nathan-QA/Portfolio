@@ -9,5 +9,7 @@
     "test": "playwright test",
     "new:article": "node scripts/new-article.mjs"
   },
-  "devDependencies": {"@playwright/test": "1.55.0"}
+  "devDependencies": {
+    "@playwright/test": "1.63.0"
+  }
 }

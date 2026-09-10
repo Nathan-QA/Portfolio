@@ -10,6 +10,8 @@ export const setHash = (o={}) => {
   const hash=q.size ? '#'+q : '';
   if(location.hash===hash) return;
   const old=parseHash();
+  // Reopening the same article must retain its exact section on refresh.
+  if((old.project||null)===(o.project||null) && (old.kase||null)===(o.kase||null) && (old.project||old.kase)) return;
   const origin=(old.project||old.kase)
     ? history.state?.portfolioOrigin || (old.kase?'#cases':'#projects')
     : location.hash || (o.kase?'#cases':'#projects');

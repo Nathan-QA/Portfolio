@@ -123,7 +123,7 @@ export function initUX(){
    const close=modal.querySelector('header .x');close.textContent=label().close+' ×';close.setAttribute('aria-label',label().close);
    const back=modal.querySelector('header .back');if(back){back.textContent='← '+label().back;back.setAttribute('aria-label',label().back);}
    enhanceReading(modal,label(),copyText);
-   setTimeout(()=>{if(modal.isConnected&&!galleryRoot.firstChild)close.focus({preventScroll:true})},370);
+   setTimeout(()=>{if(modal.isConnected&&!galleryRoot.firstChild&&!modal.contains(document.activeElement))close.focus({preventScroll:true})},370);
   }
   if(gallery&&gallery!==galleryNode){gallery.setAttribute('aria-label',state.lang==='fr'?'Galerie d’images':'Image gallery');gallery.querySelector('.x')?.focus();enhanceGallery(gallery,modal);}
   if(!gallery&&galleryNode&&modal)(galleryTrigger?.isConnected?galleryTrigger:modal.querySelector('header .x'))?.focus({preventScroll:true});
