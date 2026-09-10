@@ -1,7 +1,21 @@
-/* Finish layer: warm framed imagery, generous reading sizes, restrained controls.
-   Main's palette, illustrations and scenery remain unchanged in style.css. */
-:root{--finish-shadow:0 2px 3px rgba(65,43,22,.035),0 12px 32px rgba(65,43,22,.065);--finish-edge:rgba(255,255,255,.64)}
-[data-theme=dark]{--finish-shadow:0 2px 4px rgba(0,0,0,.16),0 12px 32px rgba(0,0,0,.24);--finish-edge:rgba(255,255,255,.07)}
+/* Visual corrections on the actual portfolio, not the generated mockup.
+   Original images, typography, tree and motion modules remain untouched.
+   Accent colors are deliberately changed from lavender to foliage green. */
+:root{
+ --accent-300:#bac9ab;
+ --accent-500:#5d7447;
+ --folio-leaf:url("assets/leaf_cliff_particles_grid_export.png");
+ --finish-shadow:0 1px 3px rgba(51,46,33,.035),0 10px 28px rgba(51,46,33,.06);
+ --finish-edge:rgba(255,255,255,.6);
+}
+[data-theme=dark]{
+ --accent-300:#697d55;
+ --accent-500:#afc892;
+ --folio-leaf:url("assets/leafN_cliff_particles_grid_export.png");
+ --finish-shadow:0 2px 4px rgba(0,0,0,.16),0 12px 32px rgba(0,0,0,.24);
+ --finish-edge:rgba(255,255,255,.07);
+}
+::selection{background:color-mix(in oklab,var(--accent-300) 55%,var(--panel));color:var(--read-text)}
 [hidden]{display:none!important}
 button,input,select{font:inherit;color:inherit}
 :where(a,button,summary,input,select,[tabindex]):focus-visible{outline:2px solid var(--accent-500);outline-offset:4px}
@@ -14,7 +28,7 @@ button,input,select{font:inherit;color:inherit}
 .primary-nav{gap:24px}
 .primary-nav a{position:relative;border:0;border-radius:0;background:none;padding:12px 0;font-size:16px;font-weight:600;white-space:nowrap;box-shadow:none}
 .primary-nav a:hover,.primary-nav a[aria-current=location]{background:none;border:0;box-shadow:none}
-.primary-nav a::after{content:"";position:absolute;bottom:4px;left:0;right:0;height:2px;border-radius:50%;background:color-mix(in oklab,var(--accent-500) 70%,var(--read-muted));transform:scaleX(0);transform-origin:left;transition:transform .22s var(--easing)}
+.primary-nav a::after{content:"";position:absolute;bottom:4px;left:0;right:0;height:2px;border-radius:2px;background:var(--accent-500);transform:scaleX(0);transform-origin:left;transition:transform .22s var(--easing)}
 .primary-nav a:hover::after,.primary-nav a[aria-current=location]::after{transform:scaleX(1)}
 .primary-nav .ux-mobile-cv{display:none}
 .ux-explore{position:absolute;z-index:4;bottom:16px;left:50%;transform:translateX(-50%);display:grid;place-items:center;width:44px;height:44px;border:0;border-radius:0;background:none!important;color:var(--read-text);box-shadow:none;text-decoration:none}
@@ -23,14 +37,14 @@ button,input,select{font:inherit;color:inherit}
 .hero-copy{max-width:none;width:100%}
 .hero-kicker{font-size:13px;font-weight:550;letter-spacing:.07em}
 .hero-kicker::before{display:block;width:28px;background:var(--read-border)}
-.hero h1{max-width:none;white-space:pre-line;font-size:clamp(36px,3.6vw,52px);font-weight:750;line-height:1.16;letter-spacing:-.035em;margin:16px 0 0}
+.hero h1{max-width:none;white-space:pre-line;font-size:clamp(36px,3.6vw,52px);font-weight:720;line-height:1.16;letter-spacing:-.035em;margin:16px 0 0}
 .hero-copy #heroDesc{margin:0;max-width:45ch;font-size:18px;line-height:1.8;color:var(--read-soft)}
 #main{scroll-margin-top:calc(var(--headerH) + 8px)}
 .section.container{padding:72px 20px 24px}
 .section h2{font-size:clamp(32px,3vw,42px);font-weight:750;line-height:1.2;letter-spacing:-.025em;padding-bottom:22px;margin:0 0 32px;position:relative}
 /* A project is one link, not a title plus two calls to the same content. */
 .projects-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:28px}
-.tile.project-tile{border-radius:12px!important;box-shadow:var(--finish-shadow);position:relative;border-color:var(--read-border);overflow:hidden}
+.tile.project-tile{border-radius:10px!important;box-shadow:var(--finish-shadow);position:relative;border-color:var(--read-border);overflow:hidden}
 .project-tile .thumb{aspect-ratio:16/10;min-height:350px;border-radius:inherit}
 .project-tile .ovr{padding:30px;background:linear-gradient(to top,rgba(0,0,0,.78),rgba(0,0,0,.3) 43%,transparent 77%),linear-gradient(to bottom,rgba(0,0,0,.12),transparent 25%)}
 .project-tile .ovr-bottom{display:block}
@@ -49,12 +63,12 @@ button,input,select{font:inherit;color:inherit}
 .preview-playing .media>img{opacity:0}
 /* Full-size article panels with inset imagery, not a thumbnail list. */
 .cases-grid{gap:30px;grid-template-columns:minmax(0,1fr)}
-.tile.case-tile{display:grid;grid-template-columns:minmax(0,.95fr) minmax(0,1.05fr);min-height:360px!important;width:100%;padding:12px;gap:0;border:1px solid var(--read-border);border-radius:12px!important;background:var(--read-panel);box-shadow:var(--finish-shadow),inset 0 1px 0 var(--finish-edge);overflow:hidden;align-items:stretch}
+.tile.case-tile{display:grid;grid-template-columns:minmax(0,.95fr) minmax(0,1.05fr);min-height:360px!important;width:100%;padding:12px;gap:0;border:1px solid var(--read-border);border-radius:10px!important;background:var(--read-panel);box-shadow:var(--finish-shadow),inset 0 1px 0 var(--finish-edge);overflow:hidden;align-items:stretch}
 .tile.case-tile:first-child{padding:12px}
 .case-thumb{min-height:334px;aspect-ratio:auto;border-radius:7px;overflow:hidden;background:var(--slab)}
 .case-thumb::after{display:none}
-.case-tile .case-body{padding:clamp(26px,3.2vw,46px);gap:18px;min-width:0;justify-content:center;position:relative}
-.case-tile .case-title{font-size:clamp(28px,2.55vw,36px);font-weight:720;line-height:1.2;letter-spacing:-.025em;max-width:26ch;text-wrap:pretty;margin:0}
+.case-tile .case-body{padding:clamp(26px,3.2vw,46px);gap:20px;min-width:0;justify-content:center;position:relative}
+.case-tile .case-title{font-size:clamp(28px,2.55vw,36px);font-weight:680;line-height:1.24;letter-spacing:-.025em;max-width:26ch;text-wrap:pretty;margin:0}
 .case-lead{display:block;overflow:visible;font-size:18px;line-height:1.7;color:var(--read-soft);max-width:46ch;margin:0}
 .case-thumb-meta{position:static;display:flex;align-items:center;flex-wrap:wrap;gap:12px;color:var(--read-soft)}
 .case-thumb-meta span,.ux-article-meta{display:block;border:0;border-radius:0;padding:0;margin:0;background:none;color:var(--read-soft);font-size:13px;line-height:1.5;font-weight:500}
@@ -128,7 +142,24 @@ button,input,select{font:inherit;color:inherit}
 .ux-gallery-counter{position:absolute;bottom:max(20px,env(safe-area-inset-bottom));left:50%;transform:translateX(-50%);color:#fff;background:rgba(0,0,0,.65);border-radius:3px;padding:8px 14px;font-size:14px;pointer-events:none}
 
 .hero-copy.ux-intro-body{border-left:1px solid var(--read-border);padding:12px 0 12px 32px}
-.section h2::after{content:"";position:absolute;bottom:-1px;left:0;width:46px;height:3px;border-radius:50%;background:color-mix(in oklab,var(--accent-500) 60%,var(--read-muted))}
+.section h2{padding-left:40px}
+/* The same real watercolor leaf as the falling particles, never a new illustration. */
+.section h2::after{
+ content:"";position:absolute;left:0;top:.13em;bottom:auto;width:28px;height:28px;
+ background-image:var(--folio-leaf);background-repeat:no-repeat;background-size:300% 300%;background-position:50% 0;
+ border-radius:0;background-color:transparent;opacity:.9;transform:rotate(-12deg);pointer-events:none;
+}
+.case-thumb-meta::before{
+ content:"";width:19px;height:19px;flex:0 0 19px;
+ background-image:var(--folio-leaf);background-repeat:no-repeat;background-size:300% 300%;background-position:50% 0;
+ opacity:.8;transform:rotate(14deg);pointer-events:none;
+}
+.primary-nav a[aria-current=location]{color:var(--accent-500)}
+.case-tile:hover .case-title a{text-decoration:underline;text-decoration-thickness:1px;text-underline-offset:5px}
+@media(hover:hover) and (prefers-reduced-motion:no-preference){
+ .case-thumb-meta::before{transition:transform .65s var(--easing),opacity .65s var(--easing)}
+ .case-tile:hover .case-thumb-meta::before{transform:rotate(0deg);opacity:1}
+}
 .project-tile .thumb::after{content:"";position:absolute;inset:0;border:1px solid var(--finish-edge);border-radius:inherit;pointer-events:none}
 .case-tile .case-lead{line-height:1.7}
 .case-tile .case-title a::after{content:'↗';position:absolute;bottom:24px;right:24px;font-size:23px;line-height:1;font-weight:400;color:var(--read-muted)}
@@ -138,7 +169,7 @@ button,input,select{font:inherit;color:inherit}
 
 @media(hover:hover) and (prefers-reduced-motion:no-preference){
  .project-tile,.case-tile{transition:transform .3s var(--easing),box-shadow .3s var(--easing),border-color .3s var(--easing)}
- .project-tile:hover,.case-tile:hover{transform:translateY(-3px);box-shadow:0 4px 8px rgba(0,0,0,.06),0 18px 36px rgba(0,0,0,.1);border-color:color-mix(in oklab,var(--read-border) 70%,var(--accent-500))}
+ .project-tile:hover,.case-tile:hover{transform:translateY(-3px);box-shadow:0 3px 6px rgba(51,46,33,.05),0 16px 32px rgba(51,46,33,.09);border-color:color-mix(in oklab,var(--read-border) 70%,var(--accent-500))}
  .case-thumb img{transition:transform .7s var(--easing)}
  .case-tile:hover .case-thumb img{transform:scale(1.025)}
  .case-title a::after,.project-tile .t a::after{transition:transform .24s var(--easing)}
