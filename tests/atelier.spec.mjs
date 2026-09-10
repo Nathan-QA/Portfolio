@@ -23,14 +23,19 @@ test('project copy is on paper, below the art, with no inherited overlay shadow'
  }
 });
 test('theme switches preserve the real game images and the layout',async({page})=>{
+ await page.emulateMedia({colorScheme:'light'});
+ await expect(page.locator('body')).toHaveCSS('background-color','rgb(251, 247, 237)');
  const images=await page.locator('#projectList img,#caseList img').evaluateAll(imgs=>imgs.map(i=>i.getAttribute('src')));
- const paper=await page.locator('body').evaluate(el=>getComputedStyle(el).backgroundColor);
  const font=await page.locator('h1').evaluate(el=>getComputedStyle(el).fontFamily);
  await page.locator('#themeBtn').click();
- expect(await page.locator('body').evaluate(el=>getComputedStyle(el).backgroundColor)).not.toBe(paper);
+ await expect(page.locator('html')).toHaveAttribute('data-theme','dark');
+ // Wait for the intentional crossfade, then check its exact destination color.
+ await expect(page.locator('body')).toHaveCSS('background-color','rgb(24, 29, 26)');
  expect(await page.locator('h1').evaluate(el=>getComputedStyle(el).fontFamily)).toBe(font);
  expect(await page.locator('#projectList img,#caseList img').evaluateAll(imgs=>imgs.map(i=>i.getAttribute('src')))).toEqual(images);
  await expect(page.locator('.hero-img.night')).toHaveCSS('opacity','1');
+ await page.locator('#themeBtn').click();
+ await expect(page.locator('body')).toHaveCSS('background-color','rgb(251, 247, 237)');
 });
 test('language changes rebuild postcards once and translate chapter notes',async({page})=>{
  await page.locator('#langBtn').click();await expect(page.locator('.project-caption')).toHaveCount(4);
