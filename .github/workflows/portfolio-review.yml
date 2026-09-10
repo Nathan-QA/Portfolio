@@ -1,7 +1,7 @@
 name: Portfolio review
 on:
   push:
-    branches: [refactor/editorial-portfolio]
+    branches: [refactor/editorial-portfolio, main]
   pull_request:
     branches: [main]
 permissions:
@@ -12,30 +12,34 @@ concurrency:
 jobs:
   review:
     runs-on: ubuntu-latest
-    timeout-minutes: 10
+    timeout-minutes: 15
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
         with:
           node-version: '22'
-      - name: Validate and build when available
-        run: |
-          if test -f scripts/build.mjs; then node scripts/build.mjs; fi
-          if test -f scripts/check.mjs; then node scripts/check.mjs; fi
+          cache: npm
+      - run: npm ci
+      - run: npm run build && npm run check
+      - run: npx playwright install --with-deps chromium
+      - run: npm test
       - uses: actions/upload-artifact@v4
+        if: always()
         with:
           name: portfolio-review
           path: |
             assets/
             content/
-            js/
             src/
             scripts/
             dist/
             tests/
-            index.html
-            style.css
+            test-results/
+            playwright-report/
+            playwright.config.mjs
             package.json
+            package-lock.json
+            vercel.json
             README.md
             IMAGE_SOURCES.md
             docs/
