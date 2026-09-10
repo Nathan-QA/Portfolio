@@ -1,0 +1,67 @@
+{
+  "name": "Nathan Tandille",
+  "url": "https://www.nathantandille.com",
+  "email": "tandille.nathan@gmail.com",
+  "location": "Bordeaux, France",
+  "cv": "assets/Nathan_Tandille_CV_2026.pdf",
+  "social": [
+    {
+      "label": "LinkedIn",
+      "url": "https://www.linkedin.com/in/nathan-tandille/"
+    },
+    {
+      "label": "MobyGames",
+      "url": "https://www.mobygames.com/person/1375320/nathan-tandille/"
+    },
+    {
+      "label": "GitHub",
+      "url": "https://github.com/Nathan-QA"
+    }
+  ],
+  "artwork": {
+    "day": "assets/bannerD.png",
+    "night": "assets/bannerN.png",
+    "treeDay": "assets/leaf_right.png",
+    "treeNight": "assets/leaf_rightN.png",
+    "leavesDay": "assets/leaf_cliff_particles_grid_export.png",
+    "leavesNight": "assets/leafN_cliff_particles_grid_export.png"
+  },
+  "homeProjectLimit": 4,
+  "homeArticleLimit": 3,
+  "fr": {
+    "description": "Level Designer avec un regard QA et production. Projets, retours d’expérience et carnets de création de Nathan Tandille.",
+    "heroKicker": "Level Designer · QA & production",
+    "heroTitle": "L’intention devient\nun terrain de jeu",
+    "heroDescription": "Imaginer des espaces, leur donner du sens, les mettre à l’épreuve du joueur. Du level design au moteur, avec un regard QA et production.",
+    "heroNote": "Un portfolio, et les réflexions qui vont avec",
+    "projectsTitle": "Des jeux, des expériences",
+    "projectsIntro": "Des univers différents, un même fil conducteur : transformer une intention en expérience jouable, avec l’équipe.",
+    "journalTitle": "Dans les coulisses",
+    "journalIntro": "Choix de design, problèmes de terrain, méthodes et expérimentations. Le travail derrière les projets.",
+    "skillsTitle": "Trois regards, une pratique",
+    "skillsIntro": "Concevoir, tester, faire avancer. Des compétences qui se complètent, illustrées par du travail concret.",
+    "aboutTitle": "Du premier croquis\nà la version jouable",
+    "aboutText": "Je travaille le level design au contact du moteur, des systèmes et des joueurs. Mon parcours en QA et en production m’aide à relier les intentions de design aux contraintes réelles : lisibilité, rythme, faisabilité et itération.",
+    "contactTitle": "Et si on parlait\nde votre projet ?",
+    "contactText": "Un rôle, une idée, une question de design ou de production. Le plus simple, c’est de m’écrire.",
+    "contactNote": "Échanges en français ou en anglais"
+  },
+  "en": {
+    "description": "Level Designer with a QA and production perspective. Projects, case studies and development notes by Nathan Tandille.",
+    "heroKicker": "Level Designer · QA & production",
+    "heroTitle": "From an intention\nto a place to play",
+    "heroDescription": "Imagine spaces, give them purpose, put them in players’ hands. From level design to the engine, with a QA and production perspective.",
+    "heroNote": "A portfolio, and the thinking behind it",
+    "projectsTitle": "Games and experiences",
+    "projectsIntro": "Different worlds, one common thread: turning an intention into a playable experience, together with the team.",
+    "journalTitle": "Behind the scenes",
+    "journalIntro": "Design decisions, real-world problems, methods and experiments. The work behind the projects.",
+    "skillsTitle": "Three perspectives, one practice",
+    "skillsIntro": "Design, test, move things forward. Complementary skills, illustrated by concrete work.",
+    "aboutTitle": "From the first sketch\nto a playable experience",
+    "aboutText": "I work on level design close to the engine, the systems and the players. My QA and production background helps connect design intentions to real constraints: readability, pacing, feasibility and iteration.",
+    "contactTitle": "Let’s talk about\nyour project",
+    "contactText": "A role, an idea, a design or production question. The simplest way to reach me is by email.",
+    "contactNote": "Conversations in French or English"
+  }
+}
