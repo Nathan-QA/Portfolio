@@ -1,3 +1,4 @@
+import './author.js';
 import {CONFIG,I,LANG_KEY,THEME_KEY,detectLang} from './config.js';
 import {byId,txt,safeGet,safeSet} from './utils.js';
 import {state} from './state.js';

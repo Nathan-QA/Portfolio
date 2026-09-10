@@ -37,24 +37,6 @@
 <body>
   <a class="skip-link" href="#main" data-i18n="skip_content">Aller au contenu</a>
 
-  <!-- Bannière plein écran (image jour/nuit via CSS) -->
-  <section id="hero-banner" aria-label="Bannière">
-    <div class="hero-img day"></div>
-    <div class="hero-img night"></div>
-    <div class="hero-lift day"></div>
-    <div class="hero-lift night"></div>
-    <div id="afterHeroSentinel" aria-hidden="true"></div>
-  </section>
-
-  <!-- Rideau d’intro (images posées par JS via CSS vars) -->
-  <div id="curtain" class="curtain" aria-hidden="true">
-    <div class="panel left"></div>
-    <div class="panel right"></div>
-  </div>
-
-  <!-- Couche de feuilles -->
-  <div id="leafLayer" class="leaf-layer" aria-hidden="true"></div>
-
   <header class="header">
     <div class="h-row container">
       <div class="brand">
@@ -100,36 +82,51 @@
     </div>
   </header>
 
+  <!-- Bannière plein écran (image jour/nuit via CSS) -->
+  <section id="hero-banner" aria-labelledby="profileTitle">
+    <div class="hero-img day"></div>
+    <div class="hero-img night"></div>
+    <div class="hero-lift day"></div>
+    <div class="hero-lift night"></div>
+    <div class="author-intro">
+      <span class="author-note" data-i18n="author_welcome">Bienvenue, moi c’est Nathan</span>
+      <h1 id="profileTitle">Nathan Tandille</h1>
+      <p id="heroRoles" data-i18n="author_roles">Production · QA · Level Design</p>
+      <p id="heroDesc">J’accompagne les équipes dans la fabrication de leurs jeux, du suivi de production aux tests, jusqu’au travail dans le moteur</p>
+      <span class="author-place" data-i18n="author_place">Bordeaux, France</span>
+    </div>
+    <div class="author-hero-edge" aria-hidden="true"></div>
+    <div id="afterHeroSentinel" aria-hidden="true"></div>
+  </section>
+
+  <!-- Rideau d’intro (images posées par JS via CSS vars) -->
+  <div id="curtain" class="curtain" aria-hidden="true">
+    <div class="panel left"></div>
+    <div class="panel right"></div>
+  </div>
+
+  <!-- Couche de feuilles -->
+  <div id="leafLayer" class="leaf-layer" aria-hidden="true"></div>
+
+
+
   <!-- Zone centrale légèrement plus sombre / contrastée -->
   <div class="main-contrast">
     <main id="main" class="page-slab">
-      <section class="hero container">
-        <div class="hero-grid ux-intro">
-          <div class="hero-copy">
-            <span class="hero-kicker" data-i18n="hero_kicker">Jeu vidéo · Bordeaux</span>
-            <h1 data-i18n="hero_title">Production,<br>QA &amp; Level Design</h1>
-          </div>
-          <div class="hero-copy ux-intro-body">
-            <p id="heroDesc">J’ai travaillé sur la QA de Dordogne, la production de PYLA et le level design de Distant Shore : Bretagne et Long Time A Girl</p>
-          </div>
-
-        </div>
-
-      </section>
 
       <section id="projects" class="section container">
-        <h2 data-i18n="projects_title">Projets</h2>
+        <div class="author-section-heading"><h2 data-i18n="projects_title">Les jeux</h2><span class="pressed-leaf" aria-hidden="true"></span></div>
         <div id="projectList" class="masonry"></div>
       </section>
 
       <section id="cases" class="section container">
-        <h2 data-i18n="cases_title">Articles</h2>
+        <div class="author-section-heading"><h2 data-i18n="cases_title">Articles</h2><span class="pressed-leaf" aria-hidden="true"></span></div>
         <div id="articleTools"></div>
         <div id="caseList" class="masonry"></div>
       </section>
 
       <section id="about" class="section container">
-        <h2 data-i18n="about_role_title">Compétences</h2>
+        <div class="author-section-heading"><h2 data-i18n="about_role_title">Compétences</h2><span class="pressed-leaf" aria-hidden="true"></span></div>
           <aside class="hero-profile" aria-label="Ce que j'apporte">
             <div>
               <span data-i18n="hero_focus_label">Production</span>
@@ -197,7 +194,7 @@
       </section>
 
       <section id="contact" class="section container">
-        <h2 data-i18n="contact_title">Contact</h2>
+        <div class="author-section-heading"><h2 data-i18n="contact_title">Faisons connaissance</h2><span class="pressed-leaf" aria-hidden="true"></span></div>
         <div id="contactMount" class="card"></div>
       </section>
     </main>
@@ -205,6 +202,7 @@
 
   <footer class="footer">
     <div class="container">
+      <span class="author-farewell" data-i18n="author_farewell">Merci d’être passé</span>
       <span id="footText">© Nathan Tandille - Tous droits réservés</span>
     </div>
   </footer>
