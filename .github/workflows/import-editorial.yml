@@ -1,0 +1,73 @@
+name: Import editorial source and verify
+on:
+  push:
+    branches: [refactor/editorial-portfolio]
+    paths: ['.github/workflows/import-editorial.yml']
+permissions:
+  contents: write
+jobs:
+  import:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: refactor/editorial-portfolio
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Restore the checksum-verified source bundle
+        shell: python
+        run: |
+          import base64, hashlib, json, lzma, pathlib, shutil
+          root = pathlib.Path.cwd().resolve()
+          parts = sorted((root / '.refactor-payload').glob('*.b64'))
+          assert len(parts) == 5, 'Missing source bundle chunk'
+          raw = lzma.decompress(base64.b64decode(''.join(p.read_text().strip() for p in parts), validate=True))
+          assert hashlib.sha256(raw).hexdigest() == '21cbd759776624657c2e5ced6f4bac06173c245c476548e82cc0d6ef9f15a72d', 'Source checksum mismatch'
+          bundle = json.loads(raw)
+          assert bundle['remove'] == ['js', 'index.html', 'style.css', 'tmp-review']
+          for name in bundle['remove']:
+              path = root / name
+              if path.is_dir(): shutil.rmtree(path)
+              elif path.exists(): path.unlink()
+          for name, text in bundle['files'].items():
+              path = (root / name).resolve()
+              assert path.is_relative_to(root) and not name.startswith('.github/'), 'Invalid destination'
+              path.parent.mkdir(parents=True, exist_ok=True)
+              path.write_text(text, encoding='utf-8')
+          shutil.rmtree(root / '.refactor-payload')
+          print(f'Restored {len(bundle["files"])} source files')
+      - run: npm install
+      - name: Commit ordinary source files on the review branch only
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add -A
+          git commit -m 'feat: refonte editoriale bilingue du portfolio et navigation statique'
+          git push origin HEAD:refs/heads/refactor/editorial-portfolio
+      - run: npm run build && npm run check
+      - run: npx playwright install --with-deps chromium
+      - run: npm test
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: portfolio-editorial-verified
+          path: |
+            assets/
+            content/
+            src/
+            scripts/
+            dist/
+            tests/
+            test-results/
+            playwright-report/
+            playwright.config.mjs
+            package.json
+            package-lock.json
+            vercel.json
+            README.md
+            IMAGE_SOURCES.md
+            docs/
+          retention-days: 7
+          if-no-files-found: error
