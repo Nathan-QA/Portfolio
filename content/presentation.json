@@ -1,0 +1,48 @@
+{
+  "projects": {
+    "distant-shore-bretagne": {
+      "fr": "4 zones de la démo retravaillées et intégrées sous Unity",
+      "en": "4 demo areas reworked and integrated in Unity"
+    },
+    "dordogne": {
+      "fr": "QA interne et externe, suivi des builds, certification et livraison",
+      "en": "Internal and external QA, builds, certification and release"
+    },
+    "pyla": {
+      "fr": "Planning, scope, budget et coordination d’équipe",
+      "en": "Scheduling, scope, budget and team coordination"
+    },
+    "ltag-ltdc": {
+      "fr": "Game design, level design et documentation",
+      "en": "Game design, level design and documentation"
+    }
+  },
+  "articles": {
+    "distant-shore-readability": {
+      "fr": "Reprise de quatre zones, intégration Unity et ajustements après playtests",
+      "en": "Reworking four areas, Unity integration and playtest-driven adjustments"
+    },
+    "dordogne-feedback-loop": {
+      "fr": "Coordination avec Huwiz, suivi des anomalies et préparation des soumissions constructeurs",
+      "en": "Working with Huwiz, tracking issues and preparing platform submissions"
+    },
+    "pyla-production-scope": {
+      "fr": "ClickUp, pipelines, budgets et préparation des dossiers CNC et MegaGrant",
+      "en": "ClickUp, pipelines, budgets and CNC and MegaGrant applications"
+    }
+  },
+  "articleTitles": {
+    "distant-shore-readability": {
+      "fr": "Distant Shore : retravailler les zones de la démo",
+      "en": "Distant Shore: reworking the demo areas"
+    },
+    "dordogne-feedback-loop": {
+      "fr": "Dordogne : de la QA à la livraison",
+      "en": "Dordogne: from QA to release"
+    },
+    "pyla-production-scope": {
+      "fr": "PYLA : organiser la production",
+      "en": "PYLA: organising production"
+    }
+  }
+}

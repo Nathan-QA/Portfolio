@@ -300,7 +300,7 @@ export function renderProjects(){
     const summary = localizedValue(p.summary || '');
 
     const tile=el(`
-      <article class="tile project-tile" tabindex="0" aria-label="${htmlText(title)}">
+      <article class="tile project-tile" aria-label="${htmlText(title)}">
         <div class="thumb">
           <div class="media" data-media>
             ${cov ? `<img src="${htmlText(cov)}" alt="${htmlText(title)}" loading="lazy" decoding="async"/>` : projectPlaceholder(title)}
@@ -311,7 +311,7 @@ export function renderProjects(){
             </div>
             <div class="ovr-bottom">
               <div class="project-copy">
-                <h3 class="t">${htmlText(title)}</h3>
+                <h3 class="t"><a class="ux-card-link" href="#project=${encodeURIComponent(p.id)}">${htmlText(title)}</a></h3>
                 ${summary ? `<p class="project-tile-summary">${htmlText(summary)}</p>` : ''}
               </div>
               <span class="project-cta" aria-hidden="true">${state.lang==='fr'?'Détails':'Details'} <span class="arr">→</span></span>
@@ -323,24 +323,13 @@ export function renderProjects(){
 
     const mediaEl = tile.querySelector('[data-media]');
 
-    // Trailer au hover
-    let wasVideo=false;
-    if (p.trailer){
-      const toVideo = ()=>{
-        if(wasVideo) return;
-        mediaEl.innerHTML = yt(p.trailer,true,true);
-        const video = mediaEl.querySelector('video');
-        if(video && cov) video.poster = cov;
-        wasVideo=true;
-      };
-      const toImg   = ()=>{ if(!wasVideo) return; mediaEl.innerHTML = cov ? `<img src="${htmlText(cov)}" alt="${htmlText(title)}" loading="lazy" decoding="async"/>` : projectPlaceholder(title); wasVideo=false; };
-      tile.addEventListener('mouseenter', toVideo, {passive:true});
-      tile.addEventListener('mouseleave', toImg, {passive:true});
-    }
+    // Stable cover: video remains available inside the project, not on incidental hover.
 
-    const open = ()=> openProject(p,{originEl:mediaEl});
-    tile.addEventListener('click', open);
-    tile.addEventListener('keydown',e=>{ if(e.key==='Enter'||e.key===' '){ e.preventDefault(); open(); }});
+    tile.addEventListener('click', e=>{
+      if(e.button!==0 || e.ctrlKey || e.metaKey || e.shiftKey || e.altKey) return;
+      if(window.getSelection()?.toString()) return;
+      e.preventDefault(); openProject(p,{originEl:mediaEl});
+    });
 
     list.appendChild(tile);
   });
@@ -351,6 +340,7 @@ export function renderProjects(){
 /* ---------- Modale Projet ---------- */
 export function openProject(p,{originEl=null}={}){
   setHash({project:p.id});
+  state.modalRoute = `project:${p.id}`;
   state.modalStack.length=0;
 
   const gallery = projectGalleryImages(p);
@@ -386,15 +376,15 @@ export function openProject(p,{originEl=null}={}){
   const projectInfo = renderProjectInfo(p);
 
   const leadHTML = `
+    ${summary ? `<div class="card project-lead"><p>${htmlText(summary)}</p></div>` : ''}
+    ${contribution ? `<div class="card project-section" style="margin-top:10px"><h4>${fr?'Mon rôle & mes contributions':'My role & contributions'}</h4>${listHTML(contribution)}</div>` : ''}
+    ${portfolioLinksHTML}
+    ${overview ? `<div class="card project-section" style="margin-top:10px"><h4>${fr?'Le projet':'The project'}</h4>${paragraphHTML(overview)}</div>` : ''}
     ${projectInfo}
+    ${tags ? `<div class="project-modal-tags">${tags}</div>` : ''}
     ${gameLinksHTML}
     ${referenceLinksHTML}
-    ${tags ? `<div class="project-modal-tags">${tags}</div>` : ''}
-    ${summary ? `<div class="card project-lead"><p>${htmlText(summary)}</p></div>` : ''}
-    ${portfolioLinksHTML}
-    ${overview ? `<div class="card project-section" style="margin-top:10px"><h4>${state.lang==='fr'?'Projet':'Project'}</h4>${paragraphHTML(overview)}</div>` : ''}
-    ${contribution ? `<div class="card project-section" style="margin-top:10px"><h4>${state.lang==='fr'?'Mon rôle':'My role'}</h4>${listHTML(contribution)}</div>` : ''}
-    ${anecdotes ? `<div class="card project-section" style="margin-top:10px"><h4>${state.lang==='fr'?'Points clés':'Key points'}</h4>${listHTML(anecdotes)}</div>` : ''}
+    ${anecdotes ? `<div class="card project-section" style="margin-top:10px"><h4>${fr?'Points clés':'Key points'}</h4>${listHTML(anecdotes)}</div>` : ''}
   `;
 
   const body = modalScaffold({
@@ -433,7 +423,7 @@ export function renderCases(){
     const role = localizedValue(c.role || '');
     const timeframe = localizedValue(c.timeframe || '');
 
-    const tile=el(`<article class="tile tile--wide case-tile" tabindex="0" aria-label="${htmlText(title)}">
+    const tile=el(`<article class="tile tile--wide case-tile" aria-label="${htmlText(title)}">
       <div class="case-thumb">
         <div class="media" data-media>${cov ? `<img src="${htmlText(cov)}" alt="${htmlText(title)}" loading="lazy" decoding="async"/>` : projectPlaceholder(title)}</div>
         <div class="case-thumb-meta">
@@ -442,16 +432,19 @@ export function renderCases(){
         </div>
       </div>
       <div class="case-body">
-        <h3 class="case-title">${htmlText(title)}</h3>
+        <h3 class="case-title"><a class="ux-card-link" href="#case=${encodeURIComponent(c.id)}">${htmlText(title)}</a></h3>
         <p class="case-lead">${htmlText(lead)}</p>
-        <span class="case-link">${state.lang==='fr'?'Explorer le cas':'Explore case'} →</span>
+        <span class="case-link">${state.lang==='fr'?'Lire l’article':'Read article'} →</span>
       </div>
     </article>`);
     tile.style.borderRadius=organicRadius(c.id||title||'y');
 
-    const open=()=>openCase(c,{originEl:tile.querySelector('[data-media]')});
-    tile.addEventListener('click',open);
-    tile.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault(); open()}});
+    tile.dataset.articleId = c.id;
+    tile.addEventListener('click',e=>{
+      if(e.button!==0 || e.ctrlKey || e.metaKey || e.shiftKey || e.altKey) return;
+      if(window.getSelection()?.toString()) return;
+      e.preventDefault();openCase(c,{originEl:tile.querySelector('[data-media]')});
+    });
     list.appendChild(tile);
   });
 
@@ -460,13 +453,14 @@ export function renderCases(){
 
 /* ---------- Modale Étude de cas ---------- */
 export function openCase(c,{originEl=null}={}){
-  const fromProject = state.modalStack.length>0;
   const pr = state.projects.find(p=>c.projects?.includes(p.id));
+  const fromProject = state.modalStack.length>0 || (!!pr && new URLSearchParams(location.hash.slice(1)).get("project")===pr.id);
   setHash(fromProject?{project:pr?.id,kase:c.id}:{kase:c.id});
+  state.modalRoute = `case:${c.id}`;
 
   const imgs = caseImages(c);
   const title = c.title?.[state.lang]||c.title;
-  const initial = c.media?.trailer ? yt(c.media.trailer,true,false)
+  const initial = c.media?.trailer ? yt(c.media.trailer,false,false)
                                    : (imgs[0]?`<img src="${imgs[0]}" alt="" style="object-fit:cover"/>`:projectPlaceholder(title));
 
   const relProjects = (c.projects||[]).map(id=>state.projects.find(p=>p.id===id)).filter(Boolean);
@@ -521,7 +515,7 @@ export function openCase(c,{originEl=null}={}){
     onBack: ()=>{
       const prev = state.modalStack.pop();
       setHash({project: pr?.id});
-      prev && prev();
+      if(prev) prev(); else if(pr) openProject(pr);
     },
     onReady(m){
       wireStandardModal(m,{images:imgs});
@@ -779,72 +773,25 @@ export function renderSkills(){
 export function renderContact(){
   const mount = byId('contactMount'); if(!mount) return;
   const cvUrl = state.lang === 'fr' ? CONFIG.CV_FR_URL : CONFIG.CV_EN_URL;
+  const fr = state.lang==='fr';
   mount.innerHTML = `
-    <div class="contact-grid">
+    <div class="contact-grid ux-contact">
       <div class="contact-aside">
         <span class="pill">${I[state.lang].contact_kicker}</span>
         <h3>${I[state.lang].contact_intro_title}</h3>
         <p>${I[state.lang].contact_intro_body}</p>
+      </div>
+      <div class="ux-contact-direct">
+        <a class="ux-email" href="mailto:${MAILCFG.TO}">${MAILCFG.TO}</a>
         <div class="contact-actions">
-          <a class="btn btn-cta" href="mailto:${MAILCFG.TO}">${I[state.lang].contact_email_direct}</a>
-          <a class="btn" target="_blank" rel="noopener" href="${CONFIG.SOCIAL.linkedin}">LinkedIn</a>
-          <a class="btn" href="${cvUrl}" download>${I[state.lang].contact_cv}</a>
+          <a class="btn btn-cta action-btn" href="mailto:${MAILCFG.TO}">${I[state.lang].contact_email_direct}</a>
+          <button class="btn action-btn" data-copy-email>${fr?'Copier l’adresse':'Copy email address'}</button>
+          <a class="btn action-btn" target="_blank" rel="noopener" href="${CONFIG.SOCIAL.linkedin}">LinkedIn</a>
+          <a class="btn action-btn" href="${cvUrl}" download>${I[state.lang].contact_cv}</a>
         </div>
-        <p class="contact-note">${I[state.lang].contact_note}</p>
+        <p class="ux-contact-help">${fr?'Le bouton e-mail ouvre ton application de messagerie':'The email button opens your email application'}</p>
       </div>
-      <div class="contact-form">
-        <div style="display:grid;gap:8px">
-          <input id="cName" class="input" type="text" placeholder="${I[state.lang].contact_name}">
-          <input id="cEmail" class="input" type="email" placeholder="${I[state.lang].contact_email}">
-          <input id="cSubj" class="input" type="text" placeholder="${I[state.lang].contact_subject}">
-        </div>
-        <div class="rte">
-          <div class="rte-toolbar">
-            <button class="btn" data-cmd="bold"><b>B</b></button>
-            <button class="btn" data-cmd="italic"><i>I</i></button>
-            <button class="btn" data-cmd="underline"><u>U</u></button>
-            <button class="btn" data-cmd="insertUnorderedList">• List</button>
-            <button class="btn" data-cmd="insertOrderedList">1. List</button>
-            <button class="btn" data-link>🔗</button>
-          </div>
-          <div id="cEditor" class="rte-editor" contenteditable="true" data-placeholder="${I[state.lang].contact_placeholder_msg}"></div>
-        </div>
-        <div class="actions" style="margin-top:10px">
-          <button id="cSend" class="btn btn-cta">${I[state.lang].contact_send}</button>
-        </div>
-      </div>
-    </div>
-  `;
-
-  const ed = byId('cEditor');
-  mount.querySelectorAll('[data-cmd]').forEach(b=>{
-    b.addEventListener('click', ()=> { try{ document.execCommand(b.dataset.cmd,false,null);}catch{} });
-  });
-  mount.querySelector('[data-link]').addEventListener('click', ()=>{
-    const url = prompt('URL:'); if(!url) return;
-    try{ document.execCommand('createLink', false, url); }catch{}
-  });
-
-  byId('cSend').addEventListener('click', async ()=>{
-    const name = (byId('cName').value || '').trim();
-    const email= (byId('cEmail').value||'').trim();
-    const subj = (byId('cSubj').value || '').trim() || `[Portfolio] Message de ${name||'inconnu'}`;
-    const html = ed.innerHTML.trim();
-
-    if(!email){ alert(state.lang==='fr'?'Merci de renseigner un email.':'Please provide an email.'); return; }
-    if(!html){ alert(state.lang==='fr'?'Message vide.':'Empty message.'); return; }
-
-    try{
-      const tmp=document.createElement('div'); tmp.innerHTML=html;
-      const plain=tmp.innerText.replace(/\n{3,}/g,'\n\n');
-      const href=`mailto:${encodeURIComponent(MAILCFG.TO)}?subject=${encodeURIComponent(subj)}&body=${encodeURIComponent(plain + `\n\n- ${name} <${email}>`)}`;
-      location.href=href;
-    }catch(err){
-      console.error(err);
-      alert(state.lang==='fr'?'Échec de l’envoi. Essaie via ton client mail.':'Send failed. Try your mail client.');
-    }
-  });
-
+    </div>`;
   ensureLegalFooter();
 }
 

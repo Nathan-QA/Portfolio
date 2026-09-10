@@ -1,0 +1,43 @@
+name: Atelier portfolio review
+on:
+  push:
+    branches: [feat/atelier-implemented]
+permissions:
+  contents: read
+concurrency:
+  group: atelier-${{ github.ref }}
+  cancel-in-progress: true
+jobs:
+  review:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+      - run: npm ci
+      - run: npm run check && npm run build
+      - run: npx playwright install --with-deps chromium firefox
+      - run: npm test
+      - name: Verify the actual deployed preview
+        run: node scripts/verify-preview.mjs
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: portfolio-atelier
+          path: |
+            dist/
+            test-results/
+            docs/
+            tests/
+            scripts/
+            js/
+            index.html
+            ux.css
+            package.json
+            package-lock.json
+            playwright.config.mjs
+          retention-days: 7
+          if-no-files-found: error

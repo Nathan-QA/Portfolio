@@ -13,7 +13,7 @@ export async function loadContent(){
   const base=dir(url);
   const pfiles=(mf.projects||[]).map(f=>join(base,f));
   const cfiles=(mf.cases||[]).map(f=>join(base,f));
-  const projects=(await Promise.all(pfiles.map(j))).filter(Boolean);
-  const cases=(await Promise.all(cfiles.map(j))).filter(Boolean);
+  const projects=(await Promise.all(pfiles.map(j))).filter(x=>x && x.published!==false);
+  const cases=(await Promise.all(cfiles.map(j))).filter(x=>x && x.published!==false);
   return {projects, cases};
 }
