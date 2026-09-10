@@ -16,34 +16,32 @@ concurrency:
 jobs:
   review:
     runs-on: ubuntu-latest
-    timeout-minutes: 10
+    container: node:22-bookworm
+    timeout-minutes: 15
     steps:
       - uses: actions/checkout@v6
         with:
           persist-credentials: false
-      - name: Validate portfolio when the new build is present
+      - name: Install dependencies
         run: |
-          if test -f scripts/build.mjs; then
-            node scripts/build.mjs
-            node --test tests/content.test.mjs
-          fi
-      - name: Package source for review
+          if test -f package-lock.json; then npm ci; else npm install; fi
+      - name: Build and validate content
+        run: |
+          npm run build
+          npm test
+      - name: Install test browsers
+        run: npx playwright install --with-deps chromium webkit
+      - name: Browser tests
+        run: npm run test:e2e
+      - name: Review artifacts
+        if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: portfolio-review-source
+          name: portfolio-review
           retention-days: 5
           path: |
-            assets
-            content
-            js
-            src
-            scripts
-            tests
-            index.html
-            style.css
-            README.md
-            IMAGE_SOURCES.md
-            package.json
-            vercel.json
-            docs
             dist
+            package-lock.json
+            playwright-report
+            test-results
+            screenshots

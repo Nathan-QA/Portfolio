@@ -1,0 +1,105 @@
+
+> nathan-tandille-portfolio@2.0.0 test
+> node --test tests/*.test.mjs
+
+TAP version 13
+# Subtest: all migrated projects and studies are present in both languages
+ok 1 - all migrated projects and studies are present in both languages
+  ---
+  duration_ms: 0.930337
+  type: 'test'
+  ...
+# Subtest: routes have stable, language-specific URLs
+ok 2 - routes have stable, language-specific URLs
+  ---
+  duration_ms: 0.27031
+  type: 'test'
+  ...
+# Subtest: escapes HTML and rejects dangerous link protocols
+ok 3 - escapes HTML and rejects dangerous link protocols
+  ---
+  duration_ms: 0.471598
+  type: 'test'
+  ...
+# Subtest: Markdown safely renders prose, lists, code and repeated headings
+ok 4 - Markdown safely renders prose, lists, code and repeated headings
+  ---
+  duration_ms: 1.410326
+  type: 'test'
+  ...
+# Subtest: raw HTML and hostile Markdown links do not execute
+ok 5 - raw HTML and hostile Markdown links do not execute
+  ---
+  duration_ms: 0.29033
+  type: 'test'
+  ...
+# Subtest: validation catches duplicate IDs and broken relationships
+ok 6 - validation catches duplicate IDs and broken relationships
+  ---
+  duration_ms: 3.417415
+  type: 'test'
+  ...
+# Subtest: draft JSON and its unpublished Markdown do not enter the public model
+ok 7 - draft JSON and its unpublished Markdown do not enter the public model
+  ---
+  duration_ms: 25.195026
+  type: 'test'
+  ...
+# Subtest: Markdown body paths cannot escape the content directory
+ok 8 - Markdown body paths cannot escape the content directory
+  ---
+  duration_ms: 14.756749
+  type: 'test'
+  ...
+# Subtest: unrelated Markdown articles are supported without a project
+ok 9 - unrelated Markdown articles are supported without a project
+  ---
+  duration_ms: 18.234865
+  type: 'test'
+  ...
+# Subtest: ordering, categories and reading times are predictable
+ok 10 - ordering, categories and reading times are predictable
+  ---
+  duration_ms: 1.215528
+  type: 'test'
+  ...
+# Subtest: generated HTML contains content, metadata, safe paths and no third-party runtime
+ok 11 - generated HTML contains content, metadata, safe paths and no third-party runtime
+  ---
+  duration_ms: 118.832224
+  type: 'test'
+  ...
+# Portfolio: http://127.0.0.1:0
+# Subtest: every generated page returns HTML with a successful HTTP status
+ok 12 - every generated page returns HTML with a successful HTTP status
+  ---
+  duration_ms: 70.288789
+  type: 'test'
+  ...
+# Subtest: missing pages return an actual 404 with a usable HTML page
+ok 13 - missing pages return an actual 404 with a usable HTML page
+  ---
+  duration_ms: 1.661448
+  type: 'test'
+  ...
+# Subtest: HEAD returns headers but no body and non-read methods are rejected
+ok 14 - HEAD returns headers but no body and non-read methods are rejected
+  ---
+  duration_ms: 4.91458
+  type: 'test'
+  ...
+# Subtest: stylesheet, script, icon and existing French CV are served with correct MIME types
+ok 15 - stylesheet, script, icon and existing French CV are served with correct MIME types
+  ---
+  duration_ms: 4.965926
+  type: 'test'
+  ...
+1..15
+# tests 15
+# suites 0
+# pass 15
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 249.241996

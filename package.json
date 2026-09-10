@@ -1,0 +1,22 @@
+{
+  "name": "nathan-tandille-portfolio",
+  "version": "2.0.0",
+  "private": true,
+  "type": "module",
+  "engines": {
+    "node": ">=22"
+  },
+  "scripts": {
+    "build": "node scripts/build.mjs",
+    "dev": "node scripts/dev.mjs",
+    "preview": "node scripts/serve.mjs",
+    "test": "node --test tests/*.test.mjs",
+    "test:e2e": "playwright test",
+    "new": "node scripts/new.mjs"
+  },
+  "devDependencies": {
+    "sharp": "0.34.1",
+    "@playwright/test": "1.55.0",
+    "@axe-core/playwright": "4.10.2"
+  }
+}

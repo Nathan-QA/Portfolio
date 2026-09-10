@@ -1,0 +1,373 @@
+{
+  "id": "dordogne-feedback-loop",
+  "projects": [
+    "dordogne"
+  ],
+  "title": {
+    "fr": "Piloter la QA de Dordogne : builds, Huwiz, tickets et fixes",
+    "en": "Leading Dordogne QA: builds, Huwiz, tickets and fixes"
+  },
+  "role": {
+    "fr": "QA Producer / QA interne et externe / Builds / Livraison",
+    "en": "QA Producer / Internal and External QA / Builds / Shipping"
+  },
+  "timeframe": "2022-2025",
+  "abstract": {
+    "fr": "Retour d’expérience concret sur mon rôle de QA Producer sur Dordogne : validation des builds internes, préparation des tests, pilotage quotidien du prestataire Huwiz, triage de 1500+ retours, gestion d’une database QA, suivi des fixes, régressions, outils C# et préparation de la livraison multiplateforme.",
+    "en": "A concrete case study about my QA Producer role on Dordogne: internal build validation, test preparation, daily coordination with the external QA provider Huwiz, triage of 1500+ reports, QA database management, fix follow-up, regressions, C# tools and multiplatform shipping preparation."
+  },
+  "tags": [
+    "QA Producer",
+    "External QA",
+    "Builds",
+    "Backlog",
+    "Certification"
+  ],
+  "metrics": [
+    {
+      "value": "1500+",
+      "label": {
+        "fr": "retours / tickets qualifiés et suivis",
+        "en": "reports / tickets qualified and tracked"
+      }
+    },
+    {
+      "value": "5",
+      "label": {
+        "fr": "plateformes suivies jusqu’à livraison",
+        "en": "platforms followed through shipping"
+      }
+    },
+    {
+      "value": "23",
+      "label": {
+        "fr": "collaborateurs / 5 pôles coordonnés",
+        "en": "collaborators / 5 teams coordinated"
+      }
+    },
+    {
+      "value": "~10h",
+      "label": {
+        "fr": "gagnées par semaine via outils C#",
+        "en": "saved weekly through C# tools"
+      }
+    }
+  ],
+  "media": {
+    "trailer": "https://youtu.be/u0L_mCJJU98",
+    "images": [
+      "assets/projects/dordogne-cover.webp",
+      "assets/projects/dordogne-camera.webp",
+      "assets/projects/dordogne-room.webp",
+      "assets/projects/dordogne-steam-01.jpg"
+    ]
+  },
+  "article": {
+    "fr": {
+      "intro": [
+        "Sur Dordogne, mon rôle ne se limitait pas à remonter des bugs. Je tenais la boucle QA complète : validation des builds internes, préparation des builds envoyées à Huwiz, plans de test, patch notes, suivi des retours, qualification des tickets, priorisation, assignation, estimation, deadlines, régressions et vérification des fixes jusqu’à la livraison.",
+        "Je travaillais à la jonction entre QA, production et développement. Mon objectif était que chaque retour devienne une information exploitable : lié au bon build, à la bonne plateforme, au bon métier, au bon niveau de risque et à une décision claire pour la suite de la production.",
+        "Le volume de retours était important, mais le vrai sujet était la transformation de ces retours en actions. Un ticket utile devait être reproductible, contextualisé, priorisé, assigné, suivi dans le temps et vérifié après correction. C’est cette boucle que j’ai construite et maintenue sur le projet."
+      ],
+      "sections": [
+        {
+          "heading": "Tenir un périmètre QA de production, pas seulement du testing",
+          "paragraphs": [
+            "Ma responsabilité couvrait à la fois la QA interne, la QA externe et le lien avec la production. En interne, je contrôlais la qualité des builds sur plusieurs niveaux : stabilité, progression, fonctionnalités, confort joueur, lisibilité UX, risques de régression et sujets pouvant bloquer une plateforme ou une soumission.",
+            "Je devais décider ce qui devait être testé, à quel moment, sur quelle build, avec quel niveau de profondeur et pour quelle décision de production. Certaines builds servaient à vérifier un correctif précis, d’autres à préparer un envoi externe, à sécuriser une milestone ou à évaluer si un risque devait être traité avant la prochaine deadline.",
+            "Ce rôle demandait une lecture transversale du projet. Un même retour pouvait concerner le design, la programmation, l’intégration Unity, la localisation, la production ou la certification. Je devais donc formuler les problèmes de manière à ce que chaque pôle comprenne rapidement ce qui était attendu et pourquoi."
+          ],
+          "bullets": [
+            "Validation fonctionnelle et qualitative des builds internes.",
+            "Définition des priorités de test selon les milestones, les risques et les plateformes.",
+            "Suivi des problèmes jusqu’à leur résolution, pas uniquement jusqu’à leur création en ticket.",
+            "Coordination entre QA, production, développement, design, localisation et contraintes plateformes."
+          ]
+        },
+        {
+          "heading": "Préparer les builds avant l’envoi à Huwiz",
+          "paragraphs": [
+            "Avant d’envoyer une build au prestataire externe, je faisais une première passe interne pour éviter de mobiliser plusieurs testeurs sur une version inutilisable ou déjà connue comme bloquante. Selon le contexte, cela pouvait prendre la forme d’un smoke test, d’une run plus complète ou d’un focus sur les zones modifiées depuis la build précédente.",
+            "Je préparais aussi le contexte de test : patch notes, objectifs de la session, zones ou fonctionnalités à couvrir, problèmes déjà connus, régressions à surveiller, plateformes concernées et niveau de priorité attendu. L’idée était que Huwiz ne reçoive pas seulement une build, mais un cadre de test clair.",
+            "Cette préparation limitait les retours inutilisables, les doublons évidents et les pertes de temps sur des sujets déjà identifiés. Elle permettait aussi de mieux comparer les résultats d’une build à l’autre, puisque les changements, risques et attentes étaient explicités en amont."
+          ],
+          "bullets": [
+            "Smoke tests et runs internes avant diffusion externe.",
+            "Préparation des plans de test, patch notes et listes de known issues.",
+            "Définition des zones, fonctionnalités, plateformes et risques à couvrir.",
+            "Vérification que la build envoyée était exploitable pour une campagne de test externe."
+          ]
+        },
+        {
+          "heading": "Piloter Huwiz au quotidien",
+          "paragraphs": [
+            "Pendant environ six mois, j’ai piloté la QA externe avec Huwiz. Mon interlocuteur principal était leur Lead QA, qui coordonnait ensuite leurs testeurs en interne. Je lui transmettais les priorités, les plans d’action, les consignes de test, les clarifications de reproduction et les changements de focus selon l’état de la production.",
+            "Le pilotage ne consistait pas simplement à attendre un rapport en fin de session. Il fallait ajuster le travail au quotidien : demander des précisions sur un retour, vérifier si un problème était reproductible, demander une passe de régression, recentrer les tests sur une feature modifiée, ou au contraire éviter de perdre du temps sur une zone déjà condamnée par un fix en cours.",
+            "Une fois les retours reçus, je faisais le dépouillement côté production : lecture, tri, qualification, regroupement des doublons, séparation entre bug, feedback UX, sujet de localisation, problème plateforme, régression, risque de certification ou simple observation. Les retours n’étaient intégrés à la production que lorsqu’ils étaient suffisamment clairs pour être actionnables."
+          ],
+          "bullets": [
+            "Coordination quotidienne avec le Lead QA Huwiz.",
+            "Envoi de plans de test et d’objectifs précis selon les builds.",
+            "Clarification des retours incomplets ou difficiles à reproduire.",
+            "Demande de passes ciblées : smoke test, run complète, régression, plateforme, certification ou feature spécifique."
+          ],
+          "media": {
+            "src": "assets/projects/production-task-board.png",
+            "caption": "Exemple anonymisé de database QA : le but était de rendre chaque retour exploitable par la production, pas seulement de stocker des bugs."
+          }
+        },
+        {
+          "heading": "Transformer 1500+ retours en database actionnable",
+          "paragraphs": [
+            "J’ai mis en place et maintenu une base de données QA pour suivre plus de 1500 retours et tickets. Chaque entrée devait avoir un statut clair, une priorité, une sévérité, une plateforme, une version de build, un domaine, un propriétaire, une cible de traitement et, quand c’était nécessaire, une deadline ou une fix version.",
+            "La database servait de lien entre le testing et le fixing. Elle permettait de savoir ce qui était nouveau, ce qui était déjà connu, ce qui était bloquant, ce qui était une régression, ce qui devait partir en correction, ce qui devait être re-testé et ce qui pouvait attendre une autre milestone.",
+            "Le travail le plus important était le triage. Deux bugs très visibles ne sont pas forcément équivalents : un crash, un problème bloquant la progression, une régression tardive, un risque TRC ou un problème qui bloque une soumission n’ont pas le même poids qu’un sujet de confort ou de polish. Mon rôle était d’aider la production à faire cette distinction et à la rendre visible pour l’équipe."
+          ],
+          "bullets": [
+            "Qualification des tickets : bug, feedback, régression, localisation, plateforme, certification, polish ou known issue.",
+            "Priorisation selon impact joueur, risque production, urgence milestone et risque de soumission.",
+            "Assignation des tâches aux bons métiers : programmation, design, intégration, production, localisation ou QA.",
+            "Suivi des statuts : à analyser, à fixer, en cours, fixed, won’t fix, unable to reproduce, à régresser ou validé.",
+            "Mise à jour continue de la database pour garder une lecture fiable de l’état réel du projet."
+          ],
+          "media": {
+            "images": [
+              "assets/projects/dordogne-cover.webp",
+              "assets/projects/dordogne-room.webp",
+              "assets/projects/dordogne-steam-02.jpg"
+            ],
+            "caption": "Le travail QA ne s’arrêtait pas au signalement : il fallait relier chaque problème à une décision, une personne, une deadline et une vérification."
+          }
+        },
+        {
+          "heading": "Suivre le fixing jusqu’à la régression",
+          "paragraphs": [
+            "Une grande partie de mon travail se situait après la création du ticket. Je suivais le passage du retour vers une tâche de production : qui devait traiter le sujet, à quel niveau de priorité, pour quelle milestone, avec quelle estimation et avec quel risque si le sujet n’était pas corrigé à temps.",
+            "Je maintenais aussi le lien entre les fixes et les validations. Un ticket marqué comme corrigé n’était pas automatiquement terminé : il fallait vérifier le fix dans la bonne version, contrôler que le problème original avait disparu, puis surveiller les effets de bord. Certains sujets devaient être re-testés sur plusieurs plateformes ou dans plusieurs conditions avant d’être considérés comme sécurisés.",
+            "Ce suivi permettait d’éviter un problème fréquent en production : accumuler des tickets fermés administrativement, mais pas réellement validés côté jeu. Pour moi, la QA devait rester connectée au résultat final dans la build, pas seulement à l’état du ticket dans un outil."
+          ],
+          "bullets": [
+            "Passage des retours QA en tâches de production claires.",
+            "Suivi des assignations, estimations, deadlines, milestones et fix versions.",
+            "Vérification des corrections sur les builds concernées.",
+            "Organisation de régressions ciblées après fix.",
+            "Remontée des risques lorsque le coût, le délai ou l’impact joueur changeait."
+          ]
+        },
+        {
+          "heading": "Descendre dans Unity quand le problème avait besoin d’être isolé",
+          "paragraphs": [
+            "Je n’étais pas uniquement dans un rôle de coordination. Quand un retour était flou, difficile à reproduire ou trop vague pour être traité efficacement, il m’arrivait d’aller directement dans Unity pour mieux comprendre le problème avant de l’envoyer aux développeurs.",
+            "L’objectif n’était pas de remplacer les programmeurs, mais de réduire le bruit autour du ticket. Je pouvais vérifier une scène, un réglage, une condition de déclenchement, une collision, une caméra, un comportement de sauvegarde, un état de progression ou un élément d’intégration pour mieux pointer la source probable du problème.",
+            "Dans certains cas mineurs, quand le cadre était clair et validé par le lead dev, je pouvais aussi corriger moi-même de petits sujets liés à l’intégration ou au réglage. Cela permettait de libérer du temps développeur sur des problèmes simples, tout en gardant les décisions techniques encadrées par l’équipe."
+          ],
+          "bullets": [
+            "Reproduction de problèmes directement dans le moteur quand le ticket manquait de précision.",
+            "Analyse de conditions de déclenchement pour mieux orienter les développeurs.",
+            "Vérification de sujets d’intégration, de réglage ou de progression.",
+            "Correction ponctuelle de problèmes mineurs lorsque c’était validé par le lead dev."
+          ]
+        },
+        {
+          "heading": "Réduire le coût de la première analyse avec des outils C#",
+          "paragraphs": [
+            "J’ai développé des outils QA en C# pour automatiser certaines vérifications et réduire le temps passé sur des tâches mécaniques. L’objectif était de faire gagner du temps sur les contrôles répétitifs afin de concentrer l’énergie QA sur l’analyse, la reproduction, la priorisation et les décisions de production.",
+            "Ces outils ont permis de gagner environ 10 heures par semaine sur des tâches de vérification et de première analyse. Ce gain n’était pas seulement un confort personnel : il améliorait la vitesse de traitement des retours et réduisait les risques d’erreurs humaines sur des vérifications répétitives.",
+            "C’est une partie importante de ma manière de travailler. Quand un workflow devient lourd, fragile ou trop dépendant d’actions manuelles, je cherche à le rendre plus fiable. Sur Dordogne, cela passait autant par les outils que par les process, la structure des tickets et la clarté des informations demandées."
+          ],
+          "bullets": [
+            "Automatisation de vérifications répétitives.",
+            "Réduction du temps de première analyse.",
+            "Amélioration de la fiabilité des contrôles.",
+            "Gain de temps réinvesti dans le triage, la régression et les arbitrages de production."
+          ]
+        },
+        {
+          "heading": "Préparer la livraison multiplateforme",
+          "paragraphs": [
+            "Dordogne devait être suivi sur PC, Xbox, PlayStation, Switch et iOS, avec des contraintes différentes selon les plateformes. La QA devait donc tenir compte des builds, des retours constructeurs, des risques TRC, des spécificités plateforme et du niveau de stabilité nécessaire avant soumission.",
+            "Je participais au suivi des soumissions constructeurs, à la préparation des certifications, à la coordination avec Focus Entertainment et au contrôle des sujets pouvant bloquer ou fragiliser une livraison. La QA devait être lisible pour l’équipe interne, mais aussi exploitable dans un contexte de production externe et de livraison réelle.",
+            "Le projet supportait aussi 14 langues, ce qui ajoutait des risques de localisation, d’affichage, de lisibilité, de cohérence et de validation sur différentes plateformes. Le suivi QA devait donc intégrer ces sujets dans les priorités, plutôt que les traiter comme un simple passage final."
+          ],
+          "bullets": [
+            "Suivi QA sur PC, Xbox, PlayStation, Switch et iOS.",
+            "Préparation des certifications TRC et suivi des retours constructeurs.",
+            "Coordination avec Focus Entertainment sur les sujets de livraison.",
+            "Prise en compte des risques de localisation sur 14 langues.",
+            "Suivi des blockers, régressions et problèmes plateforme jusqu’aux builds candidates."
+          ],
+          "media": {
+            "src": "assets/projects/dordogne-steam-03.jpg",
+            "caption": "La livraison demandait de relier qualité joueur, contraintes plateformes, état des builds et réalité du planning."
+          }
+        }
+      ],
+      "blocks": [
+        {
+          "type": "callout",
+          "title": "Ce que je contrôlais concrètement",
+          "text": "Pour qu’un retour QA entre vraiment en production, je vérifiais qu’il soit relié à une build, une plateforme, une priorité, une sévérité, un domaine, un propriétaire, une deadline ou une milestone, puis à une vérification après fix. C’est cette boucle complète qui faisait passer un bug report d’une observation à une décision de production."
+        },
+        {
+          "type": "callout",
+          "title": "Ce que cette expérience montre",
+          "text": "Mon rôle était hybride : QA, production, coordination externe, suivi des fixes, analyse terrain et amélioration d’outils. Je n’étais pas seulement la personne qui testait le jeu ou remplissait des tickets, mais celle qui organisait la circulation des problèmes jusqu’à leur résolution."
+        }
+      ],
+      "closing": "Cette expérience m’a donné une vision très concrète de la QA de production. Une bonne boucle QA ne consiste pas à accumuler des retours, mais à transformer des problèmes observés en décisions claires, en tâches suivies et en corrections vérifiées dans la build. C’est cette méthode que j’ai construite sur Dordogne et que je continue d’utiliser dans mes projets de production et de design."
+    },
+    "en": {
+      "intro": [
+        "On Dordogne, my role was not limited to reporting bugs. I owned the full QA loop: internal build validation, preparation of builds sent to Huwiz, test plans, patch notes, report follow-up, ticket qualification, prioritization, assignment, estimation, deadlines, regressions and fix verification through shipping.",
+        "I worked at the intersection of QA, production and development. My goal was to turn every report into usable production information: tied to the right build, the right platform, the right discipline, the right level of risk and a clear decision for the team.",
+        "The volume of feedback was significant, but the real challenge was turning that feedback into action. A useful ticket had to be reproducible, contextualized, prioritized, assigned, tracked over time and verified after the fix. That is the loop I built and maintained on the project."
+      ],
+      "sections": [
+        {
+          "heading": "Owning a production QA scope, not only testing",
+          "paragraphs": [
+            "My responsibility covered internal QA, external QA and the production link between them. Internally, I checked build quality across several layers: stability, progression, functionality, player comfort, UX readability, regression risk and issues that could block a platform or submission.",
+            "I had to decide what needed to be tested, when, on which build, with what level of depth and for what production decision. Some builds were meant to verify a specific fix, others to prepare an external QA pass, secure a milestone or assess whether a risk had to be handled before the next deadline.",
+            "This required a transversal understanding of the project. A single report could involve design, programming, Unity integration, localization, production or certification. My job was to formulate issues so each discipline could quickly understand what was expected and why."
+          ],
+          "bullets": [
+            "Functional and qualitative validation of internal builds.",
+            "Definition of test priorities based on milestones, risks and platforms.",
+            "Follow-up of issues until resolution, not only until ticket creation.",
+            "Coordination between QA, production, development, design, localization and platform constraints."
+          ]
+        },
+        {
+          "heading": "Preparing builds before sending them to Huwiz",
+          "paragraphs": [
+            "Before sending a build to the external QA provider, I performed an internal first pass to avoid mobilizing several testers on a version that was unusable or already known as blocking. Depending on the context, this could be a smoke test, a more complete run or a focused pass on areas changed since the previous build.",
+            "I also prepared the test context: patch notes, session objectives, areas or features to cover, known issues, regressions to watch, affected platforms and expected priority level. The goal was for Huwiz to receive not just a build, but a clear testing framework.",
+            "This preparation limited unusable reports, obvious duplicates and wasted time on topics already identified. It also made it easier to compare results from one build to another, because changes, risks and expectations were explicitly defined beforehand."
+          ],
+          "bullets": [
+            "Smoke tests and internal runs before external distribution.",
+            "Preparation of test plans, patch notes and known issue lists.",
+            "Definition of areas, features, platforms and risks to cover.",
+            "Verification that the build was usable for an external QA campaign."
+          ]
+        },
+        {
+          "heading": "Coordinating Huwiz on a daily basis",
+          "paragraphs": [
+            "For about six months, I coordinated external QA with Huwiz. My main contact was their Lead QA, who then coordinated their testers internally. I sent priorities, action plans, testing instructions, reproduction clarifications and focus changes depending on the current production state.",
+            "Coordination was not just waiting for a report at the end of a session. The work had to be adjusted day by day: asking for more details on a report, checking whether an issue was reproducible, requesting a regression pass, refocusing tests on a modified feature, or avoiding wasted time on an area already covered by an upcoming fix.",
+            "Once the reports came in, I handled the production-side analysis: reading, sorting, qualifying, grouping duplicates, separating bugs from UX feedback, localization topics, platform issues, regressions, certification risks or simple observations. Reports were only integrated into production once they were clear enough to become actionable."
+          ],
+          "bullets": [
+            "Daily coordination with Huwiz Lead QA.",
+            "Delivery of test plans and precise objectives for each build.",
+            "Clarification of incomplete or hard-to-reproduce reports.",
+            "Requests for targeted passes: smoke test, full run, regression, platform, certification or specific feature."
+          ],
+          "media": {
+            "src": "assets/projects/production-task-board.png",
+            "caption": "An anonymized example of the QA database: the goal was to make each report usable by production, not simply store bugs."
+          }
+        },
+        {
+          "heading": "Turning 1500+ reports into an actionable database",
+          "paragraphs": [
+            "I set up and maintained a QA database to track more than 1500 reports and tickets. Each entry needed a clear status, priority, severity, platform, build version, domain, owner, target and, when needed, a deadline or fix version.",
+            "The database was the link between testing and fixing. It made it possible to see what was new, what was already known, what was blocking, what was a regression, what needed to be fixed, what needed to be re-tested and what could wait for another milestone.",
+            "The most important part was triage. Two very visible bugs are not necessarily equivalent: a crash, a progression blocker, a late regression, a TRC risk or an issue blocking submission does not carry the same weight as a comfort or polish issue. My role was to help production make that distinction and make it visible to the team."
+          ],
+          "bullets": [
+            "Ticket qualification: bug, feedback, regression, localization, platform, certification, polish or known issue.",
+            "Prioritization based on player impact, production risk, milestone urgency and submission risk.",
+            "Assignment to the right disciplines: programming, design, integration, production, localization or QA.",
+            "Status tracking: to analyze, to fix, in progress, fixed, won’t fix, unable to reproduce, to regress or validated.",
+            "Continuous database updates to keep a reliable view of the project’s real state."
+          ],
+          "media": {
+            "images": [
+              "assets/projects/dordogne-cover.webp",
+              "assets/projects/dordogne-room.webp",
+              "assets/projects/dordogne-steam-02.jpg"
+            ],
+            "caption": "QA work did not stop at reporting: each issue had to be connected to a decision, an owner, a deadline and a verification step."
+          }
+        },
+        {
+          "heading": "Following fixes through regression",
+          "paragraphs": [
+            "A large part of my work happened after ticket creation. I followed the transition from QA report to production task: who had to handle the issue, with which priority level, for which milestone, with which estimate and with which risk if the issue was not fixed in time.",
+            "I also maintained the link between fixes and validation. A ticket marked as fixed was not automatically done: the fix had to be checked in the correct version, the original issue had to be verified as resolved, and potential side effects had to be watched. Some topics needed to be re-tested on several platforms or under several conditions before they could be considered safe.",
+            "This follow-up helped avoid a common production problem: accumulating tickets that are administratively closed but not actually validated in-game. To me, QA had to stay connected to the final result in the build, not only to the ticket status in a tool."
+          ],
+          "bullets": [
+            "Conversion of QA reports into clear production tasks.",
+            "Tracking of assignments, estimates, deadlines, milestones and fix versions.",
+            "Verification of fixes on the relevant builds.",
+            "Organization of targeted regression passes after fixes.",
+            "Escalation of risks when cost, timing or player impact changed."
+          ]
+        },
+        {
+          "heading": "Going into Unity when the issue needed to be isolated",
+          "paragraphs": [
+            "I was not only in a coordination role. When a report was unclear, hard to reproduce or too vague to be handled efficiently, I sometimes went directly into Unity to understand the issue better before sending it to developers.",
+            "The goal was not to replace programmers, but to reduce noise around the ticket. I could check a scene, a setting, a trigger condition, a collision, a camera, a save behavior, a progression state or an integration element to better point toward the likely source of the problem.",
+            "In some minor cases, when the scope was clear and validated by the lead developer, I could also fix small integration or tuning issues myself. This freed up developer time on simple problems while keeping technical decisions supervised by the team."
+          ],
+          "bullets": [
+            "Reproduction of issues directly inside the engine when tickets lacked precision.",
+            "Analysis of trigger conditions to better guide developers.",
+            "Verification of integration, tuning or progression topics.",
+            "Occasional correction of minor issues when validated by the lead developer."
+          ]
+        },
+        {
+          "heading": "Reducing first-analysis cost with C# tools",
+          "paragraphs": [
+            "I developed C# QA tools to automate some checks and reduce time spent on mechanical tasks. The goal was to save time on repetitive controls so QA energy could be focused on analysis, reproduction, prioritization and production decisions.",
+            "These tools saved around 10 hours per week on verification and first-analysis tasks. This was not only a personal comfort gain: it improved report processing speed and reduced the risk of human error on repetitive checks.",
+            "This is an important part of how I work. When a workflow becomes heavy, fragile or too dependent on manual actions, I try to make it more reliable. On Dordogne, this meant improving tools, processes, ticket structure and the clarity of the information requested."
+          ],
+          "bullets": [
+            "Automation of repetitive checks.",
+            "Reduction of first-analysis time.",
+            "Improvement of control reliability.",
+            "Time saved and reinvested into triage, regression and production arbitration."
+          ]
+        },
+        {
+          "heading": "Preparing multiplatform shipping",
+          "paragraphs": [
+            "Dordogne had to be followed on PC, Xbox, PlayStation, Switch and iOS, with different constraints depending on the platform. QA therefore had to account for builds, first-party feedback, TRC risks, platform specificities and the stability level needed before submission.",
+            "I participated in first-party submission follow-up, certification preparation, coordination with Focus Entertainment and control of topics that could block or weaken shipping. QA had to be readable for the internal team, but also usable in an external production and shipping context.",
+            "The project also supported 14 languages, which added localization, display, readability, consistency and validation risks across platforms. QA follow-up had to integrate these topics into priorities instead of treating them as a final pass only."
+          ],
+          "bullets": [
+            "QA follow-up on PC, Xbox, PlayStation, Switch and iOS.",
+            "TRC certification preparation and first-party feedback tracking.",
+            "Coordination with Focus Entertainment on shipping topics.",
+            "Localization risk tracking across 14 supported languages.",
+            "Follow-up of blockers, regressions and platform issues through build candidates."
+          ],
+          "media": {
+            "src": "assets/projects/dordogne-steam-03.jpg",
+            "caption": "Shipping required connecting player quality, platform constraints, build state and schedule reality."
+          }
+        }
+      ],
+      "blocks": [
+        {
+          "type": "callout",
+          "title": "What I concretely controlled",
+          "text": "For a QA report to truly enter production, I made sure it was tied to a build, platform, priority, severity, domain, owner, deadline or milestone, and then to a verification step after the fix. This full loop turned a bug report from an observation into a production decision."
+        },
+        {
+          "type": "callout",
+          "title": "What this experience demonstrates",
+          "text": "My role was hybrid: QA, production, external coordination, fix follow-up, hands-on analysis and tool improvement. I was not only the person testing the game or filling tickets, but the person organizing the movement of issues until resolution."
+        }
+      ],
+      "closing": "This experience gave me a very concrete understanding of production QA. A strong QA loop is not about accumulating reports, but about turning observed problems into clear decisions, tracked tasks and verified fixes inside the build. That is the method I built on Dordogne and still use in production and design work."
+    }
+  }
+}

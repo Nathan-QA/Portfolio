@@ -1,0 +1,150 @@
+{
+  "id": "pyla",
+  "title": {
+    "fr": "PYLA",
+    "en": "PYLA"
+  },
+  "role": {
+    "fr": "Producer",
+    "en": "Producer"
+  },
+  "summary": {
+    "fr": "Producer sur un projet narratif survival-escort sous Unreal Engine 5 : structuration de la production, création du space ClickUp, pipelines avec les leads, scope, planning, budgets, documents de financement et suivi quotidien des dépendances.",
+    "en": "Producer on a narrative survival-escort project in Unreal Engine 5: production structure, ClickUp space creation, pipelines with leads, scope, schedule, budgets, funding documents and daily dependency follow-up."
+  },
+  "tags": {
+    "fr": [
+      "Production",
+      "Survival-escort",
+      "UE5",
+      "Financement"
+    ],
+    "en": [
+      "Production",
+      "Survival-escort",
+      "UE5",
+      "Funding"
+    ]
+  },
+  "facts": {
+    "fr": [
+      {
+        "label": "Rôle",
+        "value": "Producer"
+      },
+      {
+        "label": "Moteur",
+        "value": "Unreal Engine 5"
+      },
+      {
+        "label": "Périmètre",
+        "value": "5 pôles coordonnés"
+      },
+      {
+        "label": "Focus",
+        "value": "Scope, pipelines, budgets, financements"
+      }
+    ],
+    "en": [
+      {
+        "label": "Role",
+        "value": "Producer"
+      },
+      {
+        "label": "Engine",
+        "value": "Unreal Engine 5"
+      },
+      {
+        "label": "Scope",
+        "value": "5 teams coordinated"
+      },
+      {
+        "label": "Focus",
+        "value": "Scope, pipelines, budgets, funding"
+      }
+    ]
+  },
+  "projectInfo": {
+    "developer": "Pepin Kojo",
+    "publisher": {
+      "fr": "À annoncer",
+      "en": "To be announced"
+    },
+    "platforms": {
+      "fr": "À annoncer",
+      "en": "To be announced"
+    },
+    "languages": {
+      "fr": "À annoncer",
+      "en": "To be announced"
+    },
+    "releaseDate": {
+      "fr": "À annoncer",
+      "en": "To be announced"
+    },
+    "role": {
+      "fr": "Producer",
+      "en": "Producer"
+    },
+    "engine": "Unreal Engine 5",
+    "genres": {
+      "fr": "Survival-escort narratif, action-exploration, aventure narrative",
+      "en": "Narrative survival-escort, action-exploration, narrative adventure"
+    },
+    "description": {
+      "fr": "Projet narratif survival-escort situé dans une relecture du Bassin d’Arcachon, construit autour de la vulnérabilité, de la lumière, de la progression et de la tension. Mon travail porte sur le cadre de production qui permet de rendre cette vision fabricable.",
+      "en": "Narrative survival-escort project set in a reimagined Arcachon Bay, built around vulnerability, light, progression and tension. My work focuses on the production framework that makes this vision buildable."
+    }
+  },
+  "overview": {
+    "fr": [
+      "Sur PYLA, mon rôle était de transformer une vision créative ambitieuse en production pilotable. Je ne remplaçais pas la direction créative : je construisais le cadre qui permettait au projet d’avancer sans perdre sa vision, son scope ou ses priorités.",
+      "J’ai structuré le suivi quotidien du projet : space ClickUp, statuts, vues, pipelines avec les leads, dépendances, risques, arbitrages, plannings, budgets prévisionnels et supports de financement."
+    ],
+    "en": [
+      "On PYLA, my role was to turn an ambitious creative vision into manageable production. I was not replacing creative direction: I built the framework that allowed the project to move forward without losing its vision, scope or priorities.",
+      "I structured the project’s daily follow-up: ClickUp space, statuses, views, pipelines with leads, dependencies, risks, arbitrations, schedules, budget forecasts and funding material."
+    ]
+  },
+  "contribution": {
+    "fr": [
+      "Création et structuration d’un space ClickUp complet pour le suivi projet.",
+      "Mise en place de pipelines avec les leads : game design, level design, art, tech art et programmation.",
+      "Suivi quotidien des tâches, priorités, dépendances, deadlines, risques et décisions à prendre.",
+      "Cadrage du scope, des jalons, des besoins de production et des budgets prévisionnels.",
+      "Préparation et consolidation de pitch decks, dossiers CNC, MegaGrant et supports internes ou externes.",
+      "Aide à la décision pour garder la vision ambitieuse tout en évitant les dérives de scope ou de planning."
+    ],
+    "en": [
+      "Creation and structure of a complete ClickUp space for project follow-up.",
+      "Pipeline setup with leads: game design, level design, art, tech art and programming.",
+      "Daily follow-up of tasks, priorities, dependencies, deadlines, risks and decisions to make.",
+      "Framing of scope, milestones, production needs and budget forecasts.",
+      "Preparation and consolidation of pitch decks, CNC files, MegaGrant material and internal or external support material.",
+      "Decision support to keep the vision ambitious while avoiding scope or schedule drift."
+    ]
+  },
+  "caseStudy": "pyla-production-scope",
+  "trailer": "https://youtu.be/DqwgDLScVDE",
+  "images": {
+    "cover": "assets/projects/pyla-carousel-01-keyart.jpg",
+    "gallery": [
+      "assets/projects/pyla-carousel-01-keyart.jpg",
+      "assets/projects/pyla-carousel-06-watercolor-couv.webp",
+      "assets/projects/pyla-concept-05-bridge-ash.avif",
+      "assets/projects/pyla-concept-04-creature.avif",
+      "assets/projects/pyla-concept-03-chase.avif",
+      "assets/projects/pyla-concept-06-landscape.avif",
+      "assets/projects/pyla-press-preview.webp"
+    ]
+  },
+  "links": [
+    {
+      "label": {
+        "fr": "Site Pepin Kojo",
+        "en": "Pepin Kojo page"
+      },
+      "url": "https://pepinkojo.com/pyla?lang=fr"
+    }
+  ]
+}

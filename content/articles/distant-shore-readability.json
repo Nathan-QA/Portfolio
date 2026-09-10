@@ -1,0 +1,366 @@
+{
+  "id": "distant-shore-readability",
+  "projects": [
+    "distant-shore-bretagne"
+  ],
+  "title": {
+    "fr": "Revamper la démo Steam : rendre le parkour magnétique lisible, libre et testable",
+    "en": "Revamping the Steam demo: making magnetic parkour readable, free and testable"
+  },
+  "role": {
+    "fr": "Level Designer / Owner LD de la démo / Unity / Suivi production",
+    "en": "Level Designer / Demo LD Owner / Unity / Production follow-up"
+  },
+  "timeframe": "2025-2026",
+  "abstract": {
+    "fr": "Étude de cas sur mon travail de Level Designer sur Distant Shore : Bretagne : reprise d’un LD existant, audit des frictions, revamp de 4 zones majeures, intégration Unity, tuning du parkour magnétique, amélioration de la lisibilité, proposition d’une upgrade majeure côté game design, documentation exploitable et itérations sur la démo Steam publique.",
+    "en": "A case study about my Level Designer work on Distant Shore: Bretagne: taking over an existing LD base, auditing friction points, revamping 4 major areas, Unity integration, magnetic parkour tuning, readability improvements, proposing a major game design upgrade, actionable documentation and iterations on the public Steam demo."
+  },
+  "tags": [
+    "Level Design",
+    "Movement Design",
+    "Unity",
+    "Physics Sandbox",
+    "Playtests",
+    "Documentation"
+  ],
+  "metrics": [
+    {
+      "value": "4",
+      "label": {
+        "fr": "zones majeures reprises, revampées et documentées",
+        "en": "major areas taken over, revamped and documented"
+      }
+    },
+    {
+      "value": "Démo Steam",
+      "label": {
+        "fr": "West Zone jouable, parcours critique et routes alternatives",
+        "en": "playable West Zone, critical path and alternative routes"
+      }
+    },
+    {
+      "value": "Unity",
+      "label": {
+        "fr": "blockout, intégration, collisions, checkpoints, timings",
+        "en": "blockout, integration, collisions, checkpoints, timings"
+      }
+    },
+    {
+      "value": "GD",
+      "label": {
+        "fr": "proposition d’une upgrade majeure et tuning de progression",
+        "en": "major upgrade proposal and progression tuning"
+      }
+    }
+  ],
+  "media": {
+    "trailer": "https://youtu.be/p-1Kv50FjuA",
+    "images": [
+      "assets/projects/distant-shore-cover.webp",
+      "assets/projects/distant-shore-zone.webp",
+      "assets/projects/distant-shore-beach.webp",
+      "assets/projects/distant-shore-steam-01.jpg"
+    ]
+  },
+  "article": {
+    "fr": {
+      "intro": [
+        "Sur Distant Shore : Bretagne, j’ai travaillé sur une démo publique de parkour FPS physique où le joueur utilise des gantelets magnétiques pour déplacer, plier, casser et exploiter des éléments métalliques. Le défi LD n’était pas seulement de construire un chemin, mais de rendre lisible un espace que le joueur peut volontairement déformer, contourner et optimiser.",
+        "J’ai repris une base de level design existante après le passage d’un précédent LD, puis j’ai dirigé le revamp des zones de la démo. Mon travail consistait à clarifier la route critique, renforcer l’empowerment du joueur, rendre les interactions magnétiques plus compréhensibles, améliorer le rythme des séquences et sécuriser la progression sans tuer la liberté du sandbox.",
+        "Ce cas d’étude représente bien mon profil : je ne suis pas resté au niveau du plan ou de la documentation. J’ai travaillé dans Unity, testé les zones en conditions réelles, ajusté les volumes, les collisions, les timings, les objets interactifs, les checkpoints, les routes alternatives et les intentions de chaque séquence. J’ai aussi utilisé mon background QA pour analyser les playtests comme des problèmes concrets de lisibilité, de friction, de rythme ou de production."
+      ],
+      "sections": [
+        {
+          "heading": "Reprendre un LD existant et poser un diagnostic jouable",
+          "paragraphs": [
+            "Quand j’ai récupéré les zones, mon premier travail n’a pas été de tout remplacer. Il fallait comprendre ce qui fonctionnait déjà, ce qui devait être conservé, et surtout ce qui empêchait le joueur de lire correctement l’espace. Dans un jeu de parkour physique, une zone peut être spectaculaire mais rester mauvaise si le joueur ne comprend pas où aller, pourquoi il a raté, ou comment utiliser ses outils autrement.",
+            "J’ai donc découpé la démo en séquences de jeu : arrivée dans la zone, première lecture de l’objectif, introduction d’une interaction, mise en pratique, montée de difficulté, respiration, pic de tension et sortie de séquence. Pour chaque partie, je vérifiais l’intention LD, la compétence demandée au joueur, le niveau de risque, les points de friction probables et les critères permettant de considérer la séquence comme validée.",
+            "Cette étape a servi de base au revamp. L’objectif n’était pas simplement de rendre les zones plus propres, mais de rendre chaque problème actionnable : une mauvaise ligne de vue, un repère trop faible, une affordance métallique ambiguë, une distance de saut trop punitive, une route secondaire trop invisible ou un checkpoint qui ne respecte pas le coût réel de l’échec."
+          ],
+          "bullets": [
+            "Audit de la route critique et des routes alternatives.",
+            "Identification des zones de confusion, des ruptures de rythme et des pics de difficulté mal préparés.",
+            "Analyse des angles d’arrivée joueur, des lignes de vue, des silhouettes et des repères de navigation.",
+            "Découpage des zones en séquences testables avec une intention claire.",
+            "Priorisation des changements selon impact joueur, coût de production et dépendances Unity."
+          ],
+          "media": {
+            "src": "assets/projects/distant-shore-zone.webp",
+            "caption": "Le revamp LD partait d’un diagnostic jouable : où le joueur regarde, ce qu’il comprend, ce qu’il essaie, et pourquoi il échoue."
+          }
+        },
+        {
+          "heading": "Construire une pédagogie par l’espace plutôt que par l’explication",
+          "paragraphs": [
+            "Distant Shore : Bretagne repose sur une promesse forte : le joueur peut suivre un chemin prévu, mais aussi utiliser les forces magnétiques pour créer sa propre voie. Cette liberté est puissante, mais elle rend le LD plus fragile. Si la zone explique trop, elle devient scolaire. Si elle explique trop peu, le joueur ne comprend pas le potentiel de ses outils.",
+            "J’ai travaillé les zones pour que l’apprentissage se fasse par la composition et par l’action. Un objet métallique devait être lisible avant d’être utilisé. Une cible devait être compréhensible avant de devenir exigeante. Une route devait donner envie d’être tentée avant d’être optimisée. Le joueur devait pouvoir comprendre progressivement comment un objet déplacé, plié, cassé ou propulsé pouvait devenir un chemin, une rampe, un raccourci ou une solution alternative.",
+            "La pédagogie LD passait donc par des situations concrètes : montrer un usage simple, le répéter dans une configuration légèrement différente, puis demander au joueur de combiner mouvement, timing, regard, manipulation physique et prise de risque. Ce travail était essentiel pour rendre la démo plus empowered : le joueur ne subit pas un parcours, il apprend à lire l’espace comme une matière manipulable."
+          ],
+          "bullets": [
+            "Mise en scène progressive des affordances métalliques.",
+            "Travail des silhouettes pour distinguer décor, danger, outil et objectif.",
+            "Construction de séquences qui introduisent, répètent puis combinent les mécaniques.",
+            "Réduction des moments où le joueur attend une instruction plutôt que d’observer l’espace.",
+            "Équilibre entre route guidée, expérimentation libre et optimisation de trajectoire."
+          ]
+        },
+        {
+          "heading": "Redonner du pouvoir au joueur sans perdre la route critique",
+          "paragraphs": [
+            "Une partie importante du revamp consistait à éviter que la démo ressemble à un couloir déguisé en sandbox. Le jeu vend au joueur l’idée qu’il peut manipuler le monde avec ses gantelets. Le LD devait donc tenir cette promesse : proposer une route critique claire, mais ne pas punir immédiatement les joueurs qui expérimentent, sautent plus tôt, déplacent un objet différemment ou tentent une trajectoire non prévue.",
+            "J’ai travaillé la route principale comme une solution lisible, pas comme la seule solution acceptable. Cela implique de placer les repères pour que le joueur sache où aller, tout en laissant assez d’espace et de matière physique pour que les joueurs plus curieux cherchent des raccourcis, des routes cachées, des lignes plus rapides ou des solutions moins évidentes.",
+            "Cette logique a aussi nourri le game design. J’ai proposé une upgrade majeure qui changeait la relation du joueur à l’espace. Le but n’était pas d’ajouter une capacité parce que le jeu avait besoin d’un bouton supplémentaire, mais parce que le LD montrait un besoin réel : donner plus d’initiative au joueur, ouvrir des situations de navigation plus expressives et permettre une progression plus riche entre apprentissage, maîtrise et optimisation.",
+            "L’upgrade devait être introduite dans une séquence qui prouve sa valeur. Elle devait être visible, testable, utile immédiatement, puis réutilisée dans des configurations différentes pour éviter l’effet gadget. Cette approche a permis de relier proposition LD et décision GD : l’espace ne servait pas seulement à accueillir la mécanique, il démontrait pourquoi elle avait du sens."
+          ],
+          "bullets": [
+            "Route critique claire pour les joueurs qui suivent le parcours prévu.",
+            "Routes secondaires et solutions alternatives pour encourager l’expérimentation.",
+            "Travail du skill expression : trajectoires plus propres, sauts mieux enchaînés, manipulations plus rapides.",
+            "Proposition d’une upgrade majeure à partir d’un besoin constaté en LD.",
+            "Intégration de cette upgrade dans une progression qui montre son utilité sans sur-expliquer."
+          ],
+          "media": {
+            "images": [
+              "assets/projects/distant-shore-cover.webp",
+              "assets/projects/distant-shore-beach.webp",
+              "assets/projects/distant-shore-steam-02.jpg"
+            ],
+            "caption": "Le joueur devait comprendre le chemin, mais aussi sentir qu’il pouvait le tordre, le contourner ou l’optimiser."
+          }
+        },
+        {
+          "heading": "Passer du blockout à une séquence jouable dans Unity",
+          "paragraphs": [
+            "Mon travail LD était directement lié à l’intégration Unity. Je ne livrais pas seulement des intentions ou des schémas : je travaillais dans les scènes, avec les assets, les volumes, les colliders, les objets manipulables, les triggers, les checkpoints, les timings et les contraintes de production.",
+            "Chaque passe avait un objectif précis. En blockout, je vérifiais les volumes, les distances, les hauteurs, les lignes de vue et la compréhension générale du parcours. En intégration, je testais la lisibilité des objets, le confort de déplacement, la densité d’interactions, les risques de collision, le placement des respawns et les conséquences d’un échec. En passe de tuning, je regardais si la séquence tenait quand le joueur allait trop vite, trop lentement, ou utilisait une solution non prévue.",
+            "Le fait de travailler directement dans Unity permettait de réduire l’écart entre idée LD et réalité jouable. Certaines intentions fonctionnent sur plan, mais échouent dès que la caméra bouge, que le joueur arrive avec trop de vitesse, que la physique crée une position inattendue ou que l’objet clé sort du champ de vision. Ces problèmes devaient être corrigés dans la scène, pas seulement décrits dans un document."
+          ],
+          "bullets": [
+            "Blockout et passes successives directement dans Unity.",
+            "Placement et réglage d’assets, objets interactifs, colliders, triggers et checkpoints.",
+            "Tuning des distances, hauteurs, timings, zones de danger et respawns.",
+            "Tests de robustesse lorsque le joueur arrive trop vite, casse la séquence ou tente une route non prévue.",
+            "Suivi des besoins art, tech, GD et production liés à chaque zone."
+          ]
+        },
+        {
+          "heading": "Lire les playtests avec une méthode QA",
+          "paragraphs": [
+            "Mon expérience QA a beaucoup influencé ma manière de traiter les retours de test. Je ne prenais pas un feedback joueur comme une simple opinion à appliquer telle quelle. Je cherchais à identifier la cause : bug technique, affordance mal comprise, mauvais angle d’arrivée, timing trop strict, objectif insuffisamment préparé, densité trop forte, manque de respiration ou route alternative qui court-circuite la progression.",
+            "Un joueur qui se perd n’a pas toujours besoin d’un marqueur. Parfois, il faut déplacer un repère, ouvrir une ligne de vue, simplifier la silhouette d’un obstacle, réduire le bruit visuel, changer le rythme d’introduction d’une mécanique ou ajouter une micro-situation de préparation avant un saut difficile. Mon objectif était d’éviter les corrections superficielles qui rendent la zone plus assistée, mais pas plus lisible.",
+            "La démo a aussi été jouée par des profils capables de casser les séquences, notamment des streamers et des joueurs très expérimentés. C’est particulièrement utile pour un jeu systémique : quand un joueur skip une partie, rate une upgrade majeure ou trouve une route imprévue, ce n’est pas seulement un bug à fermer. C’est une information sur la solidité du LD, sur ce qui doit rester libre, et sur ce qui doit être sécurisé parce que cela touche à la compréhension de la progression."
+          ],
+          "bullets": [
+            "Classification des retours : bug, friction LD, onboarding, pacing, affordance, exploit ou sujet de production.",
+            "Analyse des échecs joueur : pourquoi il a raté, ce qu’il a compris, ce qu’il a tenté, ce qu’il n’a pas vu.",
+            "Correction des causes avant d’ajouter du guidage explicite.",
+            "Utilisation des comportements de joueurs experts comme stress test du sandbox.",
+            "Priorisation des changements selon impact, fréquence, coût et risque sur la liberté de mouvement."
+          ]
+        },
+        {
+          "heading": "Documenter pour aligner game design, art, tech et production",
+          "paragraphs": [
+            "La documentation LD ne servait pas à produire un document joli mais déconnecté du jeu. Elle devait aider l’équipe à comprendre ce qui était validé, ce qui restait fragile, ce qui demandait une décision et ce qui dépendait d’un autre pôle. J’ai documenté les intentions de zone, les risques, les besoins assets, les besoins système, les points de test, les dépendances et les prochaines passes.",
+            "Pour chaque zone ou séquence importante, la documentation devait pouvoir répondre à des questions très concrètes : quelle compétence le joueur apprend ici, quel problème cette zone résout, quel objet est central, quel risque de confusion existe, quel feedback de test justifie la prochaine modification, quel élément doit être livré par l’art ou la tech, et comment savoir si la passe suivante est réussie.",
+            "Cette documentation permettait aussi de faire le lien avec la production. Une correction LD n’est pas seulement une intention : elle a un coût, une dépendance, une priorité et parfois un impact sur une autre zone. Mon travail consistait à rendre ces informations visibles pour que les arbitrages ne soient pas faits uniquement au ressenti."
+          ],
+          "bullets": [
+            "Documentation des intentions, objectifs joueur et compétences testées.",
+            "Captures Unity, annotations, listes de risques et besoins de production.",
+            "Suivi des dépendances art, tech, GD et intégration.",
+            "Critères de validation pour savoir si une séquence fonctionne réellement.",
+            "Mise à jour de la documentation après test, revamp ou changement de priorité."
+          ],
+          "media": {
+            "src": "assets/projects/distant-shore-steam-03.jpg",
+            "caption": "La documentation LD devait rendre les zones discutables, testables et modifiables par toute l’équipe."
+          }
+        },
+        {
+          "heading": "Utiliser la réception publique comme signal de validation",
+          "paragraphs": [
+            "La démo Steam a permis de tester le travail LD dans un contexte réel, avec des joueurs qui n’avaient pas le contexte de l’équipe. C’est une étape très différente d’un playtest interne : le joueur ne connaît pas les intentions, ne pardonne pas les ambiguïtés, et utilise les systèmes de façon beaucoup plus créative que prévu.",
+            "La réception publique a confirmé que la promesse centrale était comprise : un parkour FPS où le magnétisme n’est pas seulement une mécanique de puzzle, mais un outil de déplacement, d’optimisation et d’expérimentation. Les retours sur les routes alternatives, le potentiel speedrun, les skips, les manipulations physiques et l’envie de rejouer sont des signaux importants pour un LD basé sur la liberté de trajectoire.",
+            "Je ne présente pas cette réception comme une preuve que tout vient de moi. Un jeu est un travail d’équipe. En revanche, c’est un bon indicateur que le revamp de la démo, dont j’ai dirigé le level design, allait dans la bonne direction : rendre le jeu plus clair, plus maîtrisable et plus expressif sans réduire sa dimension sandbox."
+          ],
+          "bullets": [
+            "Démo publique utilisée comme test réel de lisibilité et d’empowerment.",
+            "Observation de joueurs qui optimisent, contournent, cassent et rejouent les séquences.",
+            "Validation du besoin de routes alternatives et de skill expression.",
+            "Utilisation des retours publics pour nourrir les passes suivantes.",
+            "Mise en avant de la réception sans la confondre avec une attribution individuelle totale."
+          ]
+        }
+      ],
+      "blocks": [
+        {
+          "type": "callout",
+          "title": "Ce que j’ai réellement apporté",
+          "text": "J’ai repris une base LD existante et j’ai transformé la démo en une expérience plus claire, plus progressive et plus empowered. Mon travail portait sur les intentions de zone, la route critique, les routes alternatives, le tuning Unity, la pédagogie des mécaniques, les checkpoints, les frictions de test, la documentation et les échanges avec le game design."
+        },
+        {
+          "type": "callout",
+          "title": "Pourquoi ce projet représente mon profil LD",
+          "text": "Je travaille le level design comme une boucle complète : diagnostiquer, prototyper, intégrer, tester, ajuster, documenter et prioriser. Je suis capable d’aller dans Unity, de lire un playtest avec une méthode QA, de proposer des améliorations GD et de rendre les changements exploitables par l’équipe."
+        },
+        {
+          "type": "callout",
+          "title": "Réception publique de la démo",
+          "text": "La démo a reçu une forte réception publique sur Steam et lors du Steam Next Fest, avec des joueurs et créateurs qui ont expérimenté, optimisé et parfois cassé les systèmes. Je l’utilise comme signal que la promesse LD était lisible : le joueur comprend le chemin, mais sent aussi qu’il peut se l’approprier."
+        }
+      ],
+      "closing": "Distant Shore : Bretagne est aujourd’hui le projet qui montre le mieux mon positionnement de Level Designer. J’y ai travaillé au contact direct du moteur, des systèmes, du playtest, du game design et des contraintes de production. Mon apport n’était pas seulement de dessiner des zones, mais de rendre une démo jouable plus lisible, plus libre, plus robuste et plus convaincante pour des joueurs extérieurs."
+    },
+    "en": {
+      "intro": [
+        "On Distant Shore: Bretagne, I worked on a public first-person physics parkour demo where the player uses magnetic gauntlets to move, bend, break and exploit metal elements. The LD challenge was not only to build a path, but to make readable a space that the player can deliberately deform, bypass and optimize.",
+        "I took over an existing level design base after a previous LD, then led the revamp of the demo areas. My work was about clarifying the critical path, strengthening player empowerment, making magnetic interactions easier to read, improving sequence pacing and securing progression without killing the freedom of the sandbox.",
+        "This case study represents my profile well: I did not stay at the level of plans or documentation. I worked inside Unity, tested areas in real conditions, adjusted volumes, collisions, timings, interactive objects, checkpoints, alternative routes and the intention of each sequence. I also used my QA background to analyze playtests as concrete readability, friction, pacing or production issues."
+      ],
+      "sections": [
+        {
+          "heading": "Taking over an existing LD base and building a playable diagnosis",
+          "paragraphs": [
+            "When I took over the areas, my first task was not to replace everything. I had to understand what already worked, what had to be preserved, and especially what prevented players from reading the space correctly. In a physics parkour game, an area can look spectacular but still fail if the player does not understand where to go, why they failed, or how to use their tools differently.",
+            "I split the demo into gameplay sequences: entering the area, reading the objective, introducing an interaction, putting it into practice, increasing difficulty, giving the player breathing room, creating a tension peak and exiting the sequence. For each part, I checked the LD intention, the skill required from the player, the risk level, likely friction points and the criteria that would make the sequence validated.",
+            "This step became the foundation for the revamp. The goal was not only to make the areas cleaner, but to make each issue actionable: a poor sightline, a weak landmark, an ambiguous metal affordance, an overly punishing jump distance, an invisible secondary route or a checkpoint that did not respect the actual cost of failure."
+          ],
+          "bullets": [
+            "Audit of the critical path and alternative routes.",
+            "Identification of confusing areas, pacing breaks and poorly prepared difficulty spikes.",
+            "Analysis of player arrival angles, sightlines, silhouettes and navigation landmarks.",
+            "Breakdown of areas into testable sequences with clear intentions.",
+            "Prioritization of changes based on player impact, production cost and Unity dependencies."
+          ],
+          "media": {
+            "src": "assets/projects/distant-shore-zone.webp",
+            "caption": "The LD revamp started from a playable diagnosis: where the player looks, what they understand, what they try and why they fail."
+          }
+        },
+        {
+          "heading": "Teaching through space instead of explanation",
+          "paragraphs": [
+            "Distant Shore: Bretagne is built around a strong promise: the player can follow the intended path, but also use magnetic forces to create their own way forward. That freedom is powerful, but it makes LD more fragile. If the area explains too much, it becomes academic. If it explains too little, the player does not understand the potential of their tools.",
+            "I shaped the areas so learning would happen through composition and action. A metal object had to be readable before being used. A target had to be understandable before becoming demanding. A route had to invite the player to try it before asking them to optimize it. The player had to progressively understand how a moved, bent, broken or propelled object could become a path, a ramp, a shortcut or an alternative solution.",
+            "LD teaching therefore came from concrete situations: show a simple use, repeat it in a slightly different configuration, then ask the player to combine movement, timing, camera focus, physics manipulation and risk-taking. This work was essential to make the demo feel more empowered: the player does not simply follow a route, they learn to read space as something they can manipulate."
+          ],
+          "bullets": [
+            "Progressive staging of metal affordances.",
+            "Silhouette work to separate decoration, danger, tool and objective.",
+            "Sequences that introduce, repeat and then combine mechanics.",
+            "Reduction of moments where players wait for instruction instead of reading the space.",
+            "Balance between guided path, free experimentation and trajectory optimization."
+          ]
+        },
+        {
+          "heading": "Empowering the player without losing the critical path",
+          "paragraphs": [
+            "A major part of the revamp was to avoid making the demo feel like a corridor disguised as a sandbox. The game sells the idea that players can manipulate the world with their gauntlets. The LD had to support that promise: offer a clear critical path, while not immediately punishing players who experiment, jump early, move an object differently or try an unintended trajectory.",
+            "I treated the main route as a readable solution, not as the only acceptable solution. This means placing landmarks so players know where to go, while leaving enough space and physical material for more curious players to look for shortcuts, hidden routes, faster lines or less obvious solutions.",
+            "This logic also fed into game design. I proposed a major upgrade that changed the player’s relationship to space. The goal was not to add a new ability because the game needed another button, but because the LD showed a real need: give players more initiative, open more expressive navigation situations and create a richer progression between learning, mastery and optimization.",
+            "The upgrade had to be introduced in a sequence that proved its value. It needed to be visible, testable, immediately useful, then reused in different configurations to avoid feeling like a gimmick. This approach connected LD proposal and GD decision: the space was not only hosting the mechanic, it was demonstrating why it made sense."
+          ],
+          "bullets": [
+            "Clear critical path for players following the intended route.",
+            "Secondary routes and alternative solutions to encourage experimentation.",
+            "Skill expression: cleaner trajectories, tighter jumps, faster manipulations.",
+            "Major upgrade proposal based on a need observed through LD.",
+            "Integration of that upgrade into a progression that shows its value without over-explaining."
+          ],
+          "media": {
+            "images": [
+              "assets/projects/distant-shore-cover.webp",
+              "assets/projects/distant-shore-beach.webp",
+              "assets/projects/distant-shore-steam-02.jpg"
+            ],
+            "caption": "Players needed to understand the path, but also feel that they could bend it, bypass it or optimize it."
+          }
+        },
+        {
+          "heading": "From blockout to playable sequence inside Unity",
+          "paragraphs": [
+            "My LD work was directly tied to Unity integration. I was not only delivering intentions or diagrams: I worked in scenes, with assets, volumes, colliders, manipulable objects, triggers, checkpoints, timings and production constraints.",
+            "Each pass had a precise goal. During blockout, I checked volumes, distances, heights, sightlines and overall path comprehension. During integration, I tested object readability, movement comfort, interaction density, collision risks, respawn placement and the consequences of failure. During tuning, I checked whether the sequence still held when the player moved too fast, too slowly or used an unintended solution.",
+            "Working directly in Unity reduced the gap between LD idea and playable reality. Some intentions work on paper but fail as soon as the camera moves, the player arrives with too much speed, the physics creates an unexpected position or the key object leaves the field of view. These issues had to be fixed inside the scene, not only described in a document."
+          ],
+          "bullets": [
+            "Blockout and successive passes directly inside Unity.",
+            "Placement and tuning of assets, interactive objects, colliders, triggers and checkpoints.",
+            "Tuning of distances, heights, timings, danger zones and respawns.",
+            "Robustness tests when the player arrives too fast, breaks the sequence or tries an unintended route.",
+            "Follow-up of art, tech, GD and production needs attached to each area."
+          ]
+        },
+        {
+          "heading": "Reading playtests with a QA method",
+          "paragraphs": [
+            "My QA experience strongly shaped the way I processed test feedback. I did not treat player feedback as a simple opinion to apply directly. I looked for the cause: technical bug, misunderstood affordance, poor arrival angle, overly strict timing, insufficiently prepared objective, excessive density, lack of breathing room or alternative route short-circuiting the progression.",
+            "A lost player does not always need a marker. Sometimes the right solution is to move a landmark, open a sightline, simplify an obstacle silhouette, reduce visual noise, change the introduction rhythm of a mechanic or add a micro-situation before a difficult jump. My goal was to avoid superficial fixes that make the area more assisted but not more readable.",
+            "The demo was also played by profiles able to break sequences, including streamers and very experienced players. That is especially useful for a systemic game: when a player skips a section, misses a major upgrade or finds an unexpected route, it is not only a bug to close. It is information about LD robustness, about what should remain free, and about what needs to be secured because it affects progression comprehension."
+          ],
+          "bullets": [
+            "Classification of feedback: bug, LD friction, onboarding, pacing, affordance, exploit or production topic.",
+            "Analysis of player failures: why they failed, what they understood, what they tried and what they did not see.",
+            "Correction of causes before adding explicit guidance.",
+            "Use of expert player behavior as a sandbox stress test.",
+            "Prioritization of changes based on impact, frequency, cost and risk to movement freedom."
+          ]
+        },
+        {
+          "heading": "Documenting to align game design, art, tech and production",
+          "paragraphs": [
+            "LD documentation was not meant to produce a nice but disconnected document. It had to help the team understand what was validated, what remained fragile, what needed a decision and what depended on another discipline. I documented area intentions, risks, asset needs, system needs, test points, dependencies and upcoming passes.",
+            "For each important area or sequence, the documentation had to answer concrete questions: what skill the player learns here, what problem this area solves, which object is central, what confusion risk exists, which test feedback justifies the next modification, what art or tech element is needed, and how to know whether the next pass is successful.",
+            "This documentation also connected LD to production. An LD correction is not only an intention: it has a cost, a dependency, a priority and sometimes an impact on another area. My work was to make this information visible so decisions were not made only by feel."
+          ],
+          "bullets": [
+            "Documentation of intentions, player objectives and tested skills.",
+            "Unity screenshots, annotations, risk lists and production needs.",
+            "Follow-up of art, tech, GD and integration dependencies.",
+            "Validation criteria to know whether a sequence actually works.",
+            "Documentation updates after tests, revamps or priority changes."
+          ],
+          "media": {
+            "src": "assets/projects/distant-shore-steam-03.jpg",
+            "caption": "LD documentation had to make areas discussable, testable and improvable by the whole team."
+          }
+        },
+        {
+          "heading": "Using public reception as a validation signal",
+          "paragraphs": [
+            "The Steam demo made it possible to test the LD work in real conditions, with players who did not have the team’s context. This is very different from an internal playtest: players do not know the intentions, do not forgive ambiguity, and use systems far more creatively than expected.",
+            "The public reception confirmed that the central promise was understood: a first-person parkour game where magnetism is not only a puzzle mechanic, but a tool for movement, optimization and experimentation. Feedback around alternative routes, speedrun potential, skips, physics manipulation and replay desire is important for LD based on freedom of trajectory.",
+            "I do not present that reception as proof that everything comes from me. A game is a team effort. However, it is a strong indicator that the demo revamp, for which I led the level design, was moving in the right direction: making the game clearer, more controllable and more expressive without reducing its sandbox dimension."
+          ],
+          "bullets": [
+            "Public demo used as a real test of readability and empowerment.",
+            "Observation of players optimizing, bypassing, breaking and replaying sequences.",
+            "Validation of the need for alternative routes and skill expression.",
+            "Use of public feedback to feed the next iteration passes.",
+            "Reception highlighted without confusing it with full individual attribution."
+          ]
+        }
+      ],
+      "blocks": [
+        {
+          "type": "callout",
+          "title": "What I concretely brought",
+          "text": "I took over an existing LD base and turned the demo into a clearer, more progressive and more empowered experience. My work covered area intentions, critical path, alternative routes, Unity tuning, mechanic teaching, checkpoints, test frictions, documentation and exchanges with game design."
+        },
+        {
+          "type": "callout",
+          "title": "Why this project represents my LD profile",
+          "text": "I approach level design as a full loop: diagnose, prototype, integrate, test, adjust, document and prioritize. I can work inside Unity, read playtests through a QA method, propose GD improvements and make changes actionable for the team."
+        },
+        {
+          "type": "callout",
+          "title": "Public reception of the demo",
+          "text": "The demo received a strong public reception on Steam and during Steam Next Fest, with players and creators experimenting, optimizing and sometimes breaking the systems. I use this as a signal that the LD promise was readable: players understand the path, but also feel they can make it their own."
+        }
+      ],
+      "closing": "Distant Shore: Bretagne is currently the project that best represents my positioning as a Level Designer. I worked directly with the engine, systems, playtests, game design and production constraints. My contribution was not only to draw areas, but to make a playable demo clearer, freer, more robust and more convincing for external players."
+    }
+  }
+}

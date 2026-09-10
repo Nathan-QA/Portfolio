@@ -1,0 +1,151 @@
+{
+  "id": "distant-shore-bretagne",
+  "title": {
+    "fr": "Distant Shore : Bretagne",
+    "en": "Distant Shore: Bretagne"
+  },
+  "role": {
+    "fr": "Level Designer",
+    "en": "Level Designer"
+  },
+  "summary": {
+    "fr": "Level Designer sur la démo Steam : reprise et revamp de 4 zones majeures sous Unity, avec un focus sur la lisibilité du parkour magnétique, les routes alternatives, le rythme, l’intégration et les itérations après tests.",
+    "en": "Level Designer on the Steam demo: takeover and revamp of 4 major areas in Unity, focused on magnetic parkour readability, alternative routes, pacing, integration and test-driven iterations."
+  },
+  "tags": {
+    "fr": [
+      "Level Design",
+      "Parkour physique",
+      "Unity",
+      "Playtests"
+    ],
+    "en": [
+      "Level Design",
+      "Physics Parkour",
+      "Unity",
+      "Playtests"
+    ]
+  },
+  "facts": {
+    "fr": [
+      {
+        "label": "Rôle",
+        "value": "Level Designer"
+      },
+      {
+        "label": "Périmètre",
+        "value": "Démo Steam / 4 zones majeures"
+      },
+      {
+        "label": "Moteur",
+        "value": "Unity"
+      },
+      {
+        "label": "Focus",
+        "value": "Parkour physique, lisibilité, routes alternatives"
+      }
+    ],
+    "en": [
+      {
+        "label": "Role",
+        "value": "Level Designer"
+      },
+      {
+        "label": "Scope",
+        "value": "Steam demo / 4 major areas"
+      },
+      {
+        "label": "Engine",
+        "value": "Unity"
+      },
+      {
+        "label": "Focus",
+        "value": "Physics parkour, readability, alternative routes"
+      }
+    ]
+  },
+  "projectInfo": {
+    "developer": "DISTANT SHORE",
+    "publisher": "DISTANT SHORE",
+    "platforms": "PC (Steam)",
+    "languages": {
+      "fr": "EN, FR, IT, DE, ES, ZH-S",
+      "en": "EN, FR, IT, DE, ES, ZH-S"
+    },
+    "releaseDate": {
+      "fr": "À venir",
+      "en": "Coming soon"
+    },
+    "role": {
+      "fr": "Level Designer",
+      "en": "Level Designer"
+    },
+    "engine": "Unity",
+    "genres": {
+      "fr": "Action-aventure, exploration, parkour physique, puzzle-platformer",
+      "en": "Action-adventure, exploration, physics parkour, puzzle-platformer"
+    },
+    "description": {
+      "fr": "Jeu à la première personne mêlant parkour, exploration et manipulation physique grâce à des gantelets magnétiques. Le joueur peut suivre le parcours prévu, manipuler l’environnement métallique ou chercher ses propres trajectoires.",
+      "en": "First-person game mixing parkour, exploration and physics manipulation through magnetic gauntlets. Players can follow the intended path, manipulate the metal environment or find their own routes."
+    }
+  },
+  "overview": {
+    "fr": [
+      "Distant Shore : Bretagne est aujourd’hui le projet qui représente le mieux mon travail de Level Designer. J’ai repris une base LD existante sur la démo Steam, puis revampé 4 zones majeures pour rendre le parkour magnétique plus clair, plus expressif et plus robuste.",
+      "Mon travail portait autant sur la route critique que sur l’expérimentation : repères, lignes de vue, objets manipulables, routes alternatives, checkpoints, timings, densité d’interactions, intégration Unity et retours de test."
+    ],
+    "en": [
+      "Distant Shore: Bretagne is currently the project that best represents my Level Design work. I took over an existing LD base on the Steam demo, then revamped 4 major areas to make magnetic parkour clearer, more expressive and more robust.",
+      "My work covered both the critical path and player experimentation: landmarks, sightlines, manipulable objects, alternative routes, checkpoints, timings, interaction density, Unity integration and test feedback."
+    ]
+  },
+  "contribution": {
+    "fr": [
+      "Reprise et revamp de 4 zones majeures de la démo Steam.",
+      "Clarification de la route critique, des repères, des objectifs courts et des angles d’arrivée joueur.",
+      "Travail des routes alternatives, trajectoires optimisables et situations d’expérimentation systémique.",
+      "Intégration Unity : blockout, assets, colliders, triggers, checkpoints, timings et réglages gameplay.",
+      "Analyse des playtests pour corriger les frictions de lisibilité, de rythme, d’onboarding et de densité.",
+      "Proposition d’une upgrade majeure côté game design à partir de besoins observés en level design."
+    ],
+    "en": [
+      "Takeover and revamp of 4 major areas from the Steam demo.",
+      "Clarification of the critical path, landmarks, short-term goals and player arrival angles.",
+      "Work on alternative routes, optimizable trajectories and systemic experimentation situations.",
+      "Unity integration: blockout, assets, colliders, triggers, checkpoints, timings and gameplay tuning.",
+      "Playtest analysis to fix readability, pacing, onboarding and density frictions.",
+      "Major game design upgrade proposal based on needs observed through level design."
+    ]
+  },
+  "caseStudy": "distant-shore-readability",
+  "trailer": "https://youtu.be/p-1Kv50FjuA",
+  "images": {
+    "cover": "assets/projects/distant-shore-thumb-requested.png",
+    "gallery": [
+      "assets/projects/distant-shore-steam-01.jpg",
+      "assets/projects/distant-shore-steam-02.jpg",
+      "assets/projects/distant-shore-steam-03.jpg",
+      "assets/projects/distant-shore-steam-04.jpg",
+      "assets/projects/distant-shore-steam-05.jpg",
+      "assets/projects/distant-shore-steam-06.jpg",
+      "assets/projects/distant-shore-steam-07.jpg"
+    ]
+  },
+  "links": [
+    {
+      "label": {
+        "fr": "Page Steam",
+        "en": "Steam page"
+      },
+      "url": "https://store.steampowered.com/app/3892370/Distant_Shore_BRETAGNE/"
+    },
+    {
+      "label": {
+        "fr": "Démo Steam",
+        "en": "Steam demo"
+      },
+      "url": "https://store.steampowered.com/app/4300600/Distant_Shore_BRETAGNE_Demo/"
+    }
+  ]
+}

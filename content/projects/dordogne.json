@@ -1,0 +1,162 @@
+{
+  "id": "dordogne",
+  "title": {
+    "fr": "Dordogne",
+    "en": "Dordogne"
+  },
+  "role": {
+    "fr": "QA Producer",
+    "en": "QA Producer"
+  },
+  "summary": {
+    "fr": "QA Producer sur une production livrée : gestion de la boucle QA complète, de la préparation des builds au pilotage Huwiz, puis du triage des retours au suivi des fixes, régressions, TRC et soumissions plateformes.",
+    "en": "QA Producer on a shipped production: full QA loop management, from build preparation to Huwiz coordination, then from report triage to fix follow-up, regressions, TRC and platform submissions."
+  },
+  "tags": {
+    "fr": [
+      "QA Producer",
+      "Builds",
+      "Tickets",
+      "Certification"
+    ],
+    "en": [
+      "QA Producer",
+      "Builds",
+      "Tickets",
+      "Certification"
+    ]
+  },
+  "facts": {
+    "fr": [
+      {
+        "label": "Rôle",
+        "value": "QA Producer"
+      },
+      {
+        "label": "Feedback",
+        "value": "+1500 retours / tickets"
+      },
+      {
+        "label": "Équipe",
+        "value": "5 pôles / 23 personnes"
+      },
+      {
+        "label": "Livraison",
+        "value": "5 plateformes / 14 langues"
+      }
+    ],
+    "en": [
+      {
+        "label": "Role",
+        "value": "QA Producer"
+      },
+      {
+        "label": "Feedback",
+        "value": "1500+ reports / tickets"
+      },
+      {
+        "label": "Team",
+        "value": "5 teams / 23 people"
+      },
+      {
+        "label": "Shipping",
+        "value": "5 platforms / 14 languages"
+      }
+    ]
+  },
+  "projectInfo": {
+    "developer": "UMANIMATION / Un Je Ne Sais Quoi",
+    "publisher": "Focus Entertainment",
+    "platforms": "PC, Nintendo Switch, PlayStation 4, PlayStation 5, Xbox One, Xbox Series, iOS",
+    "languages": {
+      "fr": "EN, FR, OC, DE, ES-ES, ES-419 / ES-MX, IT, JA, KO, PL, RU, ZH-Hans, ZH-Hant, PT-BR",
+      "en": "EN, FR, OC, DE, ES-ES, ES-419 / ES-MX, IT, JA, KO, PL, RU, ZH-Hans, ZH-Hant, PT-BR"
+    },
+    "releaseDate": {
+      "fr": "13 juin 2023",
+      "en": "June 13, 2023"
+    },
+    "role": {
+      "fr": "QA Producer",
+      "en": "QA Producer"
+    },
+    "engine": "Unity",
+    "genres": {
+      "fr": "Aventure narrative, exploration, puzzle, récit interactif",
+      "en": "Narrative adventure, exploration, puzzle, interactive story"
+    },
+    "description": {
+      "fr": "Aventure narrative en aquarelle où Mimi revient dans la maison familiale et explore ses souvenirs d’enfance à travers objets, paysages, sensations et moments de vie.",
+      "en": "Watercolor narrative adventure where Mimi returns to her family home and explores childhood memories through objects, landscapes, sensations and life moments."
+    }
+  },
+  "overview": {
+    "fr": [
+      "Dordogne m’a donné une expérience complète de production jusqu’à la sortie. Mon rôle était de tenir la boucle QA entre les builds internes, le prestataire Huwiz, les tickets, les priorités, les équipes de développement, les retours constructeurs et la livraison multiplateforme.",
+      "Je ne traitais pas les retours comme une simple liste de bugs. Chaque sujet devait être qualifié, relié à une build, assigné, priorisé, suivi jusqu’au fix, puis vérifié en régression lorsque nécessaire."
+    ],
+    "en": [
+      "Dordogne gave me full production experience through release. My role was to maintain the QA loop between internal builds, the Huwiz provider, tickets, priorities, development teams, first-party feedback and multiplatform shipping.",
+      "I did not treat feedback as a simple bug list. Each issue had to be qualified, tied to a build, assigned, prioritized, followed through fix and regression-checked when needed."
+    ]
+  },
+  "contribution": {
+    "fr": [
+      "Pilotage de la QA interne et externe avec Huwiz pendant environ 6 mois.",
+      "Suivi de plus de 1500 retours et tickets : qualification, priorisation, assignation, deadlines et statuts.",
+      "Préparation des builds QA, plans de test, patch notes, known issues et reporting exploitable par l’équipe.",
+      "Suivi des fixes, régressions, validations et risques critiques jusqu’à la livraison.",
+      "Développement d’outils QA en C# pour automatiser des vérifications et réduire la première analyse.",
+      "Suivi des soumissions constructeurs, TRC, plateformes et support de 14 langues."
+    ],
+    "en": [
+      "Internal and external QA coordination with Huwiz over about 6 months.",
+      "Tracking of 1500+ reports and tickets: qualification, prioritization, assignment, deadlines and statuses.",
+      "QA build preparation, test plans, patch notes, known issues and team-readable reporting.",
+      "Fix follow-up, regressions, validation and critical risk tracking through shipping.",
+      "C# QA tools to automate checks and reduce first-analysis time.",
+      "First-party submissions, TRC, platform and 14-language support follow-up."
+    ]
+  },
+  "caseStudy": "dordogne-feedback-loop",
+  "trailer": "https://youtu.be/u0L_mCJJU98",
+  "images": {
+    "cover": "assets/projects/dordogne-thumb.jpg",
+    "gallery": [
+      "assets/projects/dordogne-steam-01.jpg",
+      "assets/projects/dordogne-steam-02.jpg",
+      "assets/projects/dordogne-steam-03.jpg",
+      "assets/projects/dordogne-steam-04.jpg",
+      "assets/projects/dordogne-steam-05.jpg",
+      "assets/projects/dordogne-steam-06.jpg",
+      "assets/projects/dordogne-steam-07.jpg",
+      "assets/projects/dordogne-steam-08.jpg",
+      "assets/projects/dordogne-steam-09.jpg",
+      "assets/projects/dordogne-steam-10.jpg",
+      "assets/projects/dordogne-steam-11.jpg"
+    ]
+  },
+  "links": [
+    {
+      "label": {
+        "fr": "Page Steam",
+        "en": "Steam page"
+      },
+      "url": "https://store.steampowered.com/app/1272840/Dordogne/"
+    },
+    {
+      "label": {
+        "fr": "Page Focus",
+        "en": "Focus page"
+      },
+      "url": "https://www.focus-entmt.com/en/games/dordogne"
+    },
+    {
+      "label": {
+        "fr": "MobyGames",
+        "en": "MobyGames"
+      },
+      "url": "https://www.mobygames.com/person/1375320/nathan-tandille/"
+    }
+  ]
+}

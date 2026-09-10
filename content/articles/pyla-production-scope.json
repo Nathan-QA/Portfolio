@@ -1,0 +1,405 @@
+{
+  "id": "pyla-production-scope",
+  "projects": [
+    "pyla"
+  ],
+  "title": {
+    "fr": "Structurer la production de PYLA : scope, pipelines, budgets et financements",
+    "en": "Structuring PYLA production: scope, pipelines, budgets and funding files"
+  },
+  "role": {
+    "fr": "Producer / Scope / ClickUp / Pipelines / Financements",
+    "en": "Producer / Scope / ClickUp / Pipelines / Funding"
+  },
+  "timeframe": "2025-2026",
+  "abstract": {
+    "fr": "Étude de cas sur mon rôle de Producer sur PYLA : structuration globale de la production, création d’un space ClickUp complet, suivi quotidien des tâches, coordination de 5 pôles, pipelines avec les leads, planning, budgets, scope, documents de présentation, dossiers CNC, MegaGrant et supports de financement.",
+    "en": "A case study about my Producer role on PYLA: global production structure, creation of a complete ClickUp space, daily task follow-up, coordination across 5 teams, pipelines with leads, schedules, budgets, scope, presentation documents, CNC files, MegaGrant and funding material."
+  },
+  "tags": [
+    "Production",
+    "Scope",
+    "ClickUp",
+    "Pipelines",
+    "Funding",
+    "UE5"
+  ],
+  "metrics": [
+    {
+      "value": "5",
+      "label": {
+        "fr": "pôles coordonnés : GD, LD, art, tech art, programmation",
+        "en": "teams coordinated: GD, LD, art, tech art, programming"
+      }
+    },
+    {
+      "value": "ClickUp",
+      "label": {
+        "fr": "space complet, vues, statuts, dépendances, rituels",
+        "en": "complete space, views, statuses, dependencies, rituals"
+      }
+    },
+    {
+      "value": "Scope",
+      "label": {
+        "fr": "jalons, priorités, risques, décisions, budgets",
+        "en": "milestones, priorities, risks, decisions, budgets"
+      }
+    },
+    {
+      "value": "CNC / MegaGrant",
+      "label": {
+        "fr": "dossiers de financement et supports stratégiques",
+        "en": "funding files and strategic material"
+      }
+    }
+  ],
+  "media": {
+    "trailer": "https://youtu.be/DqwgDLScVDE",
+    "images": [
+      "assets/projects/pyla-carousel-01-keyart.jpg",
+      "assets/projects/pyla-carousel-06-watercolor-couv.webp",
+      "assets/projects/pyla-concept-05-bridge-ash.avif",
+      "assets/projects/pyla-concept-04-creature.avif",
+      "assets/projects/pyla-concept-03-chase.avif",
+      "assets/projects/pyla-concept-06-landscape.avif",
+      "assets/projects/pyla-press-preview.webp"
+    ]
+  },
+  "article": {
+    "fr": {
+      "intro": [
+        "Sur PYLA, mon rôle de Producer était de donner un cadre de production à une vision créative ambitieuse. Le projet est une expérience narrative survival-escort sous Unreal Engine 5, située dans le Bassin d’Arcachon, avec une forte identité picturale et une promesse de jeu centrée sur la vulnérabilité, la lumière, la progression et la tension.",
+        "Je ne contrôlais pas la direction créative à la place du créateur ou des leads. Mon rôle était autre : transformer cette direction en production pilotable, faire apparaître les risques tôt, organiser le travail des pôles, maintenir le scope, préparer les supports de décision et éviter que le projet avance dans une zone floue jusqu’à se retrouver bloqué trop tard.",
+        "Concrètement, j’ai géré la production au quotidien : création d’un space ClickUp complet, structuration des tâches, définition des statuts, suivi des priorités, coordination entre game design, level design, art, tech art et programmation, mise en place de pipelines avec les leads, consolidation de plannings, budgets, documents de présentation, dossiers CNC, MegaGrant et supports de financement."
+      ],
+      "sections": [
+        {
+          "heading": "Transformer une vision créative en production pilotable",
+          "paragraphs": [
+            "PYLA demandait de protéger une vision très forte : une aventure narrative et survival-escort, portée par l’émotion, la lisibilité picturale, la lumière et la vulnérabilité. Ce type de projet peut vite devenir dangereux en production, parce que chaque élément paraît important : une scène, une intention, un système, une ambiance, un moment narratif, un besoin art ou une contrainte technique.",
+            "Mon travail consistait à faire la différence entre une intention créative et un scope de fabrication. Une intention peut être inspirante, mais elle doit devenir une liste de besoins concrets : quelles features sont nécessaires, quelles scènes doivent être prototypées, quels systèmes doivent être validés, quels assets sont indispensables, quels risques peuvent bloquer le projet et quels éléments doivent rester hors scope tant que les bases ne sont pas sécurisées.",
+            "Je servais de garde-fou de production. Pas pour réduire l’ambition, mais pour l’empêcher de se disperser. Quand une idée arrivait, je cherchais à identifier ce qu’elle impliquait vraiment : temps de design, temps art, besoin tech art, dépendance programmation, impact budget, risque sur le planning, impact sur les jalons et valeur réelle pour la promesse du jeu."
+          ],
+          "bullets": [
+            "Traduction des intentions créatives en besoins de production concrets.",
+            "Identification des features, scènes, systèmes et assets réellement nécessaires aux jalons.",
+            "Analyse de l’impact d’une idée sur les pôles GD, LD, art, tech art et programmation.",
+            "Mise en visibilité des risques avant qu’ils deviennent des blocages.",
+            "Arbitrage de scope avec les leads, sans prendre la direction créative à leur place."
+          ],
+          "media": {
+            "src": "assets/projects/pyla-concept-05-bridge-ash.avif",
+            "caption": "Le rôle de production consistait à protéger la vision en la rendant fabricable, lisible et priorisée."
+          }
+        },
+        {
+          "heading": "Créer un space ClickUp complet pour piloter le projet",
+          "paragraphs": [
+            "J’ai construit un space ClickUp complet pour que le projet ne repose pas sur des discussions dispersées, des décisions perdues ou des tâches suivies uniquement en réunion. L’objectif était d’avoir une base de pilotage unique : visible par les leads, exploitable au quotidien, et capable de relier chaque tâche à un pôle, une priorité, une deadline, un jalon, un statut et une dépendance.",
+            "Le space n’était pas une simple liste de tâches. Je l’ai structuré comme un outil de production : dossiers par pôles, listes par sujets, statuts adaptés au workflow, champs personnalisés, vues par milestone, vues par priorité, vues par responsable, suivi des dépendances, tâches bloquantes, sujets à arbitrer et éléments à préparer pour les dossiers externes.",
+            "Cette structure permettait de répondre rapidement à des questions de production concrètes : qu’est-ce qui bloque la prochaine étape, quel pôle attend quoi, quelles tâches n’ont pas de propriétaire, quels sujets sont en retard, quelles décisions doivent être prises par la direction, quels éléments sont nécessaires pour un dossier de financement, et quels points peuvent être sortis du scope si le budget ou le planning se tend."
+          ],
+          "bullets": [
+            "Création d’un space ClickUp dédié au projet.",
+            "Organisation par pôles : game design, level design, art, tech art, programmation, production.",
+            "Mise en place de statuts, priorités, responsables, deadlines, jalons et dépendances.",
+            "Création de vues lisibles pour les leads, le suivi global et les points quotidiens.",
+            "Centralisation des décisions, risques, tâches bloquantes et besoins de documentation."
+          ],
+          "media": {
+            "src": "assets/projects/production-task-board.png",
+            "caption": "Un suivi production lisible permettait de relier tâches, priorités, plateformes, statuts, responsables et sujets bloquants."
+          }
+        },
+        {
+          "heading": "Mettre en place des pipelines avec les leads",
+          "paragraphs": [
+            "Le projet impliquait plusieurs pôles avec des dépendances fortes. Une intention game design pouvait demander un prototype programmation, un besoin tech art, des assets spécifiques, un test LD et une validation de direction. Sans pipeline clair, chaque sujet risquait de passer d’un métier à l’autre trop tard, ou sans que le besoin exact soit compris.",
+            "Avec les leads, j’ai structuré des pipelines de production pour rendre les passages entre métiers plus propres. L’objectif était de savoir à quel moment une idée devient une tâche, à quel moment une tâche peut entrer en production, quelles informations sont nécessaires avant de la lancer, qui valide, qui produit, qui teste, qui intègre et comment on sait que le sujet est terminé.",
+            "Ce travail était particulièrement important pour un projet sous Unreal Engine 5 avec une ambition action-exploration et une forte direction artistique. Art, tech art et programmation devaient être alignés suffisamment tôt pour éviter les allers-retours coûteux : assets non exploitables, besoins techniques découverts trop tard, features mal définies, contenus produits avant validation ou scènes difficiles à stabiliser."
+          ],
+          "bullets": [
+            "Définition de pipelines avec les leads pour les sujets GD, LD, art, tech art et programmation.",
+            "Clarification des étapes : intention, besoin, prototype, production, intégration, test, validation.",
+            "Identification des informations minimales nécessaires avant de lancer une tâche.",
+            "Réduction des allers-retours liés aux briefs incomplets ou aux dépendances invisibles.",
+            "Alignement des leads sur ce qui est prêt, ce qui reste fragile et ce qui doit être arbitré."
+          ]
+        },
+        {
+          "heading": "Piloter le quotidien : tâches, priorités, dépendances et décisions",
+          "paragraphs": [
+            "Une grande partie de mon travail était quotidienne. Il fallait garder le projet lisible dans l’exécution : quelles tâches avancent, quelles tâches stagnent, quels sujets bloquent un autre pôle, quelles priorités ont changé, quelles décisions sont attendues et quels risques doivent être remontés avant qu’ils deviennent critiques.",
+            "Je suivais les tâches non pas comme des cases à cocher, mais comme des éléments liés à une réalité de production. Une tâche art peut dépendre d’une décision GD. Une tâche tech art peut bloquer une scène LD. Une feature programmation peut être nécessaire pour prouver une intention de gameplay. Un support de financement peut avoir besoin d’images, d’un budget, d’un planning, d’une présentation claire et d’un scope cohérent.",
+            "Mon rôle consistait donc à maintenir la circulation de l’information. Quand un sujet devenait flou, je cherchais à le reformuler en prochaine action claire : qui doit décider, qui doit produire, quelle information manque, quel risque est associé, quelle échéance existe, et quel impact le sujet a sur le reste du projet."
+          ],
+          "bullets": [
+            "Suivi quotidien des tâches, priorités, deadlines et responsables.",
+            "Identification des dépendances entre métiers et des tâches bloquantes.",
+            "Préparation des points de suivi avec les leads.",
+            "Reformulation des sujets flous en actions concrètes.",
+            "Remontée des risques de planning, budget, scope ou dépendance."
+          ],
+          "media": {
+            "images": [
+              "assets/projects/production-task-board.png",
+              "assets/projects/pyla-concept-06-landscape.avif",
+              "assets/projects/pyla-concept-03-chase.avif"
+            ],
+            "caption": "Le pilotage quotidien servait à garder les équipes alignées sur les actions concrètes, pas seulement sur une intention générale."
+          }
+        },
+        {
+          "heading": "Construire et maintenir le scope",
+          "paragraphs": [
+            "Le scope était un point central de mon rôle. Sur un projet ambitieux, le risque n’est pas uniquement de manquer d’idées. Le risque est d’avoir trop d’idées importantes au même moment, sans hiérarchie claire. Mon travail était de rendre visible ce qui devait être sécurisé maintenant, ce qui pouvait attendre, ce qui devait être prototypé avant d’être promis, et ce qui devait être sorti du scope si le projet n’avait pas les moyens de le porter.",
+            "Je travaillais le scope en lien avec les jalons, les budgets et les objectifs de présentation. Une feature n’a pas la même priorité selon qu’elle sert à prouver la boucle principale, à convaincre un partenaire, à sécuriser un risque technique, à nourrir un dossier de financement ou à enrichir une scène qui n’est pas encore nécessaire.",
+            "Ce suivi permettait d’éviter deux dérives : figer le projet trop tôt, ou au contraire laisser tout ouvert trop longtemps. Le bon scope devait garder de la place pour l’itération créative, tout en donnant à l’équipe un cadre assez clair pour produire."
+          ],
+          "bullets": [
+            "Hiérarchisation entre must-have, should-have, nice-to-have et hors scope.",
+            "Suivi des jalons, risques, dépendances et objectifs de démonstration.",
+            "Évaluation de l’impact budget et planning des nouvelles demandes.",
+            "Préparation d’arbitrages lorsque la vision dépassait les moyens disponibles.",
+            "Maintien d’un scope vivant, ajusté selon les retours des leads et les besoins de financement."
+          ]
+        },
+        {
+          "heading": "Gérer budgets, plannings et besoins de production",
+          "paragraphs": [
+            "J’ai travaillé sur les plannings, les budgets prévisionnels et les besoins de production pour donner une vision réaliste du projet. L’objectif n’était pas seulement de produire des tableaux, mais de relier les ambitions créatives à des moyens concrets : temps homme, jalons, coûts, besoins externes, production d’assets, temps d’intégration, temps de prototypage et marges de risque.",
+            "Ce travail obligeait à poser les bonnes questions : combien de temps faut-il pour prouver cette feature, quelle partie doit être visible dans un support de financement, quel pôle est le plus contraint, quelle dépendance peut retarder tout le monde, et quel budget est réellement nécessaire pour passer du concept à une étape crédible de production.",
+            "Les budgets et plannings servaient aussi à la communication externe. Pour un dossier CNC, une MegaGrant ou un pitch deck, il ne suffit pas d’avoir une belle vision. Il faut montrer que le projet sait où il va, ce qu’il demande, ce qu’il peut livrer, et comment les moyens demandés se transforment en production réelle."
+          ],
+          "bullets": [
+            "Construction et consolidation de plannings de production.",
+            "Suivi des budgets prévisionnels et besoins associés.",
+            "Lien entre coûts, jalons, livrables, risques et ambitions créatives.",
+            "Préparation de données de production exploitables dans les dossiers de financement.",
+            "Mise en cohérence entre scope interne et discours présenté aux partenaires."
+          ]
+        },
+        {
+          "heading": "Préparer pitch decks, dossiers CNC, MegaGrant et supports externes",
+          "paragraphs": [
+            "J’ai participé à la préparation et à la consolidation des documents stratégiques du projet : pitch decks, dossiers CNC, MegaGrant, budgets prévisionnels et supports de présentation internes ou externes. Ces documents n’étaient pas seulement des supports de communication. Ils forçaient le projet à formuler clairement sa promesse, son positionnement, son scope, ses besoins et son plan de production.",
+            "Un bon dossier doit être séduisant, mais il doit surtout être cohérent. Si le pitch promet une expérience narrative forte, un gameplay lisible, une direction artistique ambitieuse et une production réaliste, alors les budgets, les jalons, les visuels, les mots et les priorités doivent raconter la même chose. Mon rôle était de contribuer à cette cohérence.",
+            "Je travaillais ces supports comme des outils de production : qu’est-ce qui manque pour convaincre, quelle information est trop vague, quel élément doit être chiffré, quelle promesse doit être sécurisée, quel risque doit être assumé, et quelles preuves de production peuvent rendre le projet crédible."
+          ],
+          "bullets": [
+            "Préparation et consolidation de pitch decks.",
+            "Structuration de dossiers CNC et supports de financement.",
+            "Préparation de supports MegaGrant.",
+            "Mise en cohérence entre vision créative, scope, budget et planning.",
+            "Relecture production : clarté, crédibilité, risques, besoins, livrables."
+          ]
+        },
+        {
+          "heading": "Soutenir la direction sans la remplacer",
+          "paragraphs": [
+            "Une part importante du rôle de Producer est de savoir où se situe sa responsabilité. Je ne décidais pas de la direction créative à la place du créateur ou des leads. En revanche, je devais aider cette direction à rester praticable : poser les bonnes questions, rendre les contraintes visibles, signaler quand une trajectoire devenait trop risquée, et proposer un cadre pour avancer sans diluer l’intention.",
+            "Cela demandait parfois de ramener une discussion créative vers des éléments très concrets : quel livrable, pour quelle date, avec quel pôle, pour quel jalon, avec quelle dépendance, et quel niveau de qualité attendu. Ce n’est pas un travail opposé à la création. Au contraire, c’est souvent ce qui permet à une vision fragile ou ambitieuse d’exister en production.",
+            "Mon rôle était donc d’accompagner la direction dans la bonne trajectoire. Ne pas dire oui à tout, ne pas bloquer par principe, mais aider à distinguer ce qui nourrit vraiment le projet de ce qui risque de le disperser. C’est cette posture qui m’a permis de piloter le quotidien sans perdre le lien avec l’expérience finale."
+          ],
+          "bullets": [
+            "Protection de la vision par la mise en visibilité des contraintes.",
+            "Aide à la décision sans prise de contrôle de la direction créative.",
+            "Signalement des risques de dérive, surcharge ou dépendance critique.",
+            "Transformation des discussions créatives en prochaines actions de production.",
+            "Maintien d’un équilibre entre ambition, faisabilité et jalons."
+          ],
+          "media": {
+            "src": "assets/projects/pyla-concept-04-creature.avif",
+            "caption": "Produire ne voulait pas dire réduire la vision, mais l’aider à rester faisable sans perdre son identité."
+          }
+        }
+      ],
+      "blocks": [
+        {
+          "type": "callout",
+          "title": "Ce que je pilotais concrètement",
+          "text": "Je pilotais le cadre de production : ClickUp, tâches, statuts, priorités, deadlines, dépendances, jalons, budgets, supports de présentation, dossiers de financement, pipelines avec les leads et remontée des risques. Mon rôle était de garder le projet lisible, actionnable et aligné."
+        },
+        {
+          "type": "callout",
+          "title": "La limite de mon rôle",
+          "text": "Je ne remplaçais pas la direction créative. Je l’accompagnais par la production : rendre les intentions fabricables, identifier les risques, préparer les arbitrages et éviter que le projet avance trop longtemps sans cadre clair."
+        },
+        {
+          "type": "callout",
+          "title": "Pourquoi ce projet est important dans mon profil",
+          "text": "PYLA montre ma capacité à gérer un projet dans sa globalité : organisation des pôles, outils, rituels, scope, budgets, documents stratégiques et suivi quotidien. C’est le projet où mon profil Producer est le plus directement visible."
+        }
+      ],
+      "closing": "PYLA montre une partie centrale de mon profil : ma capacité à transformer une vision créative forte en production suivie, cadrée et défendable. Mon apport n’était pas de définir seul la direction du jeu, mais de construire le système de production qui permettait à cette direction d’avancer sans se perdre : outils, pipelines, scope, budgets, priorités, documents et décisions."
+    },
+    "en": {
+      "intro": [
+        "On PYLA, my Producer role was to give a production framework to an ambitious creative vision. The project is a narrative survival-escort experience in Unreal Engine 5, set in the Bassin d’Arcachon, with a strong pictorial identity and a promise built around vulnerability, light, progression and tension.",
+        "I did not control the creative direction instead of the creator or the leads. My role was different: turning that direction into readable production, making risks visible early, organizing the work across teams, maintaining scope, preparing decision material and preventing the project from moving forward in a vague direction until it became blocked too late.",
+        "Concretely, I handled production on a daily basis: creation of a complete ClickUp space, task structure, status definition, priority follow-up, coordination between game design, level design, art, tech art and programming, pipeline setup with leads, consolidation of schedules, budgets, presentation documents, CNC files, MegaGrant and funding material."
+      ],
+      "sections": [
+        {
+          "heading": "Turning creative vision into manageable production",
+          "paragraphs": [
+            "PYLA required protecting a very strong vision: a narrative survival-escort adventure driven by emotion, pictorial readability, light and vulnerability. This type of project can quickly become dangerous in production, because every element can feel important: a scene, an intention, a system, a mood, a narrative beat, an art need or a technical constraint.",
+            "My work was to separate creative intention from production scope. An intention can be inspiring, but it needs to become a concrete list of needs: which features are required, which scenes need prototyping, which systems need validation, which assets are essential, which risks can block the project and which elements should stay out of scope until the foundations are secured.",
+            "I acted as a production safeguard. Not to reduce ambition, but to prevent it from scattering. When an idea came in, I tried to identify what it actually implied: design time, art time, tech art need, programming dependency, budget impact, schedule risk, milestone impact and real value for the game promise."
+          ],
+          "bullets": [
+            "Translation of creative intentions into concrete production needs.",
+            "Identification of features, scenes, systems and assets required for milestones.",
+            "Analysis of the impact of an idea on GD, LD, art, tech art and programming.",
+            "Visibility on risks before they became blockers.",
+            "Scope arbitration with leads, without taking creative direction away from them."
+          ],
+          "media": {
+            "src": "assets/projects/pyla-concept-05-bridge-ash.avif",
+            "caption": "Production work was about protecting the vision by making it buildable, readable and prioritized."
+          }
+        },
+        {
+          "heading": "Creating a complete ClickUp space to drive the project",
+          "paragraphs": [
+            "I built a complete ClickUp space so the project would not depend on scattered discussions, lost decisions or tasks tracked only during meetings. The goal was to have one production base: visible to leads, usable day to day, and able to connect every task to a team, priority, deadline, milestone, status and dependency.",
+            "The space was not a simple task list. I structured it as a production tool: folders by team, lists by topic, workflow-specific statuses, custom fields, milestone views, priority views, owner views, dependency follow-up, blocking tasks, arbitration topics and elements to prepare for external files.",
+            "This structure made it possible to quickly answer concrete production questions: what blocks the next step, which team is waiting for what, which tasks have no owner, which topics are late, which decisions need direction input, which elements are required for a funding file, and which points can be removed from scope if budget or schedule become tight."
+          ],
+          "bullets": [
+            "Creation of a dedicated ClickUp space for the project.",
+            "Organization by teams: game design, level design, art, tech art, programming, production.",
+            "Setup of statuses, priorities, owners, deadlines, milestones and dependencies.",
+            "Creation of readable views for leads, global follow-up and daily points.",
+            "Centralization of decisions, risks, blocking tasks and documentation needs."
+          ],
+          "media": {
+            "src": "assets/projects/production-task-board.png",
+            "caption": "Readable production tracking connected tasks, priorities, platforms, statuses, owners and blocking topics."
+          }
+        },
+        {
+          "heading": "Setting up pipelines with leads",
+          "paragraphs": [
+            "The project involved several teams with strong dependencies. A game design intention could require a programming prototype, a tech art need, specific assets, an LD test and direction validation. Without a clear pipeline, each topic risked moving from one discipline to another too late, or without the exact need being understood.",
+            "With the leads, I structured production pipelines to make the handoff between disciplines cleaner. The goal was to know when an idea becomes a task, when a task can enter production, what information is required before launching it, who validates, who produces, who tests, who integrates and how we know the topic is done.",
+            "This work was especially important for a project in Unreal Engine 5 with an action-exploration ambition and a strong art direction. Art, tech art and programming had to be aligned early enough to avoid costly loops: unusable assets, technical needs discovered too late, poorly defined features, content produced before validation or scenes that were difficult to stabilize."
+          ],
+          "bullets": [
+            "Definition of pipelines with leads for GD, LD, art, tech art and programming topics.",
+            "Clarification of steps: intention, need, prototype, production, integration, test, validation.",
+            "Identification of the minimum information required before launching a task.",
+            "Reduction of loops caused by incomplete briefs or invisible dependencies.",
+            "Alignment of leads on what was ready, what remained fragile and what required arbitration."
+          ]
+        },
+        {
+          "heading": "Driving the day to day: tasks, priorities, dependencies and decisions",
+          "paragraphs": [
+            "A large part of my work was daily production follow-up. The project had to stay readable during execution: which tasks are moving, which tasks are stuck, which topics block another team, which priorities changed, which decisions are expected and which risks need to be escalated before becoming critical.",
+            "I did not track tasks as simple checkboxes, but as elements connected to production reality. An art task can depend on a GD decision. A tech art task can block an LD scene. A programming feature can be required to prove a gameplay intention. A funding support can need images, a budget, a schedule, a clear presentation and coherent scope.",
+            "My role was therefore to maintain information flow. When a topic became unclear, I tried to reformulate it into a clear next action: who needs to decide, who needs to produce, what information is missing, what risk is attached, what deadline exists, and what impact the topic has on the rest of the project."
+          ],
+          "bullets": [
+            "Daily follow-up of tasks, priorities, deadlines and owners.",
+            "Identification of cross-discipline dependencies and blocking tasks.",
+            "Preparation of follow-up points with leads.",
+            "Reformulation of vague topics into concrete actions.",
+            "Escalation of schedule, budget, scope or dependency risks."
+          ],
+          "media": {
+            "images": [
+              "assets/projects/production-task-board.png",
+              "assets/projects/pyla-concept-06-landscape.avif",
+              "assets/projects/pyla-concept-03-chase.avif"
+            ],
+            "caption": "Daily production follow-up kept teams aligned on concrete actions, not only on a general intention."
+          }
+        },
+        {
+          "heading": "Building and maintaining scope",
+          "paragraphs": [
+            "Scope was central to my role. On an ambitious project, the risk is not only lacking ideas. The risk is having too many important ideas at the same time, without a clear hierarchy. My work was to make visible what needed to be secured now, what could wait, what needed prototyping before being promised, and what had to leave scope if the project could not support it.",
+            "I worked on scope in relation to milestones, budgets and presentation objectives. A feature does not have the same priority depending on whether it proves the main loop, convinces a partner, secures a technical risk, feeds a funding file or enriches a scene that is not yet necessary.",
+            "This follow-up helped avoid two drifts: freezing the project too early, or leaving everything open too long. Good scope had to leave room for creative iteration while giving the team a clear enough frame to produce."
+          ],
+          "bullets": [
+            "Hierarchy between must-have, should-have, nice-to-have and out-of-scope.",
+            "Follow-up of milestones, risks, dependencies and demonstration objectives.",
+            "Evaluation of budget and schedule impact for new requests.",
+            "Preparation of arbitrations when the vision exceeded available means.",
+            "Maintenance of living scope, adjusted according to lead feedback and funding needs."
+          ]
+        },
+        {
+          "heading": "Managing budgets, schedules and production needs",
+          "paragraphs": [
+            "I worked on schedules, budget forecasts and production needs to give a realistic view of the project. The goal was not only to create tables, but to connect creative ambitions to concrete means: person-time, milestones, costs, external needs, asset production, integration time, prototyping time and risk margins.",
+            "This work forced the right questions: how long does this feature need to be proven, what needs to be visible in a funding support, which team is the most constrained, which dependency can delay everyone, and what budget is actually needed to move from concept to a credible production step.",
+            "Budgets and schedules were also part of external communication. For a CNC file, MegaGrant or pitch deck, a beautiful vision is not enough. The project needs to show where it is going, what it needs, what it can deliver, and how the requested means turn into real production."
+          ],
+          "bullets": [
+            "Construction and consolidation of production schedules.",
+            "Follow-up of budget forecasts and associated needs.",
+            "Connection between costs, milestones, deliverables, risks and creative ambitions.",
+            "Preparation of production data usable in funding files.",
+            "Consistency between internal scope and the message presented to partners."
+          ]
+        },
+        {
+          "heading": "Preparing pitch decks, CNC files, MegaGrant and external supports",
+          "paragraphs": [
+            "I contributed to the preparation and consolidation of the project’s strategic documents: pitch decks, CNC files, MegaGrant, budget forecasts and internal or external presentation material. These documents were not only communication supports. They forced the project to clearly formulate its promise, positioning, scope, needs and production plan.",
+            "A good file needs to be attractive, but above all coherent. If the pitch promises a strong narrative experience, readable gameplay, ambitious art direction and realistic production, then budgets, milestones, visuals, wording and priorities need to tell the same story. My role was to contribute to that coherence.",
+            "I treated these supports as production tools: what is missing to convince, which information is too vague, what needs to be costed, which promise needs securing, which risk needs to be acknowledged, and what production proof can make the project credible."
+          ],
+          "bullets": [
+            "Preparation and consolidation of pitch decks.",
+            "Structuring of CNC files and funding supports.",
+            "Preparation of MegaGrant material.",
+            "Consistency between creative vision, scope, budget and schedule.",
+            "Production review: clarity, credibility, risks, needs, deliverables."
+          ]
+        },
+        {
+          "heading": "Supporting direction without replacing it",
+          "paragraphs": [
+            "An important part of the Producer role is knowing where the responsibility sits. I was not deciding the creative direction instead of the creator or the leads. However, I had to help that direction remain practicable: ask the right questions, make constraints visible, flag when a trajectory became too risky, and propose a frame to move forward without diluting the intention.",
+            "This sometimes meant bringing a creative discussion back to very concrete elements: which deliverable, for which date, with which team, for which milestone, with which dependency, and at what expected quality level. This is not opposed to creation. It is often what allows a fragile or ambitious vision to exist in production.",
+            "My role was therefore to support direction in the right trajectory. Not saying yes to everything, not blocking by principle, but helping distinguish what truly feeds the project from what risks scattering it. That posture allowed me to drive the daily production while keeping the connection with the final experience."
+          ],
+          "bullets": [
+            "Protection of the vision by making constraints visible.",
+            "Decision support without taking over creative direction.",
+            "Escalation of drift, overload or critical dependency risks.",
+            "Transformation of creative discussions into next production actions.",
+            "Balance between ambition, feasibility and milestones."
+          ],
+          "media": {
+            "src": "assets/projects/pyla-concept-04-creature.avif",
+            "caption": "Producing did not mean reducing the vision, but helping it stay feasible without losing its identity."
+          }
+        }
+      ],
+      "blocks": [
+        {
+          "type": "callout",
+          "title": "What I concretely drove",
+          "text": "I drove the production framework: ClickUp, tasks, statuses, priorities, deadlines, dependencies, milestones, budgets, presentation material, funding files, pipelines with leads and risk escalation. My role was to keep the project readable, actionable and aligned."
+        },
+        {
+          "type": "callout",
+          "title": "The boundary of my role",
+          "text": "I did not replace creative direction. I supported it through production: making intentions buildable, identifying risks, preparing arbitrations and preventing the project from moving too long without a clear frame."
+        },
+        {
+          "type": "callout",
+          "title": "Why this project matters in my profile",
+          "text": "PYLA shows my ability to manage a project globally: team organization, tools, rituals, scope, budgets, strategic documents and daily follow-up. It is the project where my Producer profile is the most directly visible."
+        }
+      ],
+      "closing": "PYLA shows a central part of my profile: my ability to turn a strong creative vision into tracked, framed and defendable production. My contribution was not to define the game direction alone, but to build the production system that allowed that direction to move forward without getting lost: tools, pipelines, scope, budgets, priorities, documents and decisions."
+    }
+  }
+}

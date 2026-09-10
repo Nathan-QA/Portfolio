@@ -1,0 +1,74 @@
+{
+  "name": "Nathan Tandille",
+  "url": "https://www.nathantandille.com",
+  "email": "tandille.nathan@gmail.com",
+  "location": "Bordeaux, France",
+  "linkedin": "https://www.linkedin.com/in/nathan-tandille/",
+  "mobygames": "https://www.mobygames.com/person/1375320/nathan-tandille/",
+  "cv": "assets/Nathan_Tandille_CV_2026.pdf",
+  "featuredProjects": ["distant-shore-bretagne", "dordogne", "pyla", "ltag-ltdc"],
+  "featuredArticles": ["distant-shore-readability", "dordogne-feedback-loop", "pyla-production-scope"],
+  "hero": {
+    "fr": {
+      "eyebrow": "Level designer · QA & production",
+      "line1": "Des idées aux",
+      "line2": "mondes jouables.",
+      "description": "Concevoir des espaces à explorer, donner du sens aux systèmes et faire avancer les idées jusqu’au jeu."
+    },
+    "en": {
+      "eyebrow": "Level designer · QA & production",
+      "line1": "From ideas to",
+      "line2": "playable worlds.",
+      "description": "Designing spaces to explore, making systems meaningful and taking ideas all the way into the game."
+    }
+  },
+  "editorial": {
+    "distant-shore-bretagne": {
+      "fr": "Rendre le parkour magnétique lisible, sans limiter la liberté du joueur.",
+      "en": "Making magnetic parkour readable without limiting player freedom."
+    },
+    "dordogne": {
+      "fr": "Accompagner une aventure en aquarelle jusqu’à sa livraison, de la QA aux certifications.",
+      "en": "Taking a watercolor adventure through release, from QA to certification."
+    },
+    "pyla": {
+      "fr": "Donner un cadre de production à une vision créative ambitieuse.",
+      "en": "Building a production framework around an ambitious creative vision."
+    },
+    "ltag-ltdc": {
+      "fr": "Explorer le rythme, la navigation et la construction de séquences jouables.",
+      "en": "Exploring pacing, navigation and the construction of playable sequences."
+    }
+  },
+  "articleTitles": {
+    "distant-shore-readability": { "fr": "Rendre le parkour magnétique lisible", "en": "Making magnetic parkour readable" },
+    "dordogne-feedback-loop": { "fr": "Du retour QA à la correction vérifiée", "en": "From QA feedback to a verified fix" },
+    "pyla-production-scope": { "fr": "Donner un cadre à la vision créative", "en": "Giving creative vision a framework" }
+  },
+  "expertise": [
+    {
+      "title": { "fr": "Level & game design", "en": "Level & game design" },
+      "verb": { "fr": "Concevoir", "en": "Design" },
+      "text": { "fr": "Des intentions aux espaces jouables : parcours, rythme, lisibilité et liberté d’expérimentation.", "en": "From intentions to playable spaces: navigation, pacing, readability and freedom to experiment." },
+      "tags": ["Unity", "Greybox", "Playtests"],
+      "project": "distant-shore-bretagne",
+      "icon": "map"
+    },
+    {
+      "title": { "fr": "QA & itération", "en": "QA & iteration" },
+      "verb": { "fr": "Observer", "en": "Observe" },
+      "text": { "fr": "Identifier les frictions, comprendre leur origine et transformer les retours en améliorations vérifiables.", "en": "Spot friction, understand its causes and turn feedback into verifiable improvements." },
+      "tags": ["Triage", "C#", "Certification"],
+      "project": "dordogne",
+      "icon": "focus"
+    },
+    {
+      "title": { "fr": "Production & coordination", "en": "Production & coordination" },
+      "verb": { "fr": "Faire avancer", "en": "Move forward" },
+      "text": { "fr": "Relier la vision, les équipes et les moyens disponibles : priorités, dépendances, scope et décisions.", "en": "Connect the vision, the team and the available resources: priorities, dependencies, scope and decisions." },
+      "tags": ["ClickUp", "Pipelines", "Scope"],
+      "project": "pyla",
+      "icon": "compass"
+    }
+  ]
+}
