@@ -1,0 +1,116 @@
+/* UX pass on main. Original design tokens, typefaces, illustrations, curtain
+   and particle styling remain in style.css without modifications. */
+[hidden]{display:none!important}
+button,input{font:inherit;color:inherit}
+:where(a,button,summary,[tabindex]):focus-visible{outline:2px solid var(--accent-500);outline-offset:4px}
+.header-actions .btn{min-height:40px;min-width:40px}
+.primary-nav a{position:relative;white-space:nowrap}
+.primary-nav a[aria-current="location"]{border-color:var(--ring);background:color-mix(in oklab,var(--panel) 90%,var(--accent-500) 10%)}
+.primary-nav a[aria-current="location"]::after{content:"";position:absolute;bottom:4px;left:14px;right:14px;height:2px;border-radius:2px;background:var(--accent-500)}
+.hero.container{padding:44px 20px 36px}
+.ux-intro{grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:clamp(28px,5vw,72px);align-items:center}
+.ux-intro .hero-roles{font-size:clamp(18px,1.7vw,24px);max-width:30ch;line-height:1.35}
+.ux-intro-body #heroDesc{margin-top:0;max-width:54ch}
+.hero-cta{align-items:center;gap:16px}
+.hero-cta .ux-primary{display:inline-flex;gap:14px;align-items:center;border:1px solid color-mix(in oklab,var(--accent-500) 45%,var(--ring));border-radius:8px;padding:12px 16px;background:color-mix(in oklab,var(--panel) 90%,var(--accent-500) 10%);box-shadow:0 5px 16px color-mix(in oklab,var(--fg) 8%,transparent);text-decoration:none;min-height:44px}
+.hero-cta .ux-primary:hover{background:color-mix(in oklab,var(--panel) 80%,var(--accent-500) 20%);color:var(--read-text)}
+.hero-cta .ux-cv{border:0;border-bottom:1px solid currentColor;border-radius:0;padding:8px 0;min-height:44px;font-weight:750}
+.section.container{padding:54px 20px}
+.section h2{margin-bottom:14px}
+.section-intro{margin:0 0 26px;color:var(--read-soft);font-size:17px;line-height:1.6;max-width:74ch}
+.project-tile .ovr-bottom{align-items:flex-start;flex-direction:column;gap:14px}
+.project-tile .ovr-bottom .t{font-size:clamp(30px,3.35vw,48px);line-height:1.08;max-width:20ch}
+.project-tile .project-copy{width:100%;min-width:0}
+.project-tile-summary{max-width:52ch;display:block;min-height:0;overflow:visible;font-size:15px;line-height:1.5;margin-top:12px}
+.project-cta{margin-left:0}
+.ux-card-link{color:inherit;text-decoration:none}
+.ux-card-link:focus-visible{outline-color:var(--accent-500);border-radius:3px}
+.tile:focus-within{box-shadow:0 0 0 3px color-mix(in oklab,var(--accent-500) 45%,transparent)}
+.project-tile:hover .project-cta .arr{transform:translateX(4px)}
+.case-tile{grid-template-columns:minmax(240px,.75fr) minmax(0,1.25fr)}
+.tile.case-tile{min-height:280px!important}
+.case-thumb{min-height:280px}
+.case-title{font-size:clamp(25px,2.4vw,35px);line-height:1.12}
+.case-lead{display:block;overflow:visible;line-height:1.6;font-size:16px}
+.case-body{min-width:0}
+.case-link{min-height:28px}
+.ux-article-meta{font-size:13px;color:var(--read-soft);margin:0}
+.ux-article-tools{display:flex;align-items:end;gap:16px;flex-wrap:wrap;margin:0 0 22px}
+.ux-search{display:grid;gap:6px;min-width:min(100%,260px);flex:1;font-weight:700;font-size:13px;max-width:440px}
+.ux-search input{width:100%;min-height:44px;padding:10px 12px;border:1px solid var(--ring);border-radius:8px;background:var(--panel);color:var(--read-text)}
+.ux-filter{display:grid;gap:6px;font-size:13px;font-weight:700}
+.ux-filter select{min-height:44px;max-width:100%;padding:8px 30px 8px 10px;font:inherit;color:var(--read-text);border:1px solid var(--ring);border-radius:8px;background:var(--panel)}
+.ux-results{font-size:13px;color:var(--read-soft);margin:0 0 12px}
+.ux-empty{margin-bottom:20px;padding:22px}
+.ux-empty p{margin:0 0 14px}
+#about .hero-profile{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));border-left:0;padding-left:0;gap:24px;max-width:none;margin-bottom:32px}
+#about .hero-profile>div{border:0;border-left:1px solid var(--read-border);padding:0 0 0 20px;align-content:start}
+#about .hero-profile strong{font-size:17px;line-height:1.55}
+.ux-disclosure{border:1px solid var(--ring);border-radius:10px;background:var(--panel);margin:16px 0;padding:0 20px;min-width:0}
+.ux-disclosure>summary{cursor:pointer;padding:20px 2px;font-weight:750;line-height:1.4;min-height:54px}
+.ux-disclosure[open]>summary{border-bottom:1px solid var(--ring);margin-bottom:18px}
+.ux-disclosure>.skills-wrap{padding-bottom:20px}
+.ux-disclosure .career-strip{margin-top:0;padding-top:0;border-bottom:0}
+.ux-disclosure .career-strip-head{display:none}
+.ux-contact{grid-template-columns:minmax(0,1fr) minmax(0,1.2fr);align-items:center;gap:32px}
+.ux-contact-direct{min-width:0;display:grid;gap:18px}
+.ux-email{font-size:clamp(18px,2vw,26px);font-weight:750;text-underline-offset:6px;overflow-wrap:anywhere}
+.ux-contact-help{font-size:13px;color:var(--read-soft);margin:0}
+.ux-status{position:fixed;bottom:24px;left:50%;transform:translateX(-50%);z-index:2500;background:var(--panel);color:var(--fg);border:1px solid var(--ring);border-radius:8px;padding:14px 20px;box-shadow:0 8px 28px color-mix(in oklab,var(--fg) 14%,transparent);max-width:calc(100vw - 32px)}
+/* Keep main's modal appearance; the close action never scrolls out of reach. */
+.modal>header{position:sticky;top:-16px;z-index:8;margin:-16px -16px 16px;padding:14px 16px;gap:14px;background:var(--panel);border-bottom:1px solid var(--ring)}
+.modal--case-study>header{top:-18px;margin:-18px -18px 16px}
+.modal>header h3{font-size:18px;line-height:1.3}
+.modal>header .x,.modal>header .back{min-height:40px;min-width:44px;flex-shrink:0}
+.ux-toc{margin:22px 0;padding:0 18px}
+.ux-toc ol{padding:0 0 14px 22px;margin:0;display:grid;gap:8px}
+.ux-toc a{display:block;line-height:1.45;padding:5px 0;text-underline-offset:3px}
+.case-section[id]{scroll-margin-top:100px}
+.ux-reader-bar{position:absolute;bottom:-1px;left:0;right:0;height:2px;transform:scaleX(var(--read-progress,0));transform-origin:left;background:var(--accent-500)}
+@media(hover:hover) and (prefers-reduced-motion:no-preference){
+ .btn,.action-btn,.ux-card-link,.case-link{transition:background .2s var(--easing),transform .2s var(--easing),box-shadow .2s var(--easing)}
+ .btn:active,.action-btn:active{transform:translateY(1px)}
+ .case-tile:hover .case-link{transform:translateX(4px)}
+}
+@media(max-width:920px){
+ .case-tile{grid-template-columns:minmax(200px,.8fr) minmax(0,1.2fr)}
+ .case-thumb{aspect-ratio:auto}
+ .case-tile .case-body{padding:24px}
+}
+@media(max-width:860px){
+ .hero.container{padding:32px 24px 22px}
+ .ux-intro{grid-template-columns:1fr;gap:22px}
+ .ux-intro .hero-roles{max-width:100%;font-size:20px}
+ .hero-copy,#about .hero-profile,.career-strip{max-width:none;width:100%}
+ .section.container{padding:38px 24px}
+ #about .hero-profile{grid-template-columns:1fr;gap:22px}
+ .ux-contact{grid-template-columns:1fr}
+ .primary-nav{max-height:calc(100dvh - var(--headerH));overflow-y:auto}
+}
+@media(max-width:640px){
+ .case-tile{grid-template-columns:1fr}
+ .case-thumb{min-height:0;height:auto;aspect-ratio:16/9}
+ .project-tile .thumb{min-height:340px;aspect-ratio:auto}
+ .project-tile .ovr{padding:22px}
+ .project-tile .ovr-bottom .t{font-size:36px}
+ .case-title{font-size:27px}
+ .ux-disclosure{padding:0 14px}
+ .skills-wrap .grid{grid-template-columns:minmax(0,1fr)!important}
+ .ux-filter{width:100%}
+ .ux-search{max-width:none;width:100%}
+ .modal{width:calc(100vw - 20px);max-height:92dvh}
+ .modal>header h3{font-size:15px}
+ .case-section[id]{scroll-margin-top:130px}
+}
+@media(max-width:390px){
+ .h-row{flex-wrap:wrap;justify-content:space-between}
+ .header-actions{flex:1 0 auto;justify-content:flex-end}
+ #avatarImg{width:48px;height:48px}
+ .brand-name .first{font-size:1.3em}
+ .brand-name .last{font-size:.85em}
+ .header-actions .btn{min-width:34px;padding:6px}
+ .project-tile .ovr-bottom .t{font-size:30px}
+}
+@media(prefers-reduced-motion:reduce){
+ *,*::before,*::after{animation-duration:.01ms!important;transition-duration:.01ms!important;scroll-behavior:auto!important}
+}

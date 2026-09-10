@@ -21,8 +21,11 @@
 
   <link rel="icon" type="image/svg+xml" href="assets/favicon.svg" />
 
+  <script>try{const t=localStorage.getItem("pref-theme");if(t==="dark"||t==="light")document.documentElement.dataset.theme=t;else document.documentElement.dataset.theme=matchMedia("(prefers-color-scheme: dark)").matches?"dark":"light"}catch{}</script>
+
   <!-- CSS -->
   <link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" href="ux.css" />
 
   <!-- Préloads importants -->
   <link rel="preload" as="image" href="assets/leaf_right.png" fetchpriority="high">
@@ -87,8 +90,8 @@
       </nav>
 
       <!-- Actions à droite -->
-      <div style="display:flex; gap:8px; align-items:center">
-        <label for="navChk" id="navToggle" class="btn nav-toggle" aria-label="Ouvrir le menu" aria-controls="primaryNav" aria-expanded="false">☰</label>
+      <div class="header-actions" style="display:flex; gap:8px; align-items:center">
+        <button type="button" id="navToggle" class="btn nav-toggle" aria-label="Ouvrir le menu" aria-controls="primaryNav" aria-expanded="false">☰</button>
         <button id="cvBtn" class="btn" title="CV">CV</button>
         <button id="themeBtn" class="btn" aria-label="Theme">☀</button>
         <button id="langBtn" class="btn" aria-label="Language">FR 🇫🇷</button>
@@ -100,16 +103,40 @@
   <div class="main-contrast">
     <main id="main" class="page-slab">
       <section class="hero container">
-        <div class="hero-grid">
+        <div class="hero-grid ux-intro">
           <div class="hero-copy">
             <span class="hero-kicker" data-i18n="hero_kicker">Portfolio</span>
             <h1 data-i18n="hero_title">Level Designer</h1>
             <p class="hero-roles" data-i18n="hero_roles">Background QA & production au service du level design.</p>
+          </div>
+          <div class="hero-copy ux-intro-body">
             <p id="heroDesc">Je peux partir d’une intention, d’un besoin de gameplay ou d’une page blanche, puis construire une proposition jouable : structure, rythme, guidage, contraintes moteur, documentation utile et itérations avec l’équipe.</p>
             <div class="hero-cta">
-              <button id="cvCTA" class="btn btn-cta" data-i18n="open_cv">Ouvrir le CV</button>
+              <a class="btn btn-cta ux-primary" href="#projects"><span data-ux-i18n="seeProjects">Voir les projets</span> <span aria-hidden="true">↓</span></a>
+              <button id="cvCTA" class="btn ux-cv" data-i18n="open_cv">Ouvrir le CV</button>
             </div>
           </div>
+
+        </div>
+
+      </section>
+
+      <section id="projects" class="section container">
+        <h2 data-i18n="projects_title">Projets phares</h2>
+        <p class="section-intro" data-ux-i18n="projectIntro">Les jeux sur lesquels j’ai travaillé, mon rôle et mes contributions</p>
+        <div id="projectList" class="masonry"></div>
+      </section>
+
+      <section id="cases" class="section container">
+        <h2 data-i18n="cases_title">Articles &amp; études de cas</h2>
+        <p class="section-intro" data-ux-i18n="articleIntro">Un projet, une question de design, une méthode de travail : les sujets en détail</p>
+        <div id="articleTools"></div>
+        <div id="caseList" class="masonry"></div>
+      </section>
+
+      <section id="about" class="section container">
+        <h2 data-i18n="about_role_title">Rôle & forces</h2>
+        <p class="section-intro" data-ux-i18n="skillsIntro">Mes compétences et les expériences sur lesquelles elles s’appuient</p>
           <aside class="hero-profile" aria-label="Ce que j'apporte">
             <div>
               <span data-i18n="hero_focus_label">Level design</span>
@@ -124,7 +151,12 @@
               <strong data-i18n="hero_tools_value">Relier les intentions aux contraintes de scope, budget et planning : priorités, tickets, builds et dépendances</strong>
             </div>
           </aside>
-        </div>
+        <details class="ux-disclosure" id="skillsDetails">
+          <summary data-ux-i18n="skillsMore">Explorer toutes les compétences</summary>
+        <div id="skillsWrap" class="skills-wrap"></div>
+        </details>
+        <details class="ux-disclosure" id="careerDetails">
+          <summary data-ux-i18n="careerMore">Voir le parcours complet</summary>
         <div class="career-strip" aria-label="Parcours et projets">
           <div class="career-strip-head">
             <span data-i18n="timeline_kicker">Parcours</span>
@@ -163,21 +195,7 @@
             </li>
           </ol>
         </div>
-      </section>
-
-      <section id="projects" class="section container">
-        <h2 data-i18n="projects_title">Projets phares</h2>
-        <div id="projectList" class="masonry"></div>
-      </section>
-
-      <section id="cases" class="section container">
-        <h2 data-i18n="cases_title">Études de cas</h2>
-        <div id="caseList" class="masonry"></div>
-      </section>
-
-      <section id="about" class="section container">
-        <h2 data-i18n="about_role_title">Rôle & forces</h2>
-        <div id="skillsWrap" class="skills-wrap"></div>
+        </details>
       </section>
 
       <section id="legal" class="section container">
@@ -206,10 +224,9 @@
   <!-- Portals -->
   <div id="modalRoot"></div>
   <div id="lightboxRoot"></div>
+  <div id="uxStatus" class="ux-status" role="status" aria-live="polite" hidden></div>
 
-  <!-- Google Identity Services + EmailJS -->
-  <script src="https://accounts.google.com/gsi/client" async defer></script>
-  <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js" async defer></script>
+
 
   <script type="application/ld+json">
   {

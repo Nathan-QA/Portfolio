@@ -156,6 +156,7 @@ export async function openModal(title, bodyHTML, {originEl=null, showBack=false,
   const shell = modal.querySelector('[data-media-shell]') || modal;
 
   const wire = ()=>{
+    if (!backdrop.isConnected) return;
     document.body.classList.add('no-scroll');
     backdrop.addEventListener('click',e=>{ if(e.target===backdrop) closeModal({originEl}); }, {passive:true});
     modal.querySelector('.x')?.addEventListener('click',()=>closeModal({originEl}));
@@ -191,6 +192,7 @@ export async function openModal(title, bodyHTML, {originEl=null, showBack=false,
   await animateUniform(ghost, fromRect, toRect, borderRadius(originEl), borderRadius(shell), 340);
 
   ghost.remove();
+  if (!backdrop.isConnected) return;
   modal.style.opacity = '';
   modal.style.pointerEvents = '';
   modal.style.animation = '';
@@ -265,7 +267,7 @@ export function closeGallery(){
   const n=root.firstChild;
   if(n && n._onKey) window.removeEventListener('keydown', n._onKey);
   root.innerHTML='';
-  document.body.classList.remove('no-scroll');
+  if (!byId('modalRoot')?.firstChild) document.body.classList.remove('no-scroll');
 }
 
 function mediaAttr(v){
