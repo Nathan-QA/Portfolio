@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="fr" data-theme="light">
+<html lang="fr" data-theme="light" data-design="atelier-2026">
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
@@ -7,7 +7,6 @@
   <meta name="theme-color" content="#fff4e5" />
   <link rel="canonical" href="https://www.nathantandille.com/" />
   <title>Nathan Tandille - Production, QA &amp; Level Design</title>
-
   <meta property="og:type" content="website" />
   <meta property="og:site_name" content="Nathan Tandille Portfolio" />
   <meta property="og:title" content="Nathan Tandille - Production, QA &amp; Level Design" />
@@ -18,16 +17,10 @@
   <meta name="twitter:title" content="Nathan Tandille - Production, QA &amp; Level Design" />
   <meta name="twitter:description" content="Production, QA et Level Design : projets, contributions et retours de terrain." />
   <meta name="twitter:image" content="https://www.nathantandille.com/assets/bannerD.png" />
-
   <link rel="icon" type="image/svg+xml" href="assets/favicon.svg" />
-
   <script>try{const t=localStorage.getItem("pref-theme");if(t==="dark"||t==="light")document.documentElement.dataset.theme=t;else document.documentElement.dataset.theme=matchMedia("(prefers-color-scheme: dark)").matches?"dark":"light"}catch{}</script>
-
-  <!-- CSS -->
   <link rel="stylesheet" href="style.css" />
-  <link rel="stylesheet" href="ux.css" />
-
-  <!-- Préloads importants -->
+  <link rel="stylesheet" href="ux.css?v=atelier-2026" />
   <link rel="preload" as="image" href="assets/leaf_right.png" fetchpriority="high">
   <link rel="preload" as="image" href="assets/leaf_rightN.png">
   <link rel="preload" as="image" href="assets/bannerD.png" fetchpriority="high">
@@ -36,62 +29,31 @@
 </head>
 <body>
   <a class="skip-link" href="#main" data-i18n="skip_content">Aller au contenu</a>
-
-  <!-- Bannière plein écran (image jour/nuit via CSS) -->
-  <section id="hero-banner" aria-label="Bannière">
-    <div class="hero-img day"></div>
-    <div class="hero-img night"></div>
-    <div class="hero-lift day"></div>
-    <div class="hero-lift night"></div>
-    <div id="afterHeroSentinel" aria-hidden="true"></div>
-  </section>
-
-  <!-- Rideau d’intro (images posées par JS via CSS vars) -->
-  <div id="curtain" class="curtain" aria-hidden="true">
-    <div class="panel left"></div>
-    <div class="panel right"></div>
-  </div>
-
-  <!-- Couche de feuilles -->
-  <div id="leafLayer" class="leaf-layer" aria-hidden="true"></div>
-
   <header class="header">
     <div class="h-row container">
       <div class="brand">
         <img id="avatarImg" src="assets/PP.png" alt="Nathan Tandille" loading="eager" decoding="async">
         <div>
-          <a href="#hero-banner" class="ux-brand-home"><strong class="brand-name">
-            <span class="first">Nathan</span> <span class="last">Tandille</span>
-          </strong></a>
+          <a href="#hero-banner" class="ux-brand-home"><strong class="brand-name"><span class="first">Nathan</span> <span class="last">Tandille</span></strong></a>
           <div class="brand-links">
             <a id="lkdLink" class="brand-icon" aria-label="LinkedIn" target="_blank" rel="noopener" href="#">
-              <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true">
-                <path fill="currentColor" d="M19 3A2.94 2.94 0 0 1 22 6v12a2.94 2.94 0 0 1-3 3H5a2.94 2.94 0 0 1-3-3V6a2.94 2.94 0 0 1 3-3h14m-9 7H8v9h2V10m0-3a1 1 0 1 0-1.9.38A1 1 0 0 0 10 7m9 6.5c0-3-1.6-4.5-3.8-4.5A3.3 3.3 0  0 0 12 10h-.1V10h.1v9h2v-5.1c0-1.3.3-2.6 2-2.6s1.9 1.5 1.9 2.7V19h2z"/>
-              </svg>
+              <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><path fill="currentColor" d="M19 3A2.94 2.94 0 0 1 22 6v12a2.94 2.94 0 0 1-3 3H5a2.94 2.94 0 0 1-3-3V6a2.94 2.94 0 0 1 3-3h14m-9 7H8v9h2V10m0-3a1 1 0 1 0-1.9.38A1 1 0 0 0 10 7m9 6.5c0-3-1.6-4.5-3.8-4.5A3.3 3.3 0 0 0 12 10h-.1V10h.1v9h2v-5.1c0-1.3.3-2.6 2-2.6s1.9 1.5 1.9 2.7V19h2z"/></svg>
             </a>
             <a id="mobyLink" class="brand-icon" aria-label="MobyGames" target="_blank" rel="noopener" href="#">
-              <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true">
-                <path fill="currentColor" d="M7 7h10a5 5 0 0 1 4.58 2.92l.86 1.99a3 3 0 0 1-1.64 3.92 3.5 3.5 0 0 1-4.62-1.82l-.31-.71H7.13l-.31.71A3.5 3.5 0 0 1 2.2 15.83a3 3 0  0 1-1.64-3.92l.86-1.99A5 5 0  0 1 7 7Zm0 3a1 1 0 1 0 0 2h1v1a1 1 0 1 0 2 0v-1h1a1 1 0 1 0 0-2H10V9a1 1 0 1 0-2 0v1H7Zm9.5.5a1 1 0 1 0 0 2 1 1 0 0 0 0-2Zm-2 2a1 1 0 1 0 0 2 1 1 0 0 0 0-2Z"/>
-              </svg>
+              <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><path fill="currentColor" d="M7 7h10a5 5 0 0 1 4.58 2.92l.86 1.99a3 3 0 0 1-1.64 3.92 3.5 3.5 0 0 1-4.62-1.82l-.31-.71H7.13l-.31.71A3.5 3.5 0 0 1 2.2 15.83a3 3 0 0 1-1.64-3.92l.86-1.99A5 5 0 0 1 7 7Zm0 3a1 1 0 1 0 0 2h1v1a1 1 0 1 0 2 0v-1h1a1 1 0 1 0 0-2H10V9a1 1 0 1 0-2 0v1H7Zm9.5.5a1 1 0 1 0 0 2 1 1 0 0 0 0-2Zm-2 2a1 1 0 1 0 0 2 1 1 0 0 0 0-2Z"/></svg>
             </a>
           </div>
         </div>
       </div>
-
-      <!-- Checkbox pour le burger (contrôle CSS) -->
       <input type="checkbox" id="navChk" class="nav-chk" hidden>
-
-      <!-- NAV -->
-      <nav id="primaryNav" class="primary-nav" aria-label="primary">
+      <nav id="primaryNav" class="primary-nav" aria-label="Navigation principale">
         <a href="#projects" data-i18n="nav_projects">Projets</a>
         <a href="#cases" data-i18n="nav_cases">Articles</a>
         <a href="#about" data-i18n="nav_about">Compétences</a>
         <a href="#contact" data-i18n="nav_contact">Contact</a>
         <a class="ux-mobile-cv" href="assets/Nathan_Tandille_CV_2026.pdf" target="_blank" rel="noopener">CV ↗</a>
       </nav>
-
-      <!-- Actions à droite -->
-      <div class="header-actions" style="display:flex; gap:8px; align-items:center">
+      <div class="header-actions" style="display:flex;gap:8px;align-items:center">
         <button type="button" id="navToggle" class="btn nav-toggle" aria-label="Ouvrir le menu" aria-controls="primaryNav" aria-expanded="false">☰</button>
         <button id="cvBtn" class="btn" title="CV">CV</button>
         <button id="themeBtn" class="btn" aria-label="Theme">☀</button>
@@ -99,93 +61,53 @@
       </div>
     </div>
   </header>
-
-  <!-- Zone centrale légèrement plus sombre / contrastée -->
+  <section id="hero-banner" aria-label="Présentation de Nathan Tandille">
+    <div class="hero-img day"></div><div class="hero-img night"></div>
+    <div class="hero-lift day"></div><div class="hero-lift night"></div>
+    <div class="hero-wash" aria-hidden="true"></div>
+    <div class="hero-intro">
+      <p class="hero-kicker" data-i18n="hero_kicker">Jeux vidéo · Bordeaux</p>
+      <h1 data-i18n="hero_title">Nathan Tandille</h1>
+      <p class="hero-role" data-i18n="hero_roles">Production · QA · Level Design</p>
+      <p id="heroDesc">Je travaille sur les jeux et avec les équipes qui les font, de l’organisation de la production aux tests et au level design</p>
+      <span class="hero-flourish" aria-hidden="true"></span>
+    </div>
+    <div id="afterHeroSentinel" aria-hidden="true"></div>
+  </section>
+  <div id="curtain" class="curtain" aria-hidden="true"><div class="panel left"></div><div class="panel right"></div></div>
+  <div id="leafLayer" class="leaf-layer" aria-hidden="true"></div>
   <div class="main-contrast">
     <main id="main" class="page-slab">
-      <section class="hero container">
-        <div class="hero-grid ux-intro">
-          <div class="hero-copy">
-            <span class="hero-kicker" data-i18n="hero_kicker">Jeu vidéo · Bordeaux</span>
-            <h1 data-i18n="hero_title">Production,<br>QA &amp; Level Design</h1>
-          </div>
-          <div class="hero-copy ux-intro-body">
-            <p id="heroDesc">J’ai travaillé sur la QA de Dordogne, la production de PYLA et le level design de Distant Shore : Bretagne et Long Time A Girl</p>
-          </div>
-
-        </div>
-
-      </section>
-
       <section id="projects" class="section container">
-        <h2 data-i18n="projects_title">Projets</h2>
+        <div class="section-heading"><div><p class="section-note" data-i18n="projects_note">Jeux &amp; collaborations</p><h2 data-i18n="projects_title">Projets</h2></div><span class="chapter-line" aria-hidden="true"></span></div>
         <div id="projectList" class="masonry"></div>
       </section>
-
       <section id="cases" class="section container">
-        <h2 data-i18n="cases_title">Articles</h2>
-        <div id="articleTools"></div>
-        <div id="caseList" class="masonry"></div>
+        <div class="section-heading"><div><p class="section-note" data-i18n="cases_note">Notes de développement</p><h2 data-i18n="cases_title">Articles</h2></div><span class="chapter-line" aria-hidden="true"></span></div>
+        <div id="articleTools"></div><div id="caseList" class="masonry"></div>
       </section>
-
       <section id="about" class="section container">
-        <h2 data-i18n="about_role_title">Compétences</h2>
-          <aside class="hero-profile" aria-label="Ce que j'apporte">
-            <div>
-              <span data-i18n="hero_focus_label">Production</span>
-              <strong data-i18n="hero_focus_value">Planning, scope et budget<br>Coordination et suivi d’équipe<br>Dossiers de financement</strong>
-            </div>
-            <div>
-              <span data-i18n="hero_scope_label">QA</span>
-              <strong data-i18n="hero_scope_value">Plans de test et suivi des anomalies<br>Coordination QA interne et externe<br>Builds, certification et livraison</strong>
-            </div>
-            <div>
-              <span data-i18n="hero_tools_label">Level Design</span>
-              <strong data-i18n="hero_tools_value">Blockout et intégration Unity<br>Guidage, rythme et parcours<br>Playtests et itérations</strong>
-            </div>
-          </aside>
-        <details class="ux-disclosure" id="skillsDetails">
-          <summary data-ux-i18n="skillsMore">Compétences &amp; outils</summary>
-        <div id="skillsWrap" class="skills-wrap"></div>
-        </details>
+        <div class="section-heading"><div><p class="section-note" data-i18n="about_note">Du travail, et une façon de le faire</p><h2 data-i18n="about_role_title">Compétences</h2></div><span class="chapter-line" aria-hidden="true"></span></div>
+        <aside class="hero-profile" aria-label="Ce que j'apporte">
+          <div><span data-i18n="hero_focus_label">Production</span><strong data-i18n="hero_focus_value">Planning, scope et budget<br>Coordination et suivi d’équipe<br>Dossiers de financement</strong></div>
+          <div><span data-i18n="hero_scope_label">QA</span><strong data-i18n="hero_scope_value">Plans de test et suivi des anomalies<br>Coordination QA interne et externe<br>Builds, certification et livraison</strong></div>
+          <div><span data-i18n="hero_tools_label">Level Design</span><strong data-i18n="hero_tools_value">Blockout et intégration Unity<br>Guidage, rythme et parcours<br>Playtests et itérations</strong></div>
+        </aside>
+        <details class="ux-disclosure" id="skillsDetails"><summary data-ux-i18n="skillsMore">Compétences &amp; outils</summary><div id="skillsWrap" class="skills-wrap"></div></details>
         <details class="ux-disclosure" id="careerDetails">
           <summary data-ux-i18n="careerMore">Parcours</summary>
-        <div class="career-strip" aria-label="Parcours et projets">
-          <div class="career-strip-head">
-            <span data-i18n="timeline_kicker">Parcours</span>
-            <strong data-i18n="timeline_title">Projets, périodes et rôles</strong>
+          <div class="career-strip" aria-label="Parcours et projets">
+            <div class="career-strip-head"><span data-i18n="timeline_kicker">Parcours</span><strong data-i18n="timeline_title">Projets, périodes et rôles</strong></div>
+            <ol class="career-timeline">
+              <li><time data-i18n="timeline_education_time">Sept. 2019 - Juil. 2022</time><strong data-i18n="timeline_education_title">E-artsup Bordeaux</strong><span data-i18n="timeline_education_text">Formation Game Design, projets étudiants et diplôme.</span></li>
+              <li><time data-i18n="timeline_uma_time">Août 2022 - Septembre 2023</time><strong data-i18n="timeline_uma_title">UMANIMATION - Dordogne</strong><span data-i18n="timeline_uma_text">Stage QA, CDD QA Manager puis CDI QA Producer : builds, tickets, certification et livraison.</span></li>
+              <li><time data-i18n="timeline_ltag_time">Octobre 2023 - Mars 2025</time><strong data-i18n="timeline_ltag_title">UMANIMATION - Long Time a Girl</strong><span data-i18n="timeline_ltag_text">Level Designer &amp; Assistant Game Designer, zones, documentation, intégration et suivi design.</span></li>
+              <li><time data-i18n="timeline_bretagne_time">Mai 2025 - Fév. 2026</time><strong data-i18n="timeline_bretagne_title">Distant Shore: Bretagne</strong><span data-i18n="timeline_bretagne_text">Freelance Level Designer : exploration, reprise de zones et documentation LD.</span></li>
+              <li><time data-i18n="timeline_pyla_time">Oct. 2025 - Mai 2026</time><strong data-i18n="timeline_pyla_title">Pyla</strong><span data-i18n="timeline_pyla_text">Producer freelance chez Pepin Kojo : coordination, priorités, planning, budget et suivi projet.</span></li>
+            </ol>
           </div>
-          <ol class="career-timeline">
-            <li>
-              <time data-i18n="timeline_education_time">Sept. 2019 - Juil. 2022</time>
-              <strong data-i18n="timeline_education_title">E-artsup Bordeaux</strong>
-              <span data-i18n="timeline_education_text">Formation Game Design, projets étudiants et diplôme.</span>
-            </li>
-            <li>
-              <time data-i18n="timeline_uma_time">Août 2022 - Septembre 2023</time>
-              <strong data-i18n="timeline_uma_title">UMANIMATION - Dordogne</strong>
-              <span data-i18n="timeline_uma_text">Stage QA, CDD QA Manager puis CDI QA Producer : builds, tickets, certification et livraison.</span>
-            </li>
-            <li>
-              <time data-i18n="timeline_ltag_time">Octobre 2023 - Mars 2025</time>
-              <strong data-i18n="timeline_ltag_title">UMANIMATION - Long Time a Girl</strong>
-              <span data-i18n="timeline_ltag_text">Projet suivant Dordogne, non signé : Level Designer & Assistant Game Designer, zones, documentation, intégration et suivi design.</span>
-            </li>
-            <li>
-              <time data-i18n="timeline_bretagne_time">Mai 2025 - Fév. 2026</time>
-              <strong data-i18n="timeline_bretagne_title">Distant Shore: Bretagne</strong>
-              <span data-i18n="timeline_bretagne_text">Freelance Level Designer : exploration, reprise de zones et documentation LD.</span>
-            </li>
-            <li>
-              <time data-i18n="timeline_pyla_time">Oct. 2025 - Mai 2026</time>
-              <strong data-i18n="timeline_pyla_title">Pyla</strong>
-              <span data-i18n="timeline_pyla_text">Producer freelance chez Pepin Kojo : coordination, priorités, planning, budget et suivi projet.</span>
-            </li>
-          </ol>
-        </div>
         </details>
       </section>
-
       <section id="legal" class="section container">
         <h2 data-i18n="legal_title">Mentions légales</h2>
         <div id="legalContent" class="card">
@@ -195,58 +117,16 @@
           <p><strong>Vie privée :</strong> Les préférences de langue et de thème sont conservées dans ce navigateur. Le survol d’un projet peut charger son trailer YouTube, sans son. Les lecteurs vidéo et liens externes dépendent de leurs fournisseurs.</p>
         </div>
       </section>
-
       <section id="contact" class="section container">
-        <h2 data-i18n="contact_title">Contact</h2>
+        <div class="section-heading"><div><p class="section-note" data-i18n="atelier_contact_note">La suite commence par un échange</p><h2 data-i18n="contact_title">Contact</h2></div><span class="chapter-line" aria-hidden="true"></span></div>
         <div id="contactMount" class="card"></div>
       </section>
     </main>
   </div>
-
-  <footer class="footer">
-    <div class="container">
-      <span id="footText">© Nathan Tandille - Tous droits réservés</span>
-    </div>
-  </footer>
-
-  <!-- Portals -->
-  <div id="modalRoot"></div>
-  <div id="lightboxRoot"></div>
-  <div id="uxStatus" class="ux-status" role="status" aria-live="polite" hidden></div>
-
-
-
-  <script type="application/ld+json">
-  {
-    "@context": "https://schema.org",
-    "@type": "Person",
-    "name": "Nathan Tandille",
-    "jobTitle": "Producer / QA Producer / Level Designer",
-    "url": "https://www.nathantandille.com/",
-    "image": "https://www.nathantandille.com/assets/PP.png",
-    "email": "mailto:tandille.nathan@gmail.com",
-    "address": {
-      "@type": "PostalAddress",
-      "addressLocality": "Bordeaux",
-      "addressCountry": "FR"
-    },
-    "sameAs": [
-      "https://www.linkedin.com/in/nathan-tandille/",
-      "https://www.mobygames.com/person/1375320/nathan-tandille/"
-    ],
-    "knowsAbout": [
-      "Level Design",
-      "Game QA",
-      "Game Production",
-      "Unity",
-      "Playtesting",
-      "Narrative games",
-      "Exploration games"
-    ]
-  }
-  </script>
-
-<!-- Entrée de l’app -->
-<script type="module" src="./js/main.js"></script>
+  <footer class="footer"><div class="container"><span class="footer-note" data-i18n="footer_note">Merci de votre visite</span><span id="footText">© Nathan Tandille - Tous droits réservés</span></div></footer>
+  <div id="modalRoot"></div><div id="lightboxRoot"></div><div id="uxStatus" class="ux-status" role="status" aria-live="polite" hidden></div>
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"Person","name":"Nathan Tandille","jobTitle":"Producer / QA Producer / Level Designer","url":"https://www.nathantandille.com/","image":"https://www.nathantandille.com/assets/PP.png","email":"mailto:tandille.nathan@gmail.com","address":{"@type":"PostalAddress","addressLocality":"Bordeaux","addressCountry":"FR"},"sameAs":["https://www.linkedin.com/in/nathan-tandille/","https://www.mobygames.com/person/1375320/nathan-tandille/"],"knowsAbout":["Level Design","Game QA","Game Production","Unity","Playtesting","Narrative games","Exploration games"]}</script>
+  <script type="module" src="./js/main.js"></script>
+  <script type="module" src="./js/notebook.js"></script>
 </body>
 </html>

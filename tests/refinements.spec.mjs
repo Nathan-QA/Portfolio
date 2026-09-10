@@ -2,11 +2,9 @@ import {test,expect} from '@playwright/test';
 async function ready(page,path='/'){
  await page.goto(path);await expect(page.locator('#projectList .tile')).toHaveCount(4);await expect(page.locator('.ux-article-meta')).toHaveCount(3);
 }
-test.beforeEach(async({page})=>{
- await page.route(/youtube|google|simpleicons|wikimedia|flagcdn|git-fork|jsdelivr/,route=>route.abort());
-});
-test('the original opening has a keyboard-accessible scroll cue',async({page})=>{
- await ready(page);await page.locator('.ux-explore').focus();await page.keyboard.press('Enter');await expect(page).toHaveURL(/#main$/);
+test.beforeEach(async({page})=>{await page.route(/youtube|google|simpleicons|wikimedia|flagcdn|git-fork|jsdelivr/,route=>route.abort())});
+test('the opening has a keyboard-accessible cue leading to the projects',async({page})=>{
+ await ready(page);await page.locator('.ux-explore').focus();await page.keyboard.press('Enter');await expect(page).toHaveURL(/#projects$/);
  await page.locator('.ux-brand-home').click();await expect(page).toHaveURL(/#hero-banner$/);
 });
 test('one project action, with the related article inside its project',async({page})=>{

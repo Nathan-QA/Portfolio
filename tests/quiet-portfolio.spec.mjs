@@ -6,12 +6,12 @@ test.beforeEach(async({page})=>{
  await page.route(/youtube|google|simpleicons|wikimedia|flagcdn|git-fork|jsdelivr/,r=>r.abort());
 });
 test('production, QA and level design are the actual bilingual positioning',async({page})=>{
- await ready(page);await expect(page.locator('h1')).toContainText('Production,');await expect(page.locator('h1')).toContainText('QA & Level Design');
+ await ready(page);await expect(page.locator('#hero-banner h1')).toHaveText('Nathan Tandille');await expect(page.locator('.hero-role')).toHaveText('Production · QA · Level Design');
  await expect(page).toHaveTitle(/Production, QA/);
  await expect(page.locator('#about .hero-profile>div>span')).toHaveText(['Production','QA','Level Design']);
- await expect(page.locator('#heroDesc')).toContainText('Dordogne');
- await page.locator('#langBtn').click();await expect(page.locator('#heroDesc')).toContainText('I’ve worked');
- await expect(page.locator('h1')).toContainText('Production,');
+ await expect(page.locator('#heroDesc')).toContainText('équipes');
+ await page.locator('#langBtn').click();await expect(page.locator('#heroDesc')).toContainText('I work on games');
+ await expect(page.locator('.hero-role')).toContainText('Production');
  await page.reload();await expect(page.locator('html')).toHaveAttribute('lang','en');
 });
 test('homepage offers one project entry and one contact mail link',async({page})=>{
