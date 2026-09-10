@@ -1,0 +1,12 @@
+/** Small, dependency-free helpers shared by the static page templates. */
+export const escape = value => String(value ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+export const localize = (value, lang) => value && typeof value === 'object' && !Array.isArray(value) ? (value[lang] ?? value.fr ?? '') : (value ?? '');
+export const pathFor = (lang, kind = '', id = '') => `${lang === 'en' ? '/en' : ''}/${({project: lang === 'fr' ? 'projets' : 'projects', article:'journal', skills:lang === 'fr' ? 'competences' : 'skills', legal:lang === 'fr' ? 'mentions-legales' : 'legal'}[kind] || '')}${kind ? '/' : ''}${id ? `${id}/` : ''}`;
+export const idFor = s => String(s).normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
+export const list = items => (items || []).map(x => `<li>${escape(x)}</li>`).join('');
+export const paras = items => (Array.isArray(items) ? items : [items]).filter(Boolean).map(x => `<p>${escape(x)}</p>`).join('');
+export const safeURL = (value) => /^(https?:\/\/|mailto:|\/|#)/i.test(String(value)) ? escape(value) : '#';
+export const external = (url, label, cls = 'text-link') => `<a class="${cls}" href="${safeURL(url)}" target="_blank" rel="noopener noreferrer">${escape(label)} ${icon('external')}</a>`;
+export const icon = name => `<svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${({arrow:'<path d="M4 12h15m-6-6 6 6-6 6"/>', external:'<path d="M7 17 17 7M7 7h10v10"/>', down:'<path d="M12 4v15m-6-6 6 6 6-6"/>', sun:'<circle cx="12" cy="12" r="4"/><path d="M12 2v2m0 16v2M2 12h2m16 0h2M5 5l1 1m12 12 1 1M5 19l1-1M18 6l1-1"/>', moon:'<path d="M20 14A8 8 0 0 1 10 4a8 8 0 1 0 10 10Z"/>', menu:'<path d="M4 8h16M4 16h16"/>', close:'<path d="m6 6 12 12M6 18 18 6"/>', copy:'<rect x="8" y="8" width="12" height="12" rx="2"/><path d="M16 8V4H4v12h4"/>', search:'<circle cx="10.5" cy="10.5" r="6.5"/><path d="m16 16 5 5"/>', leaf:'<path d="M5 20C4 9 10 3 20 4c1 10-5 15-13 13M5 20 15 10"/>', play:'<path d="m9 5 10 7-10 7Z"/>', pause:'<path d="M9 5v14M15 5v14"/>', compass:'<circle cx="12" cy="12" r="9"/><path d="m16 8-2 6-6 2 2-6Z"/>', check:'<path d="m5 12 4 4L19 6"/>'})[name] || ''}</svg>`;
+export const readingTime = article => Math.max(1, Math.ceil(JSON.stringify(article || {}).split(/\s+/).length / 220));
+export const jsonScript = value => JSON.stringify(value).replace(/</g, '\\u003c');

@@ -1,0 +1,13 @@
+{
+  "projects": {
+    "distant-shore-bretagne": {"category": "design", "studio": "DISTANT SHORE", "cardSummary": {"fr": "Repenser quatre zones pour un parkour magnétique plus lisible, plus libre et plus expressif.", "en": "Reworking four areas for more readable, open and expressive magnetic parkour."}},
+    "dordogne": {"category": "qa", "studio": "UMANIMATION", "cardSummary": {"fr": "Du retour de test à la livraison : organiser une boucle QA utile à toute l’équipe.", "en": "From test feedback to release: building a QA loop that serves the whole team."}},
+    "pyla": {"category": "production", "studio": "PEPIN KOJO", "cardSummary": {"fr": "Donner un cadre de production à une vision créative forte : priorités, scope et coordination.", "en": "Giving a strong creative vision a production framework: priorities, scope and coordination."}},
+    "ltag-ltdc": {"category": "design", "studio": "UMANIMATION", "cardSummary": {"fr": "Game design, level design et prototypage. Un aperçu de travaux sous confidentialité.", "en": "Game design, level design and prototyping. A glimpse of work under confidentiality."}}
+  },
+  "articles": {
+    "distant-shore-readability": {"type": "case-study", "cardTitle": {"fr": "Guider sans enfermer le joueur", "en": "Guiding players without restricting them"}, "cardSummary": {"fr": "Reprendre une démo de parkour physique : trouver l’équilibre entre lisibilité, liberté et progression.", "en": "Reworking a physics parkour demo: balancing readability, freedom and progression."}},
+    "dordogne-feedback-loop": {"type": "case-study", "cardTitle": {"fr": "Un retour de test n’est que le début", "en": "Test feedback is only the beginning"}, "cardSummary": {"fr": "Comment faire circuler un problème jusqu’à sa résolution, du ticket à la build.", "en": "How to follow a problem all the way to its resolution, from ticket to build."}},
+    "pyla-production-scope": {"type": "case-study", "cardTitle": {"fr": "Faire avancer une vision créative", "en": "Moving a creative vision forward"}, "cardSummary": {"fr": "Priorités, outils et arbitrages : construire un cadre de production sans perdre l’intention.", "en": "Priorities, tools and decisions: building a production framework without losing the vision."}}
+  }
+}
