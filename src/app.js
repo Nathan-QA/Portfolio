@@ -107,6 +107,14 @@
  // Opening a linked skill should not require finding it a second time.
  function openLinkedSkill(){if(!location.hash)return;let el;try{el=document.getElementById(decodeURIComponent(location.hash.slice(1)))}catch{return}if(el?.matches('.skill-item'))el.open=true}
  addEventListener('hashchange',openLinkedSkill);openLinkedSkill();
+ // On a direct visit or reload, settle an explicit fragment after layout.
+ // Back/forward navigation retains the browser's own saved scroll position.
+ addEventListener('pageshow',event=>{
+  if(event.persisted||performance.getEntriesByType('navigation')[0]?.type==='back_forward'||!location.hash)return;
+  let target;try{target=document.getElementById(decodeURIComponent(location.hash.slice(1)))}catch{return}
+  if(target)requestAnimationFrame(()=>target.scrollIntoView({behavior:'instant',block:'start'}));
+ });
+
 
  // The existing watercolour sprite sheet supplies the leaves (3 × 3 cells).
  const canvas=$('.leaf-canvas'), context=canvas.getContext('2d'), tree=$('.world-tree'), motionButton=$('[data-motion-toggle]');

@@ -131,10 +131,20 @@ test('content and links remain usable without JavaScript',async({browser})=>{
 });
 
 test('all routes are free of JavaScript exceptions and failed local resources',async({page})=>{
+ test.setTimeout(60000);
  const errors=[];page.on('pageerror',error=>errors.push(error.message));
  page.on('response',r=>{if(r.url().startsWith('http://127.0.0.1:4173')&&r.status()>=400)errors.push(`${r.status()} ${r.url()}`)});
  const info=JSON.parse(await fs.readFile('dist/build-info.json','utf8'));
- for(const route of info.pages){await page.goto(route);await page.evaluate(()=>Promise.all([...document.images].filter(i=>i.src).map(i=>i.decode().catch(()=>null))));}
+ for(const route of info.pages){
+  await page.goto(route);
+  await page.locator('img[loading="lazy"]').evaluateAll(images=>images.forEach(i=>i.loading='eager'));
+  const broken=await page.evaluate(async()=>{
+   const images=[...document.images].filter(i=>i.src);
+   await Promise.all(images.map(i=>i.decode().catch(()=>null)));
+   return images.filter(i=>!i.complete||!i.naturalWidth).map(i=>i.src);
+  });
+  errors.push(...broken.map(src=>`Undecodable image: ${src}`));
+ }
  expect(errors).toEqual([]);
 });
 
