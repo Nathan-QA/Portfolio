@@ -53,6 +53,14 @@ test('contents align below the toolbar without scrolling the background',async({
  await page.locator('.ux-toc-toggle').click();
  await expect(page.locator('.ux-toc summary')).toBeFocused();
 });
+test('slow images above an article anchor cannot displace its heading',async({page})=>{
+ await page.route('**/assets/projects/*.webp',async route=>{await new Promise(resolve=>setTimeout(resolve,400));await route.continue()});
+ await ready(page);await page.locator('.case-title a').first().click();await page.locator('.ux-toc summary').click();
+ await page.locator('.ux-toc a').nth(2).click();await page.waitForTimeout(1300);
+ await expect.poll(()=>page.locator('#article-section-3').evaluate(el=>{
+  return Math.abs(el.getBoundingClientRect().top-el.closest('.modal').querySelector('header').getBoundingClientRect().bottom-20);
+ })).toBeLessThan(8);
+});
 test('article title focus opens one window and returns to its title',async({page})=>{
  await ready(page);const link=page.locator('.case-title a').nth(1);
  await link.focus();await page.keyboard.press('Enter');
@@ -64,7 +72,7 @@ test('day and night finish captures with all local images decoded',async({page},
  await page.setViewportSize({width:1440,height:1000});await page.emulateMedia({colorScheme:'light'});await ready(page);await imagesReady(page);
  const capture=async(name,section)=>{
   if(section)await page.locator('#'+section).evaluate(el=>el.scrollIntoView({behavior:'instant'}));
-  await page.mouse.move(4,4);await page.waitForTimeout(700);
+  await page.evaluate(()=>document.activeElement?.blur());await page.mouse.move(4,4);await page.waitForTimeout(700);
   await page.screenshot({path:info.outputPath(name+'.png')});
  };
  await capture('opening-day');await capture('intro-day','main');await capture('projects-day','projects');await capture('articles-day','cases');await capture('skills-day','about');
@@ -72,6 +80,7 @@ test('day and night finish captures with all local images decoded',async({page},
  await page.locator('#themeBtn').click();await page.locator('.case-title a').first().click();await expect(page.locator('.modal')).toHaveClass(/ux-reading-mode/);await page.waitForTimeout(600);
  await page.screenshot({path:info.outputPath('reading-day.png')});await page.keyboard.press('Escape');
  await page.setViewportSize({width:390,height:844});await capture('articles-mobile','cases');
+ await page.locator('.case-tile').first().screenshot({path:info.outputPath('article-mobile-card.png')});
  await page.evaluate(()=>scrollTo({top:0,behavior:'instant'}));await page.waitForTimeout(500);
  await page.screenshot({path:info.outputPath('mobile-full.png'),fullPage:true});
 });

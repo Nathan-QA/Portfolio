@@ -36,10 +36,10 @@ button,input,select{font:inherit;color:inherit}
 .project-tile .ovr-bottom{display:block}
 .project-tile .project-copy{width:100%;max-width:none;gap:12px}
 .project-tile .ovr-bottom .t{font-size:clamp(30px,2.8vw,42px);line-height:1.13;letter-spacing:-.025em;font-weight:760;text-shadow:0 2px 8px rgba(0,0,0,.22)}
-.project-tile-summary{display:block;overflow:visible;max-width:49ch;margin:0;font-size:16px;line-height:1.55;color:#fff!important}
+.project-tile-summary{display:block;overflow:visible;min-height:3.1em;max-width:49ch;margin:0;font-size:16px;line-height:1.55;color:#fff!important}
 .project-tile .role-badge.o{border:1px solid rgba(255,255,255,.32);border-radius:5px;padding:6px 10px;font-size:13px;font-weight:600;letter-spacing:0;background:rgba(0,0,0,.46)}
 .ux-card-link{color:inherit;text-decoration:none}
-.ux-card-link:focus-visible{outline-offset:5px}
+.ux-card-link:focus-visible{outline:0;box-shadow:none;border-radius:0}
 .project-tile .t a::after{content:'↗';position:absolute;right:30px;top:30px;font-size:24px;font-weight:400;color:#fff;text-shadow:0 1px 6px #000}
 .tile:focus-within{outline:2px solid var(--accent-500);outline-offset:4px}
 .project-preview{position:absolute;inset:0;opacity:0;pointer-events:none;transition:opacity .24s ease;background:#000}
@@ -62,10 +62,10 @@ button,input,select{font:inherit;color:inherit}
 .ux-article-meta::before{content:'·';margin-right:12px}
 .ux-article-tools{display:flex;align-items:end;gap:24px;margin:0 0 10px;padding:0;background:none;border:0;flex-wrap:wrap}
 .ux-search{display:grid;gap:8px;flex:1;min-width:200px;max-width:420px;font-size:13px;font-weight:550}
-.ux-search input{width:100%;min-height:46px;border:1px solid var(--read-border);border-radius:6px;padding:10px 13px;background:var(--panel);color:var(--read-text);font-size:16px;box-shadow:inset 0 1px 2px rgba(0,0,0,.025)}
+.ux-search input{width:100%;min-height:46px;border:1px solid var(--read-border);border-radius:6px;padding:10px 13px;background:var(--panel);color:var(--read-text);font-size:16px;font-weight:400;box-shadow:inset 0 1px 2px rgba(0,0,0,.025)}
 .ux-search input::placeholder{color:var(--read-soft);opacity:.9}
 .ux-filter{display:grid;gap:8px;font-size:13px;font-weight:550}
-.ux-filter select{min-height:46px;max-width:100%;border:1px solid var(--read-border);border-radius:6px;padding:8px 28px 8px 12px;background:var(--panel);color:var(--read-text);font-size:15px}
+.ux-filter select{min-height:46px;max-width:100%;border:1px solid var(--read-border);border-radius:6px;padding:8px 28px 8px 12px;background:var(--panel);color:var(--read-text);font-size:15px;font-weight:400}
 .ux-clear-search,.ux-empty .btn{border:0;background:none;box-shadow:none;min-height:46px;padding:8px 0;text-decoration:underline;text-underline-offset:4px;font-size:14px}
 .ux-results{margin:14px 0 24px;font-size:13px;color:var(--read-soft)}
 .ux-empty{background:none;padding:20px 0;border:0}

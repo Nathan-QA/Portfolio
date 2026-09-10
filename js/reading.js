@@ -41,9 +41,26 @@ export function enhanceReading(modal,t,copy){
  const mode=node('button',t.mediaContext,'btn ux-read-toggle');mode.type='button';mode.setAttribute('aria-pressed','true');mode.title=t.mediaContext;
  header.insertBefore(mode,share);
  const jump=node('button',t.contents,'btn ux-toc-toggle');jump.type='button';header.insertBefore(jump,share);
- function go(el,instant=false){
-  // Layout coordinates don't change during the opening scale animation.
-  // Scroll only the modal, never the backdrop or the document behind it.
+ let navigationId=0;
+ const navigationEvents=new AbortController();
+ for(const type of ['wheel','touchstart'])modal.addEventListener(type,()=>navigationId++,{passive:true,signal:navigationEvents.signal});
+ async function go(el,instant=false){
+  const request=++navigationId;
+  // Lazy images above the target must have their intrinsic size before jumping.
+  // Otherwise Firefox can shift the target after the smooth scroll has finished.
+  const images=[...article.querySelectorAll('img')].filter(img=>img.compareDocumentPosition(el)&Node.DOCUMENT_POSITION_FOLLOWING);
+  const pending=images.filter(img=>!img.complete||!img.naturalWidth);
+  pending.forEach(img=>img.loading='eager');
+  let deadline;
+  if(pending.length){
+   await Promise.race([
+    Promise.all(pending.map(img=>img.decode().catch(()=>null))),
+    new Promise(resolve=>deadline=setTimeout(resolve,2000))
+   ]);
+   clearTimeout(deadline);
+  }
+  if(request!==navigationId||!modal.isConnected)return;
+  // Layout coordinates are independent of the opening scale animation.
   let top=0,current=el;
   while(current&&current!==modal){top+=current.offsetTop;current=current.offsetParent;}
   modal.scrollTo({top:Math.max(0,top-header.offsetHeight-20),behavior:instant||state.prefersReduced?'instant':'smooth'});
@@ -69,6 +86,6 @@ export function enhanceReading(modal,t,copy){
  const target=sections.find(section=>section.id===sectionId);
  // Wait for main's existing card-to-modal transition, never race its focus handling.
  const timer=target?setTimeout(()=>{if(modal.isConnected)go(target,true)},420):null;
- modal._uxCleanup=()=>{observer.disconnect();modal.removeEventListener('scroll',scroll);clearTimeout(timer)};
+ modal._uxCleanup=()=>{navigationId++;navigationEvents.abort();observer.disconnect();modal.removeEventListener('scroll',scroll);clearTimeout(timer)};
  update();
 }
