@@ -28,7 +28,7 @@ export function enhanceReading(modal,t,copy){
   const li=node('li'),link=node('a',section.querySelector('h4').textContent);link.href='#'+section.id;
   link.addEventListener('click',event=>{
    event.preventDefault();
-   section.scrollIntoView({behavior:state.prefersReduced?'instant':'smooth',block:'start'});
+   go(section);
    // A copied link can point to this exact part of the article, not just its top.
    try{const params=new URLSearchParams(location.hash.slice(1));params.set('section',section.id);history.replaceState(history.state,'',location.pathname+location.search+'#'+params)}catch{/* file previews have no history API */}
   });
@@ -41,7 +41,13 @@ export function enhanceReading(modal,t,copy){
  const mode=node('button',t.mediaContext,'btn ux-read-toggle');mode.type='button';mode.setAttribute('aria-pressed','true');mode.title=t.mediaContext;
  header.insertBefore(mode,share);
  const jump=node('button',t.contents,'btn ux-toc-toggle');jump.type='button';header.insertBefore(jump,share);
- const go=(el,instant=false)=>el.scrollIntoView({behavior:instant||state.prefersReduced?'instant':'smooth',block:'start'});
+ function go(el,instant=false){
+  // Layout coordinates don't change during the opening scale animation.
+  // Scroll only the modal, never the backdrop or the document behind it.
+  let top=0,current=el;
+  while(current&&current!==modal){top+=current.offsetTop;current=current.offsetParent;}
+  modal.scrollTo({top:Math.max(0,top-header.offsetHeight-20),behavior:instant||state.prefersReduced?'instant':'smooth'});
+ }
  mode.addEventListener('click',()=>{
   const active=modal.classList.toggle('ux-reading-mode');mode.setAttribute('aria-pressed',String(active));mode.textContent=active?t.mediaContext:t.readMode;
   modal.scrollTo({top:0,behavior:'instant'});update();
