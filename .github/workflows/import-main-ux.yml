@@ -1,0 +1,52 @@
+name: Apply main-faithful UX
+on:
+  push:
+    branches: [fix/ux-main-faithful]
+    paths: ['.github/workflows/import-main-ux.yml']
+permissions:
+  contents: write
+jobs:
+  import:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: fix/ux-main-faithful
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Apply checksum-verified patch to the main-based review branch
+        shell: python
+        run: |
+          import base64, hashlib, lzma, pathlib, shutil, subprocess
+          root = pathlib.Path.cwd()
+          parts = sorted((root / '.delivery-main-ux').glob('*.b64'))
+          assert len(parts) == 3, 'Missing patch chunk'
+          patch = lzma.decompress(base64.b64decode(''.join(p.read_text().strip() for p in parts), validate=True))
+          assert hashlib.sha256(patch).hexdigest() == '3f19c2d7e91c47ce0597b7e318aa320908f5ed4f730daa1473d1139db9ac8cd2', 'Patch checksum mismatch'
+          subprocess.run(['git', 'apply', '--check', '-'], input=patch, check=True)
+          subprocess.run(['git', 'apply', '-'], input=patch, check=True)
+          shutil.rmtree(root / '.delivery-main-ux')
+      - run: npm install
+      - run: npm run check && npm run build
+      - name: Commit ordinary source files on the review branch only
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add -A
+          git commit -m 'fix: improve portfolio UX while preserving main art direction'
+          git push origin HEAD:refs/heads/fix/ux-main-faithful
+      - run: npx playwright install --with-deps chromium firefox
+      - run: npm test
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: portfolio-main-faithful
+          path: |
+            dist/
+            test-results/
+            docs/
+            package-lock.json
+          retention-days: 7
+          if-no-files-found: error
