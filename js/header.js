@@ -13,6 +13,11 @@ export function initHeader(){
   const syncExpanded = () => {
     if (toggle) toggle.setAttribute('aria-expanded', chk && chk.checked ? 'true' : 'false');
   };
+  toggle?.addEventListener("click", () => {
+    if (!chk) return;
+    chk.checked = !chk.checked;
+    chk.dispatchEvent(new Event("change"));
+  });
   if (chk) {
     chk.addEventListener('change', () => {
       header?.classList.toggle('menu-open', chk.checked);
@@ -31,6 +36,7 @@ export function initHeader(){
       chk.checked = false;
       header?.classList.remove('menu-open');
       syncExpanded();
+      toggle?.focus({preventScroll:true});
     }
   });
   document.addEventListener('click', e => {
