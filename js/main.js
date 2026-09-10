@@ -62,6 +62,8 @@ byId('skillsDetails')?.addEventListener('toggle',()=>{if(byId('skillsDetails').o
   const presentationPromise=fetch('content/presentation.json').then(r=>r.ok?r.json():{}).catch(()=>({}));
   const [{projects,cases},skills,presentation]=await Promise.all([loadContent(),skillsPromise,presentationPromise]);
   state.projects=projects;state.cases=cases;state.skills=skills||{fr:[],en:[]};
+  const rank=cat=>/production/i.test(cat)?0:/QA|Quality/i.test(cat)?1:/Level Design/i.test(cat)?2:3;
+  for(const lang of ['fr','en'])state.skills[lang]?.sort((a,b)=>rank(a.cat)-rank(b.cat));
   state.presentation=presentation;
   setLang(state.lang);
   restoreRoute();

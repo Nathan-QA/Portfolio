@@ -2,11 +2,12 @@
 import {state} from './state.js';
 import {byId} from './utils.js';
 import {closeModal,closeGallery} from './ui.js';
-import {openCase} from './render.js';
+import {CONFIG,MAILCFG} from './config.js';
 import {enhanceReading,readingMinutes} from './reading.js';
+import {bindProjectPreviews} from './hover-preview.js';
 const copy={
- fr:{explore:'Explorer le portfolio',contribution:'Voir le projet',relatedArticle:'Lire l’étude de cas',share:'Copier le lien',linkCopied:'Lien copié',image:'Afficher l’image',readMode:'Lecture',mediaContext:'Contexte & médias',contents:'Sommaire',placeholder:'Un jeu, un sujet, une méthode…',clear:'Effacer la recherche',seeProjects:'Voir les projets',projectIntro:'Les jeux sur lesquels j’ai travaillé, mon rôle et mes contributions',articleIntro:'Un projet, une question de design, une méthode de travail : les sujets en détail',skillsIntro:'Mes compétences et les expériences sur lesquelles elles s’appuient',skillsMore:'Explorer toutes les compétences',careerMore:'Voir le parcours complet',articles:'Articles',articleTitle:'Articles & études de cas',search:'Rechercher un article',filter:'Projet associé',all:'Tous les sujets',other:'Autres sujets',empty:'Aucun article ne correspond à cette recherche',reset:'Réinitialiser',results:'article(s)',reading:'min de lecture estimée',toc:'Sommaire de l’article',close:'Fermer',back:'Retour',copied:'Adresse e-mail copiée',failed:'Copie impossible, sélectionne l’adresse e-mail'},
- en:{explore:'Explore the portfolio',contribution:'View project',relatedArticle:'Read case study',share:'Copy link',linkCopied:'Link copied',image:'Show image',readMode:'Read',mediaContext:'Context & media',contents:'Contents',placeholder:'A game, a topic, a method…',clear:'Clear search',seeProjects:'View projects',projectIntro:'The games I worked on, my role and contributions',articleIntro:'A project, a design question, a way of working: the subjects in detail',skillsIntro:'My skills and the experiences behind them',skillsMore:'Explore all skills',careerMore:'View the full timeline',articles:'Articles',articleTitle:'Articles & case studies',search:'Search articles',filter:'Related project',all:'All subjects',other:'Other subjects',empty:'No articles match this search',reset:'Reset',results:'article(s)',reading:'min estimated read',toc:'Article contents',close:'Close',back:'Back',copied:'Email address copied',failed:'Could not copy, please select the email address'}
+ fr:{explore:'Explorer le portfolio',contribution:'Voir le projet',relatedArticle:'Lire l’étude de cas',share:'Copier le lien',linkCopied:'Lien copié',image:'Afficher l’image',readMode:'Lecture',mediaContext:'Contexte & médias',contents:'Sommaire',placeholder:'Rechercher…',clear:'Effacer la recherche',seeProjects:'Voir les projets',projectIntro:'Les jeux sur lesquels j’ai travaillé, mon rôle et mes contributions',articleIntro:'Un projet, une question de design, une méthode de travail : les sujets en détail',skillsIntro:'Mes compétences et les expériences sur lesquelles elles s’appuient',skillsMore:'Compétences & outils',careerMore:'Parcours',articles:'Articles',articleTitle:'Articles',search:'Rechercher un article',filter:'Projet associé',all:'Tous les sujets',other:'Autres sujets',empty:'Aucun article ne correspond à cette recherche',reset:'Réinitialiser',results:'article(s)',reading:'min',toc:'Sommaire de l’article',close:'Fermer',back:'Retour',copied:'Adresse e-mail copiée',failed:'Copie impossible, sélectionne l’adresse e-mail'},
+ en:{explore:'Explore the portfolio',contribution:'View project',relatedArticle:'Read case study',share:'Copy link',linkCopied:'Link copied',image:'Show image',readMode:'Read',mediaContext:'Context & media',contents:'Contents',placeholder:'Search…',clear:'Clear search',seeProjects:'View projects',projectIntro:'The games I worked on, my role and contributions',articleIntro:'A project, a design question, a way of working: the subjects in detail',skillsIntro:'My skills and the experiences behind them',skillsMore:'Skills & tools',careerMore:'Experience',articles:'Articles',articleTitle:'Articles',search:'Search articles',filter:'Related project',all:'All subjects',other:'Other subjects',empty:'No articles match this search',reset:'Reset',results:'article(s)',reading:'min',toc:'Article contents',close:'Close',back:'Back',copied:'Email address copied',failed:'Could not copy, please select the email address'}
 };
 const label=()=>copy[state.lang]||copy.fr;
 const local=value=>value?.[state.lang]||value?.fr||value?.en||value||'';
@@ -27,7 +28,8 @@ export function refreshUX(){
  const t=label();
  let cue=document.querySelector('.ux-explore');
  if(!cue){cue=element('a',null,'btn ux-explore');cue.href='#main';byId('hero-banner').append(cue)}
- cue.textContent=t.explore+' ↓';
+ cue.innerHTML='<svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg>';
+ cue.setAttribute('aria-label',t.explore);cue.title=t.explore;
  document.querySelector('.brand-name').closest('a')?.setAttribute('aria-label',state.lang==='fr'?'Nathan Tandille, retour en haut':'Nathan Tandille, back to top');
  document.querySelector('#primaryNav').setAttribute('aria-label',state.lang==='fr'?'Navigation principale':'Main navigation');
  document.querySelectorAll('[data-ux-i18n]').forEach(e=>e.textContent=t[e.dataset.uxI18n]||'');
@@ -40,16 +42,10 @@ export function refreshUX(){
   const project=state.projects[i];if(!project)return;tile.dataset.projectId=project.id;
   const summary=local(project.cardSummary||state.presentation?.projects?.[project.id]);
   if(summary&&tile.querySelector('.project-tile-summary'))tile.querySelector('.project-tile-summary').textContent=summary;
-  const cta=tile.querySelector('.project-cta');if(cta)cta.innerHTML=t.contribution+' <span class="arr" aria-hidden="true">→</span>';
-  const engine=local(project.projectInfo?.engine);let badge=tile.querySelector('.ux-engine');
-  if(engine&&typeof engine==='string'&&engine.length<=20&&!badge){badge=element('span',engine,'role-badge o ux-engine');tile.querySelector('.ovr-top').append(badge)}
-  tile.querySelector('.ux-project-actions')?.replaceWith(...tile.querySelector('.ux-project-actions').childNodes);
-  tile.querySelectorAll('.ux-related-article').forEach(el=>el.remove());
-  const related=state.cases.filter(c=>c.projects?.includes(project.id));
-  if(cta){const actions=element('div',null,'ux-project-actions');cta.replaceWith(actions);actions.append(cta);
-   if(related.length){const link=element('a',t.relatedArticle+' ↗','ux-related-article');link.href='#case='+encodeURIComponent(related[0].id);link.setAttribute('aria-label',t.relatedArticle+' : '+local(related[0].title));
-    link.addEventListener('click',event=>{event.stopPropagation();if(event.button||event.ctrlKey||event.metaKey||event.shiftKey||event.altKey)return;event.preventDefault();state.modalStack.length=0;openCase(related[0])});actions.append(link)}
-  }
+  tile.querySelector('.project-cta')?.remove();
+  tile.querySelectorAll('.ux-project-actions,.ux-related-article,.ux-engine,.dot').forEach(el=>el.remove());
+  const link=tile.querySelector('h3 a');
+  if(link){link.setAttribute('aria-label',local(project.title)+' · '+local(project.role));}
  });
  document.querySelectorAll('#caseList .case-tile').forEach((tile,i)=>{
   const article=state.cases[i];if(!article)return;
@@ -63,7 +59,13 @@ export function refreshUX(){
   const meta=tile.querySelector('.case-thumb-meta');meta.replaceChildren();
   const names=(article.projects||[]).map(id=>state.projects.find(p=>p.id===id)).filter(Boolean).map(p=>local(p.title));
   for(const name of names.length?names:[t.other])meta.append(element('span',name));
+  meta.append(tile.querySelector('.ux-article-meta'));
+  tile.querySelector('.case-body').prepend(meta);
  });
+ bindProjectPreviews(state.projects);
+ compactContact();
+ document.querySelectorAll('.case-link').forEach(el=>el.remove());
+ document.title=state.lang==='fr'?'Nathan Tandille - Production, QA et Level Design':'Nathan Tandille - Production, QA & Level Design';
  const mount=byId('articleTools');mount.replaceChildren();
  if(!state.cases.length)return;
  const tools=element('div',null,'ux-article-tools');
@@ -119,6 +121,8 @@ export function initUX(){
   modalRoot.inert=!!gallery;
   if(modalNode&&modalNode!==modal)modalNode._uxCleanup?.();
   if(modal&&modal!==modalNode){
+   compactProject(modal);
+   if(!modal.classList.contains('modal--project')&&!modal.classList.contains('modal--case-study'))updatePrivacyNotice(modal);
    const heading=modal.querySelector('header h3');heading.id='uxDialogTitle';modal.setAttribute('aria-labelledby',heading.id);
    const close=modal.querySelector('header .x');close.textContent=label().close+' ×';close.setAttribute('aria-label',label().close);
    const back=modal.querySelector('header .back');if(back){back.textContent='← '+label().back;back.setAttribute('aria-label',label().back);}
@@ -167,4 +171,38 @@ function enhanceGallery(gallery,modal){
  const removeObserver=new MutationObserver(()=>{if(!gallery.isConnected){observer.disconnect();removeObserver.disconnect()}});removeObserver.observe(byId('lightboxRoot'),{childList:true});
  let touch=null;gallery.addEventListener('touchstart',e=>{if(e.touches.length===1)touch={x:e.touches[0].clientX,y:e.touches[0].clientY};else touch=null},{passive:true});
  gallery.addEventListener('touchend',e=>{if(!touch)return;const point=e.changedTouches[0],dx=point.clientX-touch.x,dy=point.clientY-touch.y;touch=null;if(Math.abs(dx)>60&&Math.abs(dx)>Math.abs(dy)*1.5)gallery.querySelector(dx<0?'.lb-next':'.lb-prev').click()},{passive:true});
+}
+
+function compactContact(){
+ const mount=byId('contactMount');if(!mount)return;
+ const email=element('a',MAILCFG.TO,'ux-email');email.href='mailto:'+MAILCFG.TO;
+ const row=element('div',null,'ux-contact-line');
+ const copy=element('button',null,'ux-copy-email');copy.type='button';copy.dataset.copyEmail='';
+ copy.setAttribute('aria-label',state.lang==='fr'?'Copier l’adresse e-mail':'Copy email address');
+ copy.title=copy.getAttribute('aria-label');
+ copy.innerHTML='<svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><rect x="8" y="8" width="12" height="12" rx="1"/><path d="M16 5V3H3v13h2"/></svg>';
+ row.append(email,copy);
+ const meta=element('div',null,'ux-contact-meta');
+ meta.append(element('span',state.lang==='fr'?'Bordeaux · Français / English':'Bordeaux · French / English'));
+ const linkedin=element('a','LinkedIn ↗');linkedin.href=CONFIG.SOCIAL.linkedin;linkedin.target='_blank';linkedin.rel='noopener';meta.append(linkedin);
+ mount.replaceChildren(row,meta);
+}
+function compactProject(modal){
+ if(!modal.classList.contains('modal--project'))return;
+ const lead=modal.querySelector('.project-lead'), sections=[...modal.querySelectorAll('.project-section')];
+ const info=modal.querySelector('.project-info'),tags=modal.querySelector('.project-modal-tags');
+ const context=element('details',null,'ux-disclosure ux-project-context');
+ context.append(element('summary',state.lang==='fr'?'Contexte du projet':'Project context'));
+ // Keep the original writing available, but don't repeat it before contributions.
+ [lead,...sections.slice(1),info,tags].filter(Boolean).forEach(el=>context.append(el));
+ if(context.children.length>1)modal.querySelector('.modal-body').append(context);
+}
+function updatePrivacyNotice(modal){
+ // The original notice predates hover previews. Do not claim third-party-free browsing.
+ if(!/Mentions légales|Legal notice/.test(modal.querySelector('header h3')?.textContent||''))return;
+ const fr=state.lang==='fr';
+ const paragraphs=[...modal.querySelectorAll('p')];
+ paragraphs.filter(p=>/conformes|compliant|Aucune analyse|No third-party|ciblage|targeting/.test(p.textContent)).forEach(p=>p.remove());
+ const note=element('p',fr?'Les préférences de langue et de thème sont conservées dans ce navigateur. Le survol d’un projet peut charger son trailer YouTube, sans son. Les lecteurs vidéo et liens externes dépendent de leurs fournisseurs.':'Language and theme preferences are saved in this browser. Hovering a project may load its YouTube trailer, muted. Video players and external links are provided by third parties.');
+ modal.querySelector('.modal-body').append(note);
 }

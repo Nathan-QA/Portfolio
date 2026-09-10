@@ -5,17 +5,18 @@ async function ready(page,path='/'){
 test.beforeEach(async({page})=>{
  await page.route(/youtube|google|simpleicons|wikimedia|flagcdn|git-fork|jsdelivr/,route=>route.abort());
 });
-test('the original opening has a keyboard-accessible invitation',async({page})=>{
+test('the original opening has a keyboard-accessible scroll cue',async({page})=>{
  await ready(page);await page.locator('.ux-explore').focus();await page.keyboard.press('Enter');await expect(page).toHaveURL(/#main$/);
  await page.locator('.ux-brand-home').click();await expect(page).toHaveURL(/#hero-banner$/);
 });
-test('a project card links directly to its own article, not the project modal',async({page})=>{
- await ready(page);const link=page.locator('[data-project-id="dordogne"] .ux-related-article');await link.click();
- await expect(page.locator('.modal--case-study')).toBeVisible();await expect(page.locator('.modal--project')).toHaveCount(0);await expect(page).toHaveURL(/#case=dordogne-feedback-loop$/);
- await page.keyboard.press('Escape');await expect(link).toBeFocused();
+test('one project action, with the related article inside its project',async({page})=>{
+ await ready(page);const tile=page.locator('[data-project-id="dordogne"]'), link=tile.locator('h3 a');
+ await expect(tile.locator('a')).toHaveCount(1);await expect(tile.locator('.ux-related-article')).toHaveCount(0);
+ await link.click();await expect(page.locator('.modal--project')).toBeVisible();await page.locator('[data-case]').first().click();
+ await expect(page.locator('.modal--case-study')).toBeVisible();await expect(page).toHaveURL(/case=dordogne-feedback-loop/);
 });
 test('short card titles leave the full article title intact',async({page})=>{
- await ready(page);await expect(page.locator('.case-title a').first()).toContainText('Rendre le parkour');
+ await ready(page);await expect(page.locator('.case-title a').first()).toContainText('Distant Shore : retravailler');
  await page.locator('.case-title a').first().click();await expect(page.locator('.modal>header h3')).toContainText('Revamper la démo Steam');
 });
 test('search and project filtering survive refresh and language changes',async({page})=>{
@@ -24,10 +25,11 @@ test('search and project filtering survive refresh and language changes',async({
  await page.locator('#langBtn').click();await expect(page.locator('.case-tile:visible')).toHaveCount(1);await expect(page.locator('.ux-clear-search')).toBeVisible();
  await page.locator('.ux-clear-search').click();await expect(page.locator('.case-tile:visible')).toHaveCount(3);await expect(page.locator('.ux-search input')).toBeFocused();
 });
-test('reading mode removes surrounding context without losing article content',async({page})=>{
+test('articles open for reading, context remains available without losing content',async({page})=>{
  await ready(page,'/#case=distant-shore-readability');await expect(page.locator('.ux-read-toggle')).toBeVisible();const count=await page.locator('.case-section').count();
- await page.locator('.ux-read-toggle').click();await expect(page.locator('.modal')).toHaveClass(/ux-reading-mode/);await expect(page.locator('.ux-reading-heading')).toBeVisible();await expect(page.locator('.modal .media-shell').first()).not.toBeVisible();
- await expect(page.locator('.case-section')).toHaveCount(count);await page.locator('.ux-read-toggle').click();await expect(page.locator('.modal .media-shell').first()).toBeVisible();
+ await expect(page.locator('.modal')).toHaveClass(/ux-reading-mode/);await expect(page.locator('.ux-reading-heading')).toBeVisible();await expect(page.locator('.modal .media-shell').first()).not.toBeVisible();
+ await page.locator('.ux-read-toggle').click();await expect(page.locator('.modal .media-shell').first()).toBeVisible();await expect(page.locator('.case-section')).toHaveCount(count);
+ await page.locator('.ux-read-toggle').click();await expect(page.locator('.modal')).toHaveClass(/ux-reading-mode/);
 });
 test('the contents shortcut remains available after scrolling',async({page})=>{
  await ready(page,'/#case=distant-shore-readability');await page.locator('.modal').evaluate(el=>el.scrollTop=2500);
@@ -50,7 +52,7 @@ test('gallery position and closing restore the exact trigger',async({page})=>{
 });
 test('refreshing enhancements never duplicates metadata or card actions',async({page})=>{
  await ready(page);await page.evaluate(async()=>{const {refreshUX}=await import('/js/ux.js');refreshUX();refreshUX()});
- await expect(page.locator('.ux-article-meta')).toHaveCount(3);await expect(page.locator('.ux-project-actions')).toHaveCount(4);await expect(page.locator('.ux-related-article')).toHaveCount(3);await expect(page.locator('.ux-explore')).toHaveCount(1);
+ await expect(page.locator('.ux-article-meta')).toHaveCount(3);await expect(page.locator('.ux-project-actions')).toHaveCount(0);await expect(page.locator('.ux-related-article')).toHaveCount(0);await expect(page.locator('#projectList h3 a')).toHaveCount(4);await expect(page.locator('.ux-explore')).toHaveCount(1);
 });
 test('compact mobile header keeps every control within a single row',async({page})=>{
  await page.setViewportSize({width:320,height:844});await ready(page);const header=await page.locator('.header').boundingBox();expect(header.height).toBeLessThan(80);
@@ -60,8 +62,8 @@ test('compact mobile header keeps every control within a single row',async({page
 test('updated visual captures',async({page},info)=>{
  test.skip(info.project.name==='firefox','Chromium supplies the visual references');
  await page.setViewportSize({width:1440,height:1000});await ready(page);await page.waitForTimeout(600);await page.screenshot({path:info.outputPath('opening.png')});
- for(const section of ['projects','cases']){await page.locator('#'+section).evaluate(el=>el.scrollIntoView({behavior:'instant'}));await page.waitForTimeout(700);await page.screenshot({path:info.outputPath(section+'.png')});}
- await page.locator('.case-title a').first().click();await page.locator('.ux-read-toggle').click();await page.screenshot({path:info.outputPath('reading.png')});await page.keyboard.press('Escape');
+ for(const section of ['main','projects','cases']){await page.locator('#'+section).evaluate(el=>el.scrollIntoView({behavior:'instant'}));await page.waitForTimeout(700);await page.screenshot({path:info.outputPath(section+'.png')});}
+ await page.locator('.case-title a').first().click();await expect(page.locator('.modal')).toHaveClass(/ux-reading-mode/);await page.screenshot({path:info.outputPath('reading.png')});await page.keyboard.press('Escape');
  await page.locator('#themeBtn').click();await page.locator('#projects').evaluate(el=>el.scrollIntoView({behavior:'instant'}));await page.waitForTimeout(600);await page.screenshot({path:info.outputPath('projects-night.png')});
  await page.locator('#themeBtn').click();await page.setViewportSize({width:390,height:844});await page.evaluate(()=>scrollTo({top:0,behavior:'instant'}));await page.waitForTimeout(400);await page.screenshot({path:info.outputPath('mobile.png')});
 });

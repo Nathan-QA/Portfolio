@@ -38,7 +38,7 @@ test('project, related article and return retain their identity',async({page})=>
  await expect(page.locator('.modal>header h3')).toContainText('Distant Shore');
 });
 test('section anchors remain reachable below the sticky header',async({page})=>{
- await ready(page);await page.locator('.ux-primary').click();await expect(page).toHaveURL(/#projects$/);
+ await ready(page);await page.locator('#primaryNav a[href="#projects"]').click();await expect(page).toHaveURL(/#projects$/);
  await expect.poll(()=>page.locator('#projects h2').evaluate(e=>e.getBoundingClientRect().top)).toBeGreaterThan(100);
  await page.reload();await expect(page).toHaveURL(/#projects$/);
  await expect.poll(()=>page.locator('#projects').evaluate(e=>Math.abs(e.getBoundingClientRect().top))).toBeLessThan(250);

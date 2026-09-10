@@ -37,7 +37,8 @@ export function enhanceReading(modal,t,copy){
  toc.append(summary,list);article.before(toc);
  const context=[...article.parentElement.children].filter(el=>![article,toc,heading].includes(el));
  context.forEach(el=>el.classList.add('ux-reader-context'));
- const mode=node('button',t.readMode,'btn ux-read-toggle');mode.type='button';mode.setAttribute('aria-pressed','false');mode.title=t.readMode;
+ modal.classList.add('ux-reading-mode');
+ const mode=node('button',t.mediaContext,'btn ux-read-toggle');mode.type='button';mode.setAttribute('aria-pressed','true');mode.title=t.mediaContext;
  header.insertBefore(mode,share);
  const jump=node('button',t.contents,'btn ux-toc-toggle');jump.type='button';header.insertBefore(jump,share);
  const go=(el,instant=false)=>el.scrollIntoView({behavior:instant||state.prefersReduced?'instant':'smooth',block:'start'});
