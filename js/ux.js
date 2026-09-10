@@ -84,7 +84,7 @@ export function refreshUX(){
   search=input.value;filter=select.value;let count=0;
   document.querySelectorAll('#caseList .case-tile').forEach((tile,i)=>{
    const c=state.cases[i];const related=(c.projects||[]).map(id=>local(state.projects.find(p=>p.id===id)?.title)).join(' ');
-   const searchable=[local(c.title),local(c.abstract),local(c.tags),related].join(' ');
+   const searchable=[tile.textContent,local(c.title),local(c.abstract),local(c.tags),related].join(' ');
    const matchesProject=!filter||(filter==='__other'?!c.projects?.length:c.projects?.includes(filter));
    tile.hidden=!(matchesProject&&clean(searchable).includes(clean(search.trim())));if(!tile.hidden)count++;
   });
