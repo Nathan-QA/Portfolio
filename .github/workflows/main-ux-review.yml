@@ -1,11 +1,11 @@
-name: Main-faithful UX review
+name: Atelier portfolio review
 on:
   push:
-    branches: [fix/ux-main-faithful]
+    branches: [feat/atelier-implemented]
 permissions:
   contents: read
 concurrency:
-  group: main-ux-${{ github.ref }}
+  group: atelier-${{ github.ref }}
   cancel-in-progress: true
 jobs:
   review:
@@ -24,11 +24,18 @@ jobs:
       - uses: actions/upload-artifact@v4
         if: always()
         with:
-          name: portfolio-main-faithful
+          name: portfolio-atelier
           path: |
             dist/
             test-results/
             docs/
+            tests/
+            scripts/
+            js/
+            index.html
+            ux.css
+            package.json
             package-lock.json
+            playwright.config.mjs
           retention-days: 7
           if-no-files-found: error
